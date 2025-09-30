@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Convo2</title>
+  <link rel="stylesheet" href="styles.css">
+ </head>
+<body>
+  <!-- ===== TOPBAR ===== -->
+  <div class="topbar">
+    <div class="brand">Convo</div>
+    <div class="user-info">
+      <span id="headerUser"></span>
+      <button id="logoutBtn" class="btn danger tiny">Logout</button>
+    </div>
+  </div>
+
+  <!-- ===================== AUTH VIEW ===================== -->
+  <main id="auth">
+    <div class="auth-grid">
+
+      <div class="auth-block">
+        <h3>Login</h3>
+        <input type="email" id="loginEmail" placeholder="Email">
+        <input type="password" id="loginPassword" placeholder="Password">
+        <button id="loginBtn">Login</button>
+      </div>
+
+      <div class="auth-block">
+        <h3>Register</h3>
+        <input id="registerUsername" type="text" placeholder="Username">
+        <input id="registerEmail" type="email" placeholder="Email">
+        <input id="registerPassword" type="password" placeholder="Password">
+        <button id="registerBtn">Register</button>
+      </div>
+
+      <div class="auth-block">
+        <h3>Forgot Password</h3>
+        <input id="forgotEmail" type="email" placeholder="Enter your email">
+        <button id="forgotBtn">Send Reset Link</button>
+      </div>
+
+      <div class="auth-block">
+        <h3>Guest</h3>
+        <button id="guestBtn">Continue as Guest</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ===================== APP VIEW ===================== -->
+  <main id="app" class="hidden">
+
+    <!-- ROOMS LIST -->
+    <section id="roomsPanel">
+      <h3>Rooms</h3>
+      <ul id="roomsList"></ul>
+      <button id="newRoomBtn" class="btn">+ New Room</button>
+    </section>
+
+    <!-- MAIN CHAT -->
+    <section id="chatPanel">
+      <h3 id="roomTitle">#general</h3>
+      <div id="messages"></div>
+      <form id="messageForm">
+        <input id="messageInput" type="text" placeholder="Type a message...">
+        <button type="submit" class="btn primary">Send</button>
+      </form>
+    </section>
+
+    <!-- USERS LIST -->
+    <section id="usersPanel">
+      <h3>Users</h3>
+      <ul id="usersList"></ul>
+    </section>
+
+  </main>
+
+  <!-- ===================== SCRIPTS ===================== -->
+  <script type="module" src="app.js"></script>
+  <script type="module" src="auth.js"></script>
+</body>
+</html>

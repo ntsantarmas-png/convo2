@@ -1,0 +1,287 @@
+/* ======== RESET ======== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0d1117;
+  color: #e6edf3;
+  height: 100vh;
+  display: flex;
+  flex-direction: column; /* 👈 για να κάθεται το topbar πάνω */
+}
+
+/* ======== TOPBAR ======== */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background: #161b22;
+  border-bottom: 1px solid #21262d;
+}
+
+.topbar .brand {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.topbar .user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar .user-info span {
+  font-size: 14px;
+  color: #ddd;
+}
+
+/* ======== AUTH VIEW ======== */
+#auth {
+  flex: 1; /* 👈 πιάνει χώρο κάτω από το topbar */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.auth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  justify-items: center;
+  align-items: start;
+}
+
+.auth-block {
+  background: #161b22;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  width: 250px;
+  text-align: center;
+}
+
+.auth-block h3 {
+  margin-bottom: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.auth-block input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  margin-bottom: 10px;
+}
+
+.auth-block button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #2d8cff;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.auth-block button:hover {
+  background: #1e6edc;
+}
+
+#guestBtn {
+  margin-top: 20px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  background: #2d8cff;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+  width: auto;
+  align-self: center;
+}
+#guestBtn:hover {
+  background: #1e6edc;
+}
+
+/* ======== APP VIEW ======== */
+#app {
+  flex: 1; /* 👈 πιάνει χώρο κάτω από το topbar */
+  display: grid;
+  grid-template-columns: 220px 1fr 220px;
+  height: calc(100vh - 50px); /* αφαιρεί το ύψος του topbar */
+  width: 100%;
+}
+
+#roomsPanel,
+#chatPanel,
+#usersPanel {
+  background: #161b22;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #21262d;
+}
+
+#usersPanel {
+  border-right: none;
+  border-left: 1px solid #21262d;
+}
+
+/* ======== ROOMS LIST POLISH ======== */
+#roomsPanel {
+  padding: 15px;
+  gap: 10px;
+}
+
+#roomsPanel h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+
+#roomsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#roomsList li {
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #ddd;
+  transition: background 0.2s, color 0.2s;
+}
+
+#roomsList li:hover {
+  background: #2d333b;
+  color: #fff;
+}
+
+#roomsList li.active {
+  background: #2d8cff;
+  color: #fff;
+  font-weight: bold;
+}
+
+#newRoomBtn {
+  margin-top: auto;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: #2d8cff;
+  color: #fff;
+  transition: background 0.2s;
+}
+#newRoomBtn:hover {
+  background: #1e6edc;
+}
+
+/* ======== CHAT PANEL ======== */
+#chatPanel {
+  display: flex;
+  flex-direction: column;
+}
+
+#chatPanel h3 {
+  padding: 15px;
+  border-bottom: 1px solid #21262d;
+}
+
+#messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+#messageForm {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  border-top: 1px solid #21262d;
+  background: #161b22;
+}
+
+#messageInput {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+#messageForm button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background: #2d8cff;
+  color: #fff;
+  cursor: pointer;
+}
+#messageForm button:hover {
+  background: #1e6edc;
+}
+
+/* ======== USERS PANEL ======== */
+#usersPanel {
+  padding: 15px;
+}
+
+#usersPanel h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+
+#usersList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+#usersList li {
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: #ddd;
+}
+
+/* ======== LOGOUT BTN ======== */
+#logoutBtn {
+  margin-left: auto;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  background: #e63946;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 13px;
+}
+#logoutBtn:hover {
+  background: #c41c29;
+}
+
+/* ======== HIDDEN CLASS ======== */
+.hidden {
+  display: none !important;
+}
