@@ -84,36 +84,26 @@ body {
   margin-bottom: 10px;
 }
 
-.auth-block button {
+/* ===== Buttons inside auth blocks ===== */
+.auth-block button,
+#guestBtn {
   width: 100%;
-  padding: 10px;
+  padding: 12px 18px;
   border: none;
   border-radius: 6px;
   background: #2d8cff;
   color: #fff;
   cursor: pointer;
-  transition: background 0.2s;
-}
-.auth-block button:hover {
-  background: #1e6edc;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-#guestBtn {
-  margin-top: 20px;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 6px;
-  background: #2d8cff;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.2s;
-  width: auto;
-  align-self: center;
-}
+.auth-block button:hover,
 #guestBtn:hover {
   background: #1e6edc;
+  transform: translateY(-4px); /* 👈 tick πάνω */
+  box-shadow: 0 8px 18px rgba(0,0,0,0.25);
 }
-
 
 /* ======== APP VIEW ======== */
 #app {
