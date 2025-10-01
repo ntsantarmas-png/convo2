@@ -154,7 +154,7 @@ if (messageForm) {
   });
 }
 
-// ===================== USER LIST =====================
+// ===================== RENDER USER LIST =====================
 function renderUserList() {
   const usersList = document.getElementById("usersList");
   if (!usersList) return;
@@ -163,12 +163,36 @@ function renderUserList() {
     usersList.innerHTML = "";
     snap.forEach(childSnap => {
       const u = childSnap.val();
+
       const li = document.createElement("li");
-      li.textContent = u.displayName || "Guest";
-      li.style.color = u.online ? "lime" : "gray";
+
+      // === Avatar ===
+      const avatarDiv = document.createElement("div");
+      avatarDiv.className = "user-avatar";
+
+      const img = document.createElement("img");
+      img.src = u.photoURL || "https://i.pravatar.cc/150?u=" + u.uid;
+      img.alt = "avatar";
+
+      // Border για status
+      img.style.border = u.online
+        ? "2px solid limegreen"
+        : "2px solid gray";
+
+      avatarDiv.appendChild(img);
+
+      // === Username ===
+      const nameSpan = document.createElement("span");
+      nameSpan.textContent = u.displayName || "Guest";
+
+      // === Προσθήκη στο li ===
+      li.appendChild(avatarDiv);
+      li.appendChild(nameSpan);
+
       usersList.appendChild(li);
     });
   });
 }
+
 
 console.log("✅ app.js loaded");
