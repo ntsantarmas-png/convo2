@@ -66,6 +66,9 @@ body {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
   width: 250px;
   text-align: center;
+
+  /* ✨ Animation */
+  animation: fadeUp 0.5s ease forwards;
 }
 
 .auth-block h3 {
@@ -105,6 +108,16 @@ body {
   box-shadow: 0 8px 18px rgba(0,0,0,0.25);
 }
 
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 /* ======== APP VIEW ======== */
 #app {
   flex: 1; /* 👈 πιάνει χώρο κάτω από το topbar */
