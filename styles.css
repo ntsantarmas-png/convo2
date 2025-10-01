@@ -327,29 +327,30 @@ body {
 .user-category {
   display: inline-block;
   margin: 10px 0 5px;
-  padding: 2px 8px;
+  padding: 3px 10px;
   font-size: 11px;
   font-weight: bold;
   color: #fff;
   border-radius: 12px;
   text-transform: uppercase;
+  border: 1px solid #fff; /* 👈 άσπρο περίγραμμα */
 }
 
 /* Χρώματα ανά ρόλο */
 .user-category.admin {
-  background: #e63946; /* κόκκινο για Admin */
+  background: #e63946; /* κόκκινο */
 }
 
 .user-category.vip {
-  background: #f4a261; /* πορτοκαλί για VIP */
+  background: #f4a261; /* πορτοκαλί */
 }
 
 .user-category.user {
-  background: #2d8cff; /* μπλε για Users */
+  background: #2d8cff; /* μπλε */
 }
 
 .user-category.guest {
-  background: #6c757d; /* γκρι για Guests */
+  background: #6c757d; /* γκρι */
 }
 
 
