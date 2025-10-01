@@ -234,12 +234,12 @@ body {
 }
 
 
-
-#messages {
-  flex: 1;
-  padding: 15px;
-  overflow-y: auto;
+.messages {
+  flex: 1;              /* να πιάνει τον διαθέσιμο χώρο */
+  overflow-y: auto;     /* κάθετο scroll αν γεμίσει */
+  padding: 10px;        /* λίγο κενό γύρω γύρω */
 }
+
 
 #messageForm {
   display: flex;
