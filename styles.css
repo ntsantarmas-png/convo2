@@ -326,17 +326,14 @@ body {
 
 /* ===== Userlist Categories ===== */
 .user-category {
-  margin: 12px 0 6px;
-  padding: 4px 10px;
-  font-size: 11px;
-  font-weight: 600;
+  font-weight: bold;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #aaa;             /* πιο διακριτικό */
+  margin: 12px 0 6px 4px;  /* απόσταση πάνω-κάτω */
+  border-bottom: 1px solid rgba(255,255,255,0.08); /* λεπτή γραμμή */
+  padding-bottom: 2px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-radius: 6px;
-  text-align: center;
-  background: rgba(255,255,255,0.05); /* πιο διακριτικό */
-  border: 1px solid rgba(255,255,255,0.08);
-  color: #bbb; /* όχι λευκό */
 }
 
 /* Χρώματα ανά ρόλο */
