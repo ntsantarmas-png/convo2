@@ -125,12 +125,46 @@ function renderMessages(room) {
 
   onValue(messagesRef, (snap) => {
     messagesDiv.innerHTML = "";
-    snap.forEach(childSnap => {
-      const msg = childSnap.val();
-      const p = document.createElement("p");
-      p.textContent = (msg.user || "Anon") + ": " + msg.text;
-      messagesDiv.appendChild(p);
-    });
+   snap.forEach(childSnap => {
+  const msg = childSnap.val();
+
+  // === Container ===
+  const messageDiv = document.createElement("div");
+  messageDiv.className = "message";
+
+  // === Avatar ===
+  const avatarDiv = document.createElement("div");
+  avatarDiv.className = "message-avatar";
+
+  const img = document.createElement("img");
+  img.src = msg.photoURL || "https://i.pravatar.cc/150?u=" + (msg.uid || msg.user);
+  img.alt = "avatar";
+  avatarDiv.appendChild(img);
+
+  // === Content ===
+  const contentDiv = document.createElement("div");
+  contentDiv.className = "message-content";
+
+  // Username
+  const userDiv = document.createElement("div");
+  userDiv.className = "message-user";
+  userDiv.textContent = msg.user || "Anon";
+
+  // Bubble
+  const bubbleDiv = document.createElement("div");
+  bubbleDiv.className = "message-bubble";
+  bubbleDiv.textContent = msg.text;
+
+  contentDiv.appendChild(userDiv);
+  contentDiv.appendChild(bubbleDiv);
+
+  // Put together
+  messageDiv.appendChild(avatarDiv);
+  messageDiv.appendChild(contentDiv);
+
+  messagesDiv.appendChild(messageDiv);
+});
+
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 }
