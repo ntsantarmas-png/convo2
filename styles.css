@@ -408,6 +408,23 @@ body {
 .message-bubble:hover {
   transform: scale(1.02);
 }
+/* ======== MY MESSAGES (right side) ======== */
+.message.mine {
+  flex-direction: row-reverse; /* avatar δεξιά */
+}
+
+.message.mine .message-content {
+  align-items: flex-end; /* username + bubble δεξιά */
+}
+
+.message.mine .message-user {
+  text-align: right;
+}
+
+.message.mine .message-bubble {
+  background: linear-gradient(135deg, #4cafef, #2d8cff); /* πιο έντονο μπλε για σένα */
+  color: #fff;
+}
 
 
 /* ======== HIDDEN CLASS ======== */
