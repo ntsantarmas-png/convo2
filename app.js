@@ -180,13 +180,12 @@ function renderUserList() {
     });
 
     // Helper function για κατηγορία
-    function renderCategory(title, arr) {
+    function renderCategory(title, arr, cssClass) {
       if (arr.length === 0) return;
 
-      // Header
       const header = document.createElement("li");
       header.textContent = title;
-      header.className = "user-category"; // CSS style
+      header.className = "user-category " + cssClass; // 👈 τώρα παίρνει class ανά ρόλο
       usersList.appendChild(header);
 
       // Users της κατηγορίας
@@ -217,13 +216,12 @@ function renderUserList() {
       });
     }
 
-    // Render με σειρά
-    renderCategory("Admins", admins);
-    renderCategory("VIP", vips);
-    renderCategory("Users", normal);
-    renderCategory("Guests", guests);
+    // Render με σειρά + class
+    renderCategory("Admins", admins, "admin");
+    renderCategory("VIP", vips, "vip");
+    renderCategory("Users", normal, "user");
+    renderCategory("Guests", guests, "guest");
   });
 }
-
 
 console.log("✅ app.js loaded");
