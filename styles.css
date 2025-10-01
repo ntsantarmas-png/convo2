@@ -133,6 +133,7 @@ body {
   grid-template-columns: 220px 1fr 220px;
   height: calc(100vh - 50px); /* αφαιρεί το ύψος του topbar */
   width: 100%;
+  min-height: 0; /* 👈 επιτρέπει στα children να έχουν σωστό scroll */
 }
 
 #roomsPanel,
@@ -142,13 +143,13 @@ body {
   display: flex;
   flex-direction: column;
   border-right: 1px solid #21262d;
+  min-height: 0; /* 👈 Κρίσιμο fix για scroll */
 }
 
 #usersPanel {
   border-right: none;
   border-left: 1px solid #21262d;
 }
-
 /* ======== ROOMS LIST POLISH ======== */
 #roomsPanel {
   padding: 15px;
@@ -214,6 +215,12 @@ body {
   transform: translateY(-3px); /* ✨ tick πάνω */
   box-shadow: 0 6px 14px rgba(0,0,0,0.25);
 }
+#roomsList,
+#usersList {
+  flex: 1;              /* πιάνουν τον διαθέσιμο χώρο */
+  overflow-y: auto;     /* δικό τους scroll */
+}
+
 
 
 /* ======== CHAT PANEL ======== */
