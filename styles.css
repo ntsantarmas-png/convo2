@@ -358,6 +358,56 @@ body {
 #logoutBtn:hover {
   background: #c41c29;
 }
+/* ===================== MESSAGE BUBBLES ===================== */
+.message {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 0 8px;
+}
+
+.message-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid #444;
+}
+.message-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.message-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+}
+
+.message-user {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8b949e;
+  margin-bottom: 2px;
+}
+
+.message-bubble {
+  background: #2d333b;
+  padding: 8px 12px;
+  border-radius: 12px;
+  color: #e6edf3;
+  font-size: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  box-shadow: 0 1px 2px rgba(0,0,0,.3);
+  transition: background .2s;
+}
+.message-bubble:hover {
+  background: #3a414a;
+}
 
 /* ======== HIDDEN CLASS ======== */
 .hidden {
