@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Convo2</title>
   <link rel="stylesheet" href="styles.css">
- </head>
+</head>
 <body>
   <!-- ===== TOPBAR ===== -->
   <div class="topbar">
@@ -19,6 +19,15 @@
   <main id="auth">
     <div class="auth-grid">
 
+      <!-- Action buttons -->
+      <div class="auth-actions">
+        <button class="auth-btn">Login</button>
+        <button class="auth-btn">Register</button>
+        <button class="auth-btn">Forgot Password</button>
+        <button class="auth-btn">Continue as Guest</button>
+      </div>
+
+      <!-- Login block -->
       <div class="auth-block">
         <h3>Login</h3>
         <input type="email" id="loginEmail" placeholder="Email">
@@ -26,6 +35,7 @@
         <button id="loginBtn">Login</button>
       </div>
 
+      <!-- Register block -->
       <div class="auth-block">
         <h3>Register</h3>
         <input id="registerUsername" type="text" placeholder="Username">
@@ -34,12 +44,14 @@
         <button id="registerBtn">Register</button>
       </div>
 
+      <!-- Forgot block -->
       <div class="auth-block">
         <h3>Forgot Password</h3>
         <input id="forgotEmail" type="email" placeholder="Enter your email">
         <button id="forgotBtn">Send Reset Link</button>
       </div>
 
+      <!-- Guest block -->
       <div class="auth-block">
         <h3>Guest</h3>
         <button id="guestBtn">Continue as Guest</button>
