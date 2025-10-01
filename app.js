@@ -161,36 +161,67 @@ function renderUserList() {
 
   onValue(ref(db, "users"), (snap) => {
     usersList.innerHTML = "";
+
+    // Κατηγορίες
+    const admins = [], vips = [], normal = [], guests = [];
+
     snap.forEach(childSnap => {
       const u = childSnap.val();
 
-      const li = document.createElement("li");
-
-      // === Avatar ===
-      const avatarDiv = document.createElement("div");
-      avatarDiv.className = "user-avatar";
-
-      const img = document.createElement("img");
-      img.src = u.photoURL || "https://i.pravatar.cc/150?u=" + u.uid;
-      img.alt = "avatar";
-
-      // Border για status
-      img.style.border = u.online
-        ? "2px solid limegreen"
-        : "2px solid gray";
-
-      avatarDiv.appendChild(img);
-
-      // === Username ===
-      const nameSpan = document.createElement("span");
-      nameSpan.textContent = u.displayName || "Guest";
-
-      // === Προσθήκη στο li ===
-      li.appendChild(avatarDiv);
-      li.appendChild(nameSpan);
-
-      usersList.appendChild(li);
+      if (u.role === "admin") {
+        admins.push(u);
+      } else if (u.role === "vip") {
+        vips.push(u);
+      } else if (u.isAnonymous) {
+        guests.push(u);
+      } else {
+        normal.push(u);
+      }
     });
+
+    // Helper function για κατηγορία
+    function renderCategory(title, arr) {
+      if (arr.length === 0) return;
+
+      // Header
+      const header = document.createElement("li");
+      header.textContent = title;
+      header.className = "user-category"; // CSS style
+      usersList.appendChild(header);
+
+      // Users της κατηγορίας
+      arr.forEach(u => {
+        const li = document.createElement("li");
+
+        // === Avatar ===
+        const avatarDiv = document.createElement("div");
+        avatarDiv.className = "user-avatar";
+
+        const img = document.createElement("img");
+        img.src = u.photoURL || "https://i.pravatar.cc/150?u=" + u.uid;
+        img.alt = "avatar";
+        img.style.border = u.online
+          ? "2px solid limegreen"
+          : "2px solid gray";
+
+        avatarDiv.appendChild(img);
+
+        // === Username ===
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = u.displayName || "Guest";
+
+        li.appendChild(avatarDiv);
+        li.appendChild(nameSpan);
+
+        usersList.appendChild(li);
+      });
+    }
+
+    // Render με σειρά
+    renderCategory("Admins", admins);
+    renderCategory("VIP", vips);
+    renderCategory("Users", normal);
+    renderCategory("Guests", guests);
   });
 }
 
