@@ -326,7 +326,7 @@ body {
 
 /* ===== Userlist Categories ===== */
 .user-category {
-  margin: 14px 0 8px;
+  margin: 12px 0 6px;
   padding: 4px 10px;
   font-size: 11px;
   font-weight: 600;
@@ -334,14 +334,11 @@ body {
   letter-spacing: 0.5px;
   border-radius: 6px;
   text-align: center;
-  color: var(--muted);
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.05); /* πιο διακριτικό */
   border: 1px solid rgba(255,255,255,0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+  color: #bbb; /* όχι λευκό */
 }
+
 /* Χρώματα ανά ρόλο */
 .user-category.admin {
   background: #e63946;   /* κόκκινο */
