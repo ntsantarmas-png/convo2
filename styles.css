@@ -324,33 +324,39 @@ body {
   font-weight: bold;
 }
 
+/* ===== Userlist Categories ===== */
 .user-category {
-  display: inline-block;
-  margin: 10px 0 5px;
-  padding: 3px 10px;
-  font-size: 11px;
-  font-weight: bold;
+  display: block;
+  margin: 12px 0 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
   color: #fff;
-  border-radius: 12px;
+  border-radius: 8px;
   text-transform: uppercase;
-  border: 1px solid #fff; /* 👈 άσπρο περίγραμμα */
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
 }
 
 /* Χρώματα ανά ρόλο */
 .user-category.admin {
-  background: #e63946; /* κόκκινο */
+  background: #e63946;   /* κόκκινο */
+  border: 1px solid #fff;
 }
 
 .user-category.vip {
-  background: #f4a261; /* πορτοκαλί */
+  background: #f4a261;   /* πορτοκαλί */
+  border: 1px solid #fff;
 }
 
 .user-category.user {
-  background: #2d8cff; /* μπλε */
+  background: #2d8cff;   /* μπλε */
+  border: 1px solid #fff;
 }
 
 .user-category.guest {
-  background: #6c757d; /* γκρι */
+  background: #6c757d;   /* γκρι */
+  border: 1px solid #fff;
 }
 
 
