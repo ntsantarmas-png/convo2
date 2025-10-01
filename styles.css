@@ -282,23 +282,6 @@ body {
   background: #1e6edc;
 }
 
-#newMessagesIndicator {
-  text-align: center;
-  background: #2d8cff;
-  color: #fff;
-  padding: 6px 10px;
-  font-size: 13px;
-  border-radius: 6px;
-  margin: 4px auto;
-  cursor: pointer;
-  width: fit-content;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-  transition: opacity 0.2s;
-}
-
-#newMessagesIndicator.hidden {
-  display: none;
-}
 
 /* ======== USERS PANEL ======== */
 #usersPanel {
@@ -455,6 +438,25 @@ body {
 .message.mine .message-bubble {
   background: linear-gradient(135deg, #4cafef, #2d8cff); /* πιο έντονο μπλε για σένα */
   color: #fff;
+}
+
+/* ======== NEW MESSAGES INDICATOR ======== */
+#newMessagesIndicator {
+  text-align: center;
+  background: #2d8cff;
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 13px;
+  border-radius: 6px;
+  margin: 4px auto;
+  cursor: pointer;
+  width: fit-content;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: opacity 0.2s;
+}
+
+#newMessagesIndicator.hidden {
+  display: none;
 }
 
 
