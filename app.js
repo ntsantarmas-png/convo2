@@ -129,8 +129,13 @@ function renderMessages(room) {
   const msg = childSnap.val();
 
   // === Container ===
-  const messageDiv = document.createElement("div");
-  messageDiv.className = "message";
+const messageDiv = document.createElement("div");
+messageDiv.className = "message";
+
+// Αν είναι το δικό μου uid -> βάλε class "mine"
+if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid) {
+  messageDiv.classList.add("mine");
+}
 
   // === Avatar ===
   const avatarDiv = document.createElement("div");
@@ -179,10 +184,12 @@ if (messageForm) {
 
     const user = auth.currentUser;
     await push(ref(db, "messages/" + currentRoom), {
-      user: user?.displayName || "Guest",
-      text,
-      createdAt: serverTimestamp()
-    });
+  uid: user?.uid,                     // 👈 σώζουμε το uid
+  user: user?.displayName || "Guest", // εμφανιζόμενο όνομα
+  text,
+  createdAt: serverTimestamp()
+});
+
 
     input.value = "";
   });
