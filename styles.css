@@ -336,27 +336,6 @@ body {
   text-transform: uppercase;
 }
 
-/* Χρώματα ανά ρόλο */
-.user-category.admin {
-  background: #e63946;   /* κόκκινο */
-  border: 1px solid #fff;
-}
-
-.user-category.vip {
-  background: #f4a261;   /* πορτοκαλί */
-  border: 1px solid #fff;
-}
-
-.user-category.user {
-  background: #2d8cff;   /* μπλε */
-  border: 1px solid #fff;
-}
-
-.user-category.guest {
-  background: #6c757d;   /* γκρι */
-  border: 1px solid #fff;
-}
-
 
 /* ======== LOGOUT BTN ======== */
 #logoutBtn {
