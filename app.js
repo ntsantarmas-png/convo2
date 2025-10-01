@@ -172,17 +172,23 @@ function renderMessages(room) {
       messagesDiv.appendChild(messageDiv);
     });
 
-    // ✅ Scroll συμπεριφορά
-    const threshold = 50; 
-    const atBottom = messagesDiv.scrollHeight - messagesDiv.scrollTop - messagesDiv.clientHeight < threshold;
-
-    if (atBottom) {
-      // Είσαι κάτω -> scroll & κρύψε indicator
+  // === Scroll λογική ===
+    if (initialLoad) {
+      // ✅ Στην πρώτη φόρτωση πάντα πάμε στο τέλος
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
       newMessagesIndicator.classList.add("hidden");
+      initialLoad = false; // 👈 μετά γίνεται false
     } else {
-      // Δεν είσαι κάτω -> δείξε indicator
-      newMessagesIndicator.classList.remove("hidden");
+      // ✅ Μετά δουλεύει η κανονική λογική
+      const threshold = 50; 
+      const atBottom = messagesDiv.scrollHeight - messagesDiv.scrollTop - messagesDiv.clientHeight < threshold;
+
+      if (atBottom) {
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        newMessagesIndicator.classList.add("hidden");
+      } else {
+        newMessagesIndicator.classList.remove("hidden");
+      }
     }
   });
 }
