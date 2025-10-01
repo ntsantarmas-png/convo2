@@ -156,11 +156,14 @@ body {
 }
 
 #roomsPanel h3 {
-  margin: 0 0 10px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #fff;
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #aaa; /* πιο ήπιο */
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
+
 
 #roomsList {
   list-style: none;
@@ -219,10 +222,18 @@ body {
   flex-direction: column;
 }
 
-#chatPanel h3 {
-  padding: 15px;
+#chatPanel h3, 
+#roomTitle {
+  padding: 12px 15px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #aaa;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
   border-bottom: 1px solid #21262d;
 }
+
+
 
 #messages {
   flex: 1;
@@ -326,15 +337,16 @@ body {
 
 /* ===== Userlist Categories ===== */
 .user-category {
-  font-weight: bold;
+  font-weight: 600;
   font-size: 12px;
-  letter-spacing: 1px;
-  color: #aaa;             /* πιο διακριτικό */
-  margin: 12px 0 6px 4px;  /* απόσταση πάνω-κάτω */
-  border-bottom: 1px solid rgba(255,255,255,0.08); /* λεπτή γραμμή */
+  letter-spacing: 0.5px;
+  color: #aaa;
+  margin: 12px 0 6px 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
   padding-bottom: 2px;
   text-transform: uppercase;
 }
+
 
 
 /* ======== LOGOUT BTN ======== */
