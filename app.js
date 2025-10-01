@@ -170,7 +170,8 @@ if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid) {
   messagesDiv.appendChild(messageDiv);
 });
 
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+// ✅ Auto-scroll μόνο αν είσαι ήδη στο τέλος
+scrollToBottomIfNeeded();
   });
 }
 
