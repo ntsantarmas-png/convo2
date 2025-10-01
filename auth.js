@@ -138,14 +138,22 @@ onAuthStateChanged(auth, async (user) => {
     }
 
     // === Ενημέρωση χρήστη στη DB ===
-    await update(ref(db, "users/" + user.uid), {
-      uid: user.uid,
-      displayName: name,
-      email: user.email || null,
-      photoURL: avatar,
-      online: true,
-      lastLogin: Date.now()
-    });
+let role = "user";
+if (user.isAnonymous) {
+  role = "guest";
+} else if (name === "MysteryMan") {
+  role = "admin";
+}
+
+await update(ref(db, "users/" + user.uid), {
+  uid: user.uid,
+  displayName: name,
+  email: user.email || null,
+  photoURL: avatar,
+  online: true,
+  lastLogin: Date.now(),
+  role: role   // 👈 προστέθηκε
+});
 
     // === UI switch (με hidden class) ===
     authView.classList.add("hidden");
