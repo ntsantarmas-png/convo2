@@ -125,56 +125,80 @@ function renderMessages(room) {
 
   onValue(messagesRef, (snap) => {
     messagesDiv.innerHTML = "";
-   snap.forEach(childSnap => {
-  const msg = childSnap.val();
+    snap.forEach(childSnap => {
+      const msg = childSnap.val();
 
-  // === Container ===
-const messageDiv = document.createElement("div");
-messageDiv.className = "message";
+      // === Container ===
+      const messageDiv = document.createElement("div");
+      messageDiv.className = "message";
 
-// Αν είναι το δικό μου uid -> βάλε class "mine"
-if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid) {
-  messageDiv.classList.add("mine");
-}
+      // Αν είναι το δικό μου uid -> βάλε class "mine"
+      if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid) {
+        messageDiv.classList.add("mine");
+      }
 
-  // === Avatar ===
-  const avatarDiv = document.createElement("div");
-  avatarDiv.className = "message-avatar";
+      // === Avatar ===
+      const avatarDiv = document.createElement("div");
+      avatarDiv.className = "message-avatar";
 
-  const img = document.createElement("img");
-  img.src = msg.photoURL || "https://i.pravatar.cc/150?u=" + (msg.uid || msg.user);
-  img.alt = "avatar";
-  avatarDiv.appendChild(img);
+      const img = document.createElement("img");
+      img.src = msg.photoURL || "https://i.pravatar.cc/150?u=" + (msg.uid || msg.user);
+      img.alt = "avatar";
+      avatarDiv.appendChild(img);
 
-  // === Content ===
-  const contentDiv = document.createElement("div");
-  contentDiv.className = "message-content";
+      // === Content ===
+      const contentDiv = document.createElement("div");
+      contentDiv.className = "message-content";
 
-  // Username
-  const userDiv = document.createElement("div");
-  userDiv.className = "message-user";
-  userDiv.textContent = msg.user || "Anon";
+      // Username
+      const userDiv = document.createElement("div");
+      userDiv.className = "message-user";
+      userDiv.textContent = msg.user || "Anon";
 
-  // Bubble
-  const bubbleDiv = document.createElement("div");
-  bubbleDiv.className = "message-bubble";
-  bubbleDiv.textContent = msg.text;
+      // Bubble
+      const bubbleDiv = document.createElement("div");
+      bubbleDiv.className = "message-bubble";
+      bubbleDiv.textContent = msg.text;
 
-  contentDiv.appendChild(userDiv);
-  contentDiv.appendChild(bubbleDiv);
+      contentDiv.appendChild(userDiv);
+      contentDiv.appendChild(bubbleDiv);
 
-  // Put together
-  messageDiv.appendChild(avatarDiv);
-  messageDiv.appendChild(contentDiv);
+      // Put together
+      messageDiv.appendChild(avatarDiv);
+      messageDiv.appendChild(contentDiv);
 
-  messagesDiv.appendChild(messageDiv);
-});
+      messagesDiv.appendChild(messageDiv);
+    });
 
-// ✅ Auto-scroll μόνο αν είσαι ήδη στο τέλος
-scrollToBottomIfNeeded();
+    // ✅ Scroll συμπεριφορά
+    const threshold = 50; 
+    const atBottom = messagesDiv.scrollHeight - messagesDiv.scrollTop - messagesDiv.clientHeight < threshold;
+
+    if (atBottom) {
+      // Είσαι κάτω -> scroll & κρύψε indicator
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      newMessagesIndicator.classList.add("hidden");
+    } else {
+      // Δεν είσαι κάτω -> δείξε indicator
+      newMessagesIndicator.classList.remove("hidden");
+    }
   });
 }
 
+
+// === Indicator reference ===
+const newMessagesIndicator = document.getElementById("newMessagesIndicator");
+
+// Κάνε το clickable -> πάει στο τέλος
+if (newMessagesIndicator) {
+  newMessagesIndicator.addEventListener("click", () => {
+    const messagesDiv = document.getElementById("messages");
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    newMessagesIndicator.classList.add("hidden");
+  });
+}
+
+// === Message form ===
 const messageForm = document.getElementById("messageForm");
 if (messageForm) {
   messageForm.addEventListener("submit", async (e) => {
@@ -185,16 +209,16 @@ if (messageForm) {
 
     const user = auth.currentUser;
     await push(ref(db, "messages/" + currentRoom), {
-  uid: user?.uid,                     // 👈 σώζουμε το uid
-  user: user?.displayName || "Guest", // εμφανιζόμενο όνομα
-  text,
-  createdAt: serverTimestamp()
-});
-
+      uid: user?.uid,
+      user: user?.displayName || "Guest",
+      text,
+      createdAt: serverTimestamp()
+    });
 
     input.value = "";
   });
 }
+
 
 // ===================== RENDER USER LIST =====================
 function renderUserList() {
