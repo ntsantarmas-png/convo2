@@ -123,6 +123,8 @@ function renderMessages(room) {
   const messagesDiv = document.getElementById("messages");
   messagesDiv.innerHTML = "";
 
+    let initialLoad = true;
+
   onValue(messagesRef, (snap) => {
     messagesDiv.innerHTML = "";
     snap.forEach(childSnap => {
