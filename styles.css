@@ -324,6 +324,14 @@ body {
   font-weight: bold;
 }
 
+.user-category {
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #888;
+  text-transform: uppercase;
+}
+
 /* ======== LOGOUT BTN ======== */
 #logoutBtn {
   margin-left: auto;
