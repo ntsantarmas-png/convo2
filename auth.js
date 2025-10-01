@@ -165,10 +165,12 @@ await update(ref(db, "users/" + user.uid), {
   } else {
     console.log("❌ Logged out");
 
+    if (headerUser) headerUser.textContent = "";
     // === Κρύψε το κουμπί logout ===
     if (logoutBtn) logoutBtn.classList.add("hidden");
 
     appView.classList.add("hidden");
     authView.classList.remove("hidden");
+    
   }
 });
