@@ -120,6 +120,9 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     console.log("✅ Logged in:", user.uid);
 
+    // === Εμφάνισε το κουμπί logout ===
+    if (logoutBtn) logoutBtn.classList.remove("hidden");
+
     // === Αν δεν υπάρχει displayName, δώσε default ===
     let name = user.displayName || user.email || "Guest";
     if (!user.displayName) {
@@ -153,6 +156,10 @@ onAuthStateChanged(auth, async (user) => {
     }
   } else {
     console.log("❌ Logged out");
+
+    // === Κρύψε το κουμπί logout ===
+    if (logoutBtn) logoutBtn.classList.add("hidden");
+
     appView.classList.add("hidden");
     authView.classList.remove("hidden");
   }
