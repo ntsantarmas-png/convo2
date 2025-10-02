@@ -316,8 +316,7 @@ document.querySelectorAll("#tab-emoji .emoji-grid span").forEach(span => {
     input.focus();
 
     // Κλείσιμο panel μετά το click
-    const mediaPanel = document.getElementById("mediaPanel");
-    if (mediaPanel) mediaPanel.classList.add("hidden");
+
   });
 });
 
