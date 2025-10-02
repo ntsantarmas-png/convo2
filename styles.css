@@ -347,6 +347,28 @@ body {
 .emoji-grid span:hover {
   transform: scale(1.3);
 }
+.input-wrapper {
+  position: relative;
+  flex: 1; /* να μεγαλώνει όπως το input */
+}
+
+.input-wrapper textarea {
+  width: 100%;
+  padding-right: 40px; /* χώρο για το κουμπί */
+}
+
+.emoji-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+}
 
 
 /* ======== USERS PANEL ======== */
