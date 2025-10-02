@@ -526,6 +526,13 @@ body {
   transform: scale(1.02);
   white-space: pre-wrap;
 }
+.message-bubble {
+  max-width: 70%;        /* το bubble δεν θα ξεπερνά το 70% του πλάτους */
+  word-break: break-word; /* αναγκαστικό σπάσιμο λέξεων */
+  white-space: pre-wrap;  /* κρατάει line breaks και κάνει wrap */
+}
+
+
 /* ======== MY MESSAGES (right side) ======== */
 .message.mine {
   flex-direction: row-reverse; /* avatar δεξιά */
