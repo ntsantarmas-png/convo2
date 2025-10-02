@@ -524,7 +524,7 @@ function renderUserList() {
   onValue(ref(db, "users"), (snap) => {
     usersList.innerHTML = "";
 
-    // Κατηγορίες
+    // Κατηγορίες arrays
     const admins = [], vips = [], normal = [], guests = [];
 
     snap.forEach(childSnap => {
@@ -541,61 +541,76 @@ function renderUserList() {
       }
     });
 
-    // Helper function για κατηγορία
+    // === Helper function για category ===
     function renderCategory(title, arr, cssClass) {
       if (arr.length === 0) return;
 
-        const header = document.createElement("li");
-  header.textContent = `${title} (${arr.length})`; // 👈 μετράει users
-  header.className = "user-category " + cssClass;
-  usersList.appendChild(header);
+      // === Group wrapper ===
+      const group = document.createElement("li");
+      group.className = "user-group";
 
+      // === Header ===
+      const header = document.createElement("div");
+      header.textContent = `${title} (${arr.length}) ▼`; // default ανοιχτό
+      header.className = "user-category " + cssClass;
+      group.appendChild(header);
 
-      // Users της κατηγορίας
+      // === Sublist ===
+      const sublist = document.createElement("ul");
+      sublist.className = "user-sublist";
+
       arr.forEach(u => {
         const li = document.createElement("li");
 
-        // === Avatar ===
+        // Avatar
         const avatarDiv = document.createElement("div");
         avatarDiv.className = "user-avatar";
-
         const img = document.createElement("img");
         img.src = u.photoURL || "https://i.pravatar.cc/150?u=" + u.uid;
         img.alt = "avatar";
-        if (u.online) {
-  avatarDiv.classList.add("online");
-} else {
-  avatarDiv.classList.add("offline");
-}
-
-
+        avatarDiv.classList.add(u.online ? "online" : "offline");
         avatarDiv.appendChild(img);
 
-        // === Username ===
+        // Username
         const nameSpan = document.createElement("span");
         nameSpan.textContent = u.displayName || "Guest";
 
-        // === Badge ===
+        // Badge
         const badge = document.createElement("span");
         const role = u.role || (u.isAnonymous ? "guest" : "user");
         badge.className = "user-badge " + role;
         badge.textContent = role.toUpperCase();
 
-        // === Assemble ===
+        // Assemble row
         li.appendChild(avatarDiv);
         li.appendChild(nameSpan);
         li.appendChild(badge);
 
-        usersList.appendChild(li);
+        sublist.appendChild(li);
+      });
+
+      group.appendChild(sublist);
+      usersList.appendChild(group);
+
+      // === Toggle collapse ===
+      header.addEventListener("click", () => {
+        if (sublist.style.display === "none") {
+          sublist.style.display = "flex";
+          header.textContent = `${title} (${arr.length}) ▼`;
+        } else {
+          sublist.style.display = "none";
+          header.textContent = `${title} (${arr.length}) ▶`;
+        }
       });
     }
 
-    // Render με σειρά
+    // === Render με σειρά ===
     renderCategory("Admins", admins, "admin");
     renderCategory("VIP", vips, "vip");
     renderCategory("Users", normal, "user");
     renderCategory("Guests", guests, "guest");
   });
 }
+
 
 console.log("✅ app.js loaded");
