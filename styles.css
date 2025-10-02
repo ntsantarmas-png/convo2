@@ -333,12 +333,18 @@ body {
   display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
   gap: 6px;
+}
+
+.emoji-grid span {
+  display: flex;           /* κάθε emoji span είναι κουτάκι */
+  align-items: center;
+  justify-content: center;
   font-size: 22px;
   cursor: pointer;
+  width: 32px;
+  height: 32px;
 }
-.emoji-grid span {
-  text-align: center;
-}
+
 
 
 .emoji-grid span:hover {
