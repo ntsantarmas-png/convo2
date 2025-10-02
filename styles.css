@@ -547,6 +547,27 @@ body {
   display: none;
 }
 
+/* ======== EMOJI CATEGORIES ======== */
+.emoji-category {
+  margin-bottom: 12px;
+}
+
+.emoji-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+  margin: 6px 0;
+  padding-left: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#tab-emoji {
+  max-height: 250px; /* ύψος για scroll */
+  overflow-y: auto;
+  padding: 8px;
+}
+
 
 /* ======== HIDDEN CLASS ======== */
 .hidden {
