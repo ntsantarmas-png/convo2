@@ -177,22 +177,20 @@ function renderMessages(room) {
       messagesDiv.appendChild(messageDiv);
     });
 
-    // === Scroll λογική ===
-    if (initialLoad) {
-      // ✅ Στην πρώτη φόρτωση κάθε room -> πάμε στο τέλος
+// === Scroll λογική ===
+if (initialLoad) {
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  newMessagesIndicator.classList.add("hidden");
+  initialLoad = false; 
+} else {
+  setTimeout(() => {
+    if (messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - 5) {
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
       newMessagesIndicator.classList.add("hidden");
-      initialLoad = false; 
     } else {
-      // ✅ Σταθερός έλεγχος για το αν είσαι ήδη στο κάτω μέρος
-      if (messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - 5) {
-        messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        newMessagesIndicator.classList.add("hidden");
-      } else {
-        newMessagesIndicator.classList.remove("hidden");
-      }
+      newMessagesIndicator.classList.remove("hidden");
     }
-  });
+  }, 0);
 }
 
 
