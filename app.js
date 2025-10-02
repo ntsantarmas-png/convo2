@@ -593,16 +593,17 @@ function renderUserList() {
       usersList.appendChild(group);
 
       // === Toggle collapse ===
-      header.addEventListener("click", () => {
-        if (sublist.style.display === "none") {
-          sublist.style.display = "flex";
-          header.textContent = `${title} (${arr.length}) ▼`;
-        } else {
-          sublist.style.display = "none";
-          header.textContent = `${title} (${arr.length}) ▶`;
-        }
-      });
-    }
+header.addEventListener("click", () => {
+  if (sublist.style.display === "none") {
+    sublist.style.display = "flex";
+    sublist.style.flexDirection = "column"; // 👈 σημαντικό
+    arrow.classList.add("open");
+  } else {
+    sublist.style.display = "none";
+    arrow.classList.remove("open");
+  }
+});
+}
 
     // === Render με σειρά ===
     renderCategory("Admins", admins, "admin");
