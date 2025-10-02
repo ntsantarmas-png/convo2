@@ -151,7 +151,38 @@ body {
   border-right: none;
   border-left: 1px solid #21262d;
 }
+
+
 /* ======== ROOMS LIST POLISH ======== */
+/* Header με κουμπί */
+.rooms-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.toggle-btn {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.toggle-btn:hover {
+  color: #fff;
+}
+
+/* Όταν το roomsPanel είναι κλειστό */
+#roomsPanel.collapsed {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+}
+
+
 #roomsPanel {
   padding: 15px;
   gap: 10px;
