@@ -391,6 +391,36 @@ async function loadTrendingGifs() {
 
 // Φόρτωσε trending μόλις ανοίξει η σελίδα
 loadTrendingGifs();
+// ===================== STICKER PICKER =====================
+const stickerGrid = document.getElementById("stickerGrid");
+if (stickerGrid) {
+  stickerGrid.querySelectorAll("img").forEach(img => {
+    img.addEventListener("click", () => {
+      sendStickerMessage(img.src);
+
+      // Κλείσε το panel
+      const mediaPanel = document.getElementById("mediaPanel");
+      if (mediaPanel) mediaPanel.classList.add("hidden");
+
+      // Focus στο input
+      const input = document.getElementById("messageInput");
+      if (input) input.focus();
+    });
+  });
+}
+
+// ===== Συναρτηση για αποστολή Sticker =====
+function sendStickerMessage(url) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  push(ref(db, "messages/" + currentRoom), {
+    uid: user.uid,
+    user: user.displayName || "Guest",
+    sticker: url, // 👈 αποθηκεύουμε το sticker URL
+    createdAt: serverTimestamp()
+  });
+}
 
 // ===================== RENDER USER LIST =====================
 function renderUserList() {
