@@ -74,14 +74,18 @@
   <div id="newMessagesIndicator" class="hidden">📩 New messages</div>
 
  <form id="messageForm" class="message-form">
-  <!-- Emoji button -->
-  <button type="button" id="emojiBtn" class="emoji-btn">😀</button>
 
-  <!-- Input -->
-  <textarea id="messageInput" placeholder="Type a message..."></textarea>
+  <!-- Input wrapper -->
+  <div class="input-wrapper">
+    <textarea id="messageInput" placeholder="Type a message..."></textarea>
+    <!-- Emoji button μέσα στο input -->
+    <button type="button" id="emojiBtn" class="emoji-btn">😀</button>
+  </div>
 
   <!-- Send -->
   <button type="submit" class="send-btn">Send</button>
+</form>
+
 
   <!-- Emoji/GIF/Sticker Panel -->
   <div id="mediaPanel" class="media-panel hidden">
