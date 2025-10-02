@@ -619,6 +619,12 @@ body {
 .sticker-grid img:hover {
   transform: scale(1.05);
 }
+/* ==== CHAT STICKER ==== */
+.chat-sticker {
+  max-width: 120px;
+  margin-top: 6px;
+  display: block;
+}
 
 /* ======== HIDDEN CLASS ======== */
 .hidden {
