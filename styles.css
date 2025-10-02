@@ -175,17 +175,22 @@ body {
 }
 
 /* Όταν το roomsPanel είναι κλειστό */
+/* Όταν το roomsPanel είναι κλειστό (mini mode) */
 #roomsPanel.collapsed {
-  width: 0;
-  padding: 0;
+  width: 40px;                /* στενή στήλη αντί για full εξαφάνιση */
+  padding: 10px 4px;          /* λίγο padding */
   overflow: hidden;
-  border: none;
+  border-right: 1px solid #21262d;
 }
 
+#roomsPanel.collapsed h3,
+#roomsPanel.collapsed ul,
+#roomsPanel.collapsed #newRoomBtn {
+  display: none;              /* κρύβονται όλα εκτός από το κουμπί */
+}
 
-#roomsPanel {
-  padding: 15px;
-  gap: 10px;
+#roomsPanel.collapsed .rooms-header {
+  justify-content: center;    /* το κουμπί μένει στη μέση */
 }
 
 #roomsPanel h3 {
