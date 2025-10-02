@@ -495,6 +495,38 @@ body {
   text-transform: uppercase;
   margin: 6px 0;
 }
+/* ===== User Badges by Role ===== */
+
+/* Admin */
+.user-badge.admin {
+  background: linear-gradient(135deg, #ff4d4d, #d93636); /* κόκκινο */
+  box-shadow: 0 0 6px rgba(255, 77, 77, 0.5);
+}
+
+/* VIP */
+.user-badge.vip {
+  background: linear-gradient(135deg, #f5d142, #d4af37); /* χρυσό */
+  box-shadow: 0 0 6px rgba(245, 209, 66, 0.5);
+  color: #222; /* σκούρο text για contrast */
+}
+
+/* Moderator */
+.user-badge.mod {
+  background: linear-gradient(135deg, #7d5fff, #5d3fd3); /* μωβ */
+  box-shadow: 0 0 6px rgba(125, 95, 255, 0.5);
+}
+
+/* Regular User */
+.user-badge.user {
+  background: linear-gradient(135deg, #2d8cff, #1e6edc); /* μπλε */
+  box-shadow: 0 0 6px rgba(45, 140, 255, 0.4);
+}
+
+/* Guest */
+.user-badge.guest {
+  background: linear-gradient(135deg, #999, #666); /* γκρι */
+  box-shadow: 0 0 6px rgba(150, 150, 150, 0.3);
+}
 
 
 
