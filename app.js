@@ -112,9 +112,16 @@ if (newRoomBtn) {
 // ===================== CHAT =====================
 let currentRoom = "general";
 
+// 👇 Indicator για το πρώτο load κάθε room
+let initialLoad = true;
+
 function switchRoom(room) {
   currentRoom = room;
   document.getElementById("roomTitle").textContent = "#" + room;
+
+  // 👇 Reset για κάθε φορά που αλλάζεις room
+  initialLoad = true;
+
   renderMessages(room);
 }
 
@@ -122,8 +129,6 @@ function renderMessages(room) {
   const messagesRef = ref(db, "messages/" + room);
   const messagesDiv = document.getElementById("messages");
   messagesDiv.innerHTML = "";
-
-    let initialLoad = true;
 
   onValue(messagesRef, (snap) => {
     messagesDiv.innerHTML = "";
@@ -172,16 +177,17 @@ function renderMessages(room) {
       messagesDiv.appendChild(messageDiv);
     });
 
-  // === Scroll λογική ===
+    // === Scroll λογική ===
     if (initialLoad) {
-      // ✅ Στην πρώτη φόρτωση πάντα πάμε στο τέλος
+      // ✅ Στην πρώτη φόρτωση κάθε room -> πάμε στο τέλος
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
       newMessagesIndicator.classList.add("hidden");
-      initialLoad = false; // 👈 μετά γίνεται false
+      initialLoad = false; 
     } else {
       // ✅ Μετά δουλεύει η κανονική λογική
       const threshold = 50; 
-      const atBottom = messagesDiv.scrollHeight - messagesDiv.scrollTop - messagesDiv.clientHeight < threshold;
+      const atBottom =
+        messagesDiv.scrollHeight - messagesDiv.scrollTop - messagesDiv.clientHeight < threshold;
 
       if (atBottom) {
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -192,6 +198,7 @@ function renderMessages(room) {
     }
   });
 }
+
 
 
 // === Indicator reference ===
@@ -224,6 +231,7 @@ if (messageForm) {
     });
 
     input.value = "";
+    input.focus(); // 👈 συνεχίζεις να γράφεις αμέσως
   });
 }
 
