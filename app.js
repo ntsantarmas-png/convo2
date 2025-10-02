@@ -160,6 +160,7 @@ function renderMessages(room) {
 
   onValue(messagesRef, (snap) => {
     messagesDiv.innerHTML = "";
+
     snap.forEach(childSnap => {
       const msg = childSnap.val();
 
@@ -204,8 +205,12 @@ function renderMessages(room) {
 
       messagesDiv.appendChild(messageDiv);
     });
+
+    // 👇 Πάντα scroll στο τέλος όταν φορτώνει / αλλάζει room
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 }
+
 
 // === Message form ===
 const messageForm = document.getElementById("messageForm");
