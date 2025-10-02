@@ -340,6 +340,28 @@ body {
 
 /* removed duplicate .hidden */
 
+/* ==== SEARCH INPUT (GIFs / Stickers) ==== */
+#gifSearchInput,
+#stickerSearchInput {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #444;
+  border-radius: 20px;
+  background: #0d1117;
+  color: #e6edf3;
+  font-size: 14px;
+  margin-bottom: 10px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#gifSearchInput:focus,
+#stickerSearchInput:focus {
+  border-color: #2d8cff;
+  box-shadow: 0 0 4px rgba(45, 140, 255, 0.6);
+}
+
+
 /* ===================== EMOJI GRID ===================== */
 .emoji-grid {
   display: grid !important;
