@@ -547,46 +547,46 @@ function renderUserList() {
 
       const header = document.createElement("li");
       header.textContent = title;
-      header.className = "user-category " + cssClass; // 👈 τώρα παίρνει class ανά ρόλο
+      header.className = "user-category " + cssClass;
       usersList.appendChild(header);
 
-    // Users της κατηγορίας
-arr.forEach(u => {
-  const li = document.createElement("li");
+      // Users της κατηγορίας
+      arr.forEach(u => {
+        const li = document.createElement("li");
 
-  // === Avatar ===
-  const avatarDiv = document.createElement("div");
-  avatarDiv.className = "user-avatar";
+        // === Avatar ===
+        const avatarDiv = document.createElement("div");
+        avatarDiv.className = "user-avatar";
 
-  const img = document.createElement("img");
-  img.src = u.photoURL || "https://i.pravatar.cc/150?u=" + u.uid;
-  img.alt = "avatar";
-  img.style.border = u.online
-    ? "2px solid limegreen"
-    : "2px solid gray";
+        const img = document.createElement("img");
+        img.src = u.photoURL || "https://i.pravatar.cc/150?u=" + u.uid;
+        img.alt = "avatar";
+        img.style.border = u.online
+          ? "2px solid limegreen"
+          : "2px solid gray";
 
-  avatarDiv.appendChild(img);
+        avatarDiv.appendChild(img);
 
-  // === Username ===
-  const nameSpan = document.createElement("span");
-  nameSpan.textContent = u.displayName || "Guest";
+        // === Username ===
+        const nameSpan = document.createElement("span");
+        nameSpan.textContent = u.displayName || "Guest";
 
-  // === Badge ===
-  const badge = document.createElement("span");
-  const role = u.role || (u.isAnonymous ? "guest" : "user");
-  badge.className = "user-badge " + role;
-  badge.textContent = role.toUpperCase();
+        // === Badge ===
+        const badge = document.createElement("span");
+        const role = u.role || (u.isAnonymous ? "guest" : "user");
+        badge.className = "user-badge " + role;
+        badge.textContent = role.toUpperCase();
 
-  // === Assemble ===
-  li.appendChild(avatarDiv);
-  li.appendChild(nameSpan);
-  li.appendChild(badge);
+        // === Assemble ===
+        li.appendChild(avatarDiv);
+        li.appendChild(nameSpan);
+        li.appendChild(badge);
 
-  usersList.appendChild(li);
-});
+        usersList.appendChild(li);
+      });
+    }
 
-
-    // Render με σειρά + class
+    // Render με σειρά
     renderCategory("Admins", admins, "admin");
     renderCategory("VIP", vips, "vip");
     renderCategory("Users", normal, "user");
