@@ -602,7 +602,7 @@ body {
 /* ==== STICKER GRID ==== */
 .sticker-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 8px;
   margin-top: 10px;
   max-height: 250px;
@@ -619,6 +619,7 @@ body {
 .sticker-grid img:hover {
   transform: scale(1.05);
 }
+
 /* ==== CHAT STICKER ==== */
 .chat-sticker {
   max-width: 120px;
