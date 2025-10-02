@@ -131,7 +131,7 @@ body {
 #app {
   flex: 1; /* 👈 πιάνει χώρο κάτω από το topbar */
   display: grid;
-  grid-template-columns: 220px 1fr 220px;
+  grid-template-columns: 230px 1fr 230px;
   height: calc(100vh - 50px); /* αφαιρεί το ύψος του topbar */
   width: 100%;
   min-height: 0; /* 👈 επιτρέπει στα children να έχουν σωστό scroll */
