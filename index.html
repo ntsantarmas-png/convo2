@@ -19,9 +19,6 @@
   <!-- ===================== AUTH VIEW ===================== -->
   <main id="auth">
     <div class="auth-grid">
-
-     
-
       <!-- Login block -->
       <div class="auth-block">
         <h3>Login</h3>
@@ -51,7 +48,6 @@
         <h3>Guest</h3>
         <button id="guestBtn">Continue as Guest</button>
       </div>
-
     </div>
   </main>
 
@@ -66,48 +62,42 @@
     </section>
 
     <!-- MAIN CHAT -->
-  <section id="chatPanel">
-  <h3 id="roomTitle">#general</h3>
-  <div id="messages"></div>
+    <section id="chatPanel">
+      <h3 id="roomTitle">#general</h3>
+      <div id="messages"></div>
 
-  <!-- 👇 Indicator για νέα μηνύματα -->
-  <div id="newMessagesIndicator" class="hidden">📩 New messages</div>
+      <!-- 👇 Indicator για νέα μηνύματα -->
+      <div id="newMessagesIndicator" class="hidden">📩 New messages</div>
 
- <form id="messageForm" class="message-form">
+      <form id="messageForm" class="message-form">
+        <!-- Input wrapper -->
+        <div class="input-wrapper">
+          <textarea id="messageInput" placeholder="Type a message..."></textarea>
+          <!-- Emoji button -->
+          <button type="button" id="emojiBtn" class="emoji-btn">😀</button>
 
-  <!-- Input wrapper -->
-  <div class="input-wrapper">
-    <textarea id="messageInput" placeholder="Type a message..."></textarea>
-    <!-- Emoji button μέσα στο input -->
-    <button type="button" id="emojiBtn" class="emoji-btn">😀</button>
-  </div>
+          <!-- Emoji/GIF/Sticker Panel -->
+          <div id="mediaPanel" class="media-panel hidden">
+            <div class="media-tabs">
+              <button data-tab="emoji" class="active">Emoji</button>
+              <button data-tab="gif">GIFs</button>
+              <button data-tab="sticker">Stickers</button>
+            </div>
+            <div id="tab-emoji" class="tab active">
+              <div class="emoji-grid"></div>
+            </div>
+            <div id="tab-gif" class="tab">GIF search...</div>
+            <div id="tab-sticker" class="tab">Stickers...</div>
+          </div>
+        </div>
 
-  <!-- Send -->
-  <button type="submit" class="send-btn">Send</button>
-</form>
-
-
-  <!-- Emoji/GIF/Sticker Panel -->
-  <div id="mediaPanel" class="media-panel hidden">
-    <div class="media-tabs">
-      <button data-tab="emoji" class="active">Emoji</button>
-      <button data-tab="gif">GIFs</button>
-      <button data-tab="sticker">Stickers</button>
-    </div>
- <div id="tab-emoji" class="tab active">
-  <div class="emoji-grid"></div>
-</div>
-<div id="tab-gif" class="tab">GIF search...</div>
-<div id="tab-sticker" class="tab">Stickers...</div>
-
-    </div>
-  </div>
-</form>
-
+        <!-- Send -->
+        <button type="submit" class="send-btn">Send</button>
+      </form>
+    </section>
 
     <!-- USERS LIST -->
     <section id="usersPanel">
-      
       <ul id="usersList"></ul>
     </section>
 
