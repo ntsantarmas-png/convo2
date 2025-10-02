@@ -333,15 +333,12 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
   gap: 6px;
-  font-size: 20px;
+  font-size: 22px;
   cursor: pointer;
-  user-select: none;
 }
-
-.emoji-grid span {
+.emoji-grid span, 
+.emoji-grid div {
   text-align: center;
-  line-height: 32px;
-  transition: transform 0.15s;
 }
 
 .emoji-grid span:hover {
