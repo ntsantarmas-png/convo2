@@ -264,7 +264,7 @@ body {
 
 #messageInput {
   flex: 1;
-  padding: 10px;
+  padding: 10px 10px 10px 50px;
   border-radius: 6px;
   border: none;
   outline: none;
@@ -354,7 +354,7 @@ body {
 
 .input-wrapper textarea {
   width: 100%;
-  padding-left: 50px; /* χώρο για το κουμπί */
+  padding-left: 40px; /* χώρο για το κουμπί */
 }
 
 .emoji-btn {
