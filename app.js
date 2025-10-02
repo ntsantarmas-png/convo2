@@ -209,6 +209,14 @@ if (msg.gif) {
   gifEl.className = "chat-gif"; // 👈 θα το στυλάρουμε στο CSS
   contentDiv.appendChild(gifEl);
 }
+// STICKER
+if (msg.sticker) {
+  const stickerEl = document.createElement("img");
+  stickerEl.src = msg.sticker;
+  stickerEl.alt = "Sticker";
+  stickerEl.className = "chat-sticker";
+  contentDiv.appendChild(stickerEl);
+}
 
 // Put together
 messageDiv.appendChild(avatarDiv);
