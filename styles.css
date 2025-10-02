@@ -270,7 +270,7 @@ body {
   outline: none;
 }
 
-#messageForm button {
+#messageForm .send-btn {
   padding: 10px 20px;
   border: none;
   border-radius: 6px;
@@ -278,9 +278,10 @@ body {
   color: #fff;
   cursor: pointer;
 }
-#messageForm button:hover {
+#messageForm .send-btn:hover {
   background: #1e6edc;
 }
+
 
 /* ======== EMOJI/GIF/STICKERS PANEL ======== */
 
