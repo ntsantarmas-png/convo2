@@ -285,6 +285,11 @@ body {
   white-space: pre-wrap;   
   word-wrap: break-word;   
 }
+#messageInput:focus {
+  border: 1px solid #2d8cff;       /* μπλε περίγραμμα */
+  box-shadow: 0 0 6px rgba(45,140,255,0.5); /* glow γύρω γύρω */
+}
+
 
 #messageForm .send-btn {
   padding: 10px 20px;
