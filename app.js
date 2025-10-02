@@ -549,22 +549,19 @@ function renderUserList() {
       const group = document.createElement("li");
       group.className = "user-group";
 
-      // === Header ===
-      // === Label πάνω από category ===
-const label = document.createElement("div");
-label.className = "category-label " + cssClass;
-label.textContent = title; // Μόνο το όνομα (χωρίς counter)
-usersList.appendChild(label);
+      // === Header (τίτλος + arrow μαζί) ===
+      const header = document.createElement("div");
+      header.className = "category-header " + cssClass;
 
-// === Header με arrow (collapse toggle) ===
-const header = document.createElement("div");
-header.className = "collapse-toggle";
+      const arrow = document.createElement("span");
+      arrow.className = "arrow open"; // default ανοιχτό
 
-const arrow = document.createElement("span");
-arrow.className = "arrow open"; // default ανοιχτό
+      const titleSpan = document.createElement("span");
+      titleSpan.textContent = title;
 
-header.appendChild(arrow);
-group.appendChild(header);
+      header.appendChild(arrow);
+      header.appendChild(titleSpan);
+      group.appendChild(header);
 
       // === Sublist ===
       const sublist = document.createElement("ul");
@@ -575,11 +572,11 @@ group.appendChild(header);
 
         // Avatar
         const avatarDiv = document.createElement("div");
-        avatarDiv.className = "user-avatar";
+        avatarDiv.className = "user-avatar " + (u.online ? "online" : "offline");
+
         const img = document.createElement("img");
         img.src = u.photoURL || "https://i.pravatar.cc/150?u=" + u.uid;
         img.alt = "avatar";
-        avatarDiv.classList.add(u.online ? "online" : "offline");
         avatarDiv.appendChild(img);
 
         // Username
@@ -604,17 +601,17 @@ group.appendChild(header);
       usersList.appendChild(group);
 
       // === Toggle collapse ===
-header.addEventListener("click", () => {
-  if (sublist.style.display === "none") {
-    sublist.style.display = "flex";
-    sublist.style.flexDirection = "column"; // 👈 σημαντικό
-    arrow.classList.add("open");
-  } else {
-    sublist.style.display = "none";
-    arrow.classList.remove("open");
-  }
-});
-}
+      header.addEventListener("click", () => {
+        if (sublist.style.display === "none") {
+          sublist.style.display = "flex";
+          sublist.style.flexDirection = "column";
+          arrow.classList.add("open");
+        } else {
+          sublist.style.display = "none";
+          arrow.classList.remove("open");
+        }
+      });
+    }
 
     // === Render με σειρά ===
     renderCategory("Admins", admins, "admin");
@@ -623,6 +620,4 @@ header.addEventListener("click", () => {
     renderCategory("Guests", guests, "guest");
   });
 }
-
-
 console.log("✅ app.js loaded");
