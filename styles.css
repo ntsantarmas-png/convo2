@@ -442,20 +442,23 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 12px;
-  border-radius: 8px; /* ίδιο με input/rooms */
-  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: default;                /* όχι σαν κουμπί */
   color: #ccc;
   font-size: 14px;
   letter-spacing: 0.3px;
-  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+
+  background: rgba(255,255,255,0.02); /* 👈 μικρό dark bg */
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.25s ease, transform 0.2s ease;
 }
 
 #usersList li:hover {
-  background: #1f2630; /* ίδιο dark hover */
-  color: #fff;
-  box-shadow: 0 0 6px rgba(45, 140, 255, 0.4); /* ✨ ίδιο glow */
+  background: rgba(255,255,255,0.05); /* λίγο πιο φωτεινό στο hover */
+  transform: translateX(2px);        /* μικρό κούνημα δεξιά */
 }
+
 
 /* Avatar */
 .user-avatar {
@@ -488,13 +491,38 @@ body {
 .user-category {
   font-weight: 600;
   font-size: 12px;
-  color: #bbb;                 /* λίγο πιο φωτεινό γκρι */
+  color: #aaa;                 /* πιο ήπιο γκρι */
   letter-spacing: 0.6px;
   text-transform: uppercase;
-  margin: 10px 0 6px;
+  margin: 12px 0 6px;
   padding-bottom: 2px;
-  border-bottom: 1px solid rgba(255,255,255,0.08); /* διακριτική γραμμή */
+  border-bottom: 1px solid rgba(255,255,255,0.05); /* πιο διακριτικό divider */
 }
+/* ===== Avatar Status Ring ===== */
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.user-avatar.online {
+  box-shadow: 0 0 0 2px limegreen;  /* πράσινο δαχτυλίδι */
+}
+
+.user-avatar.offline {
+  box-shadow: 0 0 0 2px #555;       /* γκρι δαχτυλίδι */
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 /* ===== User Badges by Role ===== */
 
 /* Admin */
@@ -517,15 +545,22 @@ body {
 }
 
 /* Regular User */
+/* User */
 .user-badge.user {
-  background: linear-gradient(135deg, #2d8cff, #1e6edc); /* μπλε */
-  box-shadow: 0 0 6px rgba(45, 140, 255, 0.4);
+  background: #2d333b;  /* flat σκούρο */
+  color: #bbb;
+  font-weight: 500;
+  box-shadow: none;     /* χωρίς glow */
+  border: 1px solid #3a4149;
 }
 
 /* Guest */
 .user-badge.guest {
-  background: linear-gradient(135deg, #999, #666); /* γκρι */
-  box-shadow: 0 0 6px rgba(150, 150, 150, 0.3);
+  background: #222;     /* flat γκρι */
+  color: #888;
+  font-weight: 500;
+  box-shadow: none;     /* χωρίς glow */
+  border: 1px solid #333;
 }
 
 
