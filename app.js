@@ -213,22 +213,23 @@ function renderMessages(room) {
     });
 
     // === Scroll λογική ===
-    if (initialLoad) {
+   if (initialLoad) {
+  setTimeout(() => {
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    if (newMessagesIndicator) newMessagesIndicator.classList.add("hidden");
+    initialLoad = false; 
+  }, 0);
+} else {
+  setTimeout(() => {
+    if (messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - 5) {
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
       if (newMessagesIndicator) newMessagesIndicator.classList.add("hidden");
-      initialLoad = false; 
     } else {
-      setTimeout(() => {
-        if (messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - 5) {
-          messagesDiv.scrollTop = messagesDiv.scrollHeight;
-          if (newMessagesIndicator) newMessagesIndicator.classList.add("hidden");
-        } else {
-          if (newMessagesIndicator) newMessagesIndicator.classList.remove("hidden");
-        }
-      }, 0);
+      if (newMessagesIndicator) newMessagesIndicator.classList.remove("hidden");
     }
-  });
+  }, 0);
 }
+
 
 // === Message form ===
 const messageForm = document.getElementById("messageForm");
