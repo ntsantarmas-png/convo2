@@ -870,18 +870,26 @@ body {
   padding-bottom: 2px;
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-/* Category header */
-.user-category {
-  cursor: pointer;
-  user-select: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 4px 0;
+/* ===== Userlist Category Label ===== */
+.category-label {
+  font-weight: 600;
+  font-size: 11px;
+  color: #888;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin: 10px 0 4px;
+  padding-left: 2px;
 }
 
-/* Arrow icon */
-.user-category .arrow::before {
+/* ===== Collapse Toggle (arrow μόνο) ===== */
+.collapse-toggle {
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+  padding: 2px 0 4px;
+}
+
+.collapse-toggle .arrow::before {
   content: "▶";
   display: inline-block;
   transition: transform 0.25s ease;
@@ -889,7 +897,6 @@ body {
   color: #aaa;
 }
 
-/* Όταν είναι ανοιχτό */
-.user-category .arrow.open::before {
-  transform: rotate(90deg); /* ▶ γίνεται ▼ */
+.collapse-toggle .arrow.open::before {
+  transform: rotate(90deg);
 }
