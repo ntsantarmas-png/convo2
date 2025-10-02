@@ -346,8 +346,13 @@ if (gifSearchInput) {
           img.src = gif.images.fixed_width.url;
           img.alt = gif.title;
           img.addEventListener("click", () => {
-            sendGifMessage(img.src);
-          });
+  sendGifMessage(img.src);
+
+  // Κλείσε το media panel
+  const mediaPanel = document.getElementById("mediaPanel");
+  if (mediaPanel) mediaPanel.classList.add("hidden");
+});
+
           gifResults.appendChild(img);
         });
       } catch (err) {
