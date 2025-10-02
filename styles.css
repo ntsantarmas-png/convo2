@@ -217,11 +217,19 @@ body {
   transform: translateY(-3px); /* ✨ tick πάνω */
   box-shadow: 0 6px 14px rgba(0,0,0,0.25);
 }
-#roomsList,
-#usersList {
-  flex: 1;              /* πιάνουν τον διαθέσιμο χώρο */
-  overflow-y: auto;     /* δικό τους scroll */
+#usersList,
+#roomsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;   /* δικό τους scroll */
+  overflow-x: hidden; /* 👈 προσθέτουμε κι αυτό */
 }
+
 
 
 
@@ -428,15 +436,7 @@ body {
   padding: 15px;
 }
 
-#usersList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+
 
 #usersList li {
   display: flex;
