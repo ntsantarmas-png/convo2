@@ -55,7 +55,12 @@ function setupPresence(user) {
   onValue(presenceRef, (snap) => {
     if (snap.val() === false) return;
 
-    onDisconnect(userRef).update({ online: false });
+    onDisconnect(userRef).set({
+      uid: user.uid,
+      displayName: user.displayName || "Guest",
+      online: false
+    });
+
     update(userRef, {
       uid: user.uid,
       displayName: user.displayName || "Guest",
@@ -63,7 +68,6 @@ function setupPresence(user) {
     });
   });
 }
-
 // ===================== ROOMS =====================
 const defaultRooms = ["general", "random"];
 
@@ -84,8 +88,12 @@ async function renderRooms() {
     }
   }));
 
+  // ✅ Καθαρίζουμε τυχόν παλιούς listeners πριν βάλουμε καινούργιο
+  const roomsRef = ref(db, "rooms");
+  off(roomsRef);
+
   // Real-time rooms list
-  onValue(ref(db, "rooms"), (snap) => {
+  onValue(roomsRef, (snap) => {
     roomsList.innerHTML = "";
     snap.forEach(childSnap => {
       const r = childSnap.val();
@@ -97,12 +105,21 @@ async function renderRooms() {
   });
 }
 
+// Νέο room button
 const newRoomBtn = document.getElementById("newRoomBtn");
 if (newRoomBtn) {
   newRoomBtn.addEventListener("click", async () => {
     const name = prompt("Enter room name:");
     if (!name) return;
-    await set(ref(db, "rooms/" + name), {
+
+    const roomRef = ref(db, "rooms/" + name);
+    const snap = await get(roomRef);
+    if (snap.exists()) {
+      alert("⚠️ Το room υπάρχει ήδη!");
+      return;
+    }
+
+    await set(roomRef, {
       name,
       createdAt: Date.now()
     });
@@ -114,6 +131,18 @@ let currentRoom = "general";
 
 // 👇 Indicator για το πρώτο load κάθε room
 let initialLoad = true;
+
+// === Indicator reference ===
+const newMessagesIndicator = document.getElementById("newMessagesIndicator");
+
+// Κάνε το clickable -> πάει στο τέλος
+if (newMessagesIndicator) {
+  newMessagesIndicator.addEventListener("click", () => {
+    const messagesDiv = document.getElementById("messages");
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    newMessagesIndicator.classList.add("hidden");
+  });
+}
 
 function switchRoom(room) {
   currentRoom = room;
@@ -129,6 +158,9 @@ function renderMessages(room) {
   const messagesRef = ref(db, "messages/" + room);
   const messagesDiv = document.getElementById("messages");
   messagesDiv.innerHTML = "";
+
+  // ✅ Καθαρίζουμε τυχόν παλιούς listeners
+  off(messagesRef);
 
   onValue(messagesRef, (snap) => {
     messagesDiv.innerHTML = "";
@@ -177,34 +209,21 @@ function renderMessages(room) {
       messagesDiv.appendChild(messageDiv);
     });
 
-// === Scroll λογική ===
-if (initialLoad) {
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-  newMessagesIndicator.classList.add("hidden");
-  initialLoad = false; 
-} else {
-  setTimeout(() => {
-    if (messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - 5) {
+    // === Scroll λογική ===
+    if (initialLoad) {
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
-      newMessagesIndicator.classList.add("hidden");
+      if (newMessagesIndicator) newMessagesIndicator.classList.add("hidden");
+      initialLoad = false; 
     } else {
-      newMessagesIndicator.classList.remove("hidden");
+      setTimeout(() => {
+        if (messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - 5) {
+          messagesDiv.scrollTop = messagesDiv.scrollHeight;
+          if (newMessagesIndicator) newMessagesIndicator.classList.add("hidden");
+        } else {
+          if (newMessagesIndicator) newMessagesIndicator.classList.remove("hidden");
+        }
+      }, 0);
     }
-  }, 0);
-}
-
-
-
-
-// === Indicator reference ===
-const newMessagesIndicator = document.getElementById("newMessagesIndicator");
-
-// Κάνε το clickable -> πάει στο τέλος
-if (newMessagesIndicator) {
-  newMessagesIndicator.addEventListener("click", () => {
-    const messagesDiv = document.getElementById("messages");
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    newMessagesIndicator.classList.add("hidden");
   });
 }
 
