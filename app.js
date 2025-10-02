@@ -177,17 +177,18 @@ function renderMessages(room) {
       messagesDiv.appendChild(messageDiv);
     });
 
-    // === Scroll λογική ===
+       // === Scroll λογική ===
     if (initialLoad) {
       // ✅ Στην πρώτη φόρτωση κάθε room -> πάμε στο τέλος
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
       newMessagesIndicator.classList.add("hidden");
       initialLoad = false; 
     } else {
-      // ✅ Μετά δουλεύει η κανονική λογική
+      // ✅ Έξυπνος έλεγχος στο αν είσαι κάτω
       const threshold = 50; 
-      const atBottom =
-        messagesDiv.scrollHeight - messagesDiv.scrollTop - messagesDiv.clientHeight < threshold;
+      const atBottom = Math.abs(
+        messagesDiv.scrollHeight - messagesDiv.clientHeight - messagesDiv.scrollTop
+      ) < threshold;
 
       if (atBottom) {
         messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -198,7 +199,6 @@ function renderMessages(room) {
     }
   });
 }
-
 
 
 // === Indicator reference ===
