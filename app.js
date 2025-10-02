@@ -550,10 +550,21 @@ function renderUserList() {
       group.className = "user-group";
 
       // === Header ===
-      const header = document.createElement("div");
-      header.textContent = `${title} (${arr.length}) ▼`; // default ανοιχτό
-      header.className = "user-category " + cssClass;
-      group.appendChild(header);
+      // === Label πάνω από category ===
+const label = document.createElement("div");
+label.className = "category-label " + cssClass;
+label.textContent = title; // Μόνο το όνομα (χωρίς counter)
+usersList.appendChild(label);
+
+// === Header με arrow (collapse toggle) ===
+const header = document.createElement("div");
+header.className = "collapse-toggle";
+
+const arrow = document.createElement("span");
+arrow.className = "arrow open"; // default ανοιχτό
+
+header.appendChild(arrow);
+group.appendChild(header);
 
       // === Sublist ===
       const sublist = document.createElement("ul");
