@@ -218,6 +218,7 @@ if (msg.sticker) {
   contentDiv.appendChild(stickerEl);
 }
 
+
 // Put together
 messageDiv.appendChild(avatarDiv);
 messageDiv.appendChild(contentDiv);
@@ -398,23 +399,87 @@ async function loadTrendingGifs() {
 
 // Φόρτωσε trending μόλις ανοίξει η σελίδα
 loadTrendingGifs();
-// ===================== STICKER PICKER =====================
-const stickerGrid = document.getElementById("stickerGrid");
-if (stickerGrid) {
-  stickerGrid.querySelectorAll("img").forEach(img => {
-    img.addEventListener("click", () => {
-      sendStickerMessage(img.src);
+// ===================== STICKER SEARCH =====================
+const stickerSearchInput = document.getElementById("stickerSearchInput");
+const stickerResults = document.getElementById("stickerResults");
 
-      // Κλείσε το panel
-      const mediaPanel = document.getElementById("mediaPanel");
-      if (mediaPanel) mediaPanel.classList.add("hidden");
+if (stickerSearchInput) {
+  stickerSearchInput.addEventListener("keydown", async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const query = stickerSearchInput.value.trim();
+      if (!query) return;
 
-      // Focus στο input
-      const input = document.getElementById("messageInput");
-      if (input) input.focus();
-    });
+      // Καθαρίζουμε τα προηγούμενα
+      stickerResults.innerHTML = "Loading...";
+
+      try {
+        const res = await fetch(
+          `https://api.giphy.com/v1/stickers/search?api_key=${GIPHY_KEY}&q=${encodeURIComponent(query)}&limit=20&rating=g`
+        );
+        const data = await res.json();
+
+        stickerResults.innerHTML = "";
+        data.data.forEach(sticker => {
+          const img = document.createElement("img");
+          img.src = sticker.images.fixed_width.url;
+          img.alt = sticker.title;
+          img.addEventListener("click", () => {
+            sendStickerMessage(img.src);
+
+            // Κλείσε το panel
+            const mediaPanel = document.getElementById("mediaPanel");
+            if (mediaPanel) mediaPanel.classList.add("hidden");
+
+            // Focus στο input
+            const input = document.getElementById("messageInput");
+            if (input) input.focus();
+          });
+          stickerResults.appendChild(img);
+        });
+      } catch (err) {
+        console.error("Sticker fetch error:", err);
+        stickerResults.innerHTML = "❌ Error loading Stickers";
+      }
+    }
   });
 }
+
+// ==== STICKER TRENDING (default όταν ανοίγει το tab) ====
+async function loadTrendingStickers() {
+  if (!stickerResults) return;
+  stickerResults.innerHTML = "Loading...";
+
+  try {
+    const res = await fetch(
+      `https://api.giphy.com/v1/stickers/trending?api_key=${GIPHY_KEY}&limit=20&rating=g`
+    );
+    const data = await res.json();
+
+    stickerResults.innerHTML = "";
+    data.data.forEach(sticker => {
+      const img = document.createElement("img");
+      img.src = sticker.images.fixed_width.url;
+      img.alt = sticker.title;
+      img.addEventListener("click", () => {
+        sendStickerMessage(img.src);
+
+        const mediaPanel = document.getElementById("mediaPanel");
+        if (mediaPanel) mediaPanel.classList.add("hidden");
+
+        const input = document.getElementById("messageInput");
+        if (input) input.focus();
+      });
+      stickerResults.appendChild(img);
+    });
+  } catch (err) {
+    console.error("Sticker trending error:", err);
+    stickerResults.innerHTML = "❌ Error loading Stickers";
+  }
+}
+
+// Φόρτωσε trending stickers μόλις ανοίξει η σελίδα
+loadTrendingStickers();
 
 // ===== Συναρτηση για αποστολή Sticker =====
 function sendStickerMessage(url) {
@@ -428,6 +493,7 @@ function sendStickerMessage(url) {
     createdAt: serverTimestamp()
   });
 }
+
 
 // ===================== RENDER USER LIST =====================
 function renderUserList() {
