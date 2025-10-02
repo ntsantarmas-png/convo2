@@ -233,6 +233,47 @@ if (messageForm) {
     input.focus(); // 👈 συνεχίζεις να γράφεις αμέσως
   });
 }
+// ===================== MEDIA PANEL (Emoji / GIFs / Stickers) =====================
+const emojiBtn = document.getElementById("emojiBtn");
+const mediaPanel = document.getElementById("mediaPanel");
+
+if (emojiBtn && mediaPanel) {
+  // Toggle open/close
+  emojiBtn.addEventListener("click", () => {
+    mediaPanel.classList.toggle("hidden");
+  });
+
+  // Κλείσιμο με click έξω
+  document.addEventListener("click", (e) => {
+    if (!mediaPanel.contains(e.target) && e.target !== emojiBtn) {
+      mediaPanel.classList.add("hidden");
+    }
+  });
+
+  // Κλείσιμο με ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      mediaPanel.classList.add("hidden");
+    }
+  });
+
+  // Tabs logic
+  const tabButtons = mediaPanel.querySelectorAll(".media-tabs button");
+  const tabs = mediaPanel.querySelectorAll(".tab");
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      // Reset
+      tabButtons.forEach(b => b.classList.remove("active"));
+      tabs.forEach(t => t.classList.remove("active"));
+
+      // Activate
+      btn.classList.add("active");
+      const tabId = "tab-" + btn.dataset.tab;
+      document.getElementById(tabId).classList.add("active");
+    });
+  });
+}
 
 // ===================== RENDER USER LIST =====================
 function renderUserList() {
