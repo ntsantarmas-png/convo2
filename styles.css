@@ -859,37 +859,25 @@ body {
   box-shadow: none;
 }
 
-/* ===== Userlist Headers ===== */
-.user-category {
-  font-weight: 600;
+/* ===== Userlist Category Header (νέο ενιαίο) ===== */
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 12px;
+  font-weight: 600;
   color: #aaa;
   letter-spacing: 0.6px;
   text-transform: uppercase;
   margin: 12px 0 6px;
-  padding-bottom: 2px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-/* ===== Userlist Category Label ===== */
-.category-label {
-  font-weight: 600;
-  font-size: 11px;
-  color: #888;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  margin: 10px 0 4px;
-  padding-left: 2px;
-}
-
-/* ===== Collapse Toggle (arrow μόνο) ===== */
-.collapse-toggle {
-  display: flex;
-  justify-content: flex-end;
+  padding: 4px 6px;
   cursor: pointer;
-  padding: 2px 0 4px;
+  user-select: none;
+  border-bottom: 1px solid rgba(255,255,255,0.05); /* διακριτικό divider */
 }
 
-.collapse-toggle .arrow::before {
+/* Arrow style */
+.category-header .arrow::before {
   content: "▶";
   display: inline-block;
   transition: transform 0.25s ease;
@@ -897,6 +885,7 @@ body {
   color: #aaa;
 }
 
-.collapse-toggle .arrow.open::before {
+/* Όταν είναι ανοιχτό */
+.category-header .arrow.open::before {
   transform: rotate(90deg);
 }
