@@ -250,7 +250,9 @@ if (messageForm) {
     });
 
     input.value = "";
-    input.focus(); // 👈 συνεχίζεις να γράφεις αμέσως
+input.style.height = "40px"; // 👈 reset στο default ύψος
+input.focus(); 
+
   });
 }
 // ===================== ENTER / SHIFT+ENTER =====================
