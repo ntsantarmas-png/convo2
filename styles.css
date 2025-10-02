@@ -326,7 +326,7 @@ body {
 .tab { display: none; }
 .tab.active { display: block; }
 
-.hidden { display: none; }
+/* removed duplicate .hidden */
 
 /* ===================== EMOJI GRID ===================== */
 .emoji-grid {
