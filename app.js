@@ -2,12 +2,15 @@
 
 // === Firebase Imports & Config ===
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import { 
   getAuth, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 import { 
-  getDatabase, ref, get, set, child, onValue, push, serverTimestamp, onDisconnect, update 
+  getDatabase, ref, get, set, child, onValue, push, serverTimestamp, onDisconnect, update, off
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
 
 // 👉 Firebase Config από το Convo2 project
 const firebaseConfig = {
