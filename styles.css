@@ -599,6 +599,26 @@ body {
   display: block;
 }
 
+/* ==== STICKER GRID ==== */
+.sticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 8px;
+  margin-top: 10px;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.sticker-grid img {
+  width: 100%;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.sticker-grid img:hover {
+  transform: scale(1.05);
+}
 
 /* ======== HIDDEN CLASS ======== */
 .hidden {
