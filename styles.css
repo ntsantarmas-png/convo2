@@ -511,25 +511,24 @@ body {
   margin-bottom: 2px;
 }
 .message-bubble {
-  display: inline-block;
-  max-width: 70%;
-  min-width: 50px;
-
   background: linear-gradient(135deg, #2d8cff, #1e6edc);
+  padding: 8px 12px;
+  border-radius: 12px;
   color: #fff;
   font-size: 14px;
   line-height: 1.4;
-
-  padding: 8px 12px;
-  border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.4);
   transition: transform .15s;
 
-  /* 👇 Σωστή συμπεριφορά για κείμενο */
-  word-break: normal;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
+  display: inline-block;
+  max-width: 70%;       /* ✅ να μην ξεπερνάει το 70% του πλάτους */
+  min-width: 50px;
+
+  white-space: pre-wrap;     /* ✅ κρατάει τα line breaks */
+  overflow-wrap: break-word; /* ✅ σπάει μεγάλες λέξεις */
+  word-break: break-word;    /* ✅ extra για ασφάλεια */
 }
+
 
 .message-bubble:hover {
   transform: scale(1.02);
