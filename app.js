@@ -274,6 +274,26 @@ if (emojiBtn && mediaPanel) {
     });
   });
 }
+// ===================== EMOJI PICKER =====================
+const emojiGrid = document.querySelector("#tab-emoji .emoji-grid");
+if (emojiGrid) {
+  const emojis = [
+    "😀","😅","😂","🤣","😍","😘","😎","😭","😡","👍","👎","🙏","🔥","💯","🎉",
+    "❤️","💔","⭐","☀️","🌙","🍕","🍔","🍟","🍩","⚽","🏀","🎮","🎵","🎧"
+  ];
+  
+  // Γέμισμα του grid
+  emojis.forEach(e => {
+    const span = document.createElement("span");
+    span.textContent = e;
+    span.addEventListener("click", () => {
+      const input = document.getElementById("messageInput");
+      input.value += e;  // 👈 προσθέτει το emoji στο input
+      input.focus();
+    });
+    emojiGrid.appendChild(span);
+  });
+}
 
 // ===================== RENDER USER LIST =====================
 function renderUserList() {
