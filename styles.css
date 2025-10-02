@@ -870,3 +870,26 @@ body {
   padding-bottom: 2px;
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
+/* Category header */
+.user-category {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+}
+
+/* Arrow icon */
+.user-category .arrow::before {
+  content: "▶";
+  display: inline-block;
+  transition: transform 0.25s ease;
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* Όταν είναι ανοιχτό */
+.user-category .arrow.open::before {
+  transform: rotate(90deg); /* ▶ γίνεται ▼ */
+}
