@@ -527,9 +527,13 @@ body {
   white-space: pre-wrap;
 }
 .message-bubble {
-  max-width: 70%;        /* το bubble δεν θα ξεπερνά το 70% του πλάτους */
-  word-break: break-word; /* αναγκαστικό σπάσιμο λέξεων */
-  white-space: pre-wrap;  /* κρατάει line breaks και κάνει wrap */
+  display: inline-block;  /* να πιάνει όσο χώρο χρειάζεται */
+  max-width: 70%;         /* όριο στο πλάτος */
+  min-width: 50px;        /* να μην γίνεται πολύ στενό */
+  word-break: break-word; /* σπάει μεγάλες λέξεις */
+  white-space: pre-wrap;  /* κρατάει τα line breaks */
+  padding: 8px 12px;
+  border-radius: 12px;
 }
 
 
