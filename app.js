@@ -545,10 +545,11 @@ function renderUserList() {
     function renderCategory(title, arr, cssClass) {
       if (arr.length === 0) return;
 
-      const header = document.createElement("li");
-      header.textContent = title;
-      header.className = "user-category " + cssClass;
-      usersList.appendChild(header);
+        const header = document.createElement("li");
+  header.textContent = `${title} (${arr.length})`; // 👈 μετράει users
+  header.className = "user-category " + cssClass;
+  usersList.appendChild(header);
+
 
       // Users της κατηγορίας
       arr.forEach(u => {
