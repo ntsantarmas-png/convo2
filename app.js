@@ -1,5 +1,7 @@
 // ===================== APP.JS =====================
 
+// ===================== GIPHY CONFIG =====================
+const GIPHY_KEY = "bCn5Jvx2ZOepneH6fMteNoX31hVfqX25";
 // === Firebase Imports & Config ===
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
