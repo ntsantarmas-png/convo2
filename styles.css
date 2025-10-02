@@ -518,9 +518,11 @@ body {
   font-size: 14px;
   line-height: 1.4;
   word-wrap: break-word;
+  white-space: pre-wrap;  /* 👈 Σημαντικό: κρατάει line breaks και σπάει σωστά */
   box-shadow: 0 2px 6px rgba(0,0,0,0.4);
   transition: transform .15s;
 }
+
 .message-bubble:hover {
   transform: scale(1.02);
 }
