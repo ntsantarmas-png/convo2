@@ -592,8 +592,9 @@ body {
 .message-content {
   display: flex;
   flex-direction: column;
-  max-width: 90%;  /* 👈 default για όλους */
-}
+  max-width: 85%;  /* 👈 από 90 → 85 */
+} 
+
 
 .message-user {
   font-size: 12px;
@@ -624,6 +625,7 @@ body {
   transform: scale(1.02);
 }
 
+
 /* ======== MY MESSAGES (right side) ======== */
 .message.mine {
   flex-direction: row-reverse; /* avatar δεξιά */
@@ -631,7 +633,7 @@ body {
 
 .message.mine .message-content {
   align-items: flex-end; 
-  max-width: 95%; /* 👈 τα δικά σου λίγο πιο άνετα */
+  max-width: 88%;  /* 👈 από 95 → 88 */
 }
 
 .message.mine .message-user {
