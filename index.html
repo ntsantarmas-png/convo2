@@ -70,30 +70,30 @@
       <div id="newMessagesIndicator" class="hidden">📩 New messages</div>
 
       <form id="messageForm" class="message-form">
-        <!-- Input wrapper -->
-        <div class="input-wrapper">
-          <textarea id="messageInput" placeholder="Type a message..."></textarea>
-          <!-- Emoji button -->
-          <button type="button" id="emojiBtn" class="emoji-btn">😀</button>
+  <!-- Emoji button -->
+  <button type="button" id="emojiBtn" class="emoji-btn">😀</button>
 
-          <!-- Emoji/GIF/Sticker Panel -->
-          <div id="mediaPanel" class="media-panel hidden">
-            <div class="media-tabs">
-              <button data-tab="emoji" class="active">Emoji</button>
-              <button data-tab="gif">GIFs</button>
-              <button data-tab="sticker">Stickers</button>
-            </div>
-            <div id="tab-emoji" class="tab active">
-              <div class="emoji-grid"></div>
-            </div>
-            <div id="tab-gif" class="tab">GIF search...</div>
-            <div id="tab-sticker" class="tab">Stickers...</div>
-          </div>
-        </div>
+  <!-- Input -->
+  <textarea id="messageInput" placeholder="Type a message..."></textarea>
 
-        <!-- Send -->
-        <button type="submit" class="send-btn">Send</button>
-      </form>
+  <!-- Send -->
+  <button type="submit" class="send-btn">Send</button>
+
+  <!-- Emoji/GIF/Sticker Panel -->
+  <div id="mediaPanel" class="media-panel hidden">
+    <div class="media-tabs">
+      <button data-tab="emoji" class="active">Emoji</button>
+      <button data-tab="gif">GIFs</button>
+      <button data-tab="sticker">Stickers</button>
+    </div>
+    <div id="tab-emoji" class="tab active">
+      <div class="emoji-grid"></div>
+    </div>
+    <div id="tab-gif" class="tab">GIF search...</div>
+    <div id="tab-sticker" class="tab">Stickers...</div>
+  </div>
+</form>
+
     </section>
 
     <!-- USERS LIST -->
