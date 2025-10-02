@@ -274,6 +274,10 @@ body {
   overflow-y: hidden;  /* να μην βγαίνει scrollbar όσο μεγαλώνει */
   min-height: 40px;    /* default ύψος */
   max-height: 150px;   /* όριο να μην φάει όλη την οθόνη */
+
+  /* 👇 για το scroll right bug */
+  white-space: pre-wrap;   /* κρατάει line breaks */
+  word-wrap: break-word;   /* σπάει τις πολύ μεγάλες λέξεις */
 }
 
 
