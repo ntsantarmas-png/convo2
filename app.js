@@ -197,7 +197,7 @@ function renderMessages(room) {
 if (msg.text) {
   const bubbleDiv = document.createElement("div");
   bubbleDiv.className = "message-bubble";
-  bubbleDiv.textContent = msg.text;
+bubbleDiv.innerText = msg.text;
   contentDiv.appendChild(bubbleDiv);
 }
 
