@@ -144,8 +144,10 @@ body {
   display: flex;
   flex-direction: column;
   border-right: 1px solid #21262d;
-  min-height: 0; /* 👈 Κρίσιμο fix για scroll */
+  min-height: 0;
+  transition: width 0.3s ease, padding 0.3s ease; /* 👈 προστέθηκε */
 }
+
 
 #usersPanel {
   border-right: none;
@@ -186,8 +188,18 @@ body {
 #roomsPanel.collapsed h3,
 #roomsPanel.collapsed ul,
 #roomsPanel.collapsed #newRoomBtn {
-  display: none;              /* κρύβονται όλα εκτός από το κουμπί */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
 }
+
+#roomsPanel h3,
+#roomsPanel ul,
+#roomsPanel #newRoomBtn {
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
 
 #roomsPanel.collapsed .rooms-header {
   justify-content: center;    /* το κουμπί μένει στη μέση */
