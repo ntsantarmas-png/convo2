@@ -177,8 +177,8 @@ body {
 }
 
 #roomsList li {
-  padding: 6px 10px;
-  border-radius: 6px;
+  padding: 6px 12px;
+  border-radius: 8px; /* λίγο πιο smooth */
   cursor: pointer;
   color: #ccc;
   font-size: 14px;
@@ -187,7 +187,7 @@ body {
 }
 
 #roomsList li:hover {
-  background: #2d333b;
+  background: #1f2630; /* ίδιο με το input polish */
   color: #fff;
   box-shadow: 0 0 6px rgba(45, 140, 255, 0.4); /* ✨ ελαφρύ glow */
 }
@@ -195,9 +195,10 @@ body {
 #roomsList li.active {
   background: linear-gradient(135deg, #2d8cff, #1e6edc); /* ✨ gradient */
   color: #fff;
-  font-weight: bold;
+  font-weight: 600;
   box-shadow: 0 0 8px rgba(45, 140, 255, 0.5);
 }
+
 
 #newRoomBtn {
   margin-top: auto;
@@ -427,7 +428,6 @@ body {
   padding: 15px;
 }
 
-
 #usersList {
   list-style: none;
   padding: 0;
@@ -442,8 +442,8 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 10px;
-  border-radius: 6px;
+  padding: 6px 12px;
+  border-radius: 8px; /* ίδιο με input/rooms */
   cursor: pointer;
   color: #ccc;
   font-size: 14px;
@@ -452,9 +452,9 @@ body {
 }
 
 #usersList li:hover {
-  background: #2d333b;
+  background: #1f2630; /* ίδιο dark hover */
   color: #fff;
-  box-shadow: 0 0 6px rgba(45, 140, 255, 0.4);
+  box-shadow: 0 0 6px rgba(45, 140, 255, 0.4); /* ✨ ίδιο glow */
 }
 
 /* Avatar */
@@ -464,6 +464,7 @@ body {
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
+  border: 2px solid #333; /* πιο καθαρό περίγραμμα */
 }
 .user-avatar img {
   width: 100%;
@@ -477,9 +478,10 @@ body {
   font-size: 11px;
   padding: 2px 6px;
   border-radius: 10px;
-  background: #2d8cff;
+  background: linear-gradient(135deg, #2d8cff, #1e6edc); /* ✨ ίδιο gradient */
   color: #fff;
-  font-weight: bold;
+  font-weight: 600;
+  box-shadow: 0 0 6px rgba(45, 140, 255, 0.4);
 }
 
 /* ===== Userlist Categories ===== */
@@ -491,8 +493,8 @@ body {
   color: rgba(255,255,255,0.6); /* πιο απαλό γκρι */
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  margin: 6px 0;
 }
-
 
 
 
