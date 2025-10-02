@@ -193,6 +193,13 @@ body {
   transition: opacity 0.2s ease;
 }
 
+/* Το toggle button ΜΕΝΕΙ πάντα ορατό */
+#roomsPanel .toggle-btn {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+
 #roomsPanel h3,
 #roomsPanel ul,
 #roomsPanel #newRoomBtn {
