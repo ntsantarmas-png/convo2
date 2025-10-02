@@ -191,19 +191,28 @@ function renderMessages(room) {
       userDiv.className = "message-user";
       userDiv.textContent = msg.user || "Anon";
 
-      // Bubble
-      const bubbleDiv = document.createElement("div");
-      bubbleDiv.className = "message-bubble";
-      bubbleDiv.textContent = msg.text;
+      // Bubble (text)
+if (msg.text) {
+  const bubbleDiv = document.createElement("div");
+  bubbleDiv.className = "message-bubble";
+  bubbleDiv.textContent = msg.text;
+  contentDiv.appendChild(bubbleDiv);
+}
 
-      contentDiv.appendChild(userDiv);
-      contentDiv.appendChild(bubbleDiv);
+// GIF
+if (msg.gif) {
+  const gifEl = document.createElement("img");
+  gifEl.src = msg.gif;
+  gifEl.alt = "GIF";
+  gifEl.className = "chat-gif"; // 👈 θα το στυλάρουμε στο CSS
+  contentDiv.appendChild(gifEl);
+}
 
-      // Put together
-      messageDiv.appendChild(avatarDiv);
-      messageDiv.appendChild(contentDiv);
+// Put together
+messageDiv.appendChild(avatarDiv);
+messageDiv.appendChild(contentDiv);
 
-      messagesDiv.appendChild(messageDiv);
+messagesDiv.appendChild(messageDiv);
     });
 
     // 👇 Πάντα scroll στο τέλος όταν φορτώνει / αλλάζει room
@@ -233,6 +242,21 @@ if (messageForm) {
     input.focus(); // 👈 συνεχίζεις να γράφεις αμέσως
   });
 }
+
+
+// ===================== SEND GIF MESSAGE =====================
+function sendGifMessage(url) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  push(ref(db, "messages/" + currentRoom), {
+    uid: user.uid,
+    user: user.displayName || "Guest",
+    gif: url,  // 👈 αποθηκεύουμε το URL του GIF
+    createdAt: serverTimestamp()
+  });
+}
+
 // ===================== MEDIA PANEL (Emoji / GIFs / Stickers) =====================
 const emojiBtn = document.getElementById("emojiBtn");
 const mediaPanel = document.getElementById("mediaPanel");
@@ -292,6 +316,43 @@ if (emojiGrid) {
       input.focus();
     });
     emojiGrid.appendChild(span);
+  });
+}
+// ===================== GIF SEARCH =====================
+const gifSearchInput = document.getElementById("gifSearchInput");
+const gifResults = document.getElementById("gifResults");
+
+if (gifSearchInput) {
+  gifSearchInput.addEventListener("keydown", async (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const query = gifSearchInput.value.trim();
+      if (!query) return;
+
+      // Καθαρίζουμε τα προηγούμενα
+      gifResults.innerHTML = "Loading...";
+
+      try {
+        const res = await fetch(
+          `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_KEY}&q=${encodeURIComponent(query)}&limit=20&rating=g`
+        );
+        const data = await res.json();
+
+        gifResults.innerHTML = "";
+        data.data.forEach(gif => {
+          const img = document.createElement("img");
+          img.src = gif.images.fixed_width.url;
+          img.alt = gif.title;
+          img.addEventListener("click", () => {
+            sendGifMessage(img.src);
+          });
+          gifResults.appendChild(img);
+        });
+      } catch (err) {
+        console.error("GIF fetch error:", err);
+        gifResults.innerHTML = "❌ Error loading GIFs";
+      }
+    }
   });
 }
 
