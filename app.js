@@ -253,6 +253,25 @@ if (messageForm) {
     input.focus(); // 👈 συνεχίζεις να γράφεις αμέσως
   });
 }
+// ===================== ENTER / SHIFT+ENTER =====================
+const messageInput = document.getElementById("messageInput");
+
+if (messageInput) {
+  messageInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); 
+      messageForm.requestSubmit(); // 👈 στέλνει το μήνυμα
+    }
+    // αν είναι Shift+Enter → αφήνουμε το default (νέα γραμμή)
+  });
+}
+// ===================== AUTO-GROW TEXTAREA =====================
+if (messageInput) {
+  messageInput.addEventListener("input", () => {
+    messageInput.style.height = "auto"; // reset
+    messageInput.style.height = messageInput.scrollHeight + "px"; // προσαρμογή στο περιεχόμενο
+  });
+}
 
 
 // ===================== SEND GIF MESSAGE =====================
