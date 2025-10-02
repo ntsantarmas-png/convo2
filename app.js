@@ -130,6 +130,15 @@ if (newRoomBtn) {
     });
   });
 }
+// ===================== TOGGLE ROOMS PANEL =====================
+const toggleRoomsBtn = document.getElementById("toggleRoomsBtn");
+const roomsPanel = document.getElementById("roomsPanel");
+
+if (toggleRoomsBtn && roomsPanel) {
+  toggleRoomsBtn.addEventListener("click", () => {
+    roomsPanel.classList.toggle("collapsed");
+  });
+}
 
 // ===================== CHAT =====================
 let currentRoom = "general";
