@@ -177,22 +177,24 @@ function renderMessages(room) {
       messagesDiv.appendChild(messageDiv);
     });
 
-       // === Scroll λογική ===
+    // === Scroll λογική ===
     if (initialLoad) {
-  // ✅ Στην πρώτη φόρτωση κάθε room -> πάμε στο τέλος
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-  newMessagesIndicator.classList.add("hidden");
-  initialLoad = false; 
-} else {
-  // ✅ Αν ο χρήστης είναι στο κάτω μέρος ή στέλνει μήνυμα -> scroll και κρύψε indicator
-  if (messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - 5) {
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    newMessagesIndicator.classList.add("hidden");
-  } else {
-    // ✅ Αν έχει κάνει scroll up -> δείξε indicator
-    newMessagesIndicator.classList.remove("hidden");
-  }
+      // ✅ Στην πρώτη φόρτωση κάθε room -> πάμε στο τέλος
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      newMessagesIndicator.classList.add("hidden");
+      initialLoad = false; 
+    } else {
+      // ✅ Σταθερός έλεγχος για το αν είσαι ήδη στο κάτω μέρος
+      if (messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - 5) {
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        newMessagesIndicator.classList.add("hidden");
+      } else {
+        newMessagesIndicator.classList.remove("hidden");
+      }
+    }
+  });
 }
+
 
 
 
