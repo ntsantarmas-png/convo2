@@ -355,6 +355,35 @@ if (gifSearchInput) {
     }
   });
 }
+// ==== GIF TRENDING (default όταν ανοίγει το tab) ====
+async function loadTrendingGifs() {
+  if (!gifResults) return;
+  gifResults.innerHTML = "Loading...";
+
+  try {
+    const res = await fetch(
+      `https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_KEY}&limit=20&rating=g`
+    );
+    const data = await res.json();
+
+    gifResults.innerHTML = "";
+    data.data.forEach(gif => {
+      const img = document.createElement("img");
+      img.src = gif.images.fixed_width.url;
+      img.alt = gif.title;
+      img.addEventListener("click", () => {
+        sendGifMessage(img.src);
+      });
+      gifResults.appendChild(img);
+    });
+  } catch (err) {
+    console.error("GIF trending error:", err);
+    gifResults.innerHTML = "❌ Error loading GIFs";
+  }
+}
+
+// Φόρτωσε trending μόλις ανοίξει η σελίδα
+loadTrendingGifs();
 
 // ===================== RENDER USER LIST =====================
 function renderUserList() {
