@@ -590,6 +590,14 @@ body {
 .gif-grid img:hover {
   transform: scale(1.05);
 }
+/* ==== CHAT GIF ==== */
+.chat-gif {
+  max-width: 220px;   /* μέγιστο πλάτος */
+  border-radius: 8px; /* στρογγυλεμένες γωνίες */
+  margin-top: 6px;    /* λίγο κενό πάνω από το bubble */
+  cursor: pointer;
+  display: block;
+}
 
 
 /* ======== HIDDEN CLASS ======== */
