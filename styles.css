@@ -501,7 +501,7 @@ body {
 .message-content {
   display: flex;
   flex-direction: column;
-  max-width: 70%;
+  max-width: 90%;  /* 👈 default για όλους */
 }
 
 .message-user {
@@ -510,6 +510,7 @@ body {
   color: #8b949e;
   margin-bottom: 2px;
 }
+
 .message-bubble {
   background: linear-gradient(135deg, #2d8cff, #1e6edc);
   padding: 8px 12px;
@@ -521,20 +522,16 @@ body {
   transition: transform .15s;
 
   display: inline-block;
-    max-width: 100%;   /* 👈 full πλάτος για τεστ */
   min-width: 50px;
 
-  white-space: pre-wrap;     /* ✅ κρατάει τα line breaks */
-  overflow-wrap: break-word; /* ✅ σπάει μεγάλες λέξεις */
-  word-break: break-word;    /* ✅ extra για ασφάλεια */
+  white-space: pre-wrap;     /* κρατάει line breaks */
+  overflow-wrap: break-word; /* σπάει μεγάλες λέξεις */
+  word-break: break-word;    /* extra για ασφάλεια */
 }
-
 
 .message-bubble:hover {
   transform: scale(1.02);
 }
-
-
 
 /* ======== MY MESSAGES (right side) ======== */
 .message.mine {
@@ -542,7 +539,8 @@ body {
 }
 
 .message.mine .message-content {
-  align-items: flex-end; /* username + bubble δεξιά */
+  align-items: flex-end; 
+  max-width: 95%; /* 👈 τα δικά σου λίγο πιο άνετα */
 }
 
 .message.mine .message-user {
@@ -550,10 +548,10 @@ body {
 }
 
 .message.mine .message-bubble {
-  background: linear-gradient(135deg, #4cafef, #2d8cff); /* πιο έντονο μπλε για σένα */
+  background: linear-gradient(135deg, #4cafef, #2d8cff); /* πιο έντονο μπλε */
   color: #fff;
-  white-space: pre-wrap;
 }
+
 
 /* ======== NEW MESSAGES INDICATOR ======== */
 #newMessagesIndicator {
