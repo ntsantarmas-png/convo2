@@ -562,9 +562,12 @@ function renderUserList() {
         const img = document.createElement("img");
         img.src = u.photoURL || "https://i.pravatar.cc/150?u=" + u.uid;
         img.alt = "avatar";
-        img.style.border = u.online
-          ? "2px solid limegreen"
-          : "2px solid gray";
+        if (u.online) {
+  avatarDiv.classList.add("online");
+} else {
+  avatarDiv.classList.add("offline");
+}
+
 
         avatarDiv.appendChild(img);
 
