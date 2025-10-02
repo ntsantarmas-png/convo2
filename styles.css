@@ -282,7 +282,6 @@ body {
   background: #1e6edc;
 }
 
-
 /* ======== EMOJI/GIF/STICKERS PANEL ======== */
 
 .media-panel {
@@ -355,12 +354,12 @@ body {
 
 .input-wrapper textarea {
   width: 100%;
-  padding-right: 40px; /* χώρο για το κουμπί */
+  padding-left: 40px; /* χώρο για το κουμπί */
 }
 
 .emoji-btn {
   position: absolute;
-  right: 8px;
+  left: 8px;
   top: 50%;
   transform: translateY(-50%);
   width: 32px;
