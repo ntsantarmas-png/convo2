@@ -378,9 +378,16 @@ async function loadTrendingGifs() {
       const img = document.createElement("img");
       img.src = gif.images.fixed_width.url;
       img.alt = gif.title;
-      img.addEventListener("click", () => {
-        sendGifMessage(img.src);
-      });
+     img.addEventListener("click", () => {
+  sendGifMessage(img.src);
+
+  const mediaPanel = document.getElementById("mediaPanel");
+  if (mediaPanel) mediaPanel.classList.add("hidden");
+
+  const input = document.getElementById("messageInput");
+  if (input) input.focus();
+});
+
       gifResults.appendChild(img);
     });
   } catch (err) {
