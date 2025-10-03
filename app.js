@@ -256,24 +256,42 @@ messageDiv.dataset.id = msgId; // 👈 αποθηκεύουμε το ID
       userDiv.className = "message-user";
       userDiv.textContent = msg.user || "Anon";
 
-      // Bubble (text)
+      
+      // Bubble (user + text + time)
 if (msg.text) {
   const bubbleDiv = document.createElement("div");
   bubbleDiv.className = "message-bubble";
-  bubbleDiv.innerText = msg.text;
 
-  // ✅ ΕΔΩ θα βάλουμε το check
+  // Γραμμή 1: Username + Text
+  const line1 = document.createElement("div");
+  line1.className = "msg-line1";
+  line1.textContent = (msg.user || "Anon") + " : " + msg.text;
+
+  // ✅ Emoji-only check (αν είναι μόνο emoji → δεν βάζουμε user: , απλά emoji huge)
   if (isEmojiOnly(msg.text)) {
-      console.log("Emoji-only detected:", msg.text); // 👀 Debug
     const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
-    bubbleDiv.classList.add("emoji-only");
+    line1.classList.add("emoji-only");
     if (emojiCount <= 2) {
-      bubbleDiv.classList.add("big");
+      line1.classList.add("big");
     }
   }
 
+  // Γραμμή 2: Date + Time
+  const line2 = document.createElement("div");
+  line2.className = "msg-line2";
+  if (msg.createdAt) {
+    const date = new Date(msg.createdAt);
+    line2.textContent =
+      date.toLocaleDateString() +
+      " - " +
+      date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  }
+
+  bubbleDiv.appendChild(line1);
+  bubbleDiv.appendChild(line2);
   contentDiv.appendChild(bubbleDiv);
 }
+
 
 
 // GIF
