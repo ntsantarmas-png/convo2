@@ -60,9 +60,7 @@ function setupPresence(user) {
   onValue(presenceRef, (snap) => {
     if (snap.val() === false) return;
 
-    onDisconnect(userRef).set({
-      uid: user.uid,
-      displayName: user.displayName || "Guest",
+    onDisconnect(userRef).update({
       online: false
     });
 
@@ -73,6 +71,7 @@ function setupPresence(user) {
     });
   });
 }
+
 // ===================== ROOMS =====================
 const defaultRooms = ["general", "random"];
 
