@@ -938,7 +938,7 @@ body {
   box-shadow: none;
 }
 
-/* ===== Userlist Category Header (flat πάνω από group) ===== */
+/* ===== Userlist Category Header (flat + glassy + glow) ===== */
 .category-header {
   display: flex;
   align-items: center;
@@ -954,7 +954,7 @@ body {
   cursor: pointer;
   user-select: none;
 
-  /* 👇 γυάλινο/ημιδιαφανές όπως το input */
+  /* ✨ γυάλινο στυλ */
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 4px;
@@ -975,12 +975,12 @@ body {
 }
 
 .category-title {
-  flex: 1;
+  flex: 1; /* κρατάει τον τίτλο αριστερά */
 }
 
 /* Hover effect */
 .category-header:hover {
   color: #fff;                                 
   border-color: rgba(45, 140, 255, 0.6);
-  box-shadow: 0 0 6px rgba(45, 140, 255, 0.4); /* ✨ glow όπως στο input */
+  box-shadow: 0 0 6px rgba(45, 140, 255, 0.4); /* ✨ glow */
 }
