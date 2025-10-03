@@ -967,4 +967,7 @@ body {
 .category-header .arrow.open::before {
   transform: rotate(180deg);   /* γυρίζει προς τα πάνω */
 }
+.category-title {
+  flex: 1;   /* 👈 κρατάει τον τίτλο κολλητά αριστερά */
+}
 
