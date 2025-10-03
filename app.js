@@ -229,6 +229,7 @@ if (msg.text) {
 
   // ✅ ΕΔΩ θα βάλουμε το check
   if (isEmojiOnly(msg.text)) {
+      console.log("Emoji-only detected:", msg.text); // 👀 Debug
     const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
     bubbleDiv.classList.add("emoji-only");
     if (emojiCount <= 2) {
