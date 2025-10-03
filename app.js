@@ -61,30 +61,31 @@ function setupPresence(user) {
     if (snap.val() === false) return;
 
     onDisconnect(userRef).update({
-      online: false
+      online: false,
+      lastSeen: Date.now()
     });
 
-    // 👉 Διαβάζουμε πρώτα τι υπάρχει για να μην χαθεί το role
     get(userRef).then(userSnap => {
       const existing = userSnap.val() || {};
 
-      if (existing.role) {
-        // Αν υπάρχει ήδη role (π.χ. vip/admin) -> το κρατάμε
-        update(userRef, {
-          uid: user.uid,
-          displayName: user.displayName || "Guest",
-          online: true,
-          role: existing.role
-        });
+      let role;
+      if (user.displayName === "MysteryMan") {
+        role = "admin"; // 👉 MysteryMan πάντα admin
+      } else if (existing.role) {
+        role = existing.role; // 👉 κράτα το υπάρχον
+      } else if (user.isAnonymous) {
+        role = "guest";
       } else {
-        // Αν ΔΕΝ υπάρχει role -> default "user"
-        update(userRef, {
-          uid: user.uid,
-          displayName: user.displayName || "Guest",
-          online: true,
-          role: "user"
-        });
+        role = "user";
       }
+
+      update(userRef, {
+        uid: user.uid,
+        displayName: user.displayName || "Guest",
+        online: true,
+        role: role,  // ✅ δεν ξαναγράφει λάθος role
+        photoURL: user.photoURL || existing.photoURL || null
+      });
     });
   });
 }
