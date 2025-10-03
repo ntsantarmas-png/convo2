@@ -1034,3 +1034,38 @@ body {
 #app:has(#roomsPanel.collapsed):has(#usersPanel.collapsed) {
   grid-template-columns: 40px 1fr 40px;
 }
+
+/* ===================== CONTEXT MENU ===================== */
+.context-menu {
+  position: absolute;
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  list-style: none;
+  padding: 5px 0;
+  margin: 0;
+  min-width: 160px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.context-menu.hidden {
+  display: none;
+}
+
+.context-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #c9d1d9;
+  transition: background 0.15s ease;
+}
+
+.context-menu li:hover {
+  background: #238636; /* πράσινο hover */
+  color: #fff;
+}
+
+.context-menu li:active {
+  background: #2ea043;
+}
