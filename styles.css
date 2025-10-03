@@ -347,25 +347,28 @@ body {
   border: none;
   outline: none;
 
-  /* 👇 νέο στυλ */
-  background: rgba(255, 255, 255, 0.05); /* γυάλινο εφέ */
-  color: #e6edf3;                        /* ανοιχτό κείμενο */
-  border: 1px solid #2d333b;             /* διακριτικό περίγραμμα */
+  /* ✨ γυάλινο στυλ */
+  background: rgba(255, 255, 255, 0.05);
+  color: #e6edf3;
+  border: 1px solid #2d333b;
 
-  /* 👇 για το auto-grow */
+  /* ✨ auto-grow settings */
   resize: none;        
   overflow-y: hidden;  
+  height: 40px;        /* 👈 κλειδώνει default ίσο με Send */
   min-height: 40px;    
   max-height: 150px;   
 
-  /* 👇 για το scroll right bug */
+  /* ✨ ασφάλεια για μεγάλα texts */
   white-space: pre-wrap;   
   word-wrap: break-word;   
 }
+
 #messageInput:focus {
-  border: 1px solid #2d8cff;       /* μπλε περίγραμμα */
+  border: 1px solid #2d8cff;  /* μπλε περίγραμμα */
   box-shadow: 0 0 6px rgba(45,140,255,0.5); /* glow γύρω γύρω */
 }
+
 
 
 #messageForm .send-btn {
