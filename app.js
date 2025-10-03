@@ -686,30 +686,34 @@ group.appendChild(header);
         img.alt = "avatar";
         avatarDiv.appendChild(img);
 
-        // Username
-        const nameSpan = document.createElement("span");
-        nameSpan.textContent = u.displayName || "Guest";
+      // Username
+const nameSpan = document.createElement("span");
+nameSpan.className = "user-name";
+nameSpan.textContent = u.displayName || "Guest";
 
-        // Badge
-        const badge = document.createElement("span");
 let role;
 
-// ✅ Αν είναι ο MysteryMan → πάντα admin
+// ✅ MysteryMan πάντα admin
 if (u.displayName === "MysteryMan") {
   role = "admin";
 } else {
   role = u.role || (u.isAnonymous ? "guest" : "user");
 }
-        badge.className = "user-badge " + role;
-        badge.textContent = role.toUpperCase();
 
-        // Assemble row
-        li.appendChild(avatarDiv);
-        li.appendChild(nameSpan);
-        li.appendChild(badge);
+// === Αν είναι admin βάλε ασπίδα 🛡️ δίπλα στο όνομα
+if (role === "admin") {
+  const shield = document.createElement("span");
+  shield.textContent = "🛡️";
+  shield.className = "role-icon admin-icon";
+  nameSpan.appendChild(shield);
+}
 
-        sublist.appendChild(li);
-      });
+// Assemble row (χωρίς badge πλέον)
+li.appendChild(avatarDiv);
+li.appendChild(nameSpan);
+
+sublist.appendChild(li);
+
 
       group.appendChild(sublist);
       usersList.appendChild(group);
