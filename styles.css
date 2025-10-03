@@ -1018,3 +1018,13 @@ body {
 #usersPanel.collapsed .users-header {
   justify-content: center;
 }
+
+/* Αν κλείσει το usersPanel */
+#app:has(#usersPanel.collapsed) {
+  grid-template-columns: 220px 1fr 40px;
+}
+
+/* Αν κλείσουν και τα δύο */
+#app:has(#roomsPanel.collapsed):has(#usersPanel.collapsed) {
+  grid-template-columns: 40px 1fr 40px;
+}
