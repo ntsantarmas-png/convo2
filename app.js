@@ -169,6 +169,13 @@ function switchRoom(room) {
   document.getElementById("roomTitle").textContent = "#" + room;
   renderMessages(room);
 }
+// === Helper: check if message is only emoji ===
+function isEmojiOnly(text) {
+  const emojiRegex = /\p{Extended_Pictographic}/gu;
+  const matches = text.match(emojiRegex);
+  if (!matches) return false;
+  return matches.length === text.length; 
+}
 
 function renderMessages(room) {
   const messagesRef = ref(db, "messages/" + room);
@@ -218,9 +225,20 @@ messageDiv.dataset.id = msgId; // 👈 αποθηκεύουμε το ID
 if (msg.text) {
   const bubbleDiv = document.createElement("div");
   bubbleDiv.className = "message-bubble";
-bubbleDiv.innerText = msg.text;
+  bubbleDiv.innerText = msg.text;
+
+  // ✅ ΕΔΩ θα βάλουμε το check
+  if (isEmojiOnly(msg.text)) {
+    const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
+    bubbleDiv.classList.add("emoji-only");
+    if (emojiCount <= 2) {
+      bubbleDiv.classList.add("big");
+    }
+  }
+
   contentDiv.appendChild(bubbleDiv);
 }
+
 
 // GIF
 if (msg.gif) {
