@@ -390,6 +390,24 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 }
+/* === Emoji-only bubbles === */
+.message-bubble.emoji-only {
+  font-size: 2em;       /* x2 μέγεθος */
+  background: none;     /* χωρίς bubble */
+  padding: 4px;
+  animation: popIn 0.25s ease-out;
+}
+
+.message-bubble.emoji-only.big {
+  font-size: 3em;       /* x3 μέγεθος για 1–2 emoji */
+}
+
+/* 🔹 Pop animation */
+@keyframes popIn {
+  0% { transform: scale(0.6); opacity: 0; }
+  60% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); }
+}
 
 
 /* ======== EMOJI/GIF/STICKERS PANEL ======== */
