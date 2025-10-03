@@ -64,13 +64,20 @@ function setupPresence(user) {
       online: false
     });
 
-    update(userRef, {
-      uid: user.uid,
-      displayName: user.displayName || "Guest",
-      online: true
+    // 👉 Διαβάζουμε πρώτα τι υπάρχει για να μην χαθεί το role
+    get(userRef).then(userSnap => {
+      const existing = userSnap.val() || {};
+
+      update(userRef, {
+        uid: user.uid,
+        displayName: user.displayName || "Guest",
+        online: true,
+        role: existing.role || "user" // κρατάει το role αν υπάρχει
+      });
     });
   });
 }
+
 
 // ===================== ROOMS =====================
 const defaultRooms = ["general", "random"];
