@@ -569,18 +569,20 @@ function renderUserList() {
       group.className = "user-group";
 
       // === Header (τίτλος + arrow μαζί) ===
-      const header = document.createElement("div");
-      header.className = "category-header " + cssClass;
+     const header = document.createElement("div");
+header.className = "category-header " + cssClass;
 
-      const arrow = document.createElement("span");
-      arrow.className = "arrow open"; // default ανοιχτό
+const titleSpan = document.createElement("span");
+titleSpan.textContent = title;
 
-      const titleSpan = document.createElement("span");
-      titleSpan.textContent = title;
+const arrow = document.createElement("span");
+arrow.className = "arrow open"; // default ανοιχτό
 
-      header.appendChild(arrow);
-      header.appendChild(titleSpan);
-      group.appendChild(header);
+// Τίτλος αριστερά, arrow δεξιά
+header.appendChild(titleSpan);
+header.appendChild(arrow);
+
+group.appendChild(header);
 
       // === Sublist ===
       const sublist = document.createElement("ul");
