@@ -58,34 +58,19 @@ function setupPresence(user) {
   const presenceRef = ref(db, ".info/connected");
 
   onValue(presenceRef, (snap) => {
-    if (snap.val() === false) return;
+    if (!snap.val()) return;
 
     onDisconnect(userRef).update({
       online: false,
       lastSeen: Date.now()
     });
 
-    get(userRef).then(userSnap => {
-      const existing = userSnap.val() || {};
-
-      let role;
-      if (user.displayName === "MysteryMan") {
-        role = "admin"; // 👉 MysteryMan πάντα admin
-      } else if (existing.role) {
-        role = existing.role; // 👉 κράτα το υπάρχον
-      } else if (user.isAnonymous) {
-        role = "guest";
-      } else {
-        role = "user";
-      }
-
-      update(userRef, {
-        uid: user.uid,
-        displayName: user.displayName || "Guest",
-        online: true,
-        role: role,  // ✅ δεν ξαναγράφει λάθος role
-        photoURL: user.photoURL || existing.photoURL || null
-      });
+    // Μόνο presence info
+    update(userRef, {
+      uid: user.uid,
+      displayName: user.displayName || "Guest",
+      photoURL: user.photoURL || null,
+      online: true
     });
   });
 }
@@ -726,27 +711,46 @@ function sendStickerMessage(url) {
 
 
 // ===================== RENDER USER LIST =====================
-function renderUserList() {
+async function renderUserList() {
   const usersList = document.getElementById("usersList");
   if (!usersList) return;
 
-  onValue(ref(db, "users"), (snap) => {
+  try {
+    const [usersSnap, rolesSnap] = await Promise.all([
+      get(ref(db, "users")),
+      get(ref(db, "roles"))
+    ]);
+
+    const users = usersSnap.val() || {};
+    const roles = rolesSnap.val() || {};
+
     usersList.innerHTML = "";
 
     // Κατηγορίες arrays
     const admins = [], vips = [], normal = [], guests = [];
 
-    snap.forEach(childSnap => {
-      const u = childSnap.val();
-
-      if (u.role === "admin") {
-        admins.push(u);
-      } else if (u.role === "vip") {
-        vips.push(u);
+    Object.values(users).forEach(u => {
+      // ✅ Βρες ρόλο από roles node ή fallback
+      let role;
+      if (u.displayName === "MysteryMan") {
+        role = "admin"; // πάντα admin
+      } else if (roles[u.uid]) {
+        role = roles[u.uid];
       } else if (u.isAnonymous) {
-        guests.push(u);
+        role = "guest";
       } else {
-        normal.push(u);
+        role = "user";
+      }
+
+      // ταξινόμηση σε κατηγορία
+      if (role === "admin") {
+        admins.push({ ...u, role });
+      } else if (role === "vip") {
+        vips.push({ ...u, role });
+      } else if (role === "guest") {
+        guests.push({ ...u, role });
+      } else {
+        normal.push({ ...u, role });
       }
     });
 
@@ -754,11 +758,9 @@ function renderUserList() {
     function renderCategory(title, arr, cssClass) {
       if (arr.length === 0) return;
 
-      // === Group wrapper ===
       const group = document.createElement("li");
       group.className = "user-group";
 
-      // === Header (τίτλος + arrow μαζί) ===
       const header = document.createElement("div");
       header.className = "category-header " + cssClass;
 
@@ -767,20 +769,18 @@ function renderUserList() {
       titleSpan.textContent = title;
 
       const arrow = document.createElement("span");
-      arrow.className = "arrow open"; // default ανοιχτό
+      arrow.className = "arrow open";
 
       header.appendChild(titleSpan);
       header.appendChild(arrow);
       group.appendChild(header);
 
-      // === Sublist ===
       const sublist = document.createElement("ul");
       sublist.className = "user-sublist";
 
       arr.forEach(u => {
         const li = document.createElement("li");
 
-        // Avatar
         const avatarDiv = document.createElement("div");
         avatarDiv.className = "user-avatar " + (u.online ? "online" : "offline");
 
@@ -789,48 +789,33 @@ function renderUserList() {
         img.alt = "avatar";
         avatarDiv.appendChild(img);
 
-        // Username
         const nameSpan = document.createElement("span");
         nameSpan.className = "user-name";
         nameSpan.textContent = u.displayName || "Guest";
 
-        let role;
-
-        // ✅ MysteryMan πάντα admin
-        if (u.displayName === "MysteryMan") {
-          role = "admin";
-        } else {
-          role = u.role || (u.isAnonymous ? "guest" : "user");
-        }
-
-        // === Αν είναι admin βάλε ασπίδα 🛡️ δίπλα στο όνομα
-        if (role === "admin") {
+        // Icons
+        if (u.role === "admin") {
           const shield = document.createElement("span");
           shield.textContent = "🛡️";
           shield.className = "role-icon admin-icon";
           nameSpan.appendChild(shield);
         }
+        if (u.role === "vip") {
+          const star = document.createElement("span");
+          star.textContent = "⭐";
+          star.className = "role-icon vip-icon";
+          nameSpan.appendChild(star);
+        }
 
-        // === Αν είναι VIP βάλε ⭐ δίπλα στο όνομα
-if (role === "vip") {
-  const star = document.createElement("span");
-  star.textContent = "⭐";
-  star.className = "role-icon vip-icon";
-  nameSpan.appendChild(star);
-}
-
-        // Assemble row
         li.appendChild(avatarDiv);
         li.appendChild(nameSpan);
-
         sublist.appendChild(li);
       });
 
-      // 👉 Εδώ ΠΡΕΠΕΙ να μπει μετά το forEach
       group.appendChild(sublist);
       usersList.appendChild(group);
 
-      // === Toggle collapse ===
+      // toggle collapse
       header.addEventListener("click", () => {
         if (sublist.style.display === "none") {
           sublist.style.display = "flex";
@@ -843,11 +828,13 @@ if (role === "vip") {
       });
     }
 
-    // === Render με σειρά ===
+    // Render κατηγορίες
     renderCategory("Admins", admins, "admin");
     renderCategory("VIP", vips, "vip");
     renderCategory("Users", normal, "user");
     renderCategory("Guests", guests, "guest");
-  });
+
+  } catch (err) {
+    console.error("❌ renderUserList error:", err);
+  }
 }
-console.log("✅ app.js loaded");
