@@ -369,16 +369,23 @@ body {
 
 
 #messageForm .send-btn {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
+  padding: 6px 14px;   /* 👈 πιο λεπτό ύψος & στενότερο */
+  font-size: 13px;     /* 👈 πιο μικρό κείμενο */
+  border-radius: 5px;  /* 👈 πιο κομψό */
   background: #2d8cff;
   color: #fff;
+  font-weight: 600;
+  border: none;
   cursor: pointer;
+  transition: background 0.2s, transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 #messageForm .send-btn:hover {
   background: #1e6edc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 }
+
 
 /* ======== EMOJI/GIF/STICKERS PANEL ======== */
 
