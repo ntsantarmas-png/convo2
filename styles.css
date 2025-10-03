@@ -1081,3 +1081,13 @@ body {
   color: #fff;
 }
 
+/* ===================== ROLE ICONS ===================== */
+.role-icon {
+  margin-left: 6px;     /* λίγο κενό από το όνομα */
+  font-size: 14px;      /* μικρό όσο το κείμενο */
+  vertical-align: middle;
+}
+
+.admin-icon {
+  color: #f85149;       /* κόκκινο για admin */
+}
