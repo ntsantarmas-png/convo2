@@ -991,3 +991,30 @@ body {
   flex-direction: column; /* users πάνε από κάτω */
   width: 100%;
 }
+
+/* ===================== USERS PANEL COLLAPSE ===================== */
+#usersPanel.collapsed {
+  width: 40px;                /* στενή στήλη */
+  padding: 10px 4px;
+  overflow: hidden;
+  border-left: 1px solid #21262d;
+}
+
+/* Fade out τίτλο + λίστα όταν κλείνει */
+#usersPanel.collapsed h3,
+#usersPanel.collapsed ul {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* Το toggle button μένει πάντα */
+#usersPanel .toggle-btn {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  z-index: 5;
+}
+
+#usersPanel.collapsed .users-header {
+  justify-content: center;
+}
