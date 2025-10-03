@@ -768,13 +768,15 @@ body {
   font-size: 14px;
   color: #e6edf3;
 }
-
 .msg-line2 {
   font-size: 11px;
-  color: #999;
+  color: #dcdcdc;
   font-style: italic;
-  align-self: flex-end; /* πάει δεξιά μέσα στο bubble */
+  align-self: flex-end;
+  opacity: 0.85;
+  margin-top: 2px;   /* διακριτικό κενό */
 }
+
 
 
 /* ======== NEW MESSAGES INDICATOR ======== */
