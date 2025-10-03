@@ -171,11 +171,19 @@ function switchRoom(room) {
 }
 // === Helper: check if message is only emoji ===
 function isEmojiOnly(text) {
-  const emojiRegex = /\p{Extended_Pictographic}/gu;
+  // Regex που πιάνει emoji (πιο απλό και safe)
+  const emojiRegex = /[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;
   const matches = text.match(emojiRegex);
+
   if (!matches) return false;
-  return matches.length === text.length; 
+
+  // Trim για να βγάλουμε τυχόν κενά
+  const stripped = text.trim();
+
+  // Ελέγχουμε ότι όλο το string είναι μόνο emoji
+  return matches.join('') === stripped;
 }
+
 
 function renderMessages(room) {
   const messagesRef = ref(db, "messages/" + room);
