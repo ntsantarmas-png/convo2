@@ -266,10 +266,12 @@ body {
 
 
 #newRoomBtn {
-  margin-top: auto;
-  padding: 12px 18px;
+  margin: 8px auto 12px; /* κεντράρισμα + αποστάσεις */
+  width: 88%;           /* λίγο πιο στενό */
+  height: 30px;         /* 👈 slim ύψος */
+  font-size: 12px;      /* 👈 πιο μικρό κείμενο */
+  border-radius: 5px;   /* 👈 λιγότερο στρογγυλό */
   border: none;
-  border-radius: 6px;
   background: #2d8cff;
   color: #fff;
   font-weight: 600;
@@ -279,9 +281,10 @@ body {
 
 #newRoomBtn:hover {
   background: #1e6edc;
-  transform: translateY(-3px); /* ✨ tick πάνω */
-  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  transform: translateY(-2px); /* πιο μικρό “tick πάνω” */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
 }
+
 #usersList,
 #roomsList {
   list-style: none;
