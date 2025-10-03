@@ -709,7 +709,6 @@ function sendStickerMessage(url) {
   });
 }
 
-
 // ===================== RENDER USER LIST =====================
 async function renderUserList() {
   const usersList = document.getElementById("usersList");
@@ -729,13 +728,21 @@ async function renderUserList() {
     // Κατηγορίες arrays
     const admins = [], vips = [], normal = [], guests = [];
 
-    Object.values(users).forEach(u => {
-        console.log("👉 User UID:", u.uid, "Name:", u.displayName);
+    // Escape helper (ασφάλεια για ονόματα)
+    const escapeHTML = (str = "") =>
+      str.replace(/[&<>"']/g, (m) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[m]));
 
+    Object.values(users).forEach(u => {
       // ✅ Βρες ρόλο από roles node ή fallback
       let role;
       if (u.displayName === "MysteryMan") {
-        role = "admin"; // πάντα admin
+        role = "admin"; // MysteryMan πάντα admin
       } else if (roles[u.uid]) {
         role = roles[u.uid];
       } else if (u.isAnonymous) {
@@ -783,6 +790,7 @@ async function renderUserList() {
       arr.forEach(u => {
         const li = document.createElement("li");
 
+        // Avatar
         const avatarDiv = document.createElement("div");
         avatarDiv.className = "user-avatar " + (u.online ? "online" : "offline");
 
@@ -791,9 +799,10 @@ async function renderUserList() {
         img.alt = "avatar";
         avatarDiv.appendChild(img);
 
+        // Όνομα
         const nameSpan = document.createElement("span");
         nameSpan.className = "user-name";
-        nameSpan.textContent = u.displayName || "Guest";
+        nameSpan.textContent = escapeHTML(u.displayName || "Guest");
 
         // Icons
         if (u.role === "admin") {
