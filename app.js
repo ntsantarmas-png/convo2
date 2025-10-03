@@ -151,6 +151,9 @@ if (toggleUsersBtn && usersPanel) {
 
 // ===================== CHAT =====================
 let currentRoom = "general";
+// Typing indicator reference
+let typingRef;
+let typingTimeout;
 
 // 👇 Indicator reference (κρατάμε το element για μελλοντική χρήση)
 const newMessagesIndicator = document.getElementById("newMessagesIndicator");
@@ -167,8 +170,32 @@ if (newMessagesIndicator) {
 function switchRoom(room) {
   currentRoom = room;
   document.getElementById("roomTitle").textContent = "#" + room;
-  renderMessages(room);
+    renderMessages(room);
+  watchTyping(room); // 👈 εδώ μπαίνει η σύνδεση
 }
+function watchTyping(room) {
+  const typingDiv = document.getElementById("typingIndicator");
+  const roomTypingRef = ref(db, `typing/${room}`);
+
+  onValue(roomTypingRef, (snap) => {
+    const typers = [];
+    snap.forEach(child => {
+      const t = child.val();
+      if (t.typing) typers.push(t.name);
+    });
+
+    if (typers.length > 0) {
+      typingDiv.textContent =
+        typers.length === 1
+          ? `${typers[0]} is typing...`
+          : `${typers.join(", ")} are typing...`;
+      typingDiv.classList.remove("hidden");
+    } else {
+      typingDiv.classList.add("hidden");
+    }
+  });
+}
+
 // === Helper: check if message is only emoji ===
 function isEmojiOnly(text) {
   // Regex που πιάνει emoji (πιο απλό και safe)
@@ -377,7 +404,6 @@ if (deleteBtn) {
   });
 }
 
-
 // ===================== ENTER / SHIFT+ENTER =====================
 const messageInput = document.getElementById("messageInput");
 
@@ -389,7 +415,23 @@ if (messageInput) {
     }
     // αν είναι Shift+Enter → αφήνουμε το default (νέα γραμμή)
   });
+
+  // ===================== TYPING =====================
+  messageInput.addEventListener("input", () => {
+    typingRef = ref(db, `typing/${currentRoom}/${auth.currentUser.uid}`);
+    set(typingRef, {
+      uid: auth.currentUser.uid,
+      name: auth.currentUser.displayName || "Anonymous",
+      typing: true
+    });
+
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => {
+      set(typingRef, { typing: false });
+    }, 2000);
+  });
 }
+
 // ===================== AUTO-GROW TEXTAREA =====================
 if (messageInput) {
   messageInput.addEventListener("input", () => {
