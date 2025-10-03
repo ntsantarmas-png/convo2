@@ -1011,13 +1011,15 @@ body {
 
 /* Το toggle button μένει πάντα */
 #usersPanel .toggle-btn {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%); /* 👈 το φέρνει στο κέντρο οριζόντια */
   opacity: 1 !important;
   pointer-events: auto !important;
   z-index: 5;
-  position: absolute;
-  top: 10px;     /* ίδια ευθεία με το rooms */
-  right: 10px;   /* πάει δεξιά */
 }
+
 
 #usersPanel.collapsed .users-header {
   justify-content: center;
