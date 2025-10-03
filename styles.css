@@ -939,25 +939,26 @@ body {
 }
 
 /* ===== Userlist Category Header (flat + glassy + glow) ===== */
+/* ===== Userlist Category Header (flat πάνω από group) ===== */
 .category-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;   
+  justify-content: space-between;
   width: 100%;
   font-size: 12px;
   font-weight: 600;
-  color: #aaa;                     
+  color: #aaa;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  margin: 10px 0 4px;
+  margin: 8px 0 4px;         /* πιο σφιχτό */
   padding: 4px 6px;
   cursor: pointer;
   user-select: none;
 
-  /* ✨ γυάλινο στυλ */
+  /* Flat / glassy look */
   background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.08); /* μόνο κάτω γραμμή */
+  border-radius: 0;         /* χωρίς στρογγυλάδες */
   transition: color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -965,22 +966,28 @@ body {
 .category-header .arrow::before {
   content: "▾";
   font-size: 11px;
-  color: inherit; /* ίδιο χρώμα με το κείμενο */
+  color: inherit;
   transition: transform 0.25s ease, color 0.2s ease;
 }
 
-/* Όταν είναι ανοιχτό */
 .category-header .arrow.open::before {
   transform: rotate(180deg);
 }
 
 .category-title {
-  flex: 1; /* κρατάει τον τίτλο αριστερά */
+  flex: 1;
 }
 
 /* Hover effect */
 .category-header:hover {
-  color: #fff;                                 
+  color: #fff;
   border-color: rgba(45, 140, 255, 0.6);
-  box-shadow: 0 0 6px rgba(45, 140, 255, 0.4); /* ✨ glow */
+  box-shadow: 0 1px 6px rgba(45, 140, 255, 0.25); /* ✨ διακριτικό glow */
+}
+
+/* Το group κάτω από header */
+.user-group {
+  display: flex;
+  flex-direction: column; /* users πάνε από κάτω */
+  width: 100%;
 }
