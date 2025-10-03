@@ -573,16 +573,18 @@ function renderUserList() {
 header.className = "category-header " + cssClass;
 
 const titleSpan = document.createElement("span");
+titleSpan.className = "category-title";
 titleSpan.textContent = title;
 
 const arrow = document.createElement("span");
 arrow.className = "arrow open"; // default ανοιχτό
 
-// Τίτλος αριστερά, arrow δεξιά
+// ✅ Τίτλος και arrow ξεχωριστά
 header.appendChild(titleSpan);
 header.appendChild(arrow);
 
 group.appendChild(header);
+
 
       // === Sublist ===
       const sublist = document.createElement("ul");
