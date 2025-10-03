@@ -1069,3 +1069,15 @@ body {
 .context-menu li:active {
   background: #2ea043;
 }
+/* 👇 Ειδικό στυλ για το Clear Chat */
+#clearChatBtn {
+  color: #f85149;        /* κόκκινο κείμενο */
+  font-weight: bold;
+  border-top: 1px solid #30363d; /* separator γραμμή πάνω του */
+}
+
+#clearChatBtn:hover {
+  background: #b62324;   /* σκούρο κόκκινο background */
+  color: #fff;
+}
+
