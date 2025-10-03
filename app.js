@@ -705,6 +705,14 @@ function renderUserList() {
           nameSpan.appendChild(shield);
         }
 
+        // === Αν είναι VIP βάλε ⭐ δίπλα στο όνομα
+if (role === "vip") {
+  const star = document.createElement("span");
+  star.textContent = "⭐";
+  star.className = "role-icon vip-icon";
+  nameSpan.appendChild(star);
+}
+
         // Assemble row
         li.appendChild(avatarDiv);
         li.appendChild(nameSpan);
