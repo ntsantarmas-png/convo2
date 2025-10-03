@@ -608,7 +608,14 @@ group.appendChild(header);
 
         // Badge
         const badge = document.createElement("span");
-        const role = u.role || (u.isAnonymous ? "guest" : "user");
+let role;
+
+// ✅ Αν είναι ο MysteryMan → πάντα admin
+if (u.displayName === "MysteryMan") {
+  role = "admin";
+} else {
+  role = u.role || (u.isAnonymous ? "guest" : "user");
+}
         badge.className = "user-badge " + role;
         badge.textContent = role.toUpperCase();
 
