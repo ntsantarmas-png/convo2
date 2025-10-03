@@ -742,6 +742,18 @@ body {
   background: linear-gradient(135deg, #4cafef, #2d8cff); /* πιο έντονο μπλε */
   color: #fff;
 }
+/* === Emoji-only bubbles === */
+.message-bubble.emoji-only {
+  font-size: 2em;
+  background: none !important;   /* 👈 υποχρεωτικά σβήσε bubble */
+  box-shadow: none !important;
+  padding: 4px;
+  animation: popIn 0.25s ease-out;
+}
+
+.message-bubble.emoji-only.big {
+  font-size: 3em;
+}
 
 
 /* ======== NEW MESSAGES INDICATOR ======== */
