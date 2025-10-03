@@ -153,6 +153,7 @@ body {
   border-right: 1px solid #21262d;
   min-height: 0;
   transition: width 0.3s ease, padding 0.3s ease; /* 👈 προστέθηκε */
+  position: relative; /* για να “δέσει” το absolute του κουμπιού */
 }
 
 
@@ -1013,6 +1014,9 @@ body {
   opacity: 1 !important;
   pointer-events: auto !important;
   z-index: 5;
+  position: absolute;
+  top: 10px;     /* ίδια ευθεία με το rooms */
+  right: 10px;   /* πάει δεξιά */
 }
 
 #usersPanel.collapsed .users-header {
