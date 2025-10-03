@@ -10,7 +10,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import { 
-  getDatabase, ref, get, set, child, onValue, push, serverTimestamp, onDisconnect, update, off
+  getDatabase, ref, get, set, child, onValue, push, serverTimestamp, onDisconnect, update, off, remove
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
