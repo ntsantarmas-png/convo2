@@ -183,11 +183,14 @@ function renderMessages(room) {
     messagesDiv.innerHTML = "";
 
     snap.forEach(childSnap => {
-      const msg = childSnap.val();
+     const msg = childSnap.val();
+const msgId = childSnap.key; // 👈 Firebase key για delete
 
-      // === Container ===
-      const messageDiv = document.createElement("div");
-      messageDiv.className = "message";
+// === Container ===
+const messageDiv = document.createElement("div");
+messageDiv.className = "message";
+messageDiv.dataset.id = msgId; // 👈 αποθηκεύουμε το ID
+
 
       // Αν είναι το δικό μου uid -> βάλε class "mine"
       if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid) {
@@ -278,6 +281,61 @@ input.focus();
 
   });
 }
+// ===================== ADMIN CONTEXT MENU =====================
+const contextMenu = document.getElementById("contextMenu");
+const deleteBtn = document.getElementById("deleteMessageBtn");
+let targetMessageId = null; // αποθηκεύουμε ποιο μήνυμα έγινε δεξί κλικ
+
+// Δεξί κλικ πάνω σε μήνυμα
+document.getElementById("messages").addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+
+  const messageDiv = e.target.closest(".message");
+  if (!messageDiv) return;
+
+  // ✅ Εμφανίζει το menu μόνο αν είμαι admin
+  const currentUser = auth.currentUser;
+  if (!currentUser) return;
+
+  // check στο DB role
+  const userRef = ref(db, "users/" + currentUser.uid);
+  get(userRef).then((snap) => {
+    const u = snap.val();
+    if (!u || u.role !== "admin") return;
+
+    targetMessageId = messageDiv.dataset.id;
+
+    // Τοποθέτηση του menu στη θέση του κλικ
+    contextMenu.style.top = e.pageY + "px";
+    contextMenu.style.left = e.pageX + "px";
+    contextMenu.classList.remove("hidden");
+  });
+});
+
+// Κλείσιμο με κλικ έξω
+document.addEventListener("click", () => {
+  contextMenu.classList.add("hidden");
+});
+
+// Κλικ στο Delete
+if (deleteBtn) {
+  deleteBtn.addEventListener("click", async () => {
+    if (!targetMessageId) return;
+
+    try {
+      await remove(ref(db, "messages/" + currentRoom + "/" + targetMessageId));
+      console.log("✅ Message deleted:", targetMessageId);
+    } catch (err) {
+      console.error("❌ Delete failed:", err);
+    }
+
+    // Κλείσε το menu
+    contextMenu.classList.add("hidden");
+    targetMessageId = null;
+  });
+}
+
+
 // ===================== ENTER / SHIFT+ENTER =====================
 const messageInput = document.getElementById("messageInput");
 
