@@ -139,6 +139,16 @@ if (toggleRoomsBtn && roomsPanel) {
     roomsPanel.classList.toggle("collapsed");
   });
 }
+// ===================== TOGGLE USERS PANEL =====================
+const toggleUsersBtn = document.getElementById("toggleUsersBtn");
+const usersPanel = document.getElementById("usersPanel");
+
+if (toggleUsersBtn && usersPanel) {
+  toggleUsersBtn.addEventListener("click", () => {
+    usersPanel.classList.toggle("collapsed");
+  });
+}
+
 
 // ===================== CHAT =====================
 let currentRoom = "general";
