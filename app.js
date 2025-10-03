@@ -653,22 +653,19 @@ function renderUserList() {
       group.className = "user-group";
 
       // === Header (τίτλος + arrow μαζί) ===
-     const header = document.createElement("div");
-header.className = "category-header " + cssClass;
+      const header = document.createElement("div");
+      header.className = "category-header " + cssClass;
 
-const titleSpan = document.createElement("span");
-titleSpan.className = "category-title";
-titleSpan.textContent = title;
+      const titleSpan = document.createElement("span");
+      titleSpan.className = "category-title";
+      titleSpan.textContent = title;
 
-const arrow = document.createElement("span");
-arrow.className = "arrow open"; // default ανοιχτό
+      const arrow = document.createElement("span");
+      arrow.className = "arrow open"; // default ανοιχτό
 
-// ✅ Τίτλος και arrow ξεχωριστά
-header.appendChild(titleSpan);
-header.appendChild(arrow);
-
-group.appendChild(header);
-
+      header.appendChild(titleSpan);
+      header.appendChild(arrow);
+      group.appendChild(header);
 
       // === Sublist ===
       const sublist = document.createElement("ul");
@@ -686,35 +683,36 @@ group.appendChild(header);
         img.alt = "avatar";
         avatarDiv.appendChild(img);
 
-      // Username
-const nameSpan = document.createElement("span");
-nameSpan.className = "user-name";
-nameSpan.textContent = u.displayName || "Guest";
+        // Username
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "user-name";
+        nameSpan.textContent = u.displayName || "Guest";
 
-let role;
+        let role;
 
-// ✅ MysteryMan πάντα admin
-if (u.displayName === "MysteryMan") {
-  role = "admin";
-} else {
-  role = u.role || (u.isAnonymous ? "guest" : "user");
-}
+        // ✅ MysteryMan πάντα admin
+        if (u.displayName === "MysteryMan") {
+          role = "admin";
+        } else {
+          role = u.role || (u.isAnonymous ? "guest" : "user");
+        }
 
-// === Αν είναι admin βάλε ασπίδα 🛡️ δίπλα στο όνομα
-if (role === "admin") {
-  const shield = document.createElement("span");
-  shield.textContent = "🛡️";
-  shield.className = "role-icon admin-icon";
-  nameSpan.appendChild(shield);
-}
+        // === Αν είναι admin βάλε ασπίδα 🛡️ δίπλα στο όνομα
+        if (role === "admin") {
+          const shield = document.createElement("span");
+          shield.textContent = "🛡️";
+          shield.className = "role-icon admin-icon";
+          nameSpan.appendChild(shield);
+        }
 
-// Assemble row (χωρίς badge πλέον)
-li.appendChild(avatarDiv);
-li.appendChild(nameSpan);
+        // Assemble row
+        li.appendChild(avatarDiv);
+        li.appendChild(nameSpan);
 
-sublist.appendChild(li);
+        sublist.appendChild(li);
+      });
 
-
+      // 👉 Εδώ ΠΡΕΠΕΙ να μπει μετά το forEach
       group.appendChild(sublist);
       usersList.appendChild(group);
 
