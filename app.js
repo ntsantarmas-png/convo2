@@ -284,6 +284,22 @@ input.focus();
 // ===================== ADMIN CONTEXT MENU =====================
 const contextMenu = document.getElementById("contextMenu");
 const deleteBtn = document.getElementById("deleteMessageBtn");
+const clearChatBtn = document.getElementById("clearChatBtn");
+
+if (clearChatBtn) {
+  clearChatBtn.addEventListener("click", async () => {
+    try {
+      await remove(ref(db, "messages/" + currentRoom));
+      console.log("✅ Chat cleared in room:", currentRoom);
+    } catch (err) {
+      console.error("❌ Clear chat failed:", err);
+    }
+
+    // Κλείσε το menu
+    contextMenu.classList.add("hidden");
+  });
+}
+
 let targetMessageId = null; // αποθηκεύουμε ποιο μήνυμα έγινε δεξί κλικ
 
 // Δεξί κλικ πάνω σε μήνυμα
