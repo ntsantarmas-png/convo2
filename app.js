@@ -68,15 +68,27 @@ function setupPresence(user) {
     get(userRef).then(userSnap => {
       const existing = userSnap.val() || {};
 
-      update(userRef, {
-        uid: user.uid,
-        displayName: user.displayName || "Guest",
-        online: true,
-        role: existing.role || "user" // κρατάει το role αν υπάρχει
-      });
+      if (existing.role) {
+        // Αν υπάρχει ήδη role (π.χ. vip/admin) -> το κρατάμε
+        update(userRef, {
+          uid: user.uid,
+          displayName: user.displayName || "Guest",
+          online: true,
+          role: existing.role
+        });
+      } else {
+        // Αν ΔΕΝ υπάρχει role -> default "user"
+        update(userRef, {
+          uid: user.uid,
+          displayName: user.displayName || "Guest",
+          online: true,
+          role: "user"
+        });
+      }
     });
   });
 }
+
 
 
 // ===================== ROOMS =====================
