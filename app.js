@@ -730,6 +730,8 @@ async function renderUserList() {
     const admins = [], vips = [], normal = [], guests = [];
 
     Object.values(users).forEach(u => {
+        console.log("👉 User UID:", u.uid, "Name:", u.displayName);
+
       // ✅ Βρες ρόλο από roles node ή fallback
       let role;
       if (u.displayName === "MysteryMan") {
