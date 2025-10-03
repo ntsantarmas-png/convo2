@@ -258,6 +258,10 @@ if (messageForm) {
       createdAt: serverTimestamp()
     });
 
+    
+// 👉 Κλείσε το emoji panel ΜΟΝΟ μετά την αποστολή
+closeEmojiPanel();
+
     input.value = "";
 input.style.height = "40px"; // 👈 reset στο default ύψος
 input.focus(); 
@@ -301,6 +305,12 @@ function sendGifMessage(url) {
 // ===================== MEDIA PANEL (Emoji / GIFs / Stickers) =====================
 const emojiBtn = document.getElementById("emojiBtn");
 const mediaPanel = document.getElementById("mediaPanel");
+
+function closeEmojiPanel() {
+  if (mediaPanel) {
+    mediaPanel.classList.add("hidden");
+  }
+}
 
 if (emojiBtn && mediaPanel) {
   // Toggle open/close
