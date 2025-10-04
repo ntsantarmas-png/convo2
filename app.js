@@ -862,16 +862,16 @@ userContextMenu.style.top = posY + "px";
       });
     }
 
-    // Render κατηγορίες
-    renderCategory("Admins", admins, "admin");
-    renderCategory("VIP", vips, "vip");
-    renderCategory("Users", normal, "user");
-    renderCategory("Guests", guests, "guest");
+     // Render κατηγορίες
+  renderCategory("Admins", admins, "admin");
+  renderCategory("VIP", vips, "vip");
+  renderCategory("Users", normal, "user");
+  renderCategory("Guests", guests, "guest");
 
-  } catch (err) {
-    console.error("❌ renderUserList error:", err);
-  }
-}
+    }); // 👈 κλείσιμο του onValue(roles)
+  });   // 👈 κλείσιμο του onValue(users)
+}        // 👈 κλείσιμο της function renderUserList
+
 // ===================== USER CONTEXT MENU LOGIC =====================
 const userContextMenu = document.getElementById("userContextMenu");
 let contextTargetUid = null; // ποιον user κάναμε δεξί κλικ
