@@ -1213,3 +1213,25 @@ body {
   font-size: 22px;
   cursor: pointer;
 }
+/* ===================== CHANGE ROLE MODAL ===================== */
+#roleModal .modal-content {
+  text-align: center;
+}
+
+.role-btn {
+  display: block;
+  width: 100%;
+  margin: 6px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #2d2d2d;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.role-btn:hover {
+  background: #3d3d3d;
+}
