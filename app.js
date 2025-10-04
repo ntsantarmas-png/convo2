@@ -884,12 +884,13 @@ li.addEventListener("contextmenu", async (e) => {
       });
     }
 
-     // Render κατηγορίες
-  renderCategory("Admins", admins, "admin");
-  renderCategory("VIP", vips, "vip");
-  renderCategory("Users", normal, "user");
-  renderCategory("Guests", guests, "guest");
+// Render κατηγορίες
+renderCategory("Admins", admins, "admin");
+renderCategory("VIP", vips, "vip");
+renderCategory("Users", normal, "user");
+renderCategory("Guests", guests, "guest");
 
+  }); // 👈 κλείσιμο του onValue(mutes)
 });   // 👈 κλείσιμο του onValue(users)
 }      // 👈 κλείσιμο της function renderUserList
 
