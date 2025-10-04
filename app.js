@@ -708,58 +708,54 @@ function sendStickerMessage(url) {
 }
 
 // ===================== RENDER USER LIST =====================
-async function renderUserList() {
+function renderUserList() {
   const usersList = document.getElementById("usersList");
   if (!usersList) return;
 
-  try {
-    const [usersSnap, rolesSnap] = await Promise.all([
-      get(ref(db, "users")),
-      get(ref(db, "roles"))
-    ]);
+  // Ακούμε live για users & roles
+  onValue(ref(db, "users"), (usersSnap) => {
+    onValue(ref(db, "roles"), (rolesSnap) => {
+      const users = usersSnap.val() || {};
+      const roles = rolesSnap.val() || {};
 
-    const users = usersSnap.val() || {};
-    const roles = rolesSnap.val() || {};
+      usersList.innerHTML = "";
 
-    usersList.innerHTML = "";
+      // Κατηγορίες arrays
+      const admins = [], vips = [], normal = [], guests = [];
 
-    // Κατηγορίες arrays
-    const admins = [], vips = [], normal = [], guests = [];
+      // Escape helper (ασφάλεια για ονόματα)
+      const escapeHTML = (str = "") =>
+        str.replace(/[&<>"']/g, (m) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        }[m]));
 
-    // Escape helper (ασφάλεια για ονόματα)
-    const escapeHTML = (str = "") =>
-      str.replace(/[&<>"']/g, (m) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      }[m]));
+      Object.values(users).forEach(u => {
+        // ✅ Βρες ρόλο
+        let role;
+        if (u.displayName === "MysteryMan") {
+          role = "admin"; // MysteryMan πάντα admin
+        } else if (roles[u.uid]) {
+          role = roles[u.uid];
+        } else if (u.isAnonymous) {
+          role = "guest";
+        } else {
+          role = "user";
+        }
 
-    Object.values(users).forEach(u => {
-      // ✅ Βρες ρόλο από roles node ή fallback
-      let role;
-      if (u.displayName === "MysteryMan") {
-        role = "admin"; // MysteryMan πάντα admin
-      } else if (roles[u.uid]) {
-        role = roles[u.uid];
-      } else if (u.isAnonymous) {
-        role = "guest";
-      } else {
-        role = "user";
-      }
-
-      // ταξινόμηση σε κατηγορία
-      if (role === "admin") {
-        admins.push({ ...u, role });
-      } else if (role === "vip") {
-        vips.push({ ...u, role });
-      } else if (role === "guest") {
-        guests.push({ ...u, role });
-      } else {
-        normal.push({ ...u, role });
-      }
-    });
+        if (role === "admin") {
+          admins.push({ ...u, role });
+        } else if (role === "vip") {
+          vips.push({ ...u, role });
+        } else if (role === "guest") {
+          guests.push({ ...u, role });
+        } else {
+          normal.push({ ...u, role });
+        }
+      });
 
     // === Helper function για category ===
     function renderCategory(title, arr, cssClass) {
