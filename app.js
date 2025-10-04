@@ -823,6 +823,7 @@ if (u.muted) {
   const muteIcon = document.createElement("span");
   muteIcon.textContent = "🔇";
   muteIcon.className = "role-icon mute-icon";
+    muteIcon.title = "Muted";   // 👈 Tooltip σε hover
   nameSpan.appendChild(muteIcon);
 }
 
