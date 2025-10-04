@@ -232,28 +232,26 @@ function renderMessages(room) {
     snap.forEach(childSnap => {
      const msg = childSnap.val();
 const msgId = childSnap.key; // 👈 Firebase key για delete
-
 // === Container ===
 const messageDiv = document.createElement("div");
 messageDiv.className = "message";
 messageDiv.dataset.id = msgId; // 👈 αποθηκεύουμε το ID
 
+// Αν είναι το δικό μου uid -> βάλε class "mine"
+if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid) {
+  messageDiv.classList.add("mine");
+}
 
-      // Αν είναι το δικό μου uid -> βάλε class "mine"
-      if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid) {
-        messageDiv.classList.add("mine");
-      }
+// === Avatar ===
+const avatarDiv = document.createElement("div");
+avatarDiv.className = "message-avatar";
 
-      // === Avatar ===
-      const avatarDiv = document.createElement("div");
-      avatarDiv.className = "message-avatar";
+const img = document.createElement("img");
+img.src = msg.photoURL || "https://i.pravatar.cc/150?u=" + (msg.uid || msg.user);
+img.alt = "avatar";
+avatarDiv.appendChild(img);
 
-      const img = document.createElement("img");
-      img.src = msg.photoURL || "https://i.pravatar.cc/150?u=" + (msg.uid || msg.user);
-      img.alt = "avatar";
-      avatarDiv.appendChild(img);
-
-      // === Content ===
+// === Content ===
 const contentDiv = document.createElement("div");
 contentDiv.className = "message-content";
 
@@ -293,31 +291,10 @@ if (msg.text) {
       date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   }
 
-  // ✅ Emoji-only check (αν είναι μόνο emoji → δεν βάζουμε user: , απλά emoji huge)
-  if (isEmojiOnly(msg.text)) {
-    const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
-    line1.classList.add("emoji-only");
-    if (emojiCount <= 2) {
-      line1.classList.add("big");
-    }
-  }
-
-  // Γραμμή 2: Date + Time
-  const line2 = document.createElement("div");
-  line2.className = "msg-line2";
-  if (msg.createdAt) {
-    const date = new Date(msg.createdAt);
-    line2.textContent =
-      date.toLocaleDateString() +
-      " - " +
-      date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  }
-
   bubbleDiv.appendChild(line1);
   bubbleDiv.appendChild(line2);
   contentDiv.appendChild(bubbleDiv);
 }
-
 
 
 // GIF
