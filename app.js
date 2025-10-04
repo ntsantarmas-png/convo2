@@ -953,17 +953,32 @@ roleButtons.forEach(btn => {
 
     if (!contextTargetUid) return;
 
-    // Αν ο στόχος είναι ο ίδιος ο currentUser και προσπαθεί να κατεβάσει τον εαυτό του
-if (contextTargetUid === auth.currentUser.uid && newRole !== "admin") {
-  alert("⚠️ Δεν μπορείς να αλλάξεις το δικό σου role!");
-  return;
-}
+    // 🔒 Μπλοκάρουμε self-demote
+    if (contextTargetUid === auth.currentUser.uid && newRole !== "admin") {
+      alert("⚠️ Δεν μπορείς να αλλάξεις το δικό σου role!");
+      return;
+    }
 
+    // Πάρε τον τρέχοντα ρόλο του target user
+    const targetSnap = await get(ref(db, "users/" + contextTargetUid));
+    const targetData = targetSnap.val();
+    const oldRole = targetData?.role || "user";
+
+    // Κάνε update τον νέο ρόλο
     await update(ref(db, "users/" + contextTargetUid), {
       role: newRole
     });
 
     console.log("✅ Role updated:", contextTargetUid, "→", newRole);
+
+    // 📌 Γράψε στο admin log
+    await push(ref(db, "adminLogs"), {
+      by: auth.currentUser.displayName || auth.currentUser.uid,
+      target: targetData?.displayName || contextTargetUid,
+      oldRole,
+      newRole,
+      timestamp: Date.now()
+    });
 
     roleModal.classList.add("hidden"); // κλείσε το modal μετά την αλλαγή
   });
