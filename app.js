@@ -451,7 +451,7 @@ if (messageInput) {
     clearTimeout(typingTimeout);
     typingTimeout = setTimeout(() => {
       set(typingRef, { typing: false });
-    }, 2000);
+    }, 3000);
   });
 }
 
