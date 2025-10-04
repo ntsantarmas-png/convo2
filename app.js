@@ -813,10 +813,36 @@ function renderUserList() {
         li.appendChild(avatarDiv);
         li.appendChild(nameSpan);
         // Δεξί κλικ (context menu) μόνο για admin
-li.addEventListener("contextmenu", (e) => {
+li.addEventListener("contextmenu", async (e) => {
   e.preventDefault();
 
-  if (!auth.currentUser || auth.currentUser.displayName !== "MysteryMan") return;
+  if (!auth.currentUser) return;
+
+  // ➜ Δες το role του current user από το DB
+  const snap = await get(ref(db, "users/" + auth.currentUser.uid));
+  const currentUserData = snap.val();
+  if (!currentUserData || currentUserData.role !== "admin") return;
+
+  contextTargetUid = u.uid;
+
+  // Υπολογισμός θέσης (ώστε να μένει εντός οθόνης)
+  const menuWidth = userContextMenu.offsetWidth || 180;
+  const menuHeight = userContextMenu.offsetHeight || 150;
+  let posX = e.clientX;
+  let posY = e.clientY;
+
+  if (posX + menuWidth > window.innerWidth) {
+    posX = window.innerWidth - menuWidth - 5;
+  }
+  if (posY + menuHeight > window.innerHeight) {
+    posY = window.innerHeight - menuHeight - 5;
+  }
+
+  userContextMenu.style.left = posX + "px";
+  userContextMenu.style.top = posY + "px";
+  userContextMenu.classList.remove("hidden");
+});
+
 
   contextTargetUid = u.uid;
 
