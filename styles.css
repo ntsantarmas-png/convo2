@@ -691,10 +691,10 @@ body {
 
 
 .message-user {
-  font-size: 12px;
-  font-weight: 500;
-  color: #8b949e;
-  margin-bottom: 2px;
+  font-size: 12px;       /* μικρότερο */
+  font-weight: 600;      /* πιο έντονο */
+  color: #8b949e;        /* απαλο γκρι */
+  margin-bottom: 2px;    /* λίγο κενό πριν το bubble */
 }
 
 .message-bubble {
