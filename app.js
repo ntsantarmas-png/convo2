@@ -273,12 +273,13 @@ if (msg.text) {
 
   // ✅ Emoji-only check
   if (isEmojiOnly(msg.text)) {
-    const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
-    line1.classList.add("emoji-only");
-    if (emojiCount <= 2) {
-      line1.classList.add("big");
-    }
+  const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
+  bubbleDiv.classList.add("emoji-only");
+  if (emojiCount <= 2) {
+    bubbleDiv.classList.add("big");
   }
+}
+
 
   // Γραμμή 2: Date + Time
   const line2 = document.createElement("div");
