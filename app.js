@@ -718,48 +718,44 @@ function renderUserList() {
   
   // Ακούμε live για users
   onValue(ref(db, "users"), (usersSnap) => {
-    // Ακούμε live για roles
-    onValue(ref(db, "roles"), (rolesSnap) => {
-      const users = usersSnap.val() || {};
-      const roles = rolesSnap.val() || {};
+  const users = usersSnap.val() || {};
+  usersList.innerHTML = "";
 
-      usersList.innerHTML = "";
+  const admins = [], vips = [], normal = [], guests = [];
 
-      // Κατηγορίες arrays
-      const admins = [], vips = [], normal = [], guests = [];
+  const escapeHTML = (str = "") =>
+    str.replace(/[&<>"']/g, (m) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    }[m]));
 
-      // Escape helper
-      const escapeHTML = (str = "") =>
-        str.replace(/[&<>"']/g, (m) => ({
-          "&": "&amp;",
-          "<": "&lt;",
-          ">": "&gt;",
-          '"': "&quot;",
-          "'": "&#39;"
-        }[m]));
+  Object.values(users).forEach(u => {
+    let role;
+    if (u.displayName === "MysteryMan") {
+      role = "admin"; // MysteryMan πάντα admin
+    } else if (u.role) {
+      role = u.role; // 👈 τώρα διαβάζουμε από το users/$uid/role
+    } else if (u.isAnonymous) {
+      role = "guest";
+    } else {
+      role = "user";
+    }
 
-      Object.values(users).forEach(u => {
-        let role;
-        if (u.displayName === "MysteryMan") {
-          role = "admin"; // MysteryMan πάντα admin
-        } else if (roles[u.uid]) {
-          role = roles[u.uid];
-        } else if (u.isAnonymous) {
-          role = "guest";
-        } else {
-          role = "user";
-        }
+    if (role === "admin") {
+      admins.push({ ...u, role });
+    } else if (role === "vip") {
+      vips.push({ ...u, role });
+    } else if (role === "guest") {
+      guests.push({ ...u, role });
+    } else {
+      normal.push({ ...u, role });
+    }
+  });
 
-        if (role === "admin") {
-          admins.push({ ...u, role });
-        } else if (role === "vip") {
-          vips.push({ ...u, role });
-        } else if (role === "guest") {
-          guests.push({ ...u, role });
-        } else {
-          normal.push({ ...u, role });
-        }
-      });
+
     // === Helper function για category ===
     function renderCategory(title, arr, cssClass) {
       if (arr.length === 0) return;
@@ -868,9 +864,9 @@ userContextMenu.style.top = posY + "px";
   renderCategory("Users", normal, "user");
   renderCategory("Guests", guests, "guest");
 
-    }); // 👈 κλείσιμο του onValue(roles)
-  });   // 👈 κλείσιμο του onValue(users)
-}        // 👈 κλείσιμο της function renderUserList
+});   // 👈 κλείσιμο του onValue(users)
+}      // 👈 κλείσιμο της function renderUserList
+
 
 // ===================== USER CONTEXT MENU LOGIC =====================
 const userContextMenu = document.getElementById("userContextMenu");
