@@ -818,6 +818,31 @@ async function renderUserList() {
 
         li.appendChild(avatarDiv);
         li.appendChild(nameSpan);
+        // Δεξί κλικ (context menu) μόνο για admin
+li.addEventListener("contextmenu", (e) => {
+  e.preventDefault();
+
+  if (!auth.currentUser || auth.currentUser.displayName !== "MysteryMan") return;
+
+  contextTargetUid = u.uid;
+
+  // Υπολογισμός θέσης (ώστε να μένει εντός οθόνης)
+  const menuWidth = userContextMenu.offsetWidth;
+  const menuHeight = userContextMenu.offsetHeight;
+  let posX = e.clientX;
+  let posY = e.clientY;
+
+  if (posX + menuWidth > window.innerWidth) {
+    posX = window.innerWidth - menuWidth - 5;
+  }
+  if (posY + menuHeight > window.innerHeight) {
+    posY = window.innerHeight - menuHeight - 5;
+  }
+
+  userContextMenu.style.left = posX + "px";
+  userContextMenu.style.top = posY + "px";
+  userContextMenu.classList.remove("hidden");
+});
         sublist.appendChild(li);
       });
 
@@ -847,3 +872,20 @@ async function renderUserList() {
     console.error("❌ renderUserList error:", err);
   }
 }
+// ===================== USER CONTEXT MENU LOGIC =====================
+const userContextMenu = document.getElementById("userContextMenu");
+let contextTargetUid = null; // ποιον user κάναμε δεξί κλικ
+
+// Κλικ έξω → κλείσιμο
+document.addEventListener("click", (e) => {
+  if (!userContextMenu.contains(e.target)) {
+    userContextMenu.classList.add("hidden");
+  }
+});
+
+// Esc → κλείσιμο
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    userContextMenu.classList.add("hidden");
+  }
+});
