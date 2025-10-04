@@ -918,3 +918,17 @@ document.getElementById("viewProfile").addEventListener("click", async () => {
 closeProfile.addEventListener("click", () => {
   profileModal.classList.add("hidden");
 });
+
+// Κλείσιμο modal με κλικ έξω
+profileModal.addEventListener("click", (e) => {
+  if (e.target === profileModal) {
+    profileModal.classList.add("hidden");
+  }
+});
+
+// Κλείσιμο modal με Esc
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    profileModal.classList.add("hidden");
+  }
+});
