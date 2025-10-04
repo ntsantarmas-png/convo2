@@ -1253,19 +1253,22 @@ body {
 /* ===================== YOUTUBE PANEL ===================== */
 
 .youtube-panel {
-  width: 100%;
-  height: 180px;               /* 👈 default μικρό panel */
+  width: 50%;                  /* 👈 50% του chat */
+  height: 180px;               /* default μικρό ύψος */
   background: #000;
   position: relative;
-  border-bottom: 1px solid #21262d;
+  margin: 0 auto;              /* 👈 κέντρο */
+  border: 1px solid #21262d;
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .youtube-panel.expanded {
-  height: 400px;               /* 👈 μεγαλώνει όταν έχει .expanded */
+  height: 400px;               /* μεγαλώνει όταν είναι expanded */
 }
+
 
 .youtube-panel iframe {
   width: 100%;
@@ -1273,6 +1276,7 @@ body {
   border: none;
   border-radius: 6px;
 }
+
 
 .youtube-panel.hidden {
   display: none;
