@@ -1037,6 +1037,19 @@ const unmuteUserBtn = document.getElementById("unmuteUser");
 if (muteUserBtn) {
   muteUserBtn.addEventListener("click", async () => {
     if (!contextTargetUid) return;
+// ❌ Μην αφήνεις να κάνεις mute τον εαυτό σου
+if (contextTargetUid === auth.currentUser.uid) {
+  alert("⚠️ Δεν μπορείς να κάνεις mute τον εαυτό σου!");
+  return;
+}
+
+// ❌ Μην αφήνεις να κάνεις mute admin
+const targetSnap = await get(ref(db, "users/" + contextTargetUid));
+const targetData = targetSnap.val();
+if (targetData && targetData.role === "admin") {
+  alert("⚠️ Δεν μπορείς να κάνεις mute admin!");
+  return;
+}
 
     try {
       await set(ref(db, "mutes/" + contextTargetUid), true);
@@ -1053,6 +1066,20 @@ if (muteUserBtn) {
 if (unmuteUserBtn) {
   unmuteUserBtn.addEventListener("click", async () => {
     if (!contextTargetUid) return;
+
+    // ❌ Μην αφήνεις να κάνεις unmute τον εαυτό σου
+    if (contextTargetUid === auth.currentUser.uid) {
+      alert("⚠️ Δεν μπορείς να κάνεις unmute τον εαυτό σου!");
+      return;
+    }
+
+    // ❌ Μην αφήνεις να κάνεις unmute admin
+    const targetSnap = await get(ref(db, "users/" + contextTargetUid));
+    const targetData = targetSnap.val();
+    if (targetData && targetData.role === "admin") {
+      alert("⚠️ Δεν μπορείς να κάνεις unmute admin!");
+      return;
+    }
 
     try {
       await remove(ref(db, "mutes/" + contextTargetUid));
