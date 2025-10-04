@@ -69,6 +69,7 @@ function setupPresence(user) {
   uid: user.uid,
   displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
   photoURL: user.photoURL || null,
+      role: existing.role || "user" // ✅ κρατάει ό,τι υπήρχε
   online: true
 });
 
