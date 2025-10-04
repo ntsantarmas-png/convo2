@@ -1179,6 +1179,13 @@ body {
 .vip-icon {
   color: #f1c40f;   /* χρυσό κίτρινο */
 }
+.role-icon.mute-icon {
+  margin-left: 4px;
+  font-size: 14px;
+  color: #ff5555; /* κόκκινο/έντονο για να ξεχωρίζει */
+  opacity: 0.9;
+}
+
 
 
 /* ===================== MODAL ===================== */
