@@ -1001,3 +1001,38 @@ document.addEventListener("keydown", (e) => {
     roleModal.classList.add("hidden");
   }
 });
+// ===================== USER CONTEXT MENU =====================
+const muteUserBtn = document.getElementById("muteUser");
+const unmuteUserBtn = document.getElementById("unmuteUser");
+
+// Mute
+if (muteUserBtn) {
+  muteUserBtn.addEventListener("click", async () => {
+    if (!contextTargetUid) return;
+
+    try {
+      await set(ref(db, "mutes/" + contextTargetUid), true);
+      console.log("✅ User muted:", contextTargetUid);
+    } catch (err) {
+      console.error("❌ Error muting user:", err);
+    }
+
+    userContextMenu.classList.add("hidden");
+  });
+}
+
+// Unmute
+if (unmuteUserBtn) {
+  unmuteUserBtn.addEventListener("click", async () => {
+    if (!contextTargetUid) return;
+
+    try {
+      await remove(ref(db, "mutes/" + contextTargetUid));
+      console.log("✅ User unmuted:", contextTargetUid);
+    } catch (err) {
+      console.error("❌ Error unmuting user:", err);
+    }
+
+    userContextMenu.classList.add("hidden");
+  });
+}
