@@ -746,17 +746,24 @@ body {
   60% { transform: scale(1.2); opacity: 1; }
   100% { transform: scale(1); }
 }
+
 .message-bubble.emoji-only {
-  font-size: 2em;
-  background: none !important;   /* 👈 υποχρεωτικά σβήσε bubble */
+  background: none !important;   /* 👈 σβήσε bubble */
   box-shadow: none !important;
   padding: 4px;
   animation: popIn 0.25s ease-out;
+  text-align: center;            /* κέντρο */
 }
 
-.message-bubble.emoji-only.big {
-  font-size: 3em;
+.message-bubble.emoji-only .msg-line1 {
+  font-size: 2.5em;              /* default μεγάλα */
+  line-height: 1.2;
 }
+
+.message-bubble.emoji-only.big .msg-line1 {
+  font-size: 3.5em;              /* extra μεγάλα */
+}
+
 /* ===================== MESSAGE BUBBLE LINES ===================== */
 .message-bubble {
   display: flex;
