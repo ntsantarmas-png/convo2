@@ -271,10 +271,11 @@ const line1 = document.createElement("div");
 line1.className = "msg-line1";
 
 // === YouTube Embed Check ===
-const ytRegex = /(https?:\/\/(?:www\.)?youtube\.com\/watch\?v=|https?:\/\/youtu\.be\/)([a-zA-Z0-9_-]+)/;
-if (ytRegex.test(msg.text)) {
-  const match = msg.text.match(ytRegex);
-  const videoId = match[2];
+const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+const match = msg.text.match(ytRegex);
+
+if (match) {
+  const videoId = match[1];
 
   const youtubePanel = document.getElementById("youtubePanel");
   if (youtubePanel) {
@@ -305,6 +306,7 @@ if (ytRegex.test(msg.text)) {
     }
   }
 }
+
 
 // Γραμμή 2: Date + Time
 const line2 = document.createElement("div");
