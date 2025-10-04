@@ -890,3 +890,31 @@ document.addEventListener("keydown", (e) => {
     userContextMenu.classList.add("hidden");
   }
 });
+// ===================== PROFILE MODAL LOGIC =====================
+const profileModal = document.getElementById("profileModal");
+const profileDetails = document.getElementById("profileDetails");
+const closeProfile = document.getElementById("closeProfile");
+
+document.getElementById("viewProfile").addEventListener("click", async () => {
+  if (!contextTargetUid) return;
+
+  const snap = await get(ref(db, "users/" + contextTargetUid));
+  const u = snap.val();
+  if (!u) return;
+
+  profileDetails.innerHTML = `
+    <img src="${u.photoURL || "https://i.pravatar.cc/150?u=" + u.uid}" 
+         alt="avatar" style="width:80px;height:80px;border-radius:50%;margin-bottom:10px;">
+    <h3>${u.displayName || "Anon"}</h3>
+    <p>Role: ${u.role || "user"}</p>
+    <p>Status: ${u.online ? "🟢 Online" : "⚫ Offline"}</p>
+  `;
+
+  profileModal.classList.remove("hidden");
+  userContextMenu.classList.add("hidden"); // κλείσε το context menu
+});
+
+// Κλείσιμο modal
+closeProfile.addEventListener("click", () => {
+  profileModal.classList.add("hidden");
+});
