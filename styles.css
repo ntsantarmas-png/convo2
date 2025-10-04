@@ -1310,3 +1310,18 @@ body {
 .youtube-panel .expand-btn:hover {
   background: rgba(0,0,0,0.8);
 }
+.yt-toggle-btn {
+  background: #2563eb;        /* μπλε σαν το Send */
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin-right: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.yt-toggle-btn:hover {
+  background: #1d4ed8;        /* πιο σκούρο στο hover */
+}
