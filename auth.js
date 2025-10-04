@@ -59,15 +59,17 @@ if (registerBtn) {
       const user = userCredential.user;
 
       // Αποθήκευση username στο profile
-      await updateProfile(user, { displayName: username });
+const finalName = username || "User" + Math.floor(Math.random() * 10000);
+await updateProfile(user, { displayName: finalName });
 
       // Αποθήκευση και στη βάση
-      await set(ref(db, "users/" + user.uid), {
-        uid: user.uid,
-        email: email,
-        displayName: username,
-        online: true
-      });
+   await set(ref(db, "users/" + user.uid), {
+  uid: user.uid,
+  email: email,
+  displayName: finalName,  // 👈 εδώ να είναι το ίδιο με το updateProfile
+  online: true
+});
+
 
       console.log("✅ Registered:", user.uid, username);
     } catch (err) {
