@@ -1087,6 +1087,39 @@ body {
 #app:has(#roomsPanel.collapsed):has(#usersPanel.collapsed) {
   grid-template-columns: 40px 1fr 40px;
 }
+/* ===================== USER CONTEXT MENU ===================== */
+.context-menu {
+  position: fixed;              /* πάντα σε σχέση με το παράθυρο */
+  background: #1e1e1e;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 9999;
+  width: 180px;
+  font-size: 14px;
+}
+
+.context-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+}
+
+.context-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+  color: #ddd;
+  user-select: none;           /* να μην γίνεται highlight */
+}
+
+.context-menu li:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.hidden {
+  display: none;
+}
+
 
 /* ===================== CONTEXT MENU ===================== */
 .context-menu {
