@@ -716,11 +716,16 @@ function renderUserList() {
   off(ref(db, "roles"));
   
   // Ακούμε live για users
-  onValue(ref(db, "users"), (usersSnap) => {
+  onValue(ref(db, "users"), async (usersSnap) => {
+  // 👉 Φέρε και τα mutes
+  const mutesSnap = await get(ref(db, "mutes"));
+
   const users = usersSnap.val() || {};
+  const mutes = mutesSnap.val() || {};
   usersList.innerHTML = "";
 
   const admins = [], vips = [], normal = [], guests = [];
+
 
   const escapeHTML = (str = "") =>
     str.replace(/[&<>"']/g, (m) => ({
@@ -743,15 +748,19 @@ function renderUserList() {
       role = "user";
     }
 
-    if (role === "admin") {
-      admins.push({ ...u, role });
-    } else if (role === "vip") {
-      vips.push({ ...u, role });
-    } else if (role === "guest") {
-      guests.push({ ...u, role });
-    } else {
-      normal.push({ ...u, role });
-    }
+    const isMuted = !!mutes[u.uid];
+
+if (role === "admin") {
+  admins.push({ ...u, role, muted: isMuted });
+} else if (role === "vip") {
+  vips.push({ ...u, role, muted: isMuted });
+} else if (role === "guest") {
+  guests.push({ ...u, role, muted: isMuted });
+} else {
+  normal.push({ ...u, role, muted: isMuted });
+}
+
+
   });
 
 
@@ -809,6 +818,14 @@ function renderUserList() {
           star.className = "role-icon vip-icon";
           nameSpan.appendChild(star);
         }
+        // 🔇 Αν ο χρήστης είναι muted
+if (u.muted) {
+  const muteIcon = document.createElement("span");
+  muteIcon.textContent = "🔇";
+  muteIcon.className = "role-icon mute-icon";
+  nameSpan.appendChild(muteIcon);
+}
+
 
         li.appendChild(avatarDiv);
         li.appendChild(nameSpan);
