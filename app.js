@@ -266,57 +266,60 @@ if (msg.text) {
   const bubbleDiv = document.createElement("div");
   bubbleDiv.className = "message-bubble";
 
-  // Γραμμή 1: Text
-  const line1 = document.createElement("div");
-  line1.className = "msg-line1";
-    // === YouTube Embed Check ===
-  const ytRegex = /(https?:\/\/(?:www\.)?youtube\.com\/watch\?v=|https?:\/\/youtu\.be\/)([a-zA-Z0-9_-]+)/;
-  if (ytRegex.test(msg.text)) {
-    const match = msg.text.match(ytRegex);
-    const videoId = match[2];
+ // Γραμμή 1: Text
+const line1 = document.createElement("div");
+line1.className = "msg-line1";
 
-    const youtubePanel = document.getElementById("youtubePanel");
-    if (youtubePanel) {
-      const wrapper = youtubePanel.querySelector(".video-wrapper");
-      wrapper.innerHTML = `
-        <iframe 
-          src="https://www.youtube.com/embed/${videoId}" 
-          frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen>
-        </iframe>
-      `;
-      youtubePanel.classList.remove("hidden");
-    }
+// === YouTube Embed Check ===
+const ytRegex = /(https?:\/\/(?:www\.)?youtube\.com\/watch\?v=|https?:\/\/youtu\.be\/)([a-zA-Z0-9_-]+)/;
+if (ytRegex.test(msg.text)) {
+  const match = msg.text.match(ytRegex);
+  const videoId = match[2];
+
+  const youtubePanel = document.getElementById("youtubePanel");
+  if (youtubePanel) {
+    const wrapper = youtubePanel.querySelector(".video-wrapper");
+    wrapper.innerHTML = `
+      <iframe 
+        src="https://www.youtube.com/embed/${videoId}" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    `;
+    youtubePanel.classList.remove("hidden");
   }
 
+  // ❌ Μην δείξεις το URL στο bubble
+  line1.textContent = "";
+} else {
+  // ✅ Κανονικά μηνύματα
   line1.textContent = msg.text;
-  
+
   // ✅ Emoji-only check
-if (isEmojiOnly(msg.text)) {
-  const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
-  bubbleDiv.classList.add("emoji-only");
-  if (emojiCount <= 2) {
-    bubbleDiv.classList.add("big");
+  if (isEmojiOnly(msg.text)) {
+    const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
+    bubbleDiv.classList.add("emoji-only");
+    if (emojiCount <= 2) {
+      bubbleDiv.classList.add("big");
+    }
   }
 }
 
+// Γραμμή 2: Date + Time
+const line2 = document.createElement("div");
+line2.className = "msg-line2";
+if (msg.createdAt) {
+  const date = new Date(msg.createdAt);
+  line2.textContent =
+    date.toLocaleDateString() +
+    " - " +
+    date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
 
-
-  // Γραμμή 2: Date + Time
-  const line2 = document.createElement("div");
-  line2.className = "msg-line2";
-  if (msg.createdAt) {
-    const date = new Date(msg.createdAt);
-    line2.textContent =
-      date.toLocaleDateString() +
-      " - " +
-      date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  }
-
-  bubbleDiv.appendChild(line1);
-  bubbleDiv.appendChild(line2);
-  contentDiv.appendChild(bubbleDiv);
+bubbleDiv.appendChild(line1);
+bubbleDiv.appendChild(line2);
+contentDiv.appendChild(bubbleDiv);
 }
 
 
@@ -385,6 +388,36 @@ if (messageForm) {
     input.focus();
   });
 }
+// ===================== YOUTUBE PANEL CONTROLS =====================
+const closeYoutubeBtn = document.getElementById("closeYoutubeBtn");
+const expandYoutubeBtn = document.getElementById("expandYoutubeBtn");
+
+if (closeYoutubeBtn) {
+  closeYoutubeBtn.addEventListener("click", () => {
+    const youtubePanel = document.getElementById("youtubePanel");
+    const wrapper = youtubePanel.querySelector(".video-wrapper");
+
+    // Καθαρίζουμε το iframe για να σταματήσει το βίντεο
+    wrapper.innerHTML = "";
+
+    youtubePanel.classList.add("hidden");
+    youtubePanel.classList.remove("expanded");
+
+    // reset icon
+    expandYoutubeBtn.textContent = "🔼";
+  });
+}
+
+if (expandYoutubeBtn) {
+  expandYoutubeBtn.addEventListener("click", () => {
+    const youtubePanel = document.getElementById("youtubePanel");
+    youtubePanel.classList.toggle("expanded");
+
+    // αλλάζουμε το εικονίδιο
+    expandYoutubeBtn.textContent = youtubePanel.classList.contains("expanded") ? "🔽" : "🔼";
+  });
+}
+
 // ===================== ADMIN CONTEXT MENU =====================
 const contextMenu = document.getElementById("contextMenu");
 const deleteBtn = document.getElementById("deleteMessageBtn");
