@@ -712,8 +712,13 @@ function renderUserList() {
   const usersList = document.getElementById("usersList");
   if (!usersList) return;
 
-  // Ακούμε live για users & roles
+    // 🧹 Καθαρίζουμε τυχόν παλιούς listeners
+  off(ref(db, "users"));
+  off(ref(db, "roles"));
+  
+  // Ακούμε live για users
   onValue(ref(db, "users"), (usersSnap) => {
+    // Ακούμε live για roles
     onValue(ref(db, "roles"), (rolesSnap) => {
       const users = usersSnap.val() || {};
       const roles = rolesSnap.val() || {};
@@ -723,7 +728,7 @@ function renderUserList() {
       // Κατηγορίες arrays
       const admins = [], vips = [], normal = [], guests = [];
 
-      // Escape helper (ασφάλεια για ονόματα)
+      // Escape helper
       const escapeHTML = (str = "") =>
         str.replace(/[&<>"']/g, (m) => ({
           "&": "&amp;",
@@ -734,7 +739,6 @@ function renderUserList() {
         }[m]));
 
       Object.values(users).forEach(u => {
-        // ✅ Βρες ρόλο
         let role;
         if (u.displayName === "MysteryMan") {
           role = "admin"; // MysteryMan πάντα admin
@@ -756,7 +760,6 @@ function renderUserList() {
           normal.push({ ...u, role });
         }
       });
-
     // === Helper function για category ===
     function renderCategory(title, arr, cssClass) {
       if (arr.length === 0) return;
