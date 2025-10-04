@@ -718,9 +718,7 @@ function renderUserList() {
   // Ακούμε live για users
   onValue(ref(db, "users"), (usersSnap) => {
   onValue(ref(db, "mutes"), (mutesSnap) => {
-    const users = usersSnap.val() || {};
-    const mutes = mutesSnap.val() || {};
-    usersList.innerHTML = "";
+  
 
   const users = usersSnap.val() || {};
   const mutes = mutesSnap.val() || {};
