@@ -389,12 +389,12 @@ if (messageForm) {
   });
 }
 // ===================== YOUTUBE PANEL CONTROLS =====================
+const youtubePanel = document.getElementById("youtubePanel"); // μία φορά εδώ
 const closeYoutubeBtn = document.getElementById("closeYoutubeBtn");
 const expandYoutubeBtn = document.getElementById("expandYoutubeBtn");
 
 if (closeYoutubeBtn) {
   closeYoutubeBtn.addEventListener("click", () => {
-    const youtubePanel = document.getElementById("youtubePanel");
     const wrapper = youtubePanel.querySelector(".video-wrapper");
 
     // Καθαρίζουμε το iframe για να σταματήσει το βίντεο
@@ -404,17 +404,54 @@ if (closeYoutubeBtn) {
     youtubePanel.classList.remove("expanded");
 
     // reset icon
-    expandYoutubeBtn.textContent = "🔼";
+    if (expandYoutubeBtn) expandYoutubeBtn.textContent = "🔼";
   });
 }
 
 if (expandYoutubeBtn) {
   expandYoutubeBtn.addEventListener("click", () => {
-    const youtubePanel = document.getElementById("youtubePanel");
     youtubePanel.classList.toggle("expanded");
 
     // αλλάζουμε το εικονίδιο
     expandYoutubeBtn.textContent = youtubePanel.classList.contains("expanded") ? "🔽" : "🔼";
+  });
+}
+
+// ===================== DRAGGABLE YOUTUBE PANEL =====================
+let isDragging = false;
+let offsetX, offsetY;
+
+if (youtubePanel) {
+  youtubePanel.addEventListener("mousedown", (e) => {
+    if (e.target.tagName === "IFRAME") return; // 👈 να μην μπλοκάρει τα κλικ στο βίντεο
+    isDragging = true;
+    offsetX = e.clientX - youtubePanel.offsetLeft;
+    offsetY = e.clientY - youtubePanel.offsetTop;
+    youtubePanel.style.cursor = "grabbing";
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+    const chatPanel = document.getElementById("chatPanel");
+    const bounds = chatPanel.getBoundingClientRect();
+
+    let newLeft = e.clientX - offsetX;
+    let newTop = e.clientY - offsetY;
+
+    // Όρια για να μην βγαίνει έξω
+    newLeft = Math.max(bounds.left, Math.min(newLeft, bounds.right - youtubePanel.offsetWidth));
+    newTop = Math.max(bounds.top, Math.min(newTop, bounds.bottom - youtubePanel.offsetHeight));
+
+    youtubePanel.style.left = newLeft + "px";
+    youtubePanel.style.top = newTop + "px";
+    youtubePanel.style.transform = "none"; // 👈 ακυρώνουμε το translate
+  });
+
+  document.addEventListener("mouseup", () => {
+    if (isDragging) {
+      isDragging = false;
+      youtubePanel.style.cursor = "move";
+    }
   });
 }
 
