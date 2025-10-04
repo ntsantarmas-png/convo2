@@ -337,6 +337,15 @@ if (messageForm) {
     if (!text) return;
 
     const user = auth.currentUser;
+
+    // 🔒 Check mute
+    const muteSnap = await get(ref(db, "mutes/" + user.uid));
+    if (muteSnap.exists()) {
+      alert("⚠️ Είσαι muted και δεν μπορείς να στείλεις μηνύματα.");
+      return;
+    }
+
+    // Αν δεν είναι muted → στέλνει κανονικά
     await push(ref(db, "messages/" + currentRoom), {
       uid: user?.uid,
       user: user?.displayName || "Guest",
@@ -344,14 +353,12 @@ if (messageForm) {
       createdAt: serverTimestamp()
     });
 
-    
-// 👉 Κλείσε το emoji panel ΜΟΝΟ μετά την αποστολή
-closeEmojiPanel();
+    // 👉 Κλείσε το emoji panel ΜΟΝΟ μετά την αποστολή
+    closeEmojiPanel();
 
     input.value = "";
-input.style.height = "40px"; // 👈 reset στο default ύψος
-input.focus(); 
-
+    input.style.height = "40px"; // 👈 reset στο default ύψος
+    input.focus();
   });
 }
 // ===================== ADMIN CONTEXT MENU =====================
