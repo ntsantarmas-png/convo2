@@ -1254,33 +1254,17 @@ body {
 
 .youtube-panel {
   width: 100%;
-  height: 300px;            /* ύψος βίντεο */
+  height: 180px;               /* 👈 default μικρό panel */
   background: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-bottom: 1px solid #21262d;
-}
-
-.youtube-panel iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-.youtube-panel.hidden {
-  display: none;
-}
-
-.youtube-panel {
-  width: 100%;
-  height: 300px;
-  background: #000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
   border-bottom: 1px solid #21262d;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.youtube-panel.expanded {
+  height: 400px;               /* 👈 μεγαλώνει όταν έχει .expanded */
 }
 
 .youtube-panel iframe {
@@ -1294,20 +1278,27 @@ body {
   display: none;
 }
 
-.youtube-panel .close-btn {
+.youtube-panel .close-btn,
+.youtube-panel .expand-btn {
   position: absolute;
   top: 8px;
-  right: 8px;
   background: rgba(0,0,0,0.6);
   border: none;
   color: #fff;
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
   padding: 4px 8px;
   border-radius: 4px;
   transition: background 0.2s;
+  z-index: 10;
 }
+
+.youtube-panel .close-btn { right: 8px; }
+.youtube-panel .expand-btn { right: 40px; }
 
 .youtube-panel .close-btn:hover {
   background: rgba(255,0,0,0.7);
+}
+.youtube-panel .expand-btn:hover {
+  background: rgba(0,0,0,0.8);
 }
