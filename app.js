@@ -953,6 +953,12 @@ roleButtons.forEach(btn => {
 
     if (!contextTargetUid) return;
 
+    // Αν ο στόχος είναι ο ίδιος ο currentUser και προσπαθεί να κατεβάσει τον εαυτό του
+if (contextTargetUid === auth.currentUser.uid && newRole !== "admin") {
+  alert("⚠️ Δεν μπορείς να αλλάξεις το δικό σου role!");
+  return;
+}
+
     await update(ref(db, "users/" + contextTargetUid), {
       role: newRole
     });
