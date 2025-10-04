@@ -812,6 +812,8 @@ function renderUserList() {
 
         li.appendChild(avatarDiv);
         li.appendChild(nameSpan);
+        
+        
         // Δεξί κλικ (context menu) μόνο για admin
 li.addEventListener("contextmenu", async (e) => {
   e.preventDefault();
