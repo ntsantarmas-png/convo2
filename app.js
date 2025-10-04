@@ -271,7 +271,7 @@ if (msg.text) {
   // Γραμμή 1: Username + Text
   const line1 = document.createElement("div");
   line1.className = "msg-line1";
-  line1.textContent = (msg.user || "Anon") + " : " + msg.text;
+line1.textContent = msg.text;
 
   // ✅ Emoji-only check (αν είναι μόνο emoji → δεν βάζουμε user: , απλά emoji huge)
   if (isEmojiOnly(msg.text)) {
