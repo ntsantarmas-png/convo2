@@ -66,12 +66,13 @@ function setupPresence(user) {
     });
 
     // Μόνο presence info
-    update(userRef, {
-      uid: user.uid,
-      displayName: user.displayName || "Guest",
-      photoURL: user.photoURL || null,
-      online: true
-    });
+  update(userRef, {
+  uid: user.uid,
+  displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
+  photoURL: user.photoURL || null,
+  online: true
+});
+
   });
 }
 
