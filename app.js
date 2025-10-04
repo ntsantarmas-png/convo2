@@ -844,26 +844,7 @@ li.addEventListener("contextmenu", async (e) => {
 });
 
 
-  contextTargetUid = u.uid;
-
-  // Υπολογισμός θέσης (ώστε να μένει εντός οθόνης)
-const menuWidth = userContextMenu.offsetWidth || 180; // fallback
-const menuHeight = userContextMenu.offsetHeight || 150; // fallback
-let posX = e.clientX;
-let posY = e.clientY;
-
-if (posX + menuWidth > window.innerWidth) {
-  posX = window.innerWidth - menuWidth - 5;
-}
-if (posY + menuHeight > window.innerHeight) {
-  posY = window.innerHeight - menuHeight - 5;
-}
-
-userContextMenu.style.left = posX + "px";
-userContextMenu.style.top = posY + "px";
-
-  userContextMenu.classList.remove("hidden");
-});
+  
         sublist.appendChild(li);
       });
 
