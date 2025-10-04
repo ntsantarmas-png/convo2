@@ -932,3 +932,50 @@ document.addEventListener("keydown", (e) => {
     profileModal.classList.add("hidden");
   }
 });
+
+// ===================== ROLE MODAL LOGIC =====================
+const roleModal = document.getElementById("roleModal");
+const closeRole = document.getElementById("closeRole");
+const roleButtons = document.querySelectorAll(".role-btn");
+
+// Άνοιγμα modal όταν πατηθεί Change Role
+document.getElementById("changeRole").addEventListener("click", () => {
+  if (!contextTargetUid) return; // αν δεν έχουμε user
+
+  roleModal.classList.remove("hidden");       // δείξε το modal
+  userContextMenu.classList.add("hidden");    // κλείσε το context menu
+});
+// Επιλογή ρόλου από τα κουμπιά
+roleButtons.forEach(btn => {
+  btn.addEventListener("click", async () => {
+    const newRole = btn.dataset.role;
+
+    if (!contextTargetUid) return;
+
+    await update(ref(db, "users/" + contextTargetUid), {
+      role: newRole
+    });
+
+    console.log("✅ Role updated:", contextTargetUid, "→", newRole);
+
+    roleModal.classList.add("hidden"); // κλείσε το modal μετά την αλλαγή
+  });
+});
+// Κλείσιμο με ❌
+closeRole.addEventListener("click", () => {
+  roleModal.classList.add("hidden");
+});
+
+// Κλείσιμο με click έξω
+roleModal.addEventListener("click", (e) => {
+  if (e.target === roleModal) {
+    roleModal.classList.add("hidden");
+  }
+});
+
+// Κλείσιμο με Esc
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    roleModal.classList.add("hidden");
+  }
+});
