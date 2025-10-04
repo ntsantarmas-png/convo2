@@ -126,7 +126,8 @@ onAuthStateChanged(auth, async (user) => {
     if (logoutBtn) logoutBtn.classList.remove("hidden");
 
     // === Αν δεν υπάρχει displayName, δώσε default ===
-    let name = user.displayName || user.email || "Guest";
+    let name = user.displayName || "User" + Math.floor(Math.random() * 10000);
+
     if (!user.displayName) {
       await updateProfile(user, { displayName: name });
     }
