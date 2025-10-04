@@ -269,6 +269,26 @@ if (msg.text) {
   // Γραμμή 1: Text
   const line1 = document.createElement("div");
   line1.className = "msg-line1";
+  // === YouTube Embed Check ===
+const ytRegex = /(https?:\/\/(?:www\.)?youtube\.com\/watch\?v=|https?:\/\/youtu\.be\/)([a-zA-Z0-9_-]+)/;
+if (ytRegex.test(msg.text)) {
+  const match = msg.text.match(ytRegex);
+  const videoId = match[2];
+
+  const youtubePanel = document.getElementById("youtubePanel");
+  if (youtubePanel) {
+    youtubePanel.innerHTML = `
+      <iframe 
+        src="https://www.youtube.com/embed/${videoId}" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    `;
+    youtubePanel.classList.remove("hidden");
+  }
+}
+
   line1.textContent = msg.text;
 
   // ✅ Emoji-only check
