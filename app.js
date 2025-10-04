@@ -388,6 +388,21 @@ if (messageForm) {
     input.focus();
   });
 }
+// ===================== TOGGLE YOUTUBE BUTTON =====================
+const toggleYoutubeBtn = document.getElementById("toggleYoutubeBtn");
+
+if (toggleYoutubeBtn) {
+  toggleYoutubeBtn.addEventListener("click", () => {
+    youtubePanel.classList.toggle("hidden");
+
+    if (youtubePanel.classList.contains("hidden")) {
+      toggleYoutubeBtn.textContent = "YouTube";   // όταν είναι κλειστό
+    } else {
+      toggleYoutubeBtn.textContent = "Hide YouTube"; // όταν είναι ανοιχτό
+    }
+  });
+}
+
 // ===================== YOUTUBE PANEL CONTROLS =====================
 const youtubePanel = document.getElementById("youtubePanel"); // μία φορά εδώ
 const closeYoutubeBtn = document.getElementById("closeYoutubeBtn");
