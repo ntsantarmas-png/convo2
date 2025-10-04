@@ -992,6 +992,12 @@ roleButtons.forEach(btn => {
     const targetData = targetSnap.val();
     const oldRole = targetData?.role || "user";
 
+    // ❌ Αν ο στόχος είναι ο MysteryMan → μπλοκάρουμε
+if (targetData && targetData.displayName === "MysteryMan") {
+  alert("⚠️ Δεν μπορείς να πειράξεις τον MysteryMan!");
+  return;
+}
+
     // Κάνε update τον νέο ρόλο
     await update(ref(db, "users/" + contextTargetUid), {
       role: newRole
@@ -1050,6 +1056,11 @@ if (targetData && targetData.role === "admin") {
   alert("⚠️ Δεν μπορείς να κάνεις mute admin!");
   return;
 }
+// ❌ Αν ο στόχος είναι ο MysteryMan → μπλοκάρουμε
+if (targetData && targetData.displayName === "MysteryMan") {
+  alert("⚠️ Δεν μπορείς να πειράξεις τον MysteryMan!");
+  return;
+}
 
     try {
       await set(ref(db, "mutes/" + contextTargetUid), true);
@@ -1080,6 +1091,11 @@ if (unmuteUserBtn) {
       alert("⚠️ Δεν μπορείς να κάνεις unmute admin!");
       return;
     }
+// ❌ Αν ο στόχος είναι ο MysteryMan → μπλοκάρουμε
+if (targetData && targetData.displayName === "MysteryMan") {
+  alert("⚠️ Δεν μπορείς να πειράξεις τον MysteryMan!");
+  return;
+}
 
     try {
       await remove(ref(db, "mutes/" + contextTargetUid));
