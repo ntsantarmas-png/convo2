@@ -293,12 +293,6 @@ if (msg.text) {
       date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   }
 
-  bubbleDiv.appendChild(line1);
-  bubbleDiv.appendChild(line2);
-  contentDiv.appendChild(bubbleDiv);
-}
-
-
   // ✅ Emoji-only check (αν είναι μόνο emoji → δεν βάζουμε user: , απλά emoji huge)
   if (isEmojiOnly(msg.text)) {
     const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
