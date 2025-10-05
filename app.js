@@ -431,10 +431,9 @@ let offsetX, offsetY;
 
 const dragHeader = document.querySelector(".yt-drag-header");
 const youtubePanel = document.getElementById("youtubePanel");
-const chatPanel = document.getElementById("chatPanel");
+const chatPanel = document.getElementById("chatPanel"); // ✅ χρησιμοποιούμε το chat ως όριο
 
-
-if (dragHeader && youtubePanel && appContainer) {
+if (dragHeader && youtubePanel && chatPanel) {
   dragHeader.addEventListener("mousedown", (e) => {
     isDragging = true;
     offsetX = e.clientX - youtubePanel.offsetLeft;
@@ -447,18 +446,16 @@ if (dragHeader && youtubePanel && appContainer) {
 
     const bounds = chatPanel.getBoundingClientRect();
 
-
-    // Υπολογίζουμε νέα θέση
     let newLeft = e.clientX - offsetX;
     let newTop = e.clientY - offsetY;
 
-    // ✅ Κρατάμε το panel εντός του #app, αλλά το αφήνουμε να πάει πάνω από rooms & users
+    // ✅ Κρατάμε το panel εντός του chatPanel (χωρίς να φεύγει εκτός)
     newLeft = Math.max(bounds.left, Math.min(newLeft, bounds.right - youtubePanel.offsetWidth));
     newTop = Math.max(bounds.top, Math.min(newTop, bounds.bottom - youtubePanel.offsetHeight));
 
     youtubePanel.style.left = newLeft + "px";
     youtubePanel.style.top = newTop + "px";
-    youtubePanel.style.position = "fixed"; // 👈 για να “επιπλέει” πάνω από όλα
+    youtubePanel.style.position = "fixed"; // 🧠 κρατάει overlay πάνω από τα πάντα
   });
 
   document.addEventListener("mouseup", () => {
@@ -466,6 +463,7 @@ if (dragHeader && youtubePanel && appContainer) {
     dragHeader.style.cursor = "grab";
   });
 }
+
 
 
 
