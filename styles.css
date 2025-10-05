@@ -1252,18 +1252,24 @@ body {
 
 /* ===================== YOUTUBE PANEL ===================== */
 .youtube-panel {
-  position: absolute;           /* ανεξάρτητο από το chat grid */
-  top: 120px;                   /* αρχική θέση */
+  position: absolute;
+  top: 120px;
   left: 50%;
   transform: translateX(-50%);
   width: 480px;
   aspect-ratio: 16 / 9;
-  background: transparent;      /* 👈 δεν έχει πλέον μαύρο φόντο */
-  border: none;                 /* 👈 καθαρό */
+  background: transparent;
+  border: none;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
   z-index: 9999;
+  resize: both;
+  min-width: 320px;
+  max-width: 800px;
+  min-height: 180px;
+  max-height: 600px;
+}
 
   /* ✅ Επιτρέπει resize από κάτω-δεξιά */
   resize: both;
@@ -1333,21 +1339,26 @@ body {
 .yt-toggle-btn:hover {
   background: #1d4ed8;        /* πιο σκούρο στο hover */
 }
-/* === Header bar (dark-glass αισθητική) === */
+/* ✅ Floating dark-glass header πάνω στο video */
 .yt-drag-header {
-  height: 26px;
-  background: rgba(25, 25, 25, 0.45);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: rgba(20, 20, 20, 0.5);
   backdrop-filter: blur(8px) saturate(140%);
   -webkit-backdrop-filter: blur(8px) saturate(140%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 10px;
   cursor: grab;
   user-select: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  z-index: 2;
 }
 
 .yt-drag-header:active {
