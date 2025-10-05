@@ -411,18 +411,11 @@ const closeYoutubeBtn = document.getElementById("closeYoutubeBtn");
 
 if (closeYoutubeBtn) {
   closeYoutubeBtn.addEventListener("click", () => {
-    const wrapper = youtubePanel.querySelector(".video-wrapper");
-
-    
-    
-
+    // ✅ Μόνο κλείσιμο panel — ΔΕΝ σβήνουμε το iframe πλέον
     youtubePanel.classList.add("hidden");
-    youtubePanel.classList.remove("expanded");
-
-    // reset icon
-    if (expandYoutubeBtn) expandYoutubeBtn.textContent = "🔼";
   });
 }
+
 
 
 // ===================== DRAGGABLE YOUTUBE PANEL (IN-APP LIMITS) =====================
@@ -473,14 +466,34 @@ const clearChatBtn = document.getElementById("clearChatBtn");
 
 if (clearChatBtn) {
   clearChatBtn.addEventListener("click", async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    // ✅ Έλεγχος ρόλου από τη βάση (όχι μόνο MysteryMan)
+    const userSnap = await get(ref(db, "users/" + user.uid));
+    const userData = userSnap.val();
+    const role = userData?.role || "user";
+
+    if (role !== "admin") {
+      alert("⚠️ Μόνο admin μπορεί να καθαρίσει το chat!");
+      return;
+    }
+
+    if (!currentRoom) {
+      alert("❗ Δεν έχει επιλεγεί room!");
+      return;
+    }
+
+    const confirmClear = confirm(`🧹 Θες σίγουρα να καθαρίσεις το room "${currentRoom}" ?`);
+    if (!confirmClear) return;
+
     try {
       await remove(ref(db, "messages/" + currentRoom));
-      console.log("✅ Chat cleared in room:", currentRoom);
+      console.log("✅ Chat cleared:", currentRoom);
     } catch (err) {
       console.error("❌ Clear chat failed:", err);
     }
 
-    // Κλείσε το menu
     contextMenu.classList.add("hidden");
   });
 }
@@ -494,11 +507,10 @@ document.getElementById("messages").addEventListener("contextmenu", (e) => {
   const messageDiv = e.target.closest(".message");
   if (!messageDiv) return;
 
-  // ✅ Εμφανίζει το menu μόνο αν είμαι admin
   const currentUser = auth.currentUser;
   if (!currentUser) return;
 
-  // check στο DB role
+  // ✅ Έλεγχος στο DB αν είναι admin
   const userRef = ref(db, "users/" + currentUser.uid);
   get(userRef).then((snap) => {
     const u = snap.val();
@@ -530,7 +542,6 @@ if (deleteBtn) {
       console.error("❌ Delete failed:", err);
     }
 
-    // Κλείσε το menu
     contextMenu.classList.add("hidden");
     targetMessageId = null;
   });
