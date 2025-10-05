@@ -409,7 +409,6 @@ if (toggleYoutubeBtn) {
 // ===================== YOUTUBE PANEL CONTROLS =====================
 const youtubePanel = document.getElementById("youtubePanel"); // μία φορά εδώ
 const closeYoutubeBtn = document.getElementById("closeYoutubeBtn");
-const expandYoutubeBtn = document.getElementById("expandYoutubeBtn");
 
 if (closeYoutubeBtn) {
   closeYoutubeBtn.addEventListener("click", () => {
@@ -426,14 +425,6 @@ if (closeYoutubeBtn) {
   });
 }
 
-if (expandYoutubeBtn) {
-  expandYoutubeBtn.addEventListener("click", () => {
-    youtubePanel.classList.toggle("expanded");
-
-    // αλλάζουμε το εικονίδιο
-    expandYoutubeBtn.textContent = youtubePanel.classList.contains("expanded") ? "🔽" : "🔼";
-  });
-}
 
 // ===================== DRAGGABLE YOUTUBE PANEL =====================
 let isDragging = false;
