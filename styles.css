@@ -1254,23 +1254,22 @@ body {
 
 /* ===================== YOUTUBE PANEL ===================== */
 .youtube-panel {
-  position: absolute;
+  position: fixed; /* ✅ τώρα μετρά ως προς όλο το παράθυρο */
   top: 120px;
   left: 50%;
   transform: translateX(-50%);
   width: 480px;
   aspect-ratio: 16 / 9;
-  background: transparent;
-  border: none;
+  z-index: 9999;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-  z-index: 9999;
   resize: both;
   min-width: 320px;
   max-width: 800px;
   min-height: 180px;
   max-height: 600px;
+  background: transparent;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
 }
 
   /* ✅ Επιτρέπει resize από κάτω-δεξιά */
