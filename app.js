@@ -430,13 +430,15 @@ onAuthStateChanged(auth, (user) => {
 if (systemBtn && systemPanel && closeSystemBtn) {
 systemBtn.addEventListener("click", () => {
   console.log("🟢 System clicked");
-  systemPanel.classList.add("open");
+  systemPanel.classList.remove("hidden"); // ✅ ξεκλειδώνει το panel
+  systemPanel.classList.add("open");      // ✅ ενεργοποιεί το slide
   loadSystemLogs();
 });
 
-  closeSystemBtn.addEventListener("click", () => {
-    systemPanel.classList.remove("open");
-  });
+closeSystemBtn.addEventListener("click", () => {
+  systemPanel.classList.remove("open");
+  systemPanel.classList.add("hidden");    // ✅ το ξανακρύβει
+});
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") systemPanel.classList.remove("open");
   });
