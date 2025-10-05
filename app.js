@@ -548,6 +548,10 @@ if (deleteBtn) {
     try {
       await remove(ref(db, "messages/" + currentRoom + "/" + targetMessageId));
       console.log("✅ Message deleted:", targetMessageId);
+      // 💬 Αφαίρεσε άμεσα το bubble από το UI
+const deletedMsg = document.querySelector(`.message[data-id="${targetMessageId}"]`);
+if (deletedMsg) deletedMsg.remove();
+
     } catch (err) {
       console.error("❌ Delete failed:", err);
     }
