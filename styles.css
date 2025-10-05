@@ -1252,19 +1252,20 @@ body {
 
 /* ===================== YOUTUBE PANEL ===================== */
 .youtube-panel {
-  position: absolute;          /* 👈 floating πάνω στο chat */
-  top: 60px;                   /* αρχική θέση */
+  position: absolute;           /* ανεξάρτητο από το chat grid */
+  top: 120px;                   /* αρχική θέση */
   left: 50%;
   transform: translateX(-50%);
-  width: 400px;
+  width: 480px;
   aspect-ratio: 16 / 9;
   background: #000;
-  border: 1px solid #21262d;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  cursor: move;                /* δείχνει ότι είναι draggable */
-  z-index: 50;                 /* πάνω από τα bubbles */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  cursor: move;                 /* δείχνει ότι μπορείς να το σέρνεις */
+  z-index: 9999;                /* ✅ πάνω απ’ όλα */
 }
+
 
 .youtube-panel iframe {
   width: 100%;
