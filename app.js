@@ -449,21 +449,25 @@ if (youtubePanel) {
   });
 
   document.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
-    const chatPanel = document.getElementById("chatPanel");
-    const bounds = chatPanel.getBoundingClientRect();
+  if (!isDragging) return;
 
-    let newLeft = e.clientX - offsetX;
-    let newTop = e.clientY - offsetY;
+  const chatPanel = document.getElementById("chatPanel");
+  const bounds = chatPanel.getBoundingClientRect();
 
-    // Όρια για να μην βγαίνει έξω
-    newLeft = Math.max(bounds.left, Math.min(newLeft, bounds.right - youtubePanel.offsetWidth));
-    newTop = Math.max(bounds.top, Math.min(newTop, bounds.bottom - youtubePanel.offsetHeight));
+  let newLeft = e.clientX - offsetX;
+  let newTop = e.clientY - offsetY;
 
-    youtubePanel.style.left = newLeft + "px";
-    youtubePanel.style.top = newTop + "px";
-    youtubePanel.style.transform = "none"; // 👈 ακυρώνουμε το translate
-  });
+  // ✅ Νέα όρια για πλήρη οριζόντια κίνηση (μέσα στα όρια του chatPanel)
+  if (newLeft < bounds.left) newLeft = bounds.left;
+  if (newLeft > bounds.right - youtubePanel.offsetWidth) newLeft = bounds.right - youtubePanel.offsetWidth;
+  if (newTop < bounds.top) newTop = bounds.top;
+  if (newTop > bounds.bottom - youtubePanel.offsetHeight) newTop = bounds.bottom - youtubePanel.offsetHeight;
+
+  youtubePanel.style.left = newLeft + "px";
+  youtubePanel.style.top = newTop + "px";
+  youtubePanel.style.transform = "none";
+});
+
 
   document.addEventListener("mouseup", () => {
     if (isDragging) {
