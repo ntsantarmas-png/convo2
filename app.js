@@ -841,24 +841,20 @@ function sendStickerMessage(url) {
 function showEmojiTrail(panel) {
   const emojis = ["😂", "🔥", "💫", "❤️", "😎", "✨", "🎉", "🫶"];
   const count = 3 + Math.floor(Math.random() * 3); // 3–5 emojis
+  const rect = panel.getBoundingClientRect();
 
   for (let i = 0; i < count; i++) {
     const span = document.createElement("span");
     span.className = "emoji-trail";
     span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
 
-    // Τυχαία θέση γύρω από το panel
-    const offsetX = Math.random() * panel.offsetWidth - panel.offsetWidth / 2;
+    const offsetX = Math.random() * rect.width - rect.width / 2;
     const offsetY = Math.random() * 30 - 10;
 
-    const rect = panel.getBoundingClientRect();
-span.style.left = `${rect.left + rect.width / 2 + offsetX}px`;
-span.style.top = `${rect.top - 20 + offsetY + window.scrollY}px`;
-
+    span.style.left = `${rect.left + rect.width / 2 + offsetX}px`;
+    span.style.top = `${rect.top - 20 + offsetY + window.scrollY}px`;
 
     document.body.appendChild(span);
-
-    // Σβήσε το μετά το animation
     setTimeout(() => span.remove(), 600);
   }
 }
