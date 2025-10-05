@@ -1333,3 +1333,24 @@ body {
 .yt-toggle-btn:hover {
   background: #1d4ed8;        /* πιο σκούρο στο hover */
 }
+/* === Header bar (μόνο απ’ εκεί γίνεται drag) === */
+.yt-drag-header {
+  height: 24px;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  cursor: grab;              /* δείχνει ότι είναι draggable */
+  user-select: none;
+}
+
+.yt-drag-header:active {
+  cursor: grabbing;
+}
+
+.yt-title {
+  font-size: 13px;
+  color: #fff;
+  opacity: 0.8;
+}
