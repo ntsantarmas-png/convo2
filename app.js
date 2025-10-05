@@ -425,14 +425,15 @@ if (closeYoutubeBtn) {
 }
 
 
-// ===================== DRAGGABLE YOUTUBE PANEL (WINDOW BOUNDS) =====================
+// ===================== DRAGGABLE YOUTUBE PANEL (IN-APP LIMITS) =====================
 let isDragging = false;
 let offsetX, offsetY;
 
 const dragHeader = document.querySelector(".yt-drag-header");
 const youtubePanel = document.getElementById("youtubePanel");
+const appContainer = document.getElementById("app");
 
-if (dragHeader && youtubePanel) {
+if (dragHeader && youtubePanel && appContainer) {
   dragHeader.addEventListener("mousedown", (e) => {
     isDragging = true;
     offsetX = e.clientX - youtubePanel.offsetLeft;
@@ -443,25 +444,26 @@ if (dragHeader && youtubePanel) {
   document.addEventListener("mousemove", (e) => {
     if (!isDragging) return;
 
-    // === Όρια ως προς το παράθυρο (viewport)
-    const bounds = {
-      left: 0,
-      right: window.innerWidth,
-      top: 60, // λίγο κάτω από το topbar
-      bottom: window.innerHeight - 100 // λίγο πάνω από το input
-    };
+    const bounds = appContainer.getBoundingClientRect();
+
+    // Safe ζώνες πάνω/κάτω για header & input
+    const safeTop = 20;
+    const safeBottom = 80;
 
     let newLeft = e.clientX - offsetX;
     let newTop = e.clientY - offsetY;
 
-    // ✅ Δεν επιτρέπει να βγει εκτός οθόνης
+    // ➡️ Αριστερά/Δεξιά: μένει εντός Convo (μπορεί να πατάει και userlist)
     newLeft = Math.max(bounds.left, Math.min(newLeft, bounds.right - youtubePanel.offsetWidth));
-    newTop = Math.max(bounds.top, Math.min(newTop, bounds.bottom - youtubePanel.offsetHeight));
 
-    // Εφαρμογή νέας θέσης
-    youtubePanel.style.left = newLeft + "px";
-    youtubePanel.style.top = newTop + "px";
-    youtubePanel.style.position = "fixed"; // επιπλέει πάνω απ’ όλα
+    // ⬆️⬇️ Πάνω/Κάτω: περιορίζεται εντός app (χωρίς να βγαίνει)
+    newTop = Math.max(bounds.top + safeTop, Math.min(newTop, bounds.bottom - youtubePanel.offsetHeight - safeBottom));
+
+    // Εφαρμογή
+    youtubePanel.style.position = "absolute"; // ✅ μέσα στο app context
+    youtubePanel.style.left = newLeft - bounds.left + "px";
+    youtubePanel.style.top = newTop - bounds.top + "px";
+    youtubePanel.style.zIndex = "9999";
   });
 
   document.addEventListener("mouseup", () => {
@@ -469,7 +471,6 @@ if (dragHeader && youtubePanel) {
     dragHeader.style.cursor = "grab";
   });
 }
-
 // ===================== ADMIN CONTEXT MENU =====================
 const contextMenu = document.getElementById("contextMenu");
 const deleteBtn = document.getElementById("deleteMessageBtn");
