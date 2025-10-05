@@ -161,6 +161,9 @@ await update(ref(db, "users/" + user.uid), {
     // === UI switch (με hidden class) ===
     authView.classList.add("hidden");
     appView.classList.remove("hidden");
+    // ✅ Εμφανίζει τα κουμπιά topbar ΜΟΝΟ στο app
+document.getElementById("appTopActions").classList.remove("hidden");
+
 
     if (headerUser) {
       headerUser.textContent = name;
@@ -174,6 +177,8 @@ await update(ref(db, "users/" + user.uid), {
 
     appView.classList.add("hidden");
     authView.classList.remove("hidden");
+    document.getElementById("appTopActions").classList.add("hidden");
+
     
   }
 });
