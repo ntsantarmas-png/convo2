@@ -425,15 +425,15 @@ if (closeYoutubeBtn) {
 }
 
 
-// ===================== DRAGGABLE YOUTUBE PANEL =====================
+// ===================== DRAGGABLE YOUTUBE PANEL (SMART BOUNDS) =====================
 let isDragging = false;
 let offsetX, offsetY;
 
 const dragHeader = document.querySelector(".yt-drag-header");
 const youtubePanel = document.getElementById("youtubePanel");
-const chatPanel = document.getElementById("chatPanel"); // ✅ χρησιμοποιούμε το chat ως όριο
+const appContainer = document.getElementById("app"); // ✅ full app bounds
 
-if (dragHeader && youtubePanel && chatPanel) {
+if (dragHeader && youtubePanel && appContainer) {
   dragHeader.addEventListener("mousedown", (e) => {
     isDragging = true;
     offsetX = e.clientX - youtubePanel.offsetLeft;
@@ -444,18 +444,27 @@ if (dragHeader && youtubePanel && chatPanel) {
   document.addEventListener("mousemove", (e) => {
     if (!isDragging) return;
 
-    const bounds = chatPanel.getBoundingClientRect();
+    const bounds = appContainer.getBoundingClientRect();
 
+    // 👇 Safe margins (px)
+    const safeTop = 60;     // αποφυγή topbar
+    const safeBottom = 100; // αποφυγή input bar
+
+    // Υπολογισμός νέας θέσης
     let newLeft = e.clientX - offsetX;
     let newTop = e.clientY - offsetY;
 
-    // ✅ Κρατάμε το panel εντός του chatPanel (χωρίς να φεύγει εκτός)
+    // === Εφαρμογή "έξυπνων" ορίων ===
+    // ➡️ Οριζόντια: ελεύθερα εντός app (μπορεί να καλύπτει rooms & userlist)
     newLeft = Math.max(bounds.left, Math.min(newLeft, bounds.right - youtubePanel.offsetWidth));
-    newTop = Math.max(bounds.top, Math.min(newTop, bounds.bottom - youtubePanel.offsetHeight));
 
+    // ⬆️⬇️ Κάθετα: με ασφάλεια πάνω/κάτω
+    newTop = Math.max(bounds.top + safeTop, Math.min(newTop, bounds.bottom - youtubePanel.offsetHeight - safeBottom));
+
+    // Εφαρμογή θέσης
+    youtubePanel.style.position = "fixed"; // ✅ overlay πάνω από όλα
     youtubePanel.style.left = newLeft + "px";
     youtubePanel.style.top = newTop + "px";
-    youtubePanel.style.position = "fixed"; // 🧠 κρατάει overlay πάνω από τα πάντα
   });
 
   document.addEventListener("mouseup", () => {
@@ -463,9 +472,6 @@ if (dragHeader && youtubePanel && chatPanel) {
     dragHeader.style.cursor = "grab";
   });
 }
-
-
-
 
 
 // ===================== ADMIN CONTEXT MENU =====================
