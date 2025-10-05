@@ -430,45 +430,35 @@ if (closeYoutubeBtn) {
 let isDragging = false;
 let offsetX, offsetY;
 
-if (youtubePanel) {
-  youtubePanel.addEventListener("mousedown", (e) => {
-    if (e.target.tagName === "IFRAME") return; // 👈 να μην μπλοκάρει τα κλικ στο βίντεο
+const dragHeader = document.querySelector(".yt-drag-header");
+if (dragHeader && youtubePanel) {
+  dragHeader.addEventListener("mousedown", (e) => {
     isDragging = true;
     offsetX = e.clientX - youtubePanel.offsetLeft;
     offsetY = e.clientY - youtubePanel.offsetTop;
-    youtubePanel.style.cursor = "grabbing";
+    dragHeader.style.cursor = "grabbing";
   });
 
   document.addEventListener("mousemove", (e) => {
-  if (!isDragging) return;
+    if (!isDragging) return;
 
-const appContainer = document.getElementById("app");
-const bounds = appContainer.getBoundingClientRect();
+    let newLeft = e.clientX - offsetX;
+    let newTop = e.clientY - offsetY;
 
+    // ✅ Όρια ώστε να μένει μέσα στο παράθυρο
+    newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - youtubePanel.offsetWidth));
+    newTop = Math.max(0, Math.min(newTop, window.innerHeight - youtubePanel.offsetHeight));
 
-  let newLeft = e.clientX - offsetX;
-  let newTop = e.clientY - offsetY;
-
-  // ✅ Νέα όρια για πλήρη οριζόντια κίνηση (μέσα στα όρια του chatPanel)
- if (newLeft < bounds.left) newLeft = bounds.left;
-if (newLeft > bounds.right - youtubePanel.offsetWidth) newLeft = bounds.right - youtubePanel.offsetWidth;
-if (newTop < bounds.top) newTop = bounds.top;
-if (newTop > bounds.bottom - youtubePanel.offsetHeight) newTop = bounds.bottom - youtubePanel.offsetHeight;
-
-
-  youtubePanel.style.left = newLeft + "px";
-  youtubePanel.style.top = newTop + "px";
-  youtubePanel.style.transform = "none";
-});
-
+    youtubePanel.style.left = newLeft + "px";
+    youtubePanel.style.top = newTop + "px";
+  });
 
   document.addEventListener("mouseup", () => {
-    if (isDragging) {
-      isDragging = false;
-      youtubePanel.style.cursor = "move";
-    }
+    isDragging = false;
+    dragHeader.style.cursor = "grab";
   });
 }
+
 
 // ===================== ADMIN CONTEXT MENU =====================
 const contextMenu = document.getElementById("contextMenu");
