@@ -1402,10 +1402,10 @@ body {
 /* ===================== SYSTEM PANEL ===================== */
 .system-panel {
   position: fixed;
-  top: 0;
+  top: 50px; /* κάτω από το topbar */
   right: 0;
   width: 340px;
-  height: 100%;
+height: calc(100vh - 50px);
   background: rgba(22, 22, 28, 0.9);
   backdrop-filter: blur(12px) saturate(160%);
   -webkit-backdrop-filter: blur(12px) saturate(160%);
