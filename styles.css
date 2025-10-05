@@ -474,9 +474,10 @@ body {
   font-size: 22px;
   pointer-events: none;
   user-select: none;
-  z-index: 9999;
+  z-index: 9999; /* πρέπει να είναι πάνω από όλα */
   animation: emojiPop 0.6s ease-out forwards;
 }
+
 
 
 /* ==== GIF / Sticker Search Inputs ==== */
