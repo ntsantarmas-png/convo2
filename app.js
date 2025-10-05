@@ -431,7 +431,8 @@ let offsetX, offsetY;
 
 const dragHeader = document.querySelector(".yt-drag-header");
 const youtubePanel = document.getElementById("youtubePanel");
-const appContainer = document.getElementById("app");
+const chatPanel = document.getElementById("chatPanel");
+
 
 if (dragHeader && youtubePanel && appContainer) {
   dragHeader.addEventListener("mousedown", (e) => {
@@ -444,7 +445,8 @@ if (dragHeader && youtubePanel && appContainer) {
   document.addEventListener("mousemove", (e) => {
     if (!isDragging) return;
 
-    const bounds = appContainer.getBoundingClientRect();
+    const bounds = chatPanel.getBoundingClientRect();
+
 
     // Υπολογίζουμε νέα θέση
     let newLeft = e.clientX - offsetX;
