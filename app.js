@@ -431,6 +431,7 @@ let isDragging = false;
 let offsetX, offsetY;
 
 const dragHeader = document.querySelector(".yt-drag-header");
+const youtubePanel = document.getElementById("youtubePanel");
 const appContainer = document.getElementById("app");
 
 if (dragHeader && youtubePanel && appContainer) {
@@ -445,15 +446,18 @@ if (dragHeader && youtubePanel && appContainer) {
     if (!isDragging) return;
 
     const bounds = appContainer.getBoundingClientRect();
+
+    // Υπολογίζουμε νέα θέση
     let newLeft = e.clientX - offsetX;
     let newTop = e.clientY - offsetY;
 
-    // ✅ Κρατάει το panel μέσα στα όρια του #app
+    // ✅ Κρατάμε το panel εντός του #app, αλλά το αφήνουμε να πάει πάνω από rooms & users
     newLeft = Math.max(bounds.left, Math.min(newLeft, bounds.right - youtubePanel.offsetWidth));
     newTop = Math.max(bounds.top, Math.min(newTop, bounds.bottom - youtubePanel.offsetHeight));
 
     youtubePanel.style.left = newLeft + "px";
     youtubePanel.style.top = newTop + "px";
+    youtubePanel.style.position = "fixed"; // 👈 για να “επιπλέει” πάνω από όλα
   });
 
   document.addEventListener("mouseup", () => {
@@ -461,6 +465,7 @@ if (dragHeader && youtubePanel && appContainer) {
     dragHeader.style.cursor = "grab";
   });
 }
+
 
 
 
