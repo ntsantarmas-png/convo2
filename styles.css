@@ -1263,11 +1263,22 @@ body {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-  cursor: move;
   z-index: 9999;
+
+  /* ✅ Επιτρέπει resize από κάτω-δεξιά */
+  resize: both;
+  min-width: 320px;
+  max-width: 800px;
+  min-height: 180px;
+  max-height: 600px;
+
+  cursor: grab; /* default cursor */
+}
+.youtube-panel:active {
+  cursor: grabbing;
 }
 
-/* ✅ νέα προσθήκη */
+/* ✅ Το iframe πιάνει όλο το panel */
 .youtube-panel .video-wrapper {
   width: 100%;
   height: 100%;
@@ -1281,23 +1292,16 @@ body {
   border-radius: 0; /* αν δεν θέλεις στρογγυλεμένες άκρες στο video */
 }
 
-.youtube-panel.hidden {
-  display: none;
-}
-.youtube-panel.expanded {
-  width: 80%;                     /* μεγαλώνει σε 80% */
-}
-
-
-
+/* === Hidden state === */
 .youtube-panel.hidden {
   display: none;
 }
 
-.youtube-panel .close-btn,
-.youtube-panel .expand-btn {
+/* === Κουμπιά === */
+.youtube-panel .close-btn {
   position: absolute;
   top: 8px;
+  right: 8px;
   background: rgba(0,0,0,0.6);
   border: none;
   color: #fff;
@@ -1309,15 +1313,11 @@ body {
   z-index: 10;
 }
 
-.youtube-panel .close-btn { right: 8px; }
-.youtube-panel .expand-btn { right: 40px; }
-
 .youtube-panel .close-btn:hover {
   background: rgba(255,0,0,0.7);
 }
-.youtube-panel .expand-btn:hover {
-  background: rgba(0,0,0,0.8);
-}
+
+/* === YouTube toggle button (στο topbar) === */
 .yt-toggle-btn {
   background: #2563eb;        /* μπλε σαν το Send */
   border: none;
