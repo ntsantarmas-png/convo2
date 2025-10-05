@@ -428,10 +428,12 @@ onAuthStateChanged(auth, (user) => {
 
 // Άνοιγμα / κλείσιμο
 if (systemBtn && systemPanel && closeSystemBtn) {
-  systemBtn.addEventListener("click", () => {
-    systemPanel.classList.add("open");
-    loadSystemLogs(); // ✅ φόρτωση logs
-  });
+systemBtn.addEventListener("click", () => {
+  console.log("🟢 System clicked");
+  systemPanel.classList.add("open");
+  loadSystemLogs();
+});
+
   closeSystemBtn.addEventListener("click", () => {
     systemPanel.classList.remove("open");
   });
