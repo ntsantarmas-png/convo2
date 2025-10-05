@@ -436,34 +436,28 @@ const appContainer = document.getElementById("app");
 if (dragHeader && youtubePanel && appContainer) {
   dragHeader.addEventListener("mousedown", (e) => {
     isDragging = true;
-    offsetX = e.clientX - youtubePanel.offsetLeft;
-    offsetY = e.clientY - youtubePanel.offsetTop;
+    const rect = youtubePanel.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
     dragHeader.style.cursor = "grabbing";
   });
 
   document.addEventListener("mousemove", (e) => {
     if (!isDragging) return;
 
-    const bounds = appContainer.getBoundingClientRect();
+    const appRect = appContainer.getBoundingClientRect();
+    const panelRect = youtubePanel.getBoundingClientRect();
 
-    // Safe ζώνες πάνω/κάτω για header & input
-    const safeTop = 20;
-    const safeBottom = 80;
+    let newLeft = e.clientX - offsetX - appRect.left;
+    let newTop = e.clientY - offsetY - appRect.top;
 
-    let newLeft = e.clientX - offsetX;
-    let newTop = e.clientY - offsetY;
+    // ➡️ Περιορισμός εντός Convo
+    newLeft = Math.max(0, Math.min(newLeft, appRect.width - panelRect.width));
+    newTop = Math.max(0, Math.min(newTop, appRect.height - panelRect.height));
 
-    // ➡️ Αριστερά/Δεξιά: μένει εντός Convo (μπορεί να πατάει και userlist)
-    newLeft = Math.max(bounds.left, Math.min(newLeft, bounds.right - youtubePanel.offsetWidth));
-
-    // ⬆️⬇️ Πάνω/Κάτω: περιορίζεται εντός app (χωρίς να βγαίνει)
-    newTop = Math.max(bounds.top + safeTop, Math.min(newTop, bounds.bottom - youtubePanel.offsetHeight - safeBottom));
-
-    // Εφαρμογή
-    youtubePanel.style.position = "absolute"; // ✅ μέσα στο app context
-    youtubePanel.style.left = newLeft - bounds.left + "px";
-    youtubePanel.style.top = newTop - bounds.top + "px";
-    youtubePanel.style.zIndex = "9999";
+    youtubePanel.style.left = `${newLeft}px`;
+    youtubePanel.style.top = `${newTop}px`;
+    youtubePanel.style.transform = "none";
   });
 
   document.addEventListener("mouseup", () => {
@@ -471,6 +465,7 @@ if (dragHeader && youtubePanel && appContainer) {
     dragHeader.style.cursor = "grab";
   });
 }
+
 // ===================== ADMIN CONTEXT MENU =====================
 const contextMenu = document.getElementById("contextMenu");
 const deleteBtn = document.getElementById("deleteMessageBtn");
