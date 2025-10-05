@@ -163,7 +163,12 @@ await update(ref(db, "users/" + user.uid), {
     appView.classList.remove("hidden");
     // ✅ Εμφανίζει τα κουμπιά topbar ΜΟΝΟ στο app
 document.getElementById("appTopActions").classList.remove("hidden");
-
+// ✅ Με το που κάνει login ή register, κρύβουμε το YouTube panel
+const youtubePanel = document.getElementById("youtubePanel");
+if (youtubePanel) {
+  youtubePanel.classList.add("hidden");
+  youtubePanel.classList.remove("expanded");
+}
 
     if (headerUser) {
       headerUser.textContent = name;
