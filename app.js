@@ -431,7 +431,9 @@ let isDragging = false;
 let offsetX, offsetY;
 
 const dragHeader = document.querySelector(".yt-drag-header");
-if (dragHeader && youtubePanel) {
+const appContainer = document.getElementById("app");
+
+if (dragHeader && youtubePanel && appContainer) {
   dragHeader.addEventListener("mousedown", (e) => {
     isDragging = true;
     offsetX = e.clientX - youtubePanel.offsetLeft;
@@ -442,12 +444,13 @@ if (dragHeader && youtubePanel) {
   document.addEventListener("mousemove", (e) => {
     if (!isDragging) return;
 
+    const bounds = appContainer.getBoundingClientRect();
     let newLeft = e.clientX - offsetX;
     let newTop = e.clientY - offsetY;
 
-    // ✅ Όρια ώστε να μένει μέσα στο παράθυρο
-    newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - youtubePanel.offsetWidth));
-    newTop = Math.max(0, Math.min(newTop, window.innerHeight - youtubePanel.offsetHeight));
+    // ✅ Κρατάει το panel μέσα στα όρια του #app
+    newLeft = Math.max(bounds.left, Math.min(newLeft, bounds.right - youtubePanel.offsetWidth));
+    newTop = Math.max(bounds.top, Math.min(newTop, bounds.bottom - youtubePanel.offsetHeight));
 
     youtubePanel.style.left = newLeft + "px";
     youtubePanel.style.top = newTop + "px";
@@ -458,6 +461,7 @@ if (dragHeader && youtubePanel) {
     dragHeader.style.cursor = "grab";
   });
 }
+
 
 
 // ===================== ADMIN CONTEXT MENU =====================
