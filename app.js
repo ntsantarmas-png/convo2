@@ -614,8 +614,13 @@ function closeEmojiPanel() {
 if (emojiBtn && mediaPanel) {
   // Toggle open/close
   emojiBtn.addEventListener("click", () => {
-    mediaPanel.classList.toggle("hidden");
-  });
+  mediaPanel.classList.toggle("hidden");
+
+  if (!mediaPanel.classList.contains("hidden")) {
+    showEmojiTrail(mediaPanel); // 🎉 Trigger effect όταν ανοίγει
+  }
+});
+
 
   // Κλείσιμο με click έξω
   document.addEventListener("click", (e) => {
@@ -832,6 +837,30 @@ function sendStickerMessage(url) {
     createdAt: serverTimestamp()
   });
 }
+// ===================== EMOJI TRAIL EFFECT =====================
+function showEmojiTrail(panel) {
+  const emojis = ["😂", "🔥", "💫", "❤️", "😎", "✨", "🎉", "🫶"];
+  const count = 3 + Math.floor(Math.random() * 3); // 3–5 emojis
+
+  for (let i = 0; i < count; i++) {
+    const span = document.createElement("span");
+    span.className = "emoji-trail";
+    span.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+    // Τυχαία θέση γύρω από το panel
+    const offsetX = Math.random() * panel.offsetWidth - panel.offsetWidth / 2;
+    const offsetY = Math.random() * 30 - 10;
+
+    span.style.left = `${panel.offsetLeft + panel.offsetWidth / 2 + offsetX}px`;
+    span.style.top = `${panel.offsetTop - 20 + offsetY}px`;
+
+    document.body.appendChild(span);
+
+    // Σβήσε το μετά το animation
+    setTimeout(() => span.remove(), 600);
+  }
+}
+
 
 // ===================== RENDER USER LIST =====================
 function renderUserList() {
