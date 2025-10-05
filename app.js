@@ -493,12 +493,16 @@ if (clearChatBtn) {
     const confirmClear = confirm(`🧹 Θες σίγουρα να καθαρίσεις το room "${currentRoom}" ?`);
     if (!confirmClear) return;
 
-    try {
-      await remove(ref(db, "messages/" + currentRoom));
-      console.log("✅ Chat cleared:", currentRoom);
-    } catch (err) {
-      console.error("❌ Clear chat failed:", err);
-    }
+   try {
+  await remove(ref(db, "messages/" + currentRoom));
+  console.log("✅ Chat cleared:", currentRoom);
+
+  // 💬 Καθάρισε άμεσα το UI
+  document.getElementById("messages").innerHTML = "";
+} catch (err) {
+  console.error("❌ Clear chat failed:", err);
+}
+
 
     contextMenu.classList.add("hidden");
   });
