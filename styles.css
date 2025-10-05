@@ -453,6 +453,31 @@ body {
 .tab.active { display: block; }
 
 /* removed duplicate .hidden */
+/* ===================== EMOJI TRAIL EFFECT ===================== */
+@keyframes emojiPop {
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0;
+  }
+  40% {
+    transform: translateY(-40px) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+}
+
+.emoji-trail {
+  position: absolute;
+  font-size: 22px;
+  pointer-events: none;
+  user-select: none;
+  z-index: 9999;
+  animation: emojiPop 0.6s ease-out forwards;
+}
+
 
 /* ==== GIF / Sticker Search Inputs ==== */
 #gifSearchInput,
