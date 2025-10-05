@@ -851,8 +851,10 @@ function showEmojiTrail(panel) {
     const offsetX = Math.random() * panel.offsetWidth - panel.offsetWidth / 2;
     const offsetY = Math.random() * 30 - 10;
 
-    span.style.left = `${panel.offsetLeft + panel.offsetWidth / 2 + offsetX}px`;
-    span.style.top = `${panel.offsetTop - 20 + offsetY}px`;
+    const rect = panel.getBoundingClientRect();
+span.style.left = `${rect.left + rect.width / 2 + offsetX}px`;
+span.style.top = `${rect.top - 20 + offsetY + window.scrollY}px`;
+
 
     document.body.appendChild(span);
 
