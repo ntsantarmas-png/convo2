@@ -136,6 +136,8 @@ body {
   width: 100%;
   min-height: 0; /* 👈 επιτρέπει στα children να έχουν σωστό scroll */
   transition: grid-template-columns 0.3s ease; /* 👈 smooth αλλαγή */
+  position: relative; /* 👈 κάνει το app parent για το youtube-panel */
+  overflow: visible;  /* επιτρέπει να προεξέχει πάνω από rooms/userlist */
 }
 
 /* Όταν το roomsPanel είναι κλειστό → mini στήλη */
