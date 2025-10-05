@@ -413,8 +413,8 @@ if (closeYoutubeBtn) {
   closeYoutubeBtn.addEventListener("click", () => {
     const wrapper = youtubePanel.querySelector(".video-wrapper");
 
-    // Καθαρίζουμε το iframe για να σταματήσει το βίντεο
-    wrapper.innerHTML = "";
+    
+    
 
     youtubePanel.classList.add("hidden");
     youtubePanel.classList.remove("expanded");
