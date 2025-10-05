@@ -407,7 +407,6 @@ if (toggleYoutubeBtn) {
 }
 
 // ===================== YOUTUBE PANEL CONTROLS =====================
-const youtubePanel = document.getElementById("youtubePanel"); // μία φορά εδώ
 const closeYoutubeBtn = document.getElementById("closeYoutubeBtn");
 
 if (closeYoutubeBtn) {
