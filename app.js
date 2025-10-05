@@ -64,17 +64,21 @@ function setupPresence(user) {
       lastSeen: Date.now()
     });
 
-    // Μόνο presence info
-  update(userRef, {
-  uid: user.uid,
-  displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
-  photoURL: user.photoURL || null,
-      role: existing.role || "user", // ✅ κρατάει ό,τι υπήρχε
-  online: true
-});
+    // ✅ Πρώτα διάβασε τι υπάρχει ήδη για να μη χαθεί το role
+    get(userRef).then(userSnap => {
+      const existing = userSnap.val() || {};
 
+      update(userRef, {
+        uid: user.uid,
+        displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
+        photoURL: user.photoURL || null,
+        role: existing.role || "user", // ✅ κρατάει το role που ήδη υπάρχει
+        online: true
+      });
+    });
   });
 }
+
 
 
 
