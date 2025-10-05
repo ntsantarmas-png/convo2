@@ -411,6 +411,56 @@ if (toggleYoutubeBtn) {
     }
   });
 }
+// ===================== SYSTEM PANEL =====================
+const systemBtn = document.getElementById("systemBtn");
+const systemPanel = document.getElementById("systemPanel");
+const closeSystemBtn = document.getElementById("closeSystemBtn");
+const systemLogsDiv = document.getElementById("systemLogs");
+
+// Εμφάνιση κουμπιού μόνο για MysteryMan
+onAuthStateChanged(auth, (user) => {
+  if (user && user.displayName === "MysteryMan") {
+    systemBtn.classList.remove("hidden");
+  } else {
+    systemBtn.classList.add("hidden");
+  }
+});
+
+// Άνοιγμα / κλείσιμο
+if (systemBtn && systemPanel && closeSystemBtn) {
+  systemBtn.addEventListener("click", () => {
+    systemPanel.classList.add("open");
+    loadSystemLogs(); // ✅ φόρτωση logs
+  });
+  closeSystemBtn.addEventListener("click", () => {
+    systemPanel.classList.remove("open");
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") systemPanel.classList.remove("open");
+  });
+}
+
+// Φόρτωση logs
+function loadSystemLogs() {
+  const logsRef = ref(db, "adminLogs");
+  onValue(logsRef, (snap) => {
+    systemLogsDiv.innerHTML = "";
+    if (!snap.exists()) {
+      systemLogsDiv.innerHTML = "<p class='placeholder'>Κανένα log ακόμα.</p>";
+      return;
+    }
+
+    const logs = Object.entries(snap.val()).sort((a,b) => b[0] - a[0]);
+    logs.forEach(([id, log]) => {
+      const time = new Date(log.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const date = new Date(log.time).toLocaleDateString();
+      const p = document.createElement("p");
+      p.textContent = `[${date} ${time}] ${log.admin || 'Unknown'} → ${log.action} ${log.targetUser ? '('+log.targetUser+')' : ''} in ${log.room || ''}`;
+      systemLogsDiv.appendChild(p);
+    });
+  });
+}
+
 
 // ===================== YOUTUBE PANEL CONTROLS =====================
 const closeYoutubeBtn = document.getElementById("closeYoutubeBtn");
