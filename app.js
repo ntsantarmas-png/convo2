@@ -451,17 +451,19 @@ if (youtubePanel) {
   document.addEventListener("mousemove", (e) => {
   if (!isDragging) return;
 
-  const chatPanel = document.getElementById("chatPanel");
-  const bounds = chatPanel.getBoundingClientRect();
+const appContainer = document.getElementById("app");
+const bounds = appContainer.getBoundingClientRect();
+
 
   let newLeft = e.clientX - offsetX;
   let newTop = e.clientY - offsetY;
 
   // ✅ Νέα όρια για πλήρη οριζόντια κίνηση (μέσα στα όρια του chatPanel)
-  if (newLeft < bounds.left) newLeft = bounds.left;
-  if (newLeft > bounds.right - youtubePanel.offsetWidth) newLeft = bounds.right - youtubePanel.offsetWidth;
-  if (newTop < bounds.top) newTop = bounds.top;
-  if (newTop > bounds.bottom - youtubePanel.offsetHeight) newTop = bounds.bottom - youtubePanel.offsetHeight;
+ if (newLeft < bounds.left) newLeft = bounds.left;
+if (newLeft > bounds.right - youtubePanel.offsetWidth) newLeft = bounds.right - youtubePanel.offsetWidth;
+if (newTop < bounds.top) newTop = bounds.top;
+if (newTop > bounds.bottom - youtubePanel.offsetHeight) newTop = bounds.bottom - youtubePanel.offsetHeight;
+
 
   youtubePanel.style.left = newLeft + "px";
   youtubePanel.style.top = newTop + "px";
