@@ -606,24 +606,27 @@ if (deleteBtn) {
     if (!targetMessageId) return;
 
     try {
-      await remove(ref(db, "messages/" + currentRoom + "/" + targetMessageId));
-      // 🧾 === Log entry στο adminLogs ===
-const currentUser = auth.currentUser;
-if (currentUser) {
-  const logRef = push(ref(db, "adminLogs"));
-  await set(logRef, {
-    action: "deleteMessage",
-    admin: currentUser.displayName || "Unknown",
-    targetUser: deletedMsg?.querySelector(".message-user")?.textContent || "Unknown",
-    room: currentRoom,
-    time: Date.now()
-  });
-}
+      // 🔹 Πρώτα πάρε το message element για log info
+      const deletedMsg = document.querySelector(`.message[data-id="${targetMessageId}"]`);
 
+      await remove(ref(db, "messages/" + currentRoom + "/" + targetMessageId));
       console.log("✅ Message deleted:", targetMessageId);
+
+      // 🧾 === Log entry στο adminLogs ===
+      const currentUser = auth.currentUser;
+      if (currentUser) {
+        const logRef = push(ref(db, "adminLogs"));
+        await set(logRef, {
+          action: "deleteMessage",
+          admin: currentUser.displayName || "Unknown",
+          targetUser: deletedMsg?.querySelector(".message-user")?.textContent || "Unknown",
+          room: currentRoom,
+          time: Date.now()
+        });
+      }
+
       // 💬 Αφαίρεσε άμεσα το bubble από το UI
-const deletedMsg = document.querySelector(`.message[data-id="${targetMessageId}"]`);
-if (deletedMsg) deletedMsg.remove();
+      if (deletedMsg) deletedMsg.remove();
 
     } catch (err) {
       console.error("❌ Delete failed:", err);
@@ -633,6 +636,7 @@ if (deletedMsg) deletedMsg.remove();
     targetMessageId = null;
   });
 }
+
 
 // ===================== ENTER / SHIFT+ENTER =====================
 const messageInput = document.getElementById("messageInput");
