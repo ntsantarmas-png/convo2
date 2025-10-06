@@ -1410,6 +1410,71 @@ if (kickUserBtn) {
     userContextMenu.classList.add("hidden");
   });
 }
+// ===================== BAN USER =====================
+const banUserBtn = document.getElementById("banUser");
+if (banUserBtn) {
+  banUserBtn.addEventListener("click", async () => {
+    if (!contextTargetUid) return;
+
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+
+    // Πάρε στοιχεία του admin
+    const adminSnap = await get(ref(db, "users/" + currentUser.uid));
+    const adminData = adminSnap.val();
+    if (adminData.role !== "admin" && currentUser.displayName !== "MysteryMan") {
+      alert("⚠️ Μόνο admin μπορεί να κάνει ban!");
+      return;
+    }
+
+    // Πάρε στοιχεία του χρήστη που θα γίνει ban
+    const targetSnap = await get(ref(db, "users/" + contextTargetUid));
+    const targetData = targetSnap.val();
+
+    // Προστασία MysteryMan
+    if (targetData?.displayName === "MysteryMan") {
+      alert("🚫 Δεν μπορείς να κάνεις ban τον MysteryMan!");
+      return;
+    }
+
+    // Επιβεβαίωση ban
+    const confirmBan = confirm(`⛔ Θες σίγουρα να κάνεις ban τον ${targetData?.displayName || "user"};`);
+    if (!confirmBan) return;
+
+    try {
+      // 🧱 Αποθήκευση banned user στη βάση
+      await set(ref(db, "bannedUsers/" + contextTargetUid), {
+        uid: contextTargetUid,
+        displayName: targetData?.displayName || "Unknown",
+        email: targetData?.email || "",
+        bannedBy: currentUser.displayName || "Unknown",
+        room: currentRoom || "unknown",
+        time: Date.now()
+      });
+
+      // 🧾 Log στο adminLogs
+      const logRef = push(ref(db, "adminLogs"));
+      await set(logRef, {
+        action: "ban",
+        admin: currentUser.displayName || "Unknown",
+        targetUser: targetData?.displayName || "Unknown",
+        room: currentRoom || "unknown",
+        time: Date.now()
+      });
+
+      // 💬 Εμφάνιση alert
+      alert(`⛔ Ο χρήστης ${targetData?.displayName || "user"} αποκλείστηκε από το chat!`);
+
+      // Προαιρετικά: αφαίρεση από users node
+      await remove(ref(db, "users/" + contextTargetUid));
+
+    } catch (err) {
+      console.error("❌ Ban failed:", err);
+    }
+
+    userContextMenu.classList.add("hidden");
+  });
+}
 
 // ===================== USER CONTEXT MENU =====================
 const muteUserBtn = document.getElementById("muteUser");
