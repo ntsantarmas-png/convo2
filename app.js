@@ -605,11 +605,12 @@ if (match) {
   }
 
   // 🔹 System message για όλους
-  push(ref(db, "messages/" + currentRoom), {
-    system: true,
-    text: `🎵 ${username} is playing: https://youtu.be/${videoId}`,
-    createdAt: Date.now()
-  });
+ push(ref(db, "messages/" + currentRoom), {
+  system: true,
+  text: `🎵 ${username} is playing: <a href="#" class="yt-play" data-videoid="${videoId}">YouTube Video</a>`,
+  createdAt: Date.now()
+});
+
 
   // 🔹 Καθάρισε το input
   input.value = "";
@@ -1985,3 +1986,26 @@ if (banUserBtn) {
     userContextMenu.classList.add("hidden");
   });
 }
+
+// 🎵 Listener για clicks πάνω σε system YouTube links
+document.addEventListener("click", (e) => {
+  const target = e.target;
+  if (target.classList.contains("yt-play")) {
+    e.preventDefault();
+    const videoId = target.dataset.videoid;
+    const youtubePanel = document.getElementById("youtubePanel");
+
+    if (youtubePanel) {
+      const wrapper = youtubePanel.querySelector(".video-wrapper");
+      wrapper.innerHTML = `
+        <iframe 
+          src="https://www.youtube.com/embed/${videoId}" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      `;
+      youtubePanel.classList.remove("hidden");
+    }
+  }
+});
