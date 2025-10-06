@@ -485,6 +485,16 @@ p.innerHTML = `${icon} <b>${log.admin}</b> → ${log.action} ${details}
   <span style="color:#555">[${dateStr} ${hourStr}]</span>`;
 
       systemLogsDiv.appendChild(p);
+      // ➕ Αν υπάρχει reason, δείξε το
+if (log.reason) {
+  const reasonP = document.createElement("p");
+  reasonP.style.color = "#999";
+  reasonP.style.fontSize = "13px";
+  reasonP.style.marginLeft = "25px";
+  reasonP.textContent = `📝 Reason: ${log.reason}`;
+  systemLogsDiv.appendChild(reasonP);
+}
+
     });
   });
 }
@@ -573,7 +583,9 @@ function loadBannedUsers() {
           🧍‍♂️ <b>${info.displayName}</b>
           <span style="color:#aaa">— banned by ${info.bannedBy}</span><br>
           <span style="color:#888">in ${info.room || "unknown"}</span> |
-          <span style="color:#666">${dateStr} ${hourStr}</span>
+<span style="color:#666">${dateStr} ${hourStr}</span><br>
+<span style="color:#aaa">📝 ${info.reason || "χωρίς λόγο"}</span>
+
         </p>
         <button class="unban-btn" data-uid="${uid}">✅ Unban</button>
       `;
