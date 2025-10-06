@@ -594,6 +594,17 @@ async function openProfilePanel(uid = null) {
   document.getElementById("profileCoins").textContent = data.coins ?? 0;
 }
 
+// ===================== VIEW PROFILE (CONTEXT MENU) =====================
+const viewProfileBtn = document.getElementById("viewProfile");
+if (viewProfileBtn) {
+  viewProfileBtn.addEventListener("click", () => {
+    if (!contextTargetUid) return alert("⚠️ No user selected!");
+    openProfilePanel(contextTargetUid);
+    userContextMenu.classList.add("hidden");
+  });
+}
+
+
 
 // ===================== SYSTEM PANEL =====================
 const systemBtn = document.getElementById("systemBtn");
