@@ -98,7 +98,6 @@ function setupPresence(user) {
 
 
 // ===================== COINS SYNC =====================
-import { onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 function setupCoinsSync(user) {
   const coinsEl = document.getElementById("profileCoins");
