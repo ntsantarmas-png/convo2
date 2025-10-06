@@ -141,6 +141,25 @@ const headerUser = document.getElementById("headerUser"); // span στο header 
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
+        // === 🛑 AUTO-BAN CHECK ===
+    try {
+      const bannedRef = ref(db, "bannedUsers/" + user.uid);
+      const bannedSnap = await get(bannedRef);
+      if (bannedSnap.exists()) {
+        const data = bannedSnap.val();
+        const reason = data?.reason || "No reason specified";
+
+        alert(`⛔ Ο λογαριασμός σου είναι banned!\nΛόγος: ${reason}`);
+        console.warn("⛔ Banned user attempted login:", user.uid);
+
+        // Πετάμε τον χρήστη αμέσως έξω
+        await signOut(auth);
+        return;
+      }
+    } catch (err) {
+      console.error("❌ Ban check failed:", err);
+    }
+
     console.log("✅ Logged in:", user.uid);
 
     // === Εμφάνισε το κουμπί logout ===
