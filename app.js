@@ -78,12 +78,15 @@ function setupPresence(user) {
     const currentRoom = "general"; // ✅ default room κατά login
     push(ref(db, "messages/" + currentRoom), joinMsg);
 
-    // Όταν αποσυνδέεται, θα μπει leaveMsg στο onDisconnect πιο κάτω
-    onDisconnect(ref(db, "messages/" + currentRoom)).push({
-      system: true,
-      text: `🔴 ${user.displayName || "Guest"} left the room`,
-      createdAt: Date.now()
-    });
+    // === 🔴 LEAVE MESSAGE FIX ===
+// onDisconnect δεν δέχεται push, οπότε το κρατάμε προσωρινά αλλού
+const leaveMsgRef = ref(db, `pendingLeaves/${user.uid}`);
+onDisconnect(leaveMsgRef).set({
+  room: currentRoom,
+  user: user.displayName || "Guest",
+  time: Date.now()
+});
+
 
     // 🔹 Διάβασε πρώτα τι υπάρχει ήδη
     get(userRef).then(userSnap => {
@@ -112,6 +115,26 @@ function setupPresence(user) {
     }); // 👈 κλείνει το get(userRef).then(...)
   }); // 👈 κλείνει το onValue(...)
 } // 👈 κλείνει η function setupPresence
+// === LISTEN FOR PENDING LEAVE MESSAGES ===
+onValue(ref(db, "pendingLeaves"), (snap) => {
+  if (!snap.exists()) return;
+
+  const data = snap.val();
+  Object.entries(data).forEach(([uid, val]) => {
+    if (!val.room || !val.user) return;
+
+    // γράφει το leave στο σωστό room
+    push(ref(db, "messages/" + val.room), {
+      system: true,
+      text: `🔴 ${val.user} left the room`,
+      createdAt: val.time || Date.now()
+    });
+
+    // καθάρισε το pending μόλις γραφτεί
+    remove(ref(db, "pendingLeaves/" + uid));
+  });
+});
+
 
 // ===================== COINS SYNC (LIVE) =====================
 let coinsUnsubscribe = null; // κρατάμε τον προηγούμενο listener
