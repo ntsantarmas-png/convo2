@@ -97,31 +97,6 @@ function setupPresence(user) {
   }); // 👈 κλείνει το onValue(...)
 } // 👈 κλείνει η function setupPresence
 
-// ===================== COINS SYNC =====================
-
-function setupCoinsSync(user) {
-  const coinsEl = document.getElementById("profileCoins");
-  if (!coinsEl || !user) return;
-
-  const coinsRef = ref(db, "users/" + user.uid + "/coins");
-
-  // 🔁 Live ενημέρωση
-  onValue(coinsRef, (snap) => {
-    const panel = document.getElementById("profilePanel");
-if (panel && panel.dataset.viewingUid && panel.dataset.viewingUid !== user.uid) return;
-
-    const coins = snap.val();
-    if (coins !== null) {
-      coinsEl.textContent = coins;
-
-      // ✨ Προαιρετικό animation feedback
-      coinsEl.classList.add("coin-change");
-      setTimeout(() => coinsEl.classList.remove("coin-change"), 400);
-    } else {
-      coinsEl.textContent = "0";
-    }
-  });
-}
 // ===================== COINS SYNC (LIVE) =====================
 function setupCoinsSync(user) {
   if (!user) return;
