@@ -446,6 +446,7 @@ closeSystemBtn.addEventListener("click", () => {
 
 // Φόρτωση logs
 function loadSystemLogs() {
+function loadSystemLogs() {
   const logsRef = ref(db, "adminLogs");
   onValue(logsRef, (snap) => {
     systemLogsDiv.innerHTML = "";
@@ -454,23 +455,48 @@ function loadSystemLogs() {
       return;
     }
 
-    const logs = Object.entries(snap.val()).sort((a, b) => b[0] - a[0]);
-    logs.forEach(([id, log]) => {
-      const time = new Date(log.time).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-      const date = new Date(log.time).toLocaleDateString();
+    // Μετατροπή σε array και ταξινόμηση (νεότερα πρώτα)
+    const logs = Object.values(snap.val()).sort((a, b) => b.time - a.time);
+
+    logs.forEach((log) => {
+      const time = new Date(log.time);
+      const dateStr = time.toLocaleDateString();
+      const hourStr = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+      // 🧩 icon by action
+      let icon = "📝";
+      if (log.action === "deleteMessage") icon = "🗑️";
+      else if (log.action === "clearChat") icon = "🧹";
+      else if (log.action === "changeRole") icon = "⭐";
+      else if (log.action === "kick") icon = "👢";
+      else if (log.action === "ban") icon = "⛔";
+
       const p = document.createElement("p");
-      p.textContent = `[${date} ${time}] ${log.admin || "Unknown"} → ${
-        log.action
-      } ${log.targetUser ? "(" + log.targetUser + ")" : ""} in ${
-        log.room || ""
-      }`;
+      p.innerHTML = `${icon} <b>${log.admin}</b> → ${log.action} 
+        ${log.targetUser ? `<i>(${log.targetUser})</i>` : ""}
+        <span style="color:#888">in ${log.room || "?"}</span> 
+        <span style="color:#555">[${dateStr} ${hourStr}]</span>`;
       systemLogsDiv.appendChild(p);
     });
   });
 }
+// === CLEAR LOGS BUTTON ===
+const clearLogsBtn = document.getElementById("clearLogsBtn");
+if (clearLogsBtn) {
+  clearLogsBtn.addEventListener("click", async () => {
+    const confirmClear = confirm("🧹 Θες σίγουρα να καθαρίσεις όλα τα logs;");
+    if (!confirmClear) return;
+
+    try {
+      await remove(ref(db, "adminLogs"));
+      systemLogsDiv.innerHTML = "<p class='placeholder'>Κανένα log ακόμα.</p>";
+      console.log("✅ Admin logs cleared.");
+    } catch (err) {
+      console.error("❌ Clear logs failed:", err);
+    }
+  });
+}
+
 
 // ===================== YOUTUBE PANEL CONTROLS =====================
 const closeYoutubeBtn = document.getElementById("closeYoutubeBtn");
