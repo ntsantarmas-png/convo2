@@ -45,6 +45,7 @@ onAuthStateChanged(auth, (user) => {
     renderUserList();
     switchRoom("general");
     setupCoinsSync(user);
+setupAddCoinsButton(user);
 
 
     // === Coins Sync ===
