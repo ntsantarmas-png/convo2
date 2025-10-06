@@ -1749,3 +1749,13 @@ body {
     transform: translateY(20px);
   }
 }
+
+/* ======== SYSTEM MESSAGES ======== */
+.message-bubble.system {
+  text-align: center;
+  background: none;
+  color: #888;
+  font-style: italic;
+  box-shadow: none;
+  padding: 6px 0;
+}
