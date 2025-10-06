@@ -56,7 +56,7 @@ if (registerBtn) {
     const password = document.getElementById("registerPassword").value.trim();
 
     if (!email || !password) {
-      alert("⚠️ Συμπλήρωσε email και password!");
+      showToast("⚠️ Συμπλήρωσε email και password!");
       return;
     }
 
@@ -85,18 +85,16 @@ if (registerBtn) {
         photoURL: `https://i.pravatar.cc/150?u=${user.uid}`,
         lastLogin: Date.now()
       });
-// console.log("✅ Registered:", user.uid, finalName);
-alert("🎉 Καλωσόρισες " + finalName + "! Έχεις 400 coins δώρο 💎");
-
 
       // 💎 Ενημέρωσε το UI άμεσα
-if (typeof setupCoinsSync === "function") setupCoinsSync(user.uid);
+      if (typeof setupCoinsSync === "function") setupCoinsSync(user.uid);
 
-      alert("🎉 Καλωσόρισες " + finalName + "! Έχεις 400 coins δώρο 💎");
+      // ✅ Εμφάνιση όμορφου toast μηνύματος
+      showToast(`🎉 Καλωσόρισες ${finalName}! Έχεις 400 coins δώρο 💎`);
 
     } catch (err) {
       console.error("❌ Register failed:", err.message);
-      alert("Register failed: " + err.message);
+      showToast("❌ Register failed: " + err.message);
     }
   });
 }
