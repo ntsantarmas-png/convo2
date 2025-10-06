@@ -64,88 +64,34 @@ function setupPresence(user) {
   onValue(presenceRef, (snap) => {
     if (!snap.val()) return;
 
-    // 🔻 Τι να γίνει αν αποσυνδεθεί (offline)
+    // 🔻 Όταν φύγει
     onDisconnect(userRef).update({
       online: false,
       lastSeen: Date.now()
     });
-   // === 🟢 JOIN MESSAGE (once per online session) ===
-const currentRoom = "general";
-const joinSentRef = ref(db, `users/${user.uid}/_joinSent`);
 
-get(joinSentRef).then((snap) => {
-  const alreadySent = snap.exists() && snap.val() === true;
-  if (!alreadySent) {
-    // Στείλε join message ΜΙΑ φορά
-    push(ref(db, "messages/" + currentRoom), {
-      system: true,
-      text: `🟢 ${user.displayName || "Guest"} joined the room`,
-      createdAt: Date.now()
-    });
-
-    // Σημείωσε ότι στάλθηκε
-    set(joinSentRef, true);
-  }
-});
-
-
-    // === 🔴 LEAVE MESSAGE FIX ===
-// onDisconnect δεν δέχεται push, οπότε το κρατάμε προσωρινά αλλού
-const leaveMsgRef = ref(db, `pendingLeaves/${user.uid}`);
-onDisconnect(leaveMsgRef).set({
-  room: currentRoom,
-  user: user.displayName || "Guest",
-  time: Date.now()
-});
-
-
-    // 🔹 Διάβασε πρώτα τι υπάρχει ήδη
+    // 🔹 Ενημέρωση ρόλου & παρουσίας
     get(userRef).then(userSnap => {
       const existing = userSnap.val() || {};
-
-      // === Role Logic ===
       let role = existing.role || "user";
       if (user.isAnonymous) role = "guest";
-      if (user.displayName === "MysteryMan") role = "admin"; // ✅ auto-lock admin
+      if (user.displayName === "MysteryMan") role = "admin";
 
-      // === Ενημέρωση στοιχείων χωρίς overwrite του role ===
       update(userRef, {
         uid: user.uid,
         displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
         photoURL: user.photoURL || null,
         role: role,
         online: true,
-        coins: existing.coins ?? 0 // 👈 auto-create coins field
-      })
-      .then(() => {
+        coins: existing.coins ?? 0
+      }).then(() => {
         console.log("📡 Presence sync:", user.displayName, "| role:", role);
-      })
-      .catch(err => {
+      }).catch(err => {
         console.error("❌ Presence role sync failed:", err);
       });
-    }); // 👈 κλείνει το get(userRef).then(...)
-  }); // 👈 κλείνει το onValue(...)
-} // 👈 κλείνει η function setupPresence
-// === LISTEN FOR PENDING LEAVE MESSAGES ===
-onValue(ref(db, "pendingLeaves"), (snap) => {
-  if (!snap.exists()) return;
-
-  const data = snap.val();
-  Object.entries(data).forEach(([uid, val]) => {
-    if (!val.room || !val.user) return;
-
-    // γράφει το leave στο σωστό room
-    push(ref(db, "messages/" + val.room), {
-      system: true,
-      text: `🔴 ${val.user} left the room`,
-      createdAt: val.time || Date.now()
     });
-
-    // καθάρισε το pending μόλις γραφτεί
-    remove(ref(db, "pendingLeaves/" + uid));
   });
-});
-
+}
 
 // ===================== COINS SYNC (LIVE) =====================
 let coinsUnsubscribe = null; // κρατάμε τον προηγούμενο listener
