@@ -1566,7 +1566,9 @@ body {
   flex-direction: column;
   z-index: 500;
 }
-.profile-panel.show { transform: translateX(0); }
+.profile-panel.show { 
+  transform: translateX(0); 
+}
 
 .profile-header {
   display: flex;
