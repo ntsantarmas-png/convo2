@@ -309,6 +309,9 @@ if (toggleUsersBtn && usersPanel) {
 
 // ===================== CHAT =====================
 let currentRoom = "general";
+// 🧠 Input memory ανά room
+const inputMemory = {};
+
 // Typing indicator reference
 let typingRef;
 let typingTimeout;
@@ -330,7 +333,21 @@ function switchRoom(room) {
   const messagesDiv = document.getElementById("messages");
   if (messagesDiv) messagesDiv.innerHTML = ""; // καθάρισε το chat
 
+  // 💾 Αποθήκευσε ό,τι έχει γραφτεί στο input του προηγούμενου room
+const inputEl = document.getElementById("messageInput");
+if (inputEl && switchRoom.prev) {
+  inputMemory[switchRoom.prev] = inputEl.value;
+}
+
+  
   currentRoom = room;
+// 🧠 Επαναφορά αποθηκευμένου κειμένου για το νέο room
+if (inputEl) {
+  inputEl.value = inputMemory[room] || "";
+  inputEl.style.height = "40px"; // reset ύψους για auto-grow
+}
+
+  
   document.getElementById("roomTitle").textContent = "#" + room;
 
   // Εμφάνιση μηνυμάτων + typing indicator
@@ -585,6 +602,9 @@ if (messageForm) {
     closeEmojiPanel();
 
     input.value = "";
+    // 🧹 Καθάρισε το memory για το τωρινό room
+inputMemory[currentRoom] = "";
+
     input.style.height = "40px"; // 👈 reset στο default ύψος
     input.focus();
   });
