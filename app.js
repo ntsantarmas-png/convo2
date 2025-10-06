@@ -651,13 +651,18 @@ if (deleteBtn) {
       const currentUser = auth.currentUser;
       if (currentUser) {
         const logRef = push(ref(db, "adminLogs"));
-        await set(logRef, {
-          action: "deleteMessage",
-          admin: currentUser.displayName || "Unknown",
-          targetUser: deletedMsg?.querySelector(".message-user")?.textContent || "Unknown",
-          room: currentRoom,
-          time: Date.now()
-        });
+        // Πάρε το room από το μήνυμα αν υπάρχει
+const msgRoom =
+  deletedMsg?.closest("[data-room]")?.getAttribute("data-room") || currentRoom;
+
+await set(logRef, {
+  action: "deleteMessage",
+  admin: currentUser.displayName || "Unknown",
+  targetUser: deletedMsg?.querySelector(".message-user")?.textContent || "Unknown",
+  room: msgRoom,  // 👈 Πάντα σωστό δωμάτιο τώρα
+  time: Date.now()
+});
+
       }
 
       // 💬 Αφαίρεσε άμεσα το bubble από το UI
