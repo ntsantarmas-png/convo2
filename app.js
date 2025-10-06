@@ -553,40 +553,18 @@ if (toggleYoutubeBtn) {
   });
 }
 // ===================== PROFILE PANEL =====================
-const profileBtn = document.getElementById("headerUser"); // ή όποιο κουμπί θέλεις
+const profileBtn = document.getElementById("headerUser");
 const profilePanel = document.getElementById("profilePanel");
 const closeProfileBtn = document.getElementById("closeProfileBtn");
 
-// Άνοιγμα / κλείσιμο panel
+// Άνοιγμα panel (πάντα το δικό σου προφίλ)
 if (profileBtn && profilePanel) {
   profileBtn.addEventListener("click", () => {
-    openProfilePanel(auth.currentUser.uid); // ✅ δείξε πάντα το δικό μου προφίλ
+    openProfilePanel(auth.currentUser.uid);
   });
 }
 
-if (closeProfileBtn) {
-  closeProfileBtn.addEventListener("click", () => {
-    profilePanel.classList.remove("show");
-    profilePanel.classList.add("hidden");
-  });
-}
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") profilePanel.classList.remove("show");
-});
-
-// Tabs λειτουργία
-const tabButtons = document.querySelectorAll(".tab-btn");
-const tabContents = document.querySelectorAll(".tab-content");
-
-tabButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    tabButtons.forEach(b => b.classList.remove("active"));
-    tabContents.forEach(c => c.classList.remove("active"));
-    btn.classList.add("active");
-    document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
-  });
-});
+// Κλείσιμο panel + καθάρισμα listener
 if (closeProfileBtn) {
   closeProfileBtn.addEventListener("click", () => {
     profilePanel.classList.remove("show");
@@ -594,12 +572,34 @@ if (closeProfileBtn) {
 
     // 🧹 Καθάρισμα coins listener όταν κλείνει το Profile Panel
     if (typeof coinsUnsubscribe === "function") {
-      coinsUnsubscribe();       // σταματάει να ακούει το προηγούμενο UID
-      coinsUnsubscribe = null;  // καθαρίζουμε τη μεταβλητή
+      coinsUnsubscribe();
+      coinsUnsubscribe = null;
       console.log("🧹 Coins listener unsubscribed");
     }
   });
 }
+
+// Κλείσιμο με Esc
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") {
+    profilePanel.classList.remove("show");
+    profilePanel.classList.add("hidden");
+  }
+});
+
+// Tabs λειτουργία
+const tabButtons = document.querySelectorAll(".tab-btn");
+const tabContents = document.querySelectorAll(".tab-content");
+
+tabButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    tabButtons.forEach((b) => b.classList.remove("active"));
+    tabContents.forEach((c) => c.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+  });
+});
+
 // ✅ Επαναφορά listener για το Add Coins κουμπί (αν υπάρχει)
 document.addEventListener("click", () => {
   const btn = document.getElementById("addCoinsUser");
@@ -635,6 +635,7 @@ document.addEventListener("click", () => {
     });
   }
 });
+
 
 
 // ===================== PROFILE PANEL (LOAD USER INFO) =====================
