@@ -89,7 +89,7 @@ if (registerBtn) {
       console.log("✅ Registered:", user.uid, finalName);
 
       // 💎 Ενημέρωσε το UI άμεσα
-      setupCoinsSync(user.uid);
+if (typeof setupCoinsSync === "function") setupCoinsSync(user.uid);
 
       alert("🎉 Καλωσόρισες " + finalName + "! Έχεις 400 coins δώρο 💎");
 
