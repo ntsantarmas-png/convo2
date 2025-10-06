@@ -69,14 +69,25 @@ function setupPresence(user) {
       online: false,
       lastSeen: Date.now()
     });
-    // === 🟢 JOIN MESSAGE ===
-    const joinMsg = {
+   // === 🟢 JOIN MESSAGE (once per online session) ===
+const currentRoom = "general";
+const joinSentRef = ref(db, `users/${user.uid}/_joinSent`);
+
+get(joinSentRef).then((snap) => {
+  const alreadySent = snap.exists() && snap.val() === true;
+  if (!alreadySent) {
+    // Στείλε join message ΜΙΑ φορά
+    push(ref(db, "messages/" + currentRoom), {
       system: true,
       text: `🟢 ${user.displayName || "Guest"} joined the room`,
       createdAt: Date.now()
-    };
-    const currentRoom = "general"; // ✅ default room κατά login
-    push(ref(db, "messages/" + currentRoom), joinMsg);
+    });
+
+    // Σημείωσε ότι στάλθηκε
+    set(joinSentRef, true);
+  }
+});
+
 
     // === 🔴 LEAVE MESSAGE FIX ===
 // onDisconnect δεν δέχεται push, οπότε το κρατάμε προσωρινά αλλού
