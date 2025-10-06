@@ -122,6 +122,22 @@ if (panel && panel.dataset.viewingUid && panel.dataset.viewingUid !== user.uid) 
     }
   });
 }
+// ===================== COINS SYNC (LIVE) =====================
+function setupCoinsSync(user) {
+  if (!user) return;
+
+  const coinsRef = ref(db, "users/" + user.uid + "/coins");
+  const coinsEl = document.getElementById("profileCoins");
+  if (!coinsEl) return;
+
+  // Live ενημέρωση όταν αλλάζουν τα coins στη βάση
+  onValue(coinsRef, (snap) => {
+    const val = snap.exists() ? snap.val() : 0;
+    coinsEl.textContent = val;
+    console.log("💎 Coins sync update:", val);
+  });
+}
+
 // ===================== ADMIN ADD COINS =====================
 function setupAddCoinsButton(user) {
   const btn = document.getElementById("addCoinsBtn");
