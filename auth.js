@@ -68,7 +68,8 @@ await updateProfile(user, { displayName: finalName });
   uid: user.uid,
   email: email,
   displayName: finalName,  // 👈 εδώ να είναι το ίδιο με το updateProfile
-  online: true
+    coins: 400,              // 💎 αρχικά coins με την εγγραφή
+     online: true
 });
 
 
