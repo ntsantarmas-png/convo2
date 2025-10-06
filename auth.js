@@ -7,8 +7,9 @@ import {
   signInAnonymously, signOut, updateProfile, sendPasswordResetEmail, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import {
-  getDatabase, ref, set, update
+  getDatabase, ref, set, update, get
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
 
 const app = getApp();
 const auth = getAuth(app);
