@@ -110,6 +110,9 @@ function setupCoinsSync(user) {
 
   // 🔁 Live ενημέρωση
   onValue(coinsRef, (snap) => {
+    const panel = document.getElementById("profilePanel");
+if (panel && panel.dataset.viewingUid && panel.dataset.viewingUid !== user.uid) return;
+
     const coins = snap.val();
     if (coins !== null) {
       coinsEl.textContent = coins;
