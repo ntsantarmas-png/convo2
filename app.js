@@ -146,6 +146,8 @@ function setupAddCoinsButton(user) {
     const coinsRef = ref(db, "users/" + user.uid + "/coins");
 
     try {
+      console.log("🧩 Add coins target UID:", contextTargetUid);
+
       const snap = await get(coinsRef);
       const current = snap.val() || 0;
       await set(coinsRef, current + addAmount);
