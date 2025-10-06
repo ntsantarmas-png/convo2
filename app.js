@@ -80,22 +80,21 @@ function setupPresence(user) {
       if (user.isAnonymous) role = "guest";
       if (user.displayName === "MysteryMan") role = "admin"; // ✅ auto-lock admin
 
-      // === Ενημέρωση στοιχείων χωρίς overwrite του role ===
-      update(userRef, {
-        uid: user.uid,
-        displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
-        photoURL: user.photoURL || null,
-        role: role,
-        online: true
-        coins: existing.coins ?? 0, // 👈 Αν δεν υπάρχει, το βάζει 0
-      });
-
-      console.log("📡 Presence sync:", user.displayName, "| role:", role);
-    }).catch(err => {
-      console.error("❌ Presence role sync failed:", err);
-    });
-  });
-}
+   // === Ενημέρωση στοιχείων χωρίς overwrite του role ===
+update(userRef, {
+  uid: user.uid,
+  displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
+  photoURL: user.photoURL || null,
+  role: role,
+  online: true,
+  coins: existing.coins ?? 0 // 👈 auto-create coins field
+})
+.then(() => {
+  console.log("📡 Presence sync:", user.displayName, "| role:", role);
+})
+.catch(err => {
+  console.error("❌ Presence role sync failed:", err);
+});
 
 
 // ===================== COINS SYNC =====================
