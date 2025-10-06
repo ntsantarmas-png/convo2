@@ -121,6 +121,37 @@ function setupCoinsSync(user) {
     }
   });
 }
+// ===================== ADMIN ADD COINS =====================
+function setupAddCoinsButton(user) {
+  const btn = document.getElementById("addCoinsBtn");
+  if (!btn) return;
+
+  // Εμφάνιση κουμπιού μόνο για MysteryMan
+  if (user.displayName === "MysteryMan") {
+    btn.classList.remove("hidden");
+  } else {
+    btn.classList.add("hidden");
+    return;
+  }
+
+  // 👉 On click, πρόσθεσε coins
+  btn.addEventListener("click", async () => {
+    const addAmount = parseInt(prompt("💎 Πόσα coins να προσθέσω;", "50"));
+    if (isNaN(addAmount) || addAmount <= 0) return alert("❌ Άκυρο ποσό");
+
+    const coinsRef = ref(db, "users/" + user.uid + "/coins");
+
+    try {
+      const snap = await get(coinsRef);
+      const current = snap.val() || 0;
+      await set(coinsRef, current + addAmount);
+      alert(`✅ Προστέθηκαν ${addAmount} coins!`);
+    } catch (err) {
+      console.error("❌ Add coins failed:", err);
+    }
+  });
+}
+
 
 
 // ===================== ROOMS =====================
