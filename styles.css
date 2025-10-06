@@ -1691,3 +1691,11 @@ body {
   color: #2d8cff;
   text-shadow: 0 0 6px rgba(45,140,255,0.6);
 }
+@keyframes coinPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+.coin-change {
+  animation: coinPulse 0.4s ease;
+}
