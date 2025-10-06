@@ -156,9 +156,14 @@ function setupAddCoinsButton(user) {
   });
 }
 // ===================== ADMIN ADD COINS TO USER =====================
-const addCoinsUserBtn = document.getElementById("addCoinsUser");
+let addCoinsUserBtn = document.getElementById("addCoinsUser");
 
 if (addCoinsUserBtn) {
+  // 👇 Καθάρισε προηγούμενους listeners αν υπάρχουν
+  const newBtn = addCoinsUserBtn.cloneNode(true);
+  addCoinsUserBtn.parentNode.replaceChild(newBtn, addCoinsUserBtn);
+  addCoinsUserBtn = newBtn;
+
   addCoinsUserBtn.addEventListener("click", async () => {
     if (!contextTargetUid) {
       alert("⚠️ No user selected!");
@@ -172,7 +177,11 @@ if (addCoinsUserBtn) {
       return;
     }
 
-    const addAmount = parseInt(prompt("💎 Πόσα coins να προσθέσω σε αυτόν τον χρήστη;", "50"));
+    const addAmount = parseInt(
+      prompt("💎 Πόσα coins να προσθέσω σε αυτόν τον χρήστη;", "50"),
+      10
+    );
+
     if (isNaN(addAmount) || addAmount <= 0) {
       alert("❌ Άκυρο ποσό!");
       userContextMenu.classList.add("hidden");
@@ -189,14 +198,14 @@ if (addCoinsUserBtn) {
       alert(`✅ Προστέθηκαν ${addAmount} coins!`);
       console.log(`💎 Admin added ${addAmount} coins to UID: ${contextTargetUid}`);
 
-      // Προαιρετικά log στο adminLogs
+      // 🪵 Προαιρετικό log
       const logRef = push(ref(db, "adminLogs"));
       await set(logRef, {
         action: "Add Coins",
         targetUid: contextTargetUid,
         admin: currentUser.displayName,
         amount: addAmount,
-        time: Date.now()
+        time: Date.now(),
       });
 
     } catch (err) {
@@ -207,8 +216,6 @@ if (addCoinsUserBtn) {
     userContextMenu.classList.add("hidden");
   });
 }
-
-
 
 // ===================== ROOMS =====================
 const defaultRooms = ["general", "random"];
