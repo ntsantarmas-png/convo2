@@ -152,17 +152,21 @@ try {
   if (user.isAnonymous) role = "guest";
   if (name === "MysteryMan") role = "admin"; // ✅ πάντα admin
 
-  await update(userRef, {
-    uid: user.uid,
-    displayName: name,
-    email: user.email || null,
-    photoURL: avatar,
-    online: true,
-    lastLogin: Date.now(),
-    role: role
-  });
+await update(userRef, {
+  uid: user.uid,
+  displayName: name,
+  email: user.email || null,
+  photoURL: avatar,
+  online: true,
+  lastLogin: Date.now(),
+  role: role
+});
 
-  console.log("✅ Role pe
+console.log("✅ Role persistence check:", role);
+} catch (err) {
+  console.error("❌ Role persistence failed:", err);
+}
+
 
 
     // === UI switch (με hidden class) ===
