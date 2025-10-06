@@ -567,11 +567,10 @@ const closeProfileBtn = document.getElementById("closeProfileBtn");
 // Άνοιγμα / κλείσιμο panel
 if (profileBtn && profilePanel) {
   profileBtn.addEventListener("click", () => {
-    profilePanel.classList.remove("hidden");
-    profilePanel.classList.add("show");
-
+    openProfilePanel(auth.currentUser.uid); // ✅ δείξε πάντα το δικό μου προφίλ
   });
 }
+
 if (closeProfileBtn) {
   closeProfileBtn.addEventListener("click", () => {
     profilePanel.classList.remove("show");
