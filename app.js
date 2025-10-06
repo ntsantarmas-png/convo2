@@ -537,6 +537,88 @@ if (closeBannedBtn) {
     bannedPanel.classList.remove("open");
   });
 }
+// ===================== LOAD BANNED USERS =====================
+import { onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const bannedListDiv = document.getElementById("bannedList");
+
+function loadBannedUsers() {
+  const bannedRef = ref(db, "bannedUsers");
+
+  onValue(bannedRef, (snap) => {
+    const data = snap.val();
+    bannedListDiv.innerHTML = "";
+
+    if (!data) {
+      bannedListDiv.innerHTML =
+        `<p class="placeholder">🚫 Κανένας χρήστης δεν είναι ban αυτή τη στιγμή.</p>`;
+      return;
+    }
+
+    // Ταξινόμηση από νεότερο → παλιότερο
+    const entries = Object.entries(data).sort((a, b) => b[1].time - a[1].time);
+
+    entries.forEach(([uid, info]) => {
+      const date = new Date(info.time);
+      const dateStr = date.toLocaleDateString("el-GR");
+      const hourStr = date.toLocaleTimeString("el-GR", { hour: "2-digit", minute: "2-digit" });
+
+      const userDiv = document.createElement("div");
+      userDiv.className = "banned-entry";
+      userDiv.innerHTML = `
+        <p>
+          🧍‍♂️ <b>${info.displayName}</b>
+          <span style="color:#aaa">— banned by ${info.bannedBy}</span><br>
+          <span style="color:#888">in ${info.room || "unknown"}</span> |
+          <span style="color:#666">${dateStr} ${hourStr}</span>
+        </p>
+        <button class="unban-btn" data-uid="${uid}">✅ Unban</button>
+      `;
+
+      bannedListDiv.appendChild(userDiv);
+    });
+
+    // Συνδέουμε τα κουμπιά unban
+    document.querySelectorAll(".unban-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const targetUid = btn.dataset.uid;
+        const confirmUnban = confirm("Θες να κάνεις UNBAN αυτόν τον χρήστη;");
+        if (!confirmUnban) return;
+
+        try {
+          const currentUser = auth.currentUser;
+          const bannedUserSnap = await get(ref(db, "bannedUsers/" + targetUid));
+          const bannedUser = bannedUserSnap.val();
+
+          // Διαγραφή από τη λίστα banned
+          await remove(ref(db, "bannedUsers/" + targetUid));
+
+          // Log entry
+          const logRef = push(ref(db, "adminLogs"));
+          await set(logRef, {
+            action: "unban",
+            admin: currentUser.displayName || "Unknown",
+            targetUser: bannedUser?.displayName || "Unknown",
+            time: Date.now()
+          });
+
+          alert(`✅ Ο χρήστης ${bannedUser?.displayName || "user"} έγινε UNBAN!`);
+        } catch (err) {
+          console.error("❌ Unban failed:", err);
+        }
+      });
+    });
+  });
+}
+
+// Κάθε φορά που ανοίγει το panel, κάνε load τη λίστα
+if (bannedBtn) {
+  bannedBtn.addEventListener("click", () => {
+    bannedPanel.classList.add("open");
+    loadBannedUsers();
+  });
+}
+
 
 // ===================== YOUTUBE PANEL CONTROLS =====================
 const closeYoutubeBtn = document.getElementById("closeYoutubeBtn");
