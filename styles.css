@@ -1456,7 +1456,7 @@ body {
   font-size: 13px;
   cursor: pointer;
   transition: background 0.2s, transform 0.2s;
-  margin-right: 8px;  /* ⬅️ από 4 → 8 για extra διάκενο από το Χ */
+  margin-right: 16px;  /* ⬅️ από 4 → 8 για extra διάκενο από το Χ */
 }
 
 .close-btn {
