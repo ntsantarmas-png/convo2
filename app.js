@@ -44,20 +44,17 @@ onAuthStateChanged(auth, (user) => {
     renderRooms();
     renderUserList();
     switchRoom("general");
+
+    // === Coins ===
     setupCoinsSync(user);
-setupAddCoinsButton(user);
+    setupAddCoinsButton(user);
 
-
-    // === Coins Sync ===
-    setupCoinsSync(user);  // 👈 Βάλε το εδώ
   } else {
     // ❌ Not logged in
     authView.classList.remove("hidden");
     appView.classList.add("hidden");
   }
 });
-
-
 // ===================== PRESENCE =====================
 function setupPresence(user) {
   const userRef = ref(db, "users/" + user.uid);
