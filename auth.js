@@ -85,8 +85,9 @@ if (registerBtn) {
         photoURL: `https://i.pravatar.cc/150?u=${user.uid}`,
         lastLogin: Date.now()
       });
+// console.log("✅ Registered:", user.uid, finalName);
+alert("🎉 Καλωσόρισες " + finalName + "! Έχεις 400 coins δώρο 💎");
 
-      console.log("✅ Registered:", user.uid, finalName);
 
       // 💎 Ενημέρωσε το UI άμεσα
 if (typeof setupCoinsSync === "function") setupCoinsSync(user.uid);
@@ -221,3 +222,18 @@ if (youtubePanel) {
     
   }
 });
+
+
+// === TOAST MESSAGE FUNCTION ===
+function showToast(msg) {
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.textContent = msg;
+  document.body.appendChild(toast);
+
+  // εξαφανίζεται μετά από 3 δευτερόλεπτα
+  setTimeout(() => {
+    toast.classList.add("hide");
+    setTimeout(() => toast.remove(), 500);
+  }, 3000);
+}
