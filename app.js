@@ -452,13 +452,17 @@ if (msg.system) {
       if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid) {
         messageDiv.classList.add("mine");
       }
-      if (msg.system) {
+if (msg.system) {
   const bubble = document.createElement("div");
   bubble.className = "message-bubble system";
-  bubble.textContent = msg.text;
+
+  // 👇 εδώ επιτρέπουμε HTML (μόνο για system messages)
+  bubble.innerHTML = msg.text;
+
   messagesDiv.appendChild(bubble);
-  return; // ⛔ σταμάτα εδώ, δεν χρειάζεται avatar ή username
+  return; // σταματάμε, δεν χρειάζεται avatar/username
 }
+
 
 
       // === Avatar ===
