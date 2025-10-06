@@ -51,35 +51,55 @@ if (loginBtn) {
 const registerBtn = document.getElementById("registerBtn");
 if (registerBtn) {
   registerBtn.addEventListener("click", async () => {
-    const username = document.getElementById("registerUsername").value;
-    const email = document.getElementById("registerEmail").value;
-    const password = document.getElementById("registerPassword").value;
+    const username = document.getElementById("registerUsername").value.trim();
+    const email = document.getElementById("registerEmail").value.trim();
+    const password = document.getElementById("registerPassword").value.trim();
+
+    if (!email || !password) {
+      alert("⚠️ Συμπλήρωσε email και password!");
+      return;
+    }
 
     try {
+      // Δημιουργία χρήστη
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Αποθήκευση username στο profile
-const finalName = username || "User" + Math.floor(Math.random() * 10000);
-await updateProfile(user, { displayName: finalName });
+      // ✅ Ορισμός username ή fallback
+      const finalName = username || "User" + Math.floor(Math.random() * 10000);
 
-      // Αποθήκευση και στη βάση
-   await set(ref(db, "users/" + user.uid), {
-  uid: user.uid,
-  email: email,
-  displayName: finalName,  // 👈 εδώ να είναι το ίδιο με το updateProfile
-    coins: 400,              // 💎 αρχικά coins με την εγγραφή
-     online: true
-});
+      // ✅ Ενημέρωση Auth Profile (όνομα & avatar)
+      await updateProfile(user, {
+        displayName: finalName,
+        photoURL: `https://i.pravatar.cc/150?u=${user.uid}`
+      });
 
+      // ✅ Αποθήκευση χρήστη στη Realtime Database
+      await set(ref(db, "users/" + user.uid), {
+        uid: user.uid,
+        email: email,
+        displayName: finalName,
+        coins: 400, // 💎 αρχικά coins bonus
+        role: "user",
+        online: true,
+        photoURL: `https://i.pravatar.cc/150?u=${user.uid}`,
+        lastLogin: Date.now()
+      });
 
-      console.log("✅ Registered:", user.uid, username);
+      console.log("✅ Registered:", user.uid, finalName);
+
+      // 💎 Ενημέρωσε το UI άμεσα
+      setupCoinsSync(user.uid);
+
+      alert("🎉 Καλωσόρισες " + finalName + "! Έχεις 400 coins δώρο 💎");
+
     } catch (err) {
       console.error("❌ Register failed:", err.message);
       alert("Register failed: " + err.message);
     }
   });
 }
+
 
 // === FORGOT PASSWORD ===
 const forgotBtn = document.getElementById("forgotBtn");
