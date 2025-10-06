@@ -586,7 +586,23 @@ tabButtons.forEach(btn => {
     btn.classList.add("active");
     document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
   });
-});// ===================== PROFILE PANEL (LOAD USER INFO) =====================
+});
+if (closeProfileBtn) {
+  closeProfileBtn.addEventListener("click", () => {
+    profilePanel.classList.remove("show");
+    profilePanel.classList.add("hidden");
+
+    // 🧹 Καθάρισμα coins listener όταν κλείνει το Profile Panel
+    if (typeof coinsUnsubscribe === "function") {
+      coinsUnsubscribe();       // σταματάει να ακούει το προηγούμενο UID
+      coinsUnsubscribe = null;  // καθαρίζουμε τη μεταβλητή
+      console.log("🧹 Coins listener unsubscribed");
+    }
+  });
+}
+
+
+// ===================== PROFILE PANEL (LOAD USER INFO) =====================
 async function openProfilePanel(uid = null) {
   const panel = document.getElementById("profilePanel");
   if (!panel) return;
@@ -609,18 +625,10 @@ async function openProfilePanel(uid = null) {
   document.getElementById("profileRole").textContent = data.role || "user";
   document.getElementById("profileCoins").textContent = data.coins ?? 0;
 
-  // === Live coins sync όταν βλέπεις προφίλ άλλου ===
-  if (targetUid !== auth.currentUser.uid) {
-    const targetCoinsRef = ref(db, "users/" + targetUid + "/coins");
-    const coinsEl = document.getElementById("profileCoins");
 
-    onValue(targetCoinsRef, (snap) => {
-      const val = snap.exists() ? snap.val() : 0;
-      coinsEl.textContent = val;
-    });
-  }
+  // === Live coins sync για τον χρήστη που βλέπουμε ===
+  setupCoinsSync(targetUid);
 }
-
 
 // ===================== VIEW PROFILE (CONTEXT MENU) =====================
 const viewProfileBtn = document.getElementById("viewProfile");
