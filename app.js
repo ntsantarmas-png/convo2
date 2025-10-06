@@ -471,10 +471,19 @@ function loadSystemLogs() {
       else if (log.action === "ban") icon = "⛔";
 
       const p = document.createElement("p");
-      p.innerHTML = `${icon} <b>${log.admin}</b> → ${log.action} 
-        ${log.targetUser ? `<i>(${log.targetUser})</i>` : ""}
-        <span style="color:#888">in ${log.room || "?"}</span> 
-        <span style="color:#555">[${dateStr} ${hourStr}]</span>`;
+      let details = "";
+
+if (log.action === "changeRole") {
+  details = `${log.targetUser ? `<i>(${log.targetUser})</i>` : ""} 
+    <span style="color:#aaa">(${log.oldRole} → ${log.newRole})</span>`;
+} else {
+  details = `${log.targetUser ? `<i>(${log.targetUser})</i>` : ""}`;
+}
+
+p.innerHTML = `${icon} <b>${log.admin}</b> → ${log.action} ${details}
+  <span style="color:#888">in ${log.room || "?"}</span> 
+  <span style="color:#555">[${dateStr} ${hourStr}]</span>`;
+
       systemLogsDiv.appendChild(p);
     });
   });
@@ -1282,13 +1291,14 @@ const currentUser = auth.currentUser;
 if (currentUser) {
   const logRef = push(ref(db, "adminLogs"));
   await set(logRef, {
-    action: "changeRole",
-    admin: currentUser.displayName || "Unknown",
-    targetUser: targetData?.displayName || "Unknown",
-    oldRole: oldRole,
-    newRole: newRole,
-    time: Date.now()
-  });
+  action: "changeRole",
+  admin: currentUser.displayName || "Unknown",
+  targetUser: targetData?.displayName || "Unknown",
+  oldRole: oldRole,
+  newRole: newRole,
+  room: currentRoom || "unknown",  // 👈 προσθήκη δωματίου
+  time: Date.now()
+});
 }
 
 console.log("✅ Role updated:", contextTargetUid, "→", newRole);
