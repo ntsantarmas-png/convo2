@@ -1681,3 +1681,11 @@ body {
   padding: 1px 4px;
   border-radius: 4px;
 }
+.clickable-user {
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+.clickable-user:hover {
+  color: #2d8cff;
+  text-shadow: 0 0 6px rgba(45,140,255,0.6);
+}
