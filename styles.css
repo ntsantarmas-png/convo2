@@ -1759,3 +1759,16 @@ body {
   box-shadow: none;
   padding: 6px 0;
 }
+
+.message-bubble.system a.yt-play {
+  color: #4cafef;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.message-bubble.system a.yt-play:hover {
+  color: #82c8ff;
+}
+
+
+
