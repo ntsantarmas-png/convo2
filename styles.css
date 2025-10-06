@@ -1525,3 +1525,27 @@ body {
 #bannedPanel {
   background: rgba(25, 15, 15, 0.95); /* λίγο πιο κόκκινο-σκούρο φόντο */
 }
+
+.banned-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+}
+
+.unban-btn {
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.unban-btn:hover {
+  background: #37d67a;
+}
