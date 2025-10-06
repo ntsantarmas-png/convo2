@@ -574,16 +574,17 @@ tabButtons.forEach(btn => {
 });
 // ===================== PROFILE PANEL (LOAD USER INFO) =====================
 async function openProfilePanel(uid = null) {
-  
   const panel = document.getElementById("profilePanel");
-if (panel && panel.dataset.viewingUid !== user.uid) return; // 👈 Μην αλλάζεις coins αν βλέπουμε άλλο χρήστη
+  if (!panel) return;
 
+  // Καθάρισε και δείξε το panel
   panel.classList.remove("hidden");
   panel.classList.add("show");
-// Mark ποιον χρήστη δείχνει αυτή τη στιγμή το panel
-panel.dataset.viewingUid = uid || auth.currentUser.uid;
 
-  let targetUid = uid || auth.currentUser.uid;
+  // Target UID (είτε άλλος user είτε εσύ)
+  const targetUid = uid || auth.currentUser.uid;
+  panel.dataset.viewingUid = targetUid; // αποθήκευση UID που βλέπουμε
+
   const snap = await get(ref(db, "users/" + targetUid));
   const data = snap.val();
 
@@ -592,11 +593,13 @@ panel.dataset.viewingUid = uid || auth.currentUser.uid;
     return;
   }
 
+  // ➕ Update UI με βάση το user που βλέπεις
   document.getElementById("profileName").textContent = data.displayName || "Unknown";
   document.getElementById("profileAvatar").src = data.photoURL || "https://i.pravatar.cc/150";
   document.getElementById("profileRole").textContent = data.role || "user";
   document.getElementById("profileCoins").textContent = data.coins ?? 0;
 }
+
 
 // ===================== VIEW PROFILE (CONTEXT MENU) =====================
 const viewProfileBtn = document.getElementById("viewProfile");
