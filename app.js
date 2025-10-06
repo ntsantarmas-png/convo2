@@ -1602,7 +1602,7 @@ document.addEventListener("keydown", (e) => {
 // ===================== PROFILE MODAL LOGIC =====================
 const profileModal = document.getElementById("profileModal");
 const profileDetails = document.getElementById("profileDetails");
-const closeProfile = document.getElementById("closeProfile");
+const closeProfile = document.getElementById("closeProfileBtn"); // ✅ σωστό id
 
 document.getElementById("viewProfile").addEventListener("click", async () => {
   if (!contextTargetUid) return;
