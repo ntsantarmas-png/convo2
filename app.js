@@ -69,6 +69,21 @@ function setupPresence(user) {
       online: false,
       lastSeen: Date.now()
     });
+    // === 🟢 JOIN MESSAGE ===
+    const joinMsg = {
+      system: true,
+      text: `🟢 ${user.displayName || "Guest"} joined the room`,
+      createdAt: Date.now()
+    };
+    const currentRoom = "general"; // ✅ default room κατά login
+    push(ref(db, "messages/" + currentRoom), joinMsg);
+
+    // Όταν αποσυνδέεται, θα μπει leaveMsg στο onDisconnect πιο κάτω
+    onDisconnect(ref(db, "messages/" + currentRoom)).push({
+      system: true,
+      text: `🔴 ${user.displayName || "Guest"} left the room`,
+      createdAt: Date.now()
+    });
 
     // 🔹 Διάβασε πρώτα τι υπάρχει ήδη
     get(userRef).then(userSnap => {
@@ -399,11 +414,22 @@ function renderMessages(room) {
       const messageDiv = document.createElement("div");
       messageDiv.className = "message";
       messageDiv.dataset.id = msgId;
+if (msg.system) {
+  messageDiv.classList.add("system");
+}
 
       // Αν είναι το δικό μου uid -> βάλε class "mine"
       if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid) {
         messageDiv.classList.add("mine");
       }
+      if (msg.system) {
+  const bubble = document.createElement("div");
+  bubble.className = "message-bubble system";
+  bubble.textContent = msg.text;
+  messagesDiv.appendChild(bubble);
+  return; // ⛔ σταμάτα εδώ, δεν χρειάζεται avatar ή username
+}
+
 
       // === Avatar ===
       const avatarDiv = document.createElement("div");
