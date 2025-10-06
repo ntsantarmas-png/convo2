@@ -527,15 +527,19 @@ onAuthStateChanged(auth, (user) => {
 // Άνοιγμα panel
 if (bannedBtn) {
   bannedBtn.addEventListener("click", () => {
-    bannedPanel.classList.add("open");
-  });
+  bannedPanel.classList.remove("hidden"); // ✅ ξεκλείδωσε
+  bannedPanel.classList.add("open");
+});
+
 }
 
 // Κλείσιμο panel
 if (closeBannedBtn) {
-  closeBannedBtn.addEventListener("click", () => {
-    bannedPanel.classList.remove("open");
-  });
+ closeBannedBtn.addEventListener("click", () => {
+  bannedPanel.classList.remove("open");
+  bannedPanel.classList.add("hidden"); // ✅ ξανακρύψε
+});
+
 }
 // ===================== LOAD BANNED USERS =====================
 import { onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
