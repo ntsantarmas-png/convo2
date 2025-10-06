@@ -141,13 +141,16 @@ const headerUser = document.getElementById("headerUser"); // span στο header 
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-        // === 🛑 AUTO-BAN CHECK ===
-    try {
-      const bannedRef = ref(db, "bannedUsers/" + user.uid);
-      const bannedSnap = await get(bannedRef);
-      if (bannedSnap.exists()) {
-        const data = bannedSnap.val();
-        const reason = data?.reason || "No reason specified";
+  // === 🛑 AUTO-BAN CHECK ===
+  try {
+    const bannedRef = ref(db, "bannedUsers/" + user.uid);
+    const bannedSnap = await get(bannedRef);
+    if (bannedSnap.exists()) {
+      const data = bannedSnap.val();
+      const reason = data?.reason || "No reason specified";
+
+      appView.classList.add("hidden");
+      authView.classList.remove("hidden");
 
         alert(`⛔ Ο λογαριασμός σου είναι banned!\nΛόγος: ${reason}`);
         console.warn("⛔ Banned user attempted login:", user.uid);
