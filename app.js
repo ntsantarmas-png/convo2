@@ -431,14 +431,17 @@ const closeProfileBtn = document.getElementById("closeProfileBtn");
 // Άνοιγμα / κλείσιμο panel
 if (profileBtn && profilePanel) {
   profileBtn.addEventListener("click", () => {
+    profilePanel.classList.remove("hidden");
     profilePanel.classList.add("show");
   });
 }
 if (closeProfileBtn) {
   closeProfileBtn.addEventListener("click", () => {
     profilePanel.classList.remove("show");
+    profilePanel.classList.add("hidden");
   });
 }
+
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") profilePanel.classList.remove("show");
 });
