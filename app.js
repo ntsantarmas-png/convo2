@@ -571,6 +571,29 @@ tabButtons.forEach(btn => {
     document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
   });
 });
+// ===================== PROFILE PANEL (LOAD USER INFO) =====================
+async function openProfilePanel(uid = null) {
+  const panel = document.getElementById("profilePanel");
+  if (!panel) return;
+
+  panel.classList.remove("hidden");
+  panel.classList.add("show");
+
+  let targetUid = uid || auth.currentUser.uid;
+  const snap = await get(ref(db, "users/" + targetUid));
+  const data = snap.val();
+
+  if (!data) {
+    console.warn("⚠️ No user data found for", targetUid);
+    return;
+  }
+
+  document.getElementById("profileName").textContent = data.displayName || "Unknown";
+  document.getElementById("profileAvatar").src = data.photoURL || "https://i.pravatar.cc/150";
+  document.getElementById("profileRole").textContent = data.role || "user";
+  document.getElementById("profileCoins").textContent = data.coins ?? 0;
+}
+
 
 // ===================== SYSTEM PANEL =====================
 const systemBtn = document.getElementById("systemBtn");
