@@ -659,7 +659,6 @@ async function openProfilePanel(uid = null) {
 
   const targetUid = uid || auth.currentUser.uid;
   // 📌 Αποθηκεύουμε ποιο προφίλ βλέπουμε αυτή τη στιγμή
-const panel = document.getElementById("profilePanel");
 if (panel) {
   panel.dataset.viewingUid = targetUid;
 }
