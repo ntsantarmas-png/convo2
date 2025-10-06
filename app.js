@@ -1560,6 +1560,7 @@ if (!reason) {
         admin: currentUser.displayName || "Unknown",
         targetUser: targetData?.displayName || "Unknown",
         room: currentRoom || "unknown",
+          reason: reason, // 👈 εδώ
         time: Date.now()
       });
 
