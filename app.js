@@ -44,6 +44,11 @@ onAuthStateChanged(auth, (user) => {
     renderRooms();
     renderUserList();
     switchRoom("general");
+    setupCoinsSync(user);
+
+
+    // === Coins Sync ===
+    setupCoinsSync(user);  // 👈 Βάλε το εδώ
   } else {
     // ❌ Not logged in
     authView.classList.remove("hidden");
@@ -51,7 +56,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// ===================== PRESENCE =====================
+
 // ===================== PRESENCE =====================
 function setupPresence(user) {
   const userRef = ref(db, "users/" + user.uid);
@@ -92,6 +97,29 @@ function setupPresence(user) {
 }
 
 
+// ===================== COINS SYNC =====================
+import { onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+function setupCoinsSync(user) {
+  const coinsEl = document.getElementById("profileCoins");
+  if (!coinsEl || !user) return;
+
+  const coinsRef = ref(db, "users/" + user.uid + "/coins");
+
+  // 🔁 Live ενημέρωση
+  onValue(coinsRef, (snap) => {
+    const coins = snap.val();
+    if (coins !== null) {
+      coinsEl.textContent = coins;
+
+      // ✨ Προαιρετικό animation feedback
+      coinsEl.classList.add("coin-change");
+      setTimeout(() => coinsEl.classList.remove("coin-change"), 400);
+    } else {
+      coinsEl.textContent = "0";
+    }
+  });
+}
 
 
 // ===================== ROOMS =====================
