@@ -505,6 +505,38 @@ if (clearLogsBtn) {
   });
 }
 
+// ===================== BANNED USERS PANEL =====================
+const bannedBtn = document.getElementById("bannedBtn");
+const bannedPanel = document.getElementById("bannedPanel");
+const closeBannedBtn = document.getElementById("closeBannedBtn");
+
+// Εμφάνιση κουμπιού μόνο για admins (όχι guests/users)
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    get(ref(db, "users/" + user.uid)).then((snap) => {
+      const data = snap.val();
+      if (data?.role === "admin" || user.displayName === "MysteryMan") {
+        bannedBtn.classList.remove("hidden");
+      } else {
+        bannedBtn.classList.add("hidden");
+      }
+    });
+  }
+});
+
+// Άνοιγμα panel
+if (bannedBtn) {
+  bannedBtn.addEventListener("click", () => {
+    bannedPanel.classList.add("open");
+  });
+}
+
+// Κλείσιμο panel
+if (closeBannedBtn) {
+  closeBannedBtn.addEventListener("click", () => {
+    bannedPanel.classList.remove("open");
+  });
+}
 
 // ===================== YOUTUBE PANEL CONTROLS =====================
 const closeYoutubeBtn = document.getElementById("closeYoutubeBtn");
