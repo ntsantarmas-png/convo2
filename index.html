@@ -16,6 +16,8 @@
   </div>
     <!-- Μόνο για MysteryMan -->
 <button id="systemBtn" class="top-btn hidden">🛠 System</button>
+<!-- 🛑 Μόνο για admins (εμφανίζεται και σε MysteryMan και σε άλλους admins) -->
+<button id="bannedBtn" class="top-btn hidden">🛑 Banned Users</button>
 
     <div class="user-info">
       <span id="headerUser"></span>
@@ -85,6 +87,19 @@
     <p class="placeholder">Φόρτωση logs...</p>
   </div>
 </div>
+
+  <!-- ===================== BANNED USERS PANEL ===================== -->
+<div id="bannedPanel" class="system-panel hidden">
+  <div class="system-header">
+    <h3>🛑 Banned Users</h3>
+    <button id="closeBannedBtn" class="close-btn">✖</button>
+  </div>
+
+  <div id="bannedList" class="system-logs">
+    <p class="placeholder">Φόρτωση λίστας banned χρηστών...</p>
+  </div>
+</div>
+
 <!-- ===================== APP VIEW ===================== -->
   <main id="app" class="hidden">
 
