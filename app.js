@@ -52,6 +52,7 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // ===================== PRESENCE =====================
+// ===================== PRESENCE =====================
 function setupPresence(user) {
   const userRef = ref(db, "users/" + user.uid);
   const presenceRef = ref(db, ".info/connected");
@@ -59,22 +60,33 @@ function setupPresence(user) {
   onValue(presenceRef, (snap) => {
     if (!snap.val()) return;
 
+    // 🔻 Τι να γίνει αν αποσυνδεθεί (offline)
     onDisconnect(userRef).update({
       online: false,
       lastSeen: Date.now()
     });
 
-    // ✅ Πρώτα διάβασε τι υπάρχει ήδη για να μη χαθεί το role
+    // 🔹 Διάβασε πρώτα τι υπάρχει ήδη
     get(userRef).then(userSnap => {
       const existing = userSnap.val() || {};
 
+      // === Role Logic ===
+      let role = existing.role || "user";
+      if (user.isAnonymous) role = "guest";
+      if (user.displayName === "MysteryMan") role = "admin"; // ✅ auto-lock admin
+
+      // === Ενημέρωση στοιχείων χωρίς overwrite του role ===
       update(userRef, {
         uid: user.uid,
         displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
         photoURL: user.photoURL || null,
-  role: existing.role || (user.isAnonymous ? "guest" : "user"),
+        role: role,
         online: true
       });
+
+      console.log("📡 Presence sync:", user.displayName, "| role:", role);
+    }).catch(err => {
+      console.error("❌ Presence role sync failed:", err);
     });
   });
 }
