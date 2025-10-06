@@ -87,6 +87,7 @@ function setupPresence(user) {
         photoURL: user.photoURL || null,
         role: role,
         online: true
+        coins: existing.coins ?? 0, // 👈 Αν δεν υπάρχει, το βάζει 0
       });
 
       console.log("📡 Presence sync:", user.displayName, "| role:", role);
