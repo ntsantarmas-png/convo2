@@ -182,8 +182,10 @@ if (youtubePanel) {
 }
 
     if (headerUser) {
-      headerUser.textContent = name;
-    }
+  headerUser.textContent = user.displayName || name || "Guest";
+  console.log("👤 Header name set to:", headerUser.textContent);
+}
+
   } else {
     console.log("❌ Logged out");
 
