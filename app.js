@@ -969,8 +969,14 @@ const closeYoutubeBtn = document.getElementById("closeYoutubeBtn");
 
 if (closeYoutubeBtn) {
   closeYoutubeBtn.addEventListener("click", () => {
-    // ✅ Μόνο κλείσιμο panel — ΔΕΝ σβήνουμε το iframe πλέον
+    // ✅ Κλείσιμο panel
     youtubePanel.classList.add("hidden");
+
+    // ✅ Επαναφορά κειμένου στο κουμπί YouTube
+    const toggleYoutubeBtn = document.getElementById("toggleYoutubeBtn");
+    if (toggleYoutubeBtn) {
+      toggleYoutubeBtn.textContent = "YouTube";
+    }
   });
 }
 
