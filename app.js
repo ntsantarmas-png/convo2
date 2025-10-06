@@ -580,6 +580,43 @@ if (messageForm) {
     const input = document.getElementById("messageInput");
     const text = input.value.trim();
     if (!text) return;
+    // 🎵 YouTube Integration
+const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+const match = text.match(ytRegex);
+
+if (match) {
+  const videoId = match[1];
+  const youtubePanel = document.getElementById("youtubePanel");
+  const user = auth.currentUser;
+  const username = user?.displayName || "Someone";
+
+  // 🔹 Φόρτωσε το βίντεο στο panel
+  if (youtubePanel) {
+    const wrapper = youtubePanel.querySelector(".video-wrapper");
+    wrapper.innerHTML = `
+      <iframe 
+        src="https://www.youtube.com/embed/${videoId}" 
+        frameborder="0" 
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+        allowfullscreen>
+      </iframe>
+    `;
+    youtubePanel.classList.remove("hidden");
+  }
+
+  // 🔹 System message για όλους
+  push(ref(db, "messages/" + currentRoom), {
+    system: true,
+    text: `🎵 ${username} is playing: https://youtu.be/${videoId}`,
+    createdAt: Date.now()
+  });
+
+  // 🔹 Καθάρισε το input
+  input.value = "";
+  input.style.height = "40px";
+  return; // ⛔ σταμάτα εδώ, μην στείλεις σαν κανονικό μήνυμα
+}
+
 
     const user = auth.currentUser;
 
