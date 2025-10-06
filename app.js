@@ -1469,6 +1469,13 @@ if (kickUserBtn) {
 
     const confirmKick = confirm(`👢 Θες σίγουρα να κάνεις kick τον ${targetData?.displayName || "user"};`);
     if (!confirmKick) return;
+    // ➕ Ζήτα λόγο
+const reason = prompt("Πληκτρολόγησε λόγο για το Kick (π.χ. spam, ύβρεις, διαφήμιση):");
+if (!reason) {
+  alert("⚠️ Ακύρωση Kick — δεν δόθηκε λόγος.");
+  return;
+}
+
 
     try {
       // 🔹 Kick = σβήνουμε τον χρήστη από το node users
@@ -1482,6 +1489,7 @@ if (kickUserBtn) {
         admin: user.displayName || "Unknown",
         targetUser: targetData?.displayName || "Unknown",
         room: currentRoom || "unknown",
+          reason: reason, // 👈 εδώ
         time: Date.now()
       });
 
@@ -1525,6 +1533,13 @@ if (banUserBtn) {
     // Επιβεβαίωση ban
     const confirmBan = confirm(`⛔ Θες σίγουρα να κάνεις ban τον ${targetData?.displayName || "user"};`);
     if (!confirmBan) return;
+    // ➕ Ζήτα λόγο για το Ban
+const reason = prompt("Πληκτρολόγησε λόγο για το Ban (π.χ. spam links, τοξική συμπεριφορά, διαφήμιση):");
+if (!reason) {
+  alert("⚠️ Ακύρωση Ban — δεν δόθηκε λόγος.");
+  return;
+}
+
 
     try {
       // 🧱 Αποθήκευση banned user στη βάση
@@ -1534,6 +1549,7 @@ if (banUserBtn) {
         email: targetData?.email || "",
         bannedBy: currentUser.displayName || "Unknown",
         room: currentRoom || "unknown",
+          reason: reason, // 👈 εδώ
         time: Date.now()
       });
 
