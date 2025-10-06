@@ -542,7 +542,6 @@ if (closeBannedBtn) {
 
 }
 // ===================== LOAD BANNED USERS =====================
-import { onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const bannedListDiv = document.getElementById("bannedList");
 
