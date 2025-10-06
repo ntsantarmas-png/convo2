@@ -611,9 +611,7 @@ async function openProfilePanel(uid = null) {
   panel.classList.remove("hidden");
   panel.classList.add("show");
 
-  // ➕ Αν έχει δοθεί uid, δείξε αυτόν — αλλιώς δείξε τον current user
   const targetUid = uid || auth.currentUser.uid;
-
   const snap = await get(ref(db, "users/" + targetUid));
   const data = snap.val();
 
@@ -627,8 +625,18 @@ async function openProfilePanel(uid = null) {
   document.getElementById("profileAvatar").src = data.photoURL || "https://i.pravatar.cc/150";
   document.getElementById("profileRole").textContent = data.role || "user";
   document.getElementById("profileCoins").textContent = data.coins ?? 0;
-}
 
+  // === Live coins sync όταν βλέπεις προφίλ άλλου ===
+  if (targetUid !== auth.currentUser.uid) {
+    const targetCoinsRef = ref(db, "users/" + targetUid + "/coins");
+    const coinsEl = document.getElementById("profileCoins");
+
+    onValue(targetCoinsRef, (snap) => {
+      const val = snap.exists() ? snap.val() : 0;
+      coinsEl.textContent = val;
+    });
+  }
+}
 
 
 // ===================== VIEW PROFILE (CONTEXT MENU) =====================
