@@ -1737,10 +1737,10 @@ roleModal.addEventListener("click", (e) => {
 
 // Κλείσιμο με Esc
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") {
+  if (e.key === "Escape" && !roleModal.classList.contains("hidden")) {
     roleModal.classList.add("hidden");
   }
-
+});
 // ===================== ADMIN ACTIONS: KICK / BAN / MUTE / UNMUTE =====================
 
 // Helper για log entries
