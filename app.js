@@ -121,12 +121,12 @@ function setupCoinsSync(uid) {
 }
 
 
-// ===================== ADMIN ADD COINS =====================
+// ===================== ADMIN ADD COINS BUTTON (PROFILE PANEL) =====================
 function setupAddCoinsButton(user) {
   const btn = document.getElementById("addCoinsBtn");
   if (!btn) return;
 
-  // Εμφάνιση κουμπιού μόνο για MysteryMan
+  // 💎 Εμφανίζεται μόνο αν είσαι ο MysteryMan
   if (user.displayName === "MysteryMan") {
     btn.classList.remove("hidden");
   } else {
@@ -134,25 +134,36 @@ function setupAddCoinsButton(user) {
     return;
   }
 
-  // 👉 On click, πρόσθεσε coins
-  btn.addEventListener("click", async () => {
-    const addAmount = parseInt(prompt("💎 Πόσα coins να προσθέσω;", "50"));
-    if (isNaN(addAmount) || addAmount <= 0) return alert("❌ Άκυρο ποσό");
+  // 🔄 Καθάρισε παλιό listener
+  const newBtn = btn.cloneNode(true);
+  btn.parentNode.replaceChild(newBtn, btn);
 
-    const coinsRef = ref(db, "users/" + user.uid + "/coins");
+  // ➕ Νέος listener
+  newBtn.addEventListener("click", async () => {
+    const panel = document.getElementById("profilePanel");
+    const targetUid = panel?.dataset.viewingUid || user.uid;
 
-    try {
-      console.log("🧩 Add coins target UID:", contextTargetUid);
+    const amount = parseInt(
+      prompt("💎 Πόσα coins να προσθέσεις;", "100"),
+      10
+    );
+    if (isNaN(amount) || amount <= 0) return;
 
-      const snap = await get(coinsRef);
-      const current = snap.val() || 0;
-      await set(coinsRef, current + addAmount);
-      alert(`✅ Προστέθηκαν ${addAmount} coins!`);
-    } catch (err) {
-      console.error("❌ Add coins failed:", err);
+    const targetRef = ref(db, "users/" + targetUid + "/coins");
+    const snap = await get(targetRef);
+    const currentCoins = snap.exists() ? snap.val() : 0;
+
+    await set(targetRef, currentCoins + amount);
+
+    // Μήνυμα επιτυχίας
+    if (targetUid === user.uid) {
+      alert(`✅ Πρόσθεσες ${amount} coins στον εαυτό σου!`);
+    } else {
+      alert(`✅ Πρόσθεσες ${amount} coins στον χρήστη!`);
     }
   });
 }
+
 // ===================== ADMIN ADD COINS TO USER =====================
 document.addEventListener("DOMContentLoaded", () => {
   let addCoinsUserBtn = document.getElementById("addCoinsUser");
@@ -647,6 +658,12 @@ async function openProfilePanel(uid = null) {
   panel.classList.add("show");
 
   const targetUid = uid || auth.currentUser.uid;
+  // 📌 Αποθηκεύουμε ποιο προφίλ βλέπουμε αυτή τη στιγμή
+const panel = document.getElementById("profilePanel");
+if (panel) {
+  panel.dataset.viewingUid = targetUid;
+}
+
   const snap = await get(ref(db, "users/" + targetUid));
   const data = snap.val();
 
