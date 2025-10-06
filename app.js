@@ -46,8 +46,9 @@ onAuthStateChanged(auth, (user) => {
     switchRoom("general");
 
     // === Coins ===
-    setupCoinsSync(user);
-    setupAddCoinsButton(user);
+    setupCoinsSync(user.uid);
+setupAddCoinsButton(user);
+
 
   } else {
     // ❌ Not logged in
