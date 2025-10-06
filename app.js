@@ -520,7 +520,28 @@ const bannedBtn = document.getElementById("bannedBtn");
 const bannedPanel = document.getElementById("bannedPanel");
 const closeBannedBtn = document.getElementById("closeBannedBtn");
 
-// Εμφάνιση κουμπιού μόνο για admins (όχι guests/users)
+// Εμφάνιση κουμπιού μόνο για MysteryMan ή admins
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    bannedBtn.classList.add("hidden");
+    return;
+  }
+
+  try {
+    const userSnap = await get(ref(db, "users/" + user.uid));
+    const userData = userSnap.val();
+
+    if (userData?.role === "admin" || user.displayName === "MysteryMan") {
+      bannedBtn.classList.remove("hidden");
+    } else {
+      bannedBtn.classList.add("hidden");
+    }
+  } catch (err) {
+    console.error("Error checking role:", err);
+    bannedBtn.classList.add("hidden");
+  }
+});
+
 onAuthStateChanged(auth, (user) => {
   if (user) {
     get(ref(db, "users/" + user.uid)).then((snap) => {
