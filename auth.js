@@ -140,23 +140,29 @@ onAuthStateChanged(auth, async (user) => {
       await updateProfile(user, { photoURL: avatar });
     }
 
-    // === Ενημέρωση χρήστη στη DB ===
-let role = "user";
-if (user.isAnonymous) {
-  role = "guest";
-} else if (name === "MysteryMan") {
-  role = "admin";
-}
+   // === Ενημέρωση χρήστη στη DB με role persistence ===
+try {
+  const userRef = ref(db, "users/" + user.uid);
+  const snap = await get(userRef);
+  const existing = snap.val() || {};
 
-await update(ref(db, "users/" + user.uid), {
-  uid: user.uid,
-  displayName: name,
-  email: user.email || null,
-  photoURL: avatar,
-  online: true,
-  lastLogin: Date.now(),
-  role: role   // 👈 προστέθηκε
-});
+  // === Καθορισμός ρόλου ===
+  let role = existing.role || "user";
+  if (user.isAnonymous) role = "guest";
+  if (name === "MysteryMan") role = "admin"; // ✅ πάντα admin
+
+  await update(userRef, {
+    uid: user.uid,
+    displayName: name,
+    email: user.email || null,
+    photoURL: avatar,
+    online: true,
+    lastLogin: Date.now(),
+    role: role
+  });
+
+  console.log("✅ Role pe
+
 
     // === UI switch (με hidden class) ===
     authView.classList.add("hidden");
