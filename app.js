@@ -607,6 +607,19 @@ if (deleteBtn) {
 
     try {
       await remove(ref(db, "messages/" + currentRoom + "/" + targetMessageId));
+      // 🧾 === Log entry στο adminLogs ===
+const currentUser = auth.currentUser;
+if (currentUser) {
+  const logRef = push(ref(db, "adminLogs"));
+  await set(logRef, {
+    action: "deleteMessage",
+    admin: currentUser.displayName || "Unknown",
+    targetUser: deletedMsg?.querySelector(".message-user")?.textContent || "Unknown",
+    room: currentRoom,
+    time: Date.now()
+  });
+}
+
       console.log("✅ Message deleted:", targetMessageId);
       // 💬 Αφαίρεσε άμεσα το bubble από το UI
 const deletedMsg = document.querySelector(`.message[data-id="${targetMessageId}"]`);
