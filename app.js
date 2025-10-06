@@ -600,6 +600,41 @@ if (closeProfileBtn) {
     }
   });
 }
+// ✅ Επαναφορά listener για το Add Coins κουμπί (αν υπάρχει)
+document.addEventListener("click", () => {
+  const btn = document.getElementById("addCoinsUser");
+  if (btn && !btn.dataset.listenerAdded) {
+    btn.dataset.listenerAdded = "true";
+
+    btn.addEventListener("click", async () => {
+      if (!contextTargetUid) {
+        alert("⚠️ No user selected!");
+        return;
+      }
+
+      const currentUser = auth.currentUser;
+      if (!currentUser || currentUser.displayName !== "MysteryMan") {
+        alert("❌ Μόνο ο MysteryMan μπορεί να δώσει coins!");
+        userContextMenu.classList.add("hidden");
+        return;
+      }
+
+      const addAmount = parseInt(
+        prompt("💎 Πόσα coins να προσθέσω σε αυτόν τον χρήστη;", "50"),
+        10
+      );
+      if (isNaN(addAmount) || addAmount <= 0) return;
+
+      const targetRef = ref(db, "users/" + contextTargetUid + "/coins");
+      const snap = await get(targetRef);
+      const currentCoins = snap.exists() ? snap.val() : 0;
+
+      await set(targetRef, currentCoins + addAmount);
+      alert(`✅ Προστέθηκαν ${addAmount} coins!`);
+      userContextMenu.classList.add("hidden");
+    });
+  }
+});
 
 
 // ===================== PROFILE PANEL (LOAD USER INFO) =====================
