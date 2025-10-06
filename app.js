@@ -526,6 +526,29 @@ if (clearLogsBtn) {
     }
   });
 }
+// ===================== COPY UID =====================
+const copyUidBtn = document.getElementById("copyUid");
+
+if (copyUidBtn) {
+  copyUidBtn.addEventListener("click", async () => {
+    if (!contextTargetUid) {
+      alert("⚠️ No user selected!");
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(contextTargetUid);
+      alert("📋 UID copied:\n" + contextTargetUid);
+      console.log("✅ Copied UID:", contextTargetUid);
+    } catch (err) {
+      console.error("❌ Failed to copy UID:", err);
+      alert("❌ Failed to copy UID");
+    }
+
+    // Κλείσε το μενού μετά την ενέργεια
+    userContextMenu.classList.add("hidden");
+  });
+}
 
 // ===================== BANNED USERS PANEL =====================
 const bannedBtn = document.getElementById("bannedBtn");
