@@ -331,6 +331,31 @@ function switchRoom(room) {
     renderMessages(room);
   watchTyping(room); // 👈 εδώ μπαίνει η σύνδεση
 }
+// === 🟢 JOIN / 🔴 LEAVE MESSAGE PER ROOM ===
+const user = auth.currentUser;
+if (!user) return;
+
+// Αν υπήρχε προηγούμενο room, στείλε leave message
+if (switchRoom.prev && switchRoom.prev !== room) {
+  push(ref(db, "messages/" + switchRoom.prev), {
+    system: true,
+    text: `🔴 ${user.displayName || "Guest"} left the room`,
+    createdAt: Date.now()
+  });
+}
+
+// Αν δεν έχει ξαναστείλει join στο room αυτό
+if (switchRoom.prev !== room) {
+  push(ref(db, "messages/" + room), {
+    system: true,
+    text: `🟢 ${user.displayName || "Guest"} joined the room`,
+    createdAt: Date.now()
+  });
+}
+
+// Θυμήσου ποιο room είναι τώρα
+switchRoom.prev = room;
+
 function watchTyping(room) {
   const typingDiv = document.getElementById("typingIndicator");
   const roomTypingRef = ref(db, `typing/${room}`);
