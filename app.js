@@ -702,7 +702,7 @@ if (messageInput) {
     clearTimeout(typingTimeout);
     typingTimeout = setTimeout(() => {
       set(typingRef, { typing: false });
-    }, 3000);
+    }, 2750);
   });
 }
 
