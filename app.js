@@ -1740,212 +1740,146 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     roleModal.classList.add("hidden");
   }
-});
-// ===================== KICK USER =====================
+
+// ===================== ADMIN ACTIONS: KICK / BAN / MUTE / UNMUTE =====================
+
+// Helper για log entries
+async function logAdminAction(action, targetUid, targetUser, extra = {}) {
+  const currentUser = auth.currentUser;
+  if (!currentUser) return;
+
+  const logRef = push(ref(db, "adminLogs"));
+  await set(logRef, {
+    action,
+    admin: currentUser.displayName || "Unknown",
+    targetUser: targetUser || "Unknown",
+    targetUid,
+    room: currentRoom || "unknown",
+    time: Date.now(),
+    ...extra
+  });
+}
+
+// === MUTE USER ===
+const muteUserBtn = document.getElementById("muteUser");
+if (muteUserBtn) {
+  muteUserBtn.addEventListener("click", async () => {
+    if (!contextTargetUid) return alert("⚠️ No user selected!");
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+
+    const adminSnap = await get(ref(db, "users/" + currentUser.uid));
+    const adminData = adminSnap.val() || {};
+    if (adminData.role !== "admin" && currentUser.displayName !== "MysteryMan") {
+      alert("⚠️ Μόνο admin μπορεί να κάνει mute!");
+      return;
+    }
+
+    const targetSnap = await get(ref(db, "users/" + contextTargetUid));
+    const targetData = targetSnap.val() || {};
+    if (targetData.displayName === "MysteryMan") {
+      alert("🚫 Δεν μπορείς να κάνεις mute τον MysteryMan!");
+      return;
+    }
+
+    await set(ref(db, "mutes/" + contextTargetUid), {
+      by: currentUser.displayName,
+      time: Date.now()
+    });
+
+    await logAdminAction("mute", contextTargetUid, targetData.displayName);
+    alert(`🔇 Ο χρήστης ${targetData.displayName || "user"} έγινε mute.`);
+    userContextMenu.classList.add("hidden");
+  });
+}
+
+// === UNMUTE USER ===
+const unmuteUserBtn = document.getElementById("unmuteUser");
+if (unmuteUserBtn) {
+  unmuteUserBtn.addEventListener("click", async () => {
+    if (!contextTargetUid) return alert("⚠️ No user selected!");
+
+    await remove(ref(db, "mutes/" + contextTargetUid));
+
+    await logAdminAction("unmute", contextTargetUid, "Unknown");
+    alert("🔊 Ο χρήστης έγινε unmute.");
+    userContextMenu.classList.add("hidden");
+  });
+}
+
+// === KICK USER ===
 const kickUserBtn = document.getElementById("kickUser");
 if (kickUserBtn) {
   kickUserBtn.addEventListener("click", async () => {
-    if (!contextTargetUid) return;
+    if (!contextTargetUid) return alert("⚠️ No user selected!");
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
 
-    const user = auth.currentUser;
-    if (!user) return;
-
-    const userSnap = await get(ref(db, "users/" + user.uid));
-    const userData = userSnap.val();
-
-    if (userData.role !== "admin") {
+    const userSnap = await get(ref(db, "users/" + currentUser.uid));
+    const userData = userSnap.val() || {};
+    if (userData.role !== "admin" && currentUser.displayName !== "MysteryMan") {
       alert("⚠️ Μόνο admin μπορεί να κάνει kick!");
       return;
     }
 
     const targetSnap = await get(ref(db, "users/" + contextTargetUid));
-    const targetData = targetSnap.val();
-
-    if (targetData?.displayName === "MysteryMan") {
+    const targetData = targetSnap.val() || {};
+    if (targetData.displayName === "MysteryMan") {
       alert("🚫 Δεν μπορείς να κάνεις kick τον MysteryMan!");
       return;
     }
 
-    const confirmKick = confirm(`👢 Θες σίγουρα να κάνεις kick τον ${targetData?.displayName || "user"};`);
-    if (!confirmKick) return;
-    // ➕ Ζήτα λόγο
-const reason = prompt("Πληκτρολόγησε λόγο για το Kick (π.χ. spam, ύβρεις, διαφήμιση):");
-if (!reason) {
-  alert("⚠️ Ακύρωση Kick — δεν δόθηκε λόγος.");
-  return;
-}
+    const reason = prompt("👢 Λόγος για το kick;", "spam / προσβολή");
+    if (!reason) return alert("⚠️ Kick ακυρώθηκε — δεν δόθηκε λόγος.");
 
+    await remove(ref(db, "users/" + contextTargetUid));
 
-    try {
-      // 🔹 Kick = σβήνουμε τον χρήστη από το node users
-      await remove(ref(db, "users/" + contextTargetUid));
-      console.log("✅ User kicked:", targetData?.displayName || contextTargetUid);
-
-      // 🧾 === Log entry στο adminLogs ===
-      const logRef = push(ref(db, "adminLogs"));
-      await set(logRef, {
-        action: "kick",
-        admin: user.displayName || "Unknown",
-        targetUser: targetData?.displayName || "Unknown",
-        room: currentRoom || "unknown",
-          reason: reason, // 👈 εδώ
-        time: Date.now()
-      });
-
-      // 💬 Εμφάνιση προσωρινού alert ή μήνυμα
-      alert(`👢 Ο χρήστης ${targetData?.displayName || "user"} αποβλήθηκε από το chat!`);
-
-    } catch (err) {
-      console.error("❌ Kick failed:", err);
-    }
+    await logAdminAction("kick", contextTargetUid, targetData.displayName, { reason });
+    alert(`👢 Ο χρήστης ${targetData.displayName || "user"} αποβλήθηκε!`);
 
     userContextMenu.classList.add("hidden");
   });
 }
-// ===================== BAN USER =====================
+
+// === BAN USER ===
 const banUserBtn = document.getElementById("banUser");
 if (banUserBtn) {
   banUserBtn.addEventListener("click", async () => {
-    if (!contextTargetUid) return;
-
+    if (!contextTargetUid) return alert("⚠️ No user selected!");
     const currentUser = auth.currentUser;
     if (!currentUser) return;
 
-    // Πάρε στοιχεία του admin
     const adminSnap = await get(ref(db, "users/" + currentUser.uid));
-    const adminData = adminSnap.val();
+    const adminData = adminSnap.val() || {};
     if (adminData.role !== "admin" && currentUser.displayName !== "MysteryMan") {
       alert("⚠️ Μόνο admin μπορεί να κάνει ban!");
       return;
     }
 
-    // Πάρε στοιχεία του χρήστη που θα γίνει ban
     const targetSnap = await get(ref(db, "users/" + contextTargetUid));
-    const targetData = targetSnap.val();
-
-    // Προστασία MysteryMan
-    if (targetData?.displayName === "MysteryMan") {
+    const targetData = targetSnap.val() || {};
+    if (targetData.displayName === "MysteryMan") {
       alert("🚫 Δεν μπορείς να κάνεις ban τον MysteryMan!");
       return;
     }
 
-    // Επιβεβαίωση ban
-    const confirmBan = confirm(`⛔ Θες σίγουρα να κάνεις ban τον ${targetData?.displayName || "user"};`);
-    if (!confirmBan) return;
-    // ➕ Ζήτα λόγο για το Ban
-const reason = prompt("Πληκτρολόγησε λόγο για το Ban (π.χ. spam links, τοξική συμπεριφορά, διαφήμιση):");
-if (!reason) {
-  alert("⚠️ Ακύρωση Ban — δεν δόθηκε λόγος.");
-  return;
-}
+    const reason = prompt("⛔ Λόγος ban;", "spamming / toxic behavior");
+    if (!reason) return alert("⚠️ Ban ακυρώθηκε — δεν δόθηκε λόγος.");
 
+    await set(ref(db, "bannedUsers/" + contextTargetUid), {
+      uid: contextTargetUid,
+      displayName: targetData.displayName || "Unknown",
+      email: targetData.email || "",
+      bannedBy: currentUser.displayName || "Unknown",
+      reason,
+      room: currentRoom || "unknown",
+      time: Date.now()
+    });
 
-    try {
-      // 🧱 Αποθήκευση banned user στη βάση
-      await set(ref(db, "bannedUsers/" + contextTargetUid), {
-        uid: contextTargetUid,
-        displayName: targetData?.displayName || "Unknown",
-        email: targetData?.email || "",
-        bannedBy: currentUser.displayName || "Unknown",
-        room: currentRoom || "unknown",
-          reason: reason, // 👈 εδώ
-        time: Date.now()
-      });
+    await logAdminAction("ban", contextTargetUid, targetData.displayName, { reason });
+    await remove(ref(db, "users/" + contextTargetUid));
 
-      // 🧾 Log στο adminLogs
-      const logRef = push(ref(db, "adminLogs"));
-      await set(logRef, {
-        action: "ban",
-        admin: currentUser.displayName || "Unknown",
-        targetUser: targetData?.displayName || "Unknown",
-        room: currentRoom || "unknown",
-          reason: reason, // 👈 εδώ
-        time: Date.now()
-      });
-
-      // 💬 Εμφάνιση alert
-      alert(`⛔ Ο χρήστης ${targetData?.displayName || "user"} αποκλείστηκε από το chat!`);
-
-      // Προαιρετικά: αφαίρεση από users node
-      await remove(ref(db, "users/" + contextTargetUid));
-
-    } catch (err) {
-      console.error("❌ Ban failed:", err);
-    }
-
-    userContextMenu.classList.add("hidden");
-  });
-}
-
-// ===================== USER CONTEXT MENU =====================
-const muteUserBtn = document.getElementById("muteUser");
-const unmuteUserBtn = document.getElementById("unmuteUser");
-
-// Mute
-if (muteUserBtn) {
-  muteUserBtn.addEventListener("click", async () => {
-    if (!contextTargetUid) return;
-// ❌ Μην αφήνεις να κάνεις mute τον εαυτό σου
-if (contextTargetUid === auth.currentUser.uid) {
-  alert("⚠️ Δεν μπορείς να κάνεις mute τον εαυτό σου!");
-  return;
-}
-
-// ❌ Μην αφήνεις να κάνεις mute admin
-const targetSnap = await get(ref(db, "users/" + contextTargetUid));
-const targetData = targetSnap.val();
-if (targetData && targetData.role === "admin") {
-  alert("⚠️ Δεν μπορείς να κάνεις mute admin!");
-  return;
-}
-// ❌ Αν ο στόχος είναι ο MysteryMan → μπλοκάρουμε
-if (targetData && targetData.displayName === "MysteryMan") {
-  alert("⚠️ Δεν μπορείς να πειράξεις τον MysteryMan!");
-  return;
-}
-
-    try {
-      await set(ref(db, "mutes/" + contextTargetUid), true);
-      console.log("✅ User muted:", contextTargetUid);
-    } catch (err) {
-      console.error("❌ Error muting user:", err);
-    }
-
-    userContextMenu.classList.add("hidden");
-  });
-}
-
-// Unmute
-if (unmuteUserBtn) {
-  unmuteUserBtn.addEventListener("click", async () => {
-    if (!contextTargetUid) return;
-
-    // ❌ Μην αφήνεις να κάνεις unmute τον εαυτό σου
-    if (contextTargetUid === auth.currentUser.uid) {
-      alert("⚠️ Δεν μπορείς να κάνεις unmute τον εαυτό σου!");
-      return;
-    }
-
-    // ❌ Μην αφήνεις να κάνεις unmute admin
-    const targetSnap = await get(ref(db, "users/" + contextTargetUid));
-    const targetData = targetSnap.val();
-    if (targetData && targetData.role === "admin") {
-      alert("⚠️ Δεν μπορείς να κάνεις unmute admin!");
-      return;
-    }
-// ❌ Αν ο στόχος είναι ο MysteryMan → μπλοκάρουμε
-if (targetData && targetData.displayName === "MysteryMan") {
-  alert("⚠️ Δεν μπορείς να πειράξεις τον MysteryMan!");
-  return;
-}
-
-    try {
-      await remove(ref(db, "mutes/" + contextTargetUid));
-      console.log("✅ User unmuted:", contextTargetUid);
-    } catch (err) {
-      console.error("❌ Error unmuting user:", err);
-    }
-
+    alert(`⛔ Ο χρήστης ${targetData.displayName || "user"} αποκλείστηκε!`);
     userContextMenu.classList.add("hidden");
   });
 }
