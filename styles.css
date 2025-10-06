@@ -1444,19 +1444,21 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-right: 6px; /* 👈 τραβάει λίγο πιο αριστερά όλο το group */
+  margin-right: 14px; /* ⬅️ από 6 → 14 για περισσότερο χώρο */
 }
+
 
 .clear-btn {
   background: #2d8cff;
   color: #fff;
-  padding: 5px 10px;
+  padding: 5px 12px;  /* λίγο φαρδύτερο για καλύτερη ισορροπία */
   border-radius: 6px;
   font-size: 13px;
   cursor: pointer;
   transition: background 0.2s, transform 0.2s;
-  margin-right: 4px; /* 👈 extra spacing από το Χ */
+  margin-right: 8px;  /* ⬅️ από 4 → 8 για extra διάκενο από το Χ */
 }
+
 .close-btn {
   border: none;
   border-radius: 6px;
