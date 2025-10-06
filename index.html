@@ -100,6 +100,52 @@
     <p class="placeholder">Φόρτωση λίστας banned χρηστών...</p>
   </div>
 </div>
+  <!-- ===================== PROFILE PANEL ===================== -->
+<div id="profilePanel" class="profile-panel hidden">
+  <div class="profile-header">
+    <div class="profile-avatar">
+      <img id="profileAvatarImg" src="https://i.pravatar.cc/150?img=12" alt="Avatar">
+      <span id="profileStatus" class="status-ring online"></span>
+    </div>
+    <div class="profile-info">
+      <h3 id="profileName">MysteryMan</h3>
+      <span id="profileRole" class="role-badge admin">Admin</span>
+    </div>
+    <div class="profile-coins">
+      💎 <span id="profileCoins">250</span>
+    </div>
+    <button id="closeProfileBtn" class="close-btn">✖</button>
+  </div>
+
+  <div class="profile-tabs">
+    <button class="tab-btn active" data-tab="profile">Profile</button>
+    <button class="tab-btn" data-tab="gifts">Gifts</button>
+    <button class="tab-btn" data-tab="menu">Menu</button>
+  </div>
+
+  <div class="profile-content">
+    <div id="tab-profile" class="tab-content active">
+      <p>✏️ Επεξεργασία πληροφοριών</p>
+      <p>💬 Σχετικά με μένα</p>
+      <p>⚙️ Ρυθμίσεις θέματος</p>
+    </div>
+
+    <div id="tab-gifts" class="tab-content">
+      <button id="buyGiftBtn" class="btn">+ Αγορά Δώρου</button>
+      <div class="gifts-grid">
+        <div class="gift-item"><img src="https://i.imgur.com/5KXKkT0.png"><span>12</span></div>
+        <div class="gift-item"><img src="https://i.imgur.com/9RZ1ZQY.png"><span>4</span></div>
+      </div>
+    </div>
+
+    <div id="tab-menu" class="tab-content">
+      <p>👥 Διαχείριση φίλων</p>
+      <p>🚫 Αγνοημένοι</p>
+      <p>⏻ Αποσύνδεση</p>
+    </div>
+  </div>
+</div>
+
 
 <!-- ===================== APP VIEW ===================== -->
   <main id="app" class="hidden">
