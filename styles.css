@@ -1522,3 +1522,6 @@ body {
   margin-top: 20px;
   font-style: italic;
 }
+#bannedPanel {
+  background: rgba(25, 15, 15, 0.95); /* λίγο πιο κόκκινο-σκούρο φόντο */
+}
