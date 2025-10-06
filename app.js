@@ -446,7 +446,6 @@ closeSystemBtn.addEventListener("click", () => {
 
 // Φόρτωση logs
 function loadSystemLogs() {
-function loadSystemLogs() {
   const logsRef = ref(db, "adminLogs");
   onValue(logsRef, (snap) => {
     systemLogsDiv.innerHTML = "";
