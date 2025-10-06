@@ -608,12 +608,29 @@ if (match) {
     youtubePanel.classList.remove("hidden");
   }
 
-  // 🔹 System message για όλους
- push(ref(db, "messages/" + currentRoom), {
-  system: true,
-  text: `🎵 ${username} is playing: <a href="#" class="yt-play" data-videoid="${videoId}">YouTube Video</a>`,
-  createdAt: Date.now()
-});
+  // 🎵 Πάρε τον τίτλο του βίντεο με oEmbed
+try {
+  const res = await fetch(`https://www.youtube.com/oembed?url=https://youtu.be/${videoId}&format=json`);
+  const data = await res.json();
+  const title = data.title || "YouTube Video";
+
+  // System message με τίτλο
+  push(ref(db, "messages/" + currentRoom), {
+    system: true,
+    text: `🎵 ${username} is playing: <a href="#" class="yt-play" data-videoid="${videoId}">${title}</a>`,
+    createdAt: Date.now()
+  });
+} catch (err) {
+  console.warn("❌ YouTube title fetch failed:", err);
+
+  // fallback
+  push(ref(db, "messages/" + currentRoom), {
+    system: true,
+    text: `🎵 ${username} is playing: <a href="#" class="yt-play" data-videoid="${videoId}">YouTube Video</a>`,
+    createdAt: Date.now()
+  });
+}
+
 
 
   // 🔹 Καθάρισε το input
