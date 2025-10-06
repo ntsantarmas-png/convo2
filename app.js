@@ -1261,34 +1261,40 @@ roleButtons.forEach(btn => {
       return;
     }
 
-    // Πάρε τον τρέχοντα ρόλο του target user
-    const targetSnap = await get(ref(db, "users/" + contextTargetUid));
-    const targetData = targetSnap.val();
-    const oldRole = targetData?.role || "user";
+// Πάρε τον τρέχοντα ρόλο του target user
+const targetSnap = await get(ref(db, "users/" + contextTargetUid));
+const targetData = targetSnap.val();
+const oldRole = targetData?.role || "user";
 
-    // ❌ Αν ο στόχος είναι ο MysteryMan → μπλοκάρουμε
+// ❌ Αν ο στόχος είναι ο MysteryMan → μπλοκάρουμε
 if (targetData && targetData.displayName === "MysteryMan") {
   alert("⚠️ Δεν μπορείς να πειράξεις τον MysteryMan!");
   return;
 }
 
-    // Κάνε update τον νέο ρόλο
-    await update(ref(db, "users/" + contextTargetUid), {
-      role: newRole
-    });
+// Κάνε update τον νέο ρόλο
+await update(ref(db, "users/" + contextTargetUid), {
+  role: newRole
+});
 
-    console.log("✅ Role updated:", contextTargetUid, "→", newRole);
+// 🧾 === Log entry στο adminLogs ===
+const currentUser = auth.currentUser;
+if (currentUser) {
+  const logRef = push(ref(db, "adminLogs"));
+  await set(logRef, {
+    action: "changeRole",
+    admin: currentUser.displayName || "Unknown",
+    targetUser: targetData?.displayName || "Unknown",
+    oldRole: oldRole,
+    newRole: newRole,
+    time: Date.now()
+  });
+}
 
-    // 📌 Γράψε στο admin log
-    await push(ref(db, "adminLogs"), {
-      by: auth.currentUser.displayName || auth.currentUser.uid,
-      target: targetData?.displayName || contextTargetUid,
-      oldRole,
-      newRole,
-      timestamp: Date.now()
-    });
+console.log("✅ Role updated:", contextTargetUid, "→", newRole);
 
-    roleModal.classList.add("hidden"); // κλείσε το modal μετά την αλλαγή
+// Κλείσε το modal μετά την αλλαγή
+roleModal.classList.add("hidden");
   });
 });
 // Κλείσιμο με ❌
