@@ -582,6 +582,16 @@ if (clearChatBtn) {
    try {
   await remove(ref(db, "messages/" + currentRoom));
   console.log("✅ Chat cleared:", currentRoom);
+     // 🧾 === Log entry στο adminLogs ===
+const logRef = push(ref(db, "adminLogs"));
+await set(logRef, {
+  action: "clearChat",
+  admin: user.displayName || "Unknown",
+  room: currentRoom,
+  time: Date.now()
+});
+
+     
 
   // 💬 Καθάρισε άμεσα το UI
   document.getElementById("messages").innerHTML = "";
