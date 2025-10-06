@@ -423,6 +423,39 @@ if (toggleYoutubeBtn) {
     }
   });
 }
+// ===================== PROFILE PANEL =====================
+const profileBtn = document.getElementById("headerUser"); // ή όποιο κουμπί θέλεις
+const profilePanel = document.getElementById("profilePanel");
+const closeProfileBtn = document.getElementById("closeProfileBtn");
+
+// Άνοιγμα / κλείσιμο panel
+if (profileBtn && profilePanel) {
+  profileBtn.addEventListener("click", () => {
+    profilePanel.classList.add("show");
+  });
+}
+if (closeProfileBtn) {
+  closeProfileBtn.addEventListener("click", () => {
+    profilePanel.classList.remove("show");
+  });
+}
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") profilePanel.classList.remove("show");
+});
+
+// Tabs λειτουργία
+const tabButtons = document.querySelectorAll(".tab-btn");
+const tabContents = document.querySelectorAll(".tab-content");
+
+tabButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    tabButtons.forEach(b => b.classList.remove("active"));
+    tabContents.forEach(c => c.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById("tab-" + btn.dataset.tab).classList.add("active");
+  });
+});
+
 // ===================== SYSTEM PANEL =====================
 const systemBtn = document.getElementById("systemBtn");
 const systemPanel = document.getElementById("systemPanel");
