@@ -546,6 +546,7 @@ if (profileBtn && profilePanel) {
   profileBtn.addEventListener("click", () => {
     profilePanel.classList.remove("hidden");
     profilePanel.classList.add("show");
+
   });
 }
 if (closeProfileBtn) {
@@ -573,11 +574,14 @@ tabButtons.forEach(btn => {
 });
 // ===================== PROFILE PANEL (LOAD USER INFO) =====================
 async function openProfilePanel(uid = null) {
+  
   const panel = document.getElementById("profilePanel");
-  if (!panel) return;
+if (panel && panel.dataset.viewingUid !== user.uid) return; // 👈 Μην αλλάζεις coins αν βλέπουμε άλλο χρήστη
 
   panel.classList.remove("hidden");
   panel.classList.add("show");
+// Mark ποιον χρήστη δείχνει αυτή τη στιγμή το panel
+panel.dataset.viewingUid = uid || auth.currentUser.uid;
 
   let targetUid = uid || auth.currentUser.uid;
   const snap = await get(ref(db, "users/" + targetUid));
