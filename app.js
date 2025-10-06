@@ -1325,6 +1325,60 @@ document.addEventListener("keydown", (e) => {
     roleModal.classList.add("hidden");
   }
 });
+// ===================== KICK USER =====================
+const kickUserBtn = document.getElementById("kickUser");
+if (kickUserBtn) {
+  kickUserBtn.addEventListener("click", async () => {
+    if (!contextTargetUid) return;
+
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const userSnap = await get(ref(db, "users/" + user.uid));
+    const userData = userSnap.val();
+
+    if (userData.role !== "admin") {
+      alert("⚠️ Μόνο admin μπορεί να κάνει kick!");
+      return;
+    }
+
+    const targetSnap = await get(ref(db, "users/" + contextTargetUid));
+    const targetData = targetSnap.val();
+
+    if (targetData?.displayName === "MysteryMan") {
+      alert("🚫 Δεν μπορείς να κάνεις kick τον MysteryMan!");
+      return;
+    }
+
+    const confirmKick = confirm(`👢 Θες σίγουρα να κάνεις kick τον ${targetData?.displayName || "user"};`);
+    if (!confirmKick) return;
+
+    try {
+      // 🔹 Kick = σβήνουμε τον χρήστη από το node users
+      await remove(ref(db, "users/" + contextTargetUid));
+      console.log("✅ User kicked:", targetData?.displayName || contextTargetUid);
+
+      // 🧾 === Log entry στο adminLogs ===
+      const logRef = push(ref(db, "adminLogs"));
+      await set(logRef, {
+        action: "kick",
+        admin: user.displayName || "Unknown",
+        targetUser: targetData?.displayName || "Unknown",
+        room: currentRoom || "unknown",
+        time: Date.now()
+      });
+
+      // 💬 Εμφάνιση προσωρινού alert ή μήνυμα
+      alert(`👢 Ο χρήστης ${targetData?.displayName || "user"} αποβλήθηκε από το chat!`);
+
+    } catch (err) {
+      console.error("❌ Kick failed:", err);
+    }
+
+    userContextMenu.classList.add("hidden");
+  });
+}
+
 // ===================== USER CONTEXT MENU =====================
 const muteUserBtn = document.getElementById("muteUser");
 const unmuteUserBtn = document.getElementById("unmuteUser");
