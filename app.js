@@ -98,20 +98,28 @@ function setupPresence(user) {
 } // 👈 κλείνει η function setupPresence
 
 // ===================== COINS SYNC (LIVE) =====================
-function setupCoinsSync(user) {
-  if (!user) return;
+let coinsUnsubscribe = null; // κρατάμε τον προηγούμενο listener
 
-  const coinsRef = ref(db, "users/" + user.uid + "/coins");
+function setupCoinsSync(uid) {
+  if (!uid) return;
+
+  const coinsRef = ref(db, "users/" + uid + "/coins");
   const coinsEl = document.getElementById("profileCoins");
   if (!coinsEl) return;
 
-  // Live ενημέρωση όταν αλλάζουν τα coins στη βάση
-  onValue(coinsRef, (snap) => {
+  // Αν υπάρχει προηγούμενος listener, τον αποσυνδέουμε
+  if (coinsUnsubscribe) coinsUnsubscribe();
+
+  // Δημιουργούμε νέο listener
+  const unsubscribe = onValue(coinsRef, (snap) => {
     const val = snap.exists() ? snap.val() : 0;
     coinsEl.textContent = val;
-    console.log("💎 Coins sync update:", val);
+    console.log("💎 Coins sync update:", uid, val);
   });
+
+  coinsUnsubscribe = unsubscribe;
 }
+
 
 // ===================== ADMIN ADD COINS =====================
 function setupAddCoinsButton(user) {
