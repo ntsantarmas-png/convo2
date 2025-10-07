@@ -24,14 +24,30 @@ let currentRoom = "general";
 
 // ===================== SEND MESSAGE =====================
 const messageForm = document.getElementById("messageForm");
+const input = document.getElementById("messageInput");
+
+if (input) {
+  // === ENTER to send, SHIFT+ENTER for newline ===
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // Μην κάνει newline
+      document.getElementById("messageForm").requestSubmit(); // Στείλε το μήνυμα
+    }
+  });
+}
+
 if (messageForm) {
   messageForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const input = document.getElementById("messageInput");
+
     const text = input.value.trim();
     if (!text) return;
+
     const user = auth.currentUser;
-    if (!user) return alert("Not logged in!");
+    if (!user) {
+      alert("⚠️ Not logged in!");
+      return;
+    }
 
     await push(ref(db, "v3/messages/" + currentRoom), {
       uid: user.uid,
@@ -40,9 +56,12 @@ if (messageForm) {
       createdAt: serverTimestamp()
     });
 
+    // === Καθάρισε input και κράτα focus ===
     input.value = "";
+    input.focus();
   });
 }
+
 
 // ===================== RENDER MESSAGES =====================
 const messagesDiv = document.getElementById("messages");
