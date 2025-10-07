@@ -52,28 +52,50 @@
   </div>
 </main>
 
+<!-- ===================== APP VIEW ===================== -->
+<main id="appView" class="hidden">
 
-  <!-- ===================== APP VIEW ===================== -->
-  <main id="appView" class="hidden">
-    <!-- === WELCOME BANNER === -->
-<div id="welcomeBanner" class="hidden">
-  👋 Welcome, <span id="welcomeName"></span>!
-</div>
-    <!-- === PASSWORD RESET BANNER === -->
-<div id="resetBanner" class="hidden">
-  📨 Email sent to your inbox!
-</div>
+  <!-- ==== ROOMS PANEL ==== -->
+  <aside id="roomsPanel">
+    <h3>Rooms</h3>
+    <ul id="roomsList">
+      <li>#general</li>
+      <li>#music</li>
+      <li>#games</li>
+    </ul>
+  </aside>
 
-    <section id="chatPanel">
-      <h3 id="roomTitle">#general</h3>
-      <div id="messages" class="messages"></div>
+  <!-- ==== CHAT PANEL (CENTER) ==== -->
+  <section id="chatPanel">
+    <h3 id="roomTitle">#general</h3>
+    <div id="messages" class="messages"></div>
 
-      <form id="messageForm">
-        <textarea id="messageInput" placeholder="Type a message..."></textarea>
-        <button type="submit" id="sendBtn">Send</button>
-      </form>
-    </section>
-  </main>
+    <form id="messageForm">
+      <textarea id="messageInput" placeholder="Type a message..."></textarea>
+      <button type="submit" id="sendBtn">Send</button>
+    </form>
+  </section>
+
+  <!-- ==== USERS PANEL ==== -->
+  <aside id="usersPanel">
+    <h3>Users</h3>
+    <ul id="usersList">
+      <li>MysteryMan 👑</li>
+      <li>Guest</li>
+    </ul>
+  </aside>
+
+  <!-- === WELCOME BANNER === -->
+  <div id="welcomeBanner" class="hidden">
+    👋 Welcome, <span id="welcomeName"></span>!
+  </div>
+
+  <!-- === PASSWORD RESET BANNER === -->
+  <div id="resetBanner" class="hidden">
+    📨 Email sent to your inbox!
+  </div>
+
+</main>
 
   <!-- ===================== SCRIPTS ===================== -->
   <script type="module" src="app.js"></script>
