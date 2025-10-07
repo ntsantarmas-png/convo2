@@ -682,6 +682,21 @@ onAuthStateChanged(auth, (user) => {
     renderSystemLogs();
   }
 });
+// ===================== CHAT AUTO START ON LOGIN =====================
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("✅ User logged in:", user.displayName || "Guest");
+    // ξεκινάμε presence, rooms και messages
+    setupPresence(user);
+    renderRoomsList();     // 👈 προσθέτουμε αυτό
+    renderUserList();      // 👈 και αυτό
+    renderMessages(currentRoom); // 👈 και αυτό
+  } else {
+    console.log("⚠️ No user signed in yet.");
+  }
+});
+
+
 
 // ===================== YOUTUBE PANEL =====================
 
