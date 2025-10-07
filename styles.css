@@ -274,3 +274,100 @@ body {
   transform: translateY(-10px);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
+
+/* ===================== APP LAYOUT (3 PANELS) ===================== */
+#appView {
+  display: flex;
+  height: 100vh;
+  background: #0d1117;
+  overflow: hidden;
+  padding: 10px;
+  gap: 10px;
+}
+
+/* --- Common panel style --- */
+#roomsPanel,
+#chatPanel,
+#usersPanel {
+  background: #151b22;
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* --- Width proportions --- */
+#roomsPanel {
+  flex: 0 0 220px; /* αριστερό σταθερό */
+}
+#chatPanel {
+  flex: 1; /* κεντρικό επεκτεινόμενο */
+}
+#usersPanel {
+  flex: 0 0 220px; /* δεξί σταθερό */
+}
+
+/* --- Lists inside panels --- */
+#roomsPanel ul,
+#usersPanel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+}
+
+#roomsPanel li,
+#usersPanel li {
+  background: #1e252e;
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#roomsPanel li:hover,
+#usersPanel li:hover {
+  background: #2d8cff;
+  color: white;
+}
+
+/* --- Chat Panel Content --- */
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  background: #0f1319;
+  border-radius: 8px;
+  padding: 10px 14px;
+  min-height: 0;
+}
+
+#messageForm {
+  display: flex;
+  gap: 10px;
+  padding: 8px 10px;
+  background: #141b23;
+  border-top: 1px solid #1f2a35;
+  border-radius: 0 0 12px 12px;
+  flex-shrink: 0;
+}
+
+#messageInput {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  resize: none;
+  font-size: 14px;
+}
+
+#sendBtn {
+  background: #2d8cff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
