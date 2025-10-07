@@ -112,37 +112,34 @@ onAuthStateChanged(auth, (user) => {
   });
 });
 
-// ===================== AUTO-GROW MESSAGE INPUT (LOCKED HEIGHT FIX) =====================
+// ===================== AUTO-GROW MESSAGE INPUT (INSTANT SCROLL) =====================
 const msgInput = document.getElementById("messageInput");
 
 if (msgInput) {
-  const baseHeight = 40; // σταθερό ύψος 1 γραμμής
-  const maxHeight = 120; // μέγιστο 3 γραμμών
+  const baseHeight = 40; // αρχικό ύψος 1 γραμμής
+  const maxHeight = 70;  // μέγιστο ύψος ~2 γραμμές
 
-  // Αρχικό ύψος
   msgInput.style.height = baseHeight + "px";
   msgInput.style.overflowY = "hidden";
 
   msgInput.addEventListener("input", () => {
-    // Υπολόγισε το ύψος που θα πάρει αν γραφτεί νέο κείμενο
+    // Επαναφορά ύψους για επανυπολογισμό
     msgInput.style.height = baseHeight + "px";
-    msgInput.style.overflowY = msgInput.scrollHeight > maxHeight ? "auto" : "hidden";
-    msgInput.offsetHeight; // 👈 αναγκάζει άμεσο refresh (scroll χωρίς καθυστέρηση)
+
+    // Υπολογισμός νέου ύψους
     const newHeight = Math.min(msgInput.scrollHeight, maxHeight);
 
-    // Αν δεν έχει newline (Enter), κράτα σταθερό ύψος
-    if (!msgInput.value.includes("\n")) {
-      msgInput.style.height = baseHeight + "px";
+    // Αν χρειάζεται scroll -> ενεργοποίησε αμέσως
+    if (msgInput.scrollHeight > maxHeight) {
+      msgInput.style.overflowY = "auto";
     } else {
-      msgInput.style.height = newHeight + "px";
+      msgInput.style.overflowY = "hidden";
     }
 
-    // Ενεργοποίησε scroll μόνο αν χρειάζεται
-    msgInput.style.overflowY =
-      msgInput.scrollHeight > maxHeight ? "auto" : "hidden";
+    // Εφαρμογή νέου ύψους
+    msgInput.style.height = newHeight + "px";
   });
 }
-
 
 
 // ===================== WELCOME BUBBLE =====================
