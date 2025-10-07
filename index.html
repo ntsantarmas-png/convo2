@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Convo v3</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- ===================== TOPBAR ===================== -->
+  <header id="topbar">
+    <h1 class="brand">💬 Convo v3</h1>
+    <button id="logoutBtn" class="hidden">Logout</button>
+  </header>
+
+  <!-- ===================== AUTH VIEW ===================== -->
+  <main id="authView">
+    <h2>Welcome to Convo</h2>
+
+    <!-- === LOGIN === -->
+    <div class="auth-block">
+      <h3>Login</h3>
+      <input id="loginEmail" type="email" placeholder="Email">
+      <input id="loginPassword" type="password" placeholder="Password">
+      <button id="loginBtn">Login</button>
+    </div>
+
+    <!-- === REGISTER === -->
+    <div class="auth-block">
+      <h3>Register</h3>
+      <input id="registerUsername" type="text" placeholder="Username">
+      <input id="registerEmail" type="email" placeholder="Email">
+      <input id="registerPassword" type="password" placeholder="Password">
+      <button id="registerBtn">Register</button>
+    </div>
+
+    <!-- === GUEST === -->
+    <div class="auth-block">
+      <h3>Guest Access</h3>
+      <button id="guestBtn">Continue as Guest</button>
+    </div>
+  </main>
+
+  <!-- ===================== APP VIEW ===================== -->
+  <main id="appView" class="hidden">
+    <section id="chatPanel">
+      <h3 id="roomTitle">#general</h3>
+      <div id="messages" class="messages"></div>
+
+      <form id="messageForm">
+        <textarea id="messageInput" placeholder="Type a message..."></textarea>
+        <button type="submit" id="sendBtn">Send</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- ===================== SCRIPTS ===================== -->
+  <script type="module" src="app.js"></script>
+  <script type="module" src="auth.js"></script>
+</body>
+</html>
