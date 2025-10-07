@@ -176,10 +176,13 @@ body {
   padding: 8px;
   border-radius: 8px;
   border: none;
-  resize: none;
+  resize: none;        /* 👈 απενεργοποιεί το manual resize */
+  overflow-y: hidden;  /* 👈 κρύβει scrollbars όταν μεγαλώνει */
   font-size: 14px;
   outline: none;
+  max-height: 150px;   /* 👈 προαιρετικό “όριο” ύψους */
 }
+
 
 #sendBtn {
   background: #2d8cff;
