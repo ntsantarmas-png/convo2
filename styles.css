@@ -82,29 +82,36 @@ body {
 .auth-box button:hover {
   background: #1e6edc;
 }
-
-/* === Link κουμπιά (Forgot Password) === */
-.link-btn {
-  background: none;
-  border: none;
-  color: #2d8cff;
-  cursor: pointer;
-  font-size: 14px;
-  margin-top: 6px;
-  text-decoration: underline;
-  transition: color 0.2s;
-}
-
-.link-btn:hover {
-  color: #1e6edc;
-}
-
 /* === Info Box (Convo info) === */
 .info-box {
   color: #fff;
   font-size: 14px;
   line-height: 1.4;
 }
+/* ===================== AUTH FADE-IN ANIMATION ===================== */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Κίνηση εμφάνισης στα κουτιά === */
+.auth-box {
+  animation: fadeUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+/* === Καθυστέρηση ανά κουτί για πιο smooth είσοδο === */
+.auth-box:nth-child(1) { animation-delay: 0.1s; }
+.auth-box:nth-child(2) { animation-delay: 0.25s; }
+.auth-box:nth-child(3) { animation-delay: 0.4s; }
+.auth-box:nth-child(4) { animation-delay: 0.55s; }
+
 
 /* ===================== CHAT PANEL ===================== */
 #appView {
@@ -197,21 +204,25 @@ body {
   transform: translateY(-10px);
   transition: opacity 0.5s ease, transform 0.5s ease;
 }
-/* ===================== FORGOT PASSWORD LINK ===================== */
+
+/* ===================== FORGOT PASSWORD BUTTON ===================== */
 .link-btn {
-  background: none;
+  width: 100%;
+  padding: 8px;
+  background: #2d8cff;
+  color: #fff;
   border: none;
-  color: #2d8cff;
+  border-radius: 6px;
   cursor: pointer;
+  transition: background 0.2s;
   font-size: 14px;
   margin-top: 6px;
-  text-decoration: underline;
-  transition: color 0.2s;
 }
 
 .link-btn:hover {
-  color: #1e6edc;
+  background: #1e6edc;
 }
+
 /* ===================== PASSWORD RESET BANNER ===================== */
 #resetBanner {
   background: linear-gradient(135deg, #00c853, #009624);
