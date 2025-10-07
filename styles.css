@@ -1281,22 +1281,23 @@ body {
 /* ===================== YOUTUBE PANEL ===================== */
 .youtube-panel {
   position: fixed;
-  top: 60px;     /* 📍 Ρυθμίζεις πόσο πάνω είναι */
-  left: 33%;     /* 📍 Ρυθμίζεις πόσο αριστερά */
-  transform: translateX(-50%);
-  width: 480px;
-  aspect-ratio: 16 / 9;
+  top: 65px;          /* 📍 Απόσταση από το πάνω μέρος (αν θες πιο πάνω → 60, πιο κάτω → 80) */
+  left: 120px;        /* 📍 Απόσταση από τα rooms (αν θες πιο δεξιά → αύξησε) */
+  width: 440px;       /* 📏 Πλάτος του παραθύρου */
+  height: 260px;      /* 📏 Ύψος */
   z-index: 9999;
   border-radius: 10px;
   overflow: hidden;
   resize: both;
-  min-width: 320px;
-  max-width: 800px;
+  min-width: 300px;
+  max-width: 700px;
   min-height: 180px;
-  max-height: 600px;
-  background: transparent;
+  max-height: 500px;
+  background: #161a20;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+  transition: all 0.25s ease;
 }
+
 
 
   /* ✅ Επιτρέπει resize από κάτω-δεξιά */
