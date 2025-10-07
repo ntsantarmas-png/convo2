@@ -113,29 +113,26 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
-// ===================== AUTO-GROW MESSAGE INPUT (STABLE FINAL) =====================
+// ===================== CHATGPT-STYLE AUTO-GROW INPUT =====================
 const msgInput = document.getElementById("messageInput");
+const messageForm = document.getElementById("messageForm");
 
 if (msgInput) {
-  const baseHeight = 40; // αρχικό ύψος (1 γραμμή)
-  const maxHeight = 100; // μέγιστο ύψος (~3 γραμμές)
+  const baseHeight = 40;   // αρχικό ύψος (1 γραμμή)
+  const maxHeight = 150;   // μέγιστο ύψος (~4 γραμμές)
 
   msgInput.addEventListener("input", () => {
-    // Επαναφορά ύψους πριν από νέο υπολογισμό
-    msgInput.style.height = baseHeight + "px";
-
-    // Υπολόγισε το νέο ύψος
-    const newHeight = Math.min(msgInput.scrollHeight, maxHeight);
-
-    // Εφάρμοσε το νέο ύψος
-    msgInput.style.height = newHeight + "px";
+    msgInput.style.height = "auto"; // επανυπολογισμός
+    msgInput.style.height = Math.min(msgInput.scrollHeight, maxHeight) + "px";
   });
 
-  // Επαναφορά μετά την αποστολή (προαιρετικά)
-  messageForm?.addEventListener("submit", () => {
-    msgInput.value = "";
-    msgInput.style.height = baseHeight + "px";
-  });
+  // ✅ Μετά την αποστολή, καθάρισε & επανέφερε ύψος
+  if (messageForm) {
+    messageForm.addEventListener("submit", () => {
+      msgInput.value = "";
+      msgInput.style.height = baseHeight + "px";
+    });
+  }
 }
 
 
