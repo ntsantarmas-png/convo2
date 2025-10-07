@@ -216,20 +216,20 @@ body {
   border-radius: 0 0 12px 12px;
   flex-shrink: 0;  /* 👈 δεν “μεγαλώνει” ούτε σπρώχνει */
 }
+
 #messageInput {
   flex: 1;
   padding: 10px 12px;
   border-radius: 8px;
   border: none;
   resize: none;
-  overflow-y: auto;           /* 👈 scroll επιτρέπεται */
-  scrollbar-width: none;      /* 👈 Firefox: κρύβει οπτικά */
   font-size: 14px;
   outline: none;
   line-height: 1.6;
   height: 40px;
-  max-height: 100px;          /* 👈 3 γραμμές περίπου */
-  vertical-align: middle;
+  max-height: 100px;         /* 👈 σταθερό όριο ~3 γραμμές */
+  overflow-y: auto;          /* 👈 scroll μόνο μέσα, ποτέ “φούσκωμα” */
+  scrollbar-width: none;     /* Firefox: κρύβει scrollbar */
   box-sizing: border-box;
 }
 
@@ -238,6 +238,7 @@ body {
   width: 0;
   height: 0;
 }
+
 
 
 #sendBtn {
