@@ -806,11 +806,14 @@ body {
 }
 
 /* ===================== MESSAGE BUBBLE LINES ===================== */
+/*
 .message-bubble {
   display: flex;
-  flex-direction: column; /* κάθετη στοίχιση */
+  flex-direction: column;
   gap: 2px;
 }
+*/
+
 
 .msg-line1 {
   font-size: 14px;
