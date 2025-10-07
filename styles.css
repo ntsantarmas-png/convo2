@@ -124,3 +124,8 @@ body {
 .hidden {
   display: none;
 }
+/* === Force Hide all content when hidden === */
+#appView.hidden,
+#appView.hidden * {
+  display: none !important;
+}
