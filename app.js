@@ -188,7 +188,19 @@ function switchRoom(room) {
 
 // === ENTER to send, SHIFT+ENTER for newline ===
 const input = document.getElementById("messageInput");
+// ===================== MESSAGES =====================
+
+// === ENTER to send, SHIFT+ENTER for newline ===
+const input = document.getElementById("messageInput");
+
+// === AUTO-GROW textarea ===
 if (input) {
+  input.style.height = "40px"; // default ύψος
+  input.addEventListener("input", () => {
+    input.style.height = "40px"; // reset
+    input.style.height = input.scrollHeight + "px"; // μεγαλώνει ανάλογα
+  });
+
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault(); // Μην κάνει newline
@@ -196,6 +208,9 @@ if (input) {
     }
   });
 }
+
+
+
 
 // === SEND MESSAGE ===
 const messageForm = document.getElementById("messageForm");
@@ -239,6 +254,7 @@ if (messageForm) {
 
     // === Καθάρισε input ===
     input.value = "";
+    input.style.height = "40px"; // επαναφορά στο κανονικό ύψος
     input.focus();
     messageMemory[currentRoom] = "";
   });
