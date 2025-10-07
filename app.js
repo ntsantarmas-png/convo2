@@ -461,7 +461,7 @@ async function banUser(uid, displayName) {
   const currentUser = auth.currentUser;
   if (!currentUser || currentUser.displayName !== "MysteryMan") return;
 
-  await set(ref(db, "banned/" + uid), {
+  await set(ref(db, "bannedUsers/" + uid), {
     uid,
     displayName,
     time: Date.now(),
