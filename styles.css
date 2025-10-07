@@ -1,0 +1,126 @@
+/* ===================== GLOBAL ===================== */
+body {
+  background: #10141a;
+  color: #fff;
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ===================== TOPBAR ===================== */
+#topbar {
+  background: linear-gradient(135deg, #2d8cff, #1e6edc);
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  margin: 0;
+}
+
+/* ===================== AUTH ===================== */
+#authView {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 40px;
+}
+
+.auth-block {
+  background: #18202a;
+  border-radius: 12px;
+  padding: 20px;
+  width: 220px;
+  text-align: center;
+}
+
+.auth-block input {
+  width: 90%;
+  margin: 5px 0;
+  padding: 6px;
+  border: none;
+  border-radius: 6px;
+}
+
+.auth-block button {
+  width: 100%;
+  padding: 8px;
+  background: #2d8cff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ===================== CHAT PANEL ===================== */
+#appView {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+#chatPanel {
+  background: #151b22;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  border-radius: 10px;
+  margin: 20px;
+  padding: 10px;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  background: #0f1319;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.message {
+  background: linear-gradient(135deg, #2d8cff, #1e6edc);
+  margin-bottom: 6px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  display: inline-block;
+  max-width: 75%;
+  line-height: 1.4;
+}
+
+/* ===================== INPUT ===================== */
+#messageForm {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+#messageInput {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  resize: none;
+  font-size: 14px;
+}
+
+#sendBtn {
+  background: #2d8cff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
