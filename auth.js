@@ -47,6 +47,21 @@ onAuthStateChanged(auth, (user) => {
     authView.classList.add("hidden");
     appView.classList.remove("hidden");
     logoutBtn.classList.remove("hidden");
+
+    // === WELCOME BANNER ===
+    const welcomeBanner = document.getElementById("welcomeBanner");
+    const welcomeName = document.getElementById("welcomeName");
+
+    if (welcomeBanner && welcomeName) {
+      welcomeName.textContent = user.displayName || "Guest";
+      welcomeBanner.classList.remove("hidden");
+
+      // Εξαφανίζεται μετά από 3 δευτερόλεπτα
+      setTimeout(() => {
+        welcomeBanner.classList.add("hidden");
+      }, 3000);
+    }
+
   } else {
     authView.classList.remove("hidden");
     appView.classList.add("hidden");
