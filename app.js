@@ -188,10 +188,6 @@ function switchRoom(room) {
 
 // === ENTER to send, SHIFT+ENTER for newline ===
 const input = document.getElementById("messageInput");
-// ===================== MESSAGES =====================
-
-// === ENTER to send, SHIFT+ENTER for newline ===
-const input = document.getElementById("messageInput");
 
 // === AUTO-GROW textarea ===
 if (input) {
