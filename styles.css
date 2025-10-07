@@ -217,18 +217,21 @@ body {
 
 #messageInput {
   flex: 1;
-  padding: 8px;
+  padding: 10px 12px;
   border-radius: 8px;
   border: none;
-  resize: none;           /* 👈 απενεργοποιεί το manual resize */
-  overflow-y: auto;       /* 👈 επιτρέπει scroll όταν γεμίσει */
+  resize: none;
+  overflow-y: hidden;
   font-size: 14px;
   outline: none;
-  line-height: 1.4;
-  min-height: 40px;       /* 👈 σταθερή αρχική γραμμή */
-  max-height: 120px;      /* 👈 μέγιστο ~3 γραμμές */
-  transition: height 0.2s ease; /* 👈 smooth animation */
+  line-height: 1.6;
+  height: 40px;
+  max-height: 120px;
+  transition: height 0.2s ease;
+  vertical-align: middle;
+  box-sizing: border-box;
 }
+
 
 
 
