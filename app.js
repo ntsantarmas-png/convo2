@@ -494,15 +494,17 @@ if (msg.system) {
         line1.className = "msg-line1";
 
         // === YouTube Embed Check ===
-        const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-        const match = msg.text.match(ytRegex);
+const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+const match = msg.text.match(ytRegex);
 
-        if (match) {
+if (match) {
   const videoId = match[1];
-  // 🎵 Δείξε απλώς το link, ΜΗΝ ανοίγεις το panel εδώ
+  const videoTitle = msg.title || "YouTube Video";
+
+  // 🎵 Δείξε όμορφο link με τίτλο (όχι μόνο URL)
   const link = document.createElement("a");
   link.href = `https://youtu.be/${videoId}`;
-  link.textContent = `🎵 ${msg.user || "Someone"} is playing: YouTube Video`;
+  link.textContent = `🎵 ${msg.user || "Someone"} is playing: ${videoTitle}`;
   link.target = "_blank";
   line1.appendChild(link);
 } else {
@@ -518,6 +520,7 @@ if (msg.system) {
     }
   }
 }
+
 
           
         // Γραμμή 2: Date + Time
@@ -589,46 +592,47 @@ if (messageForm) {
     }
 
   // === YouTube Integration ===
+const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+const match = text.match(ytRegex);
+
 if (match) {
   const videoId = match[1];
   const youtubePanel = document.getElementById("youtubePanel");
 
+  // 🎬 Άνοιξε το YouTube panel και παίξε το βίντεο (χωρίς επανάληψη)
   if (youtubePanel) {
     const wrapper = youtubePanel.querySelector(".video-wrapper");
-    
-    // 🚫 Αν ήδη παίζει το ίδιο βίντεο, μην το ξαναφορτώνεις
     const currentIframe = wrapper.querySelector("iframe");
+
+    // 🚫 Αν ήδη παίζει το ίδιο βίντεο → μην το ξαναφορτώνεις
     if (currentIframe && currentIframe.src.includes(videoId)) {
       console.log("🎵 Ήδη παίζει το ίδιο τραγούδι, skip...");
-      return;
+    } else {
+      wrapper.innerHTML = `
+        <iframe 
+          src="https://www.youtube.com/embed/${videoId}?autoplay=1"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>`;
     }
 
-    // 🧹 Καθάρισε προηγούμενο
-    wrapper.innerHTML = "";
-
-    // 🎬 Φόρτωσε νέο video
-    wrapper.innerHTML = `
-      <iframe 
-        src="https://www.youtube.com/embed/${videoId}?autoplay=1"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>`;
     youtubePanel.classList.remove("hidden");
   }
 
+  // 🎵 Στείλε system μήνυμα με τίτλο (χωρίς επανάληψη)
+  await push(ref(db, "messages/" + currentRoom), {
+    system: true,
+    text: `🎵 ${username} is playing: https://youtu.be/${videoId}`,
+    title: "YouTube Video",
+    createdAt: Date.now()
+  });
 
-      // 🎵 Στείλε μόνο ένα system message για το τραγούδι
-      await push(ref(db, "messages/" + currentRoom), {
-        system: true,
-        text: `🎵 ${username} is playing: https://youtu.be/${videoId}`,
-        createdAt: Date.now()
-      });
+  input.value = "";
+  input.style.height = "40px";
+  return; // ✅ σταματά εδώ, δεν συνεχίζει σαν κανονικό μήνυμα
+}
 
-      input.value = "";
-      input.style.height = "40px";
-      return; // ✅ σταματά εδώ, δεν συνεχίζει σαν κανονικό μήνυμα
-    }
 
     // ✅ Αν ΔΕΝ είναι YouTube link → κανονικό μήνυμα
     await push(ref(db, "messages/" + currentRoom), {
