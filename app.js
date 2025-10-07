@@ -588,26 +588,35 @@ if (messageForm) {
       return;
     }
 
-    // === YouTube Integration ===
-    const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-    const match = text.match(ytRegex);
+  // === YouTube Integration ===
+if (match) {
+  const videoId = match[1];
+  const youtubePanel = document.getElementById("youtubePanel");
 
-    if (match) {
-      const videoId = match[1];
-      const youtubePanel = document.getElementById("youtubePanel");
+  if (youtubePanel) {
+    const wrapper = youtubePanel.querySelector(".video-wrapper");
+    
+    // 🚫 Αν ήδη παίζει το ίδιο βίντεο, μην το ξαναφορτώνεις
+    const currentIframe = wrapper.querySelector("iframe");
+    if (currentIframe && currentIframe.src.includes(videoId)) {
+      console.log("🎵 Ήδη παίζει το ίδιο τραγούδι, skip...");
+      return;
+    }
 
-      // 🎬 Άνοιξε το YouTube panel και παίξε το βίντεο
-      if (youtubePanel) {
-        const wrapper = youtubePanel.querySelector(".video-wrapper");
-        wrapper.innerHTML = `
-          <iframe 
-            src="https://www.youtube.com/embed/${videoId}" 
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>`;
-        youtubePanel.classList.remove("hidden");
-      }
+    // 🧹 Καθάρισε προηγούμενο
+    wrapper.innerHTML = "";
+
+    // 🎬 Φόρτωσε νέο video
+    wrapper.innerHTML = `
+      <iframe 
+        src="https://www.youtube.com/embed/${videoId}?autoplay=1"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>`;
+    youtubePanel.classList.remove("hidden");
+  }
+
 
       // 🎵 Στείλε μόνο ένα system message για το τραγούδι
       await push(ref(db, "messages/" + currentRoom), {
