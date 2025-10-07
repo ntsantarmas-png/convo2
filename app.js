@@ -328,37 +328,39 @@ if (newMessagesIndicator) {
   });
 }
 
-// ===================== SWITCH ROOM =====================
+// ===================== SWITCH ROOM (FIXED) =====================
 function switchRoom(room) {
+  // 🧠 Αν είναι ήδη στο ίδιο room, μην κάνεις τίποτα
+  if (room === switchRoom.prev) return;
+
   const messagesDiv = document.getElementById("messages");
-  if (messagesDiv) messagesDiv.innerHTML = ""; // καθάρισε το chat
+  if (messagesDiv) messagesDiv.innerHTML = "";
 
   // 💾 Αποθήκευσε ό,τι έχει γραφτεί στο input του προηγούμενου room
-const inputEl = document.getElementById("messageInput");
-if (inputEl && switchRoom.prev) {
-  inputMemory[switchRoom.prev] = inputEl.value;
-}
+  const inputEl = document.getElementById("messageInput");
+  if (inputEl && switchRoom.prev) {
+    inputMemory[switchRoom.prev] = inputEl.value;
+  }
 
-  
   currentRoom = room;
-// 🧠 Επαναφορά αποθηκευμένου κειμένου για το νέο room
-if (inputEl) {
-  inputEl.value = inputMemory[room] || "";
-  inputEl.style.height = "40px"; // reset ύψους για auto-grow
-}
 
-  
+  // 🧠 Επαναφορά αποθηκευμένου κειμένου για το νέο room
+  if (inputEl) {
+    inputEl.value = inputMemory[room] || "";
+    inputEl.style.height = "40px";
+  }
+
   document.getElementById("roomTitle").textContent = "#" + room;
 
-  // Εμφάνιση μηνυμάτων + typing indicator
+  // ✅ Φόρτωση μηνυμάτων + typing indicator
   renderMessages(room);
   watchTyping(room);
 
-  // === 🟢 JOIN / 🔴 LEAVE MESSAGE PER ROOM ===
+  // === JOIN / LEAVE system messages ===
   const user = auth.currentUser;
   if (!user) return;
 
-  // Αν υπήρχε προηγούμενο room, στείλε leave message
+  // 🔴 Αν υπήρχε προηγούμενο room, στείλε leave message
   if (switchRoom.prev && switchRoom.prev !== room) {
     push(ref(db, "messages/" + switchRoom.prev), {
       system: true,
@@ -367,68 +369,30 @@ if (inputEl) {
     });
   }
 
-  // Αν είναι νέο room (όχι το ίδιο με πριν)
-  if (switchRoom.prev !== room) {
-    push(ref(db, "messages/" + room), {
-      system: true,
-      text: `🟢 ${user.displayName || "Guest"} joined the room`,
-      createdAt: Date.now()
-    });
-  }
+  // 🟢 Αν είναι νέο room (όχι ίδιο με πριν)
+  push(ref(db, "messages/" + room), {
+    system: true,
+    text: `🟢 ${user.displayName || "Guest"} joined the room`,
+    createdAt: Date.now()
+  });
 
-  // Θυμήσου ποιο room είναι τώρα
+  // ✅ Θυμήσου το τελευταίο room
   switchRoom.prev = room;
 }
 
 
-function watchTyping(room) {
-  const typingDiv = document.getElementById("typingIndicator");
-  const roomTypingRef = ref(db, `typing/${room}`);
 
-  onValue(roomTypingRef, (snap) => {
-    const typers = [];
-    snap.forEach(child => {
-      const t = child.val();
-      if (t.typing) typers.push(t.name);
-    });
-
-    if (typers.length > 0) {
-      typingDiv.textContent =
-        typers.length === 1
-          ? `${typers[0]} is typing...`
-          : `${typers.join(", ")} are typing...`;
-      typingDiv.classList.remove("hidden");
-    } else {
-      typingDiv.classList.add("hidden");
-    }
-  });
-}
-
-// === Helper: check if message is only emoji ===
-function isEmojiOnly(text) {
-  // Regex που πιάνει emoji (πιο απλό και safe)
-  const emojiRegex = /[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;
-  const matches = text.match(emojiRegex);
-
-  if (!matches) return false;
-
-  // Trim για να βγάλουμε τυχόν κενά
-  const stripped = text.trim();
-
-  // Ελέγχουμε ότι όλο το string είναι μόνο emoji
-  return matches.join('') === stripped;
-}
-
-
-// ===================== RENDER MESSAGES (Optimized) =====================
+// ===================== RENDER MESSAGES (Optimized + FIX) =====================
 function renderMessages(room) {
   const messagesRef = ref(db, "messages/" + room);
   const messagesDiv = document.getElementById("messages");
   if (!messagesDiv) return;
 
-  // Καθαρίζει μόνο ΜΙΑ φορά στην αλλαγή room
-  messagesDiv.innerHTML = "";
+  // ✅ 1. Καθάρισε ΠΑΛΙΟΥΣ listeners πριν βάλεις νέο
   off(messagesRef);
+
+  // ✅ 2. Καθάρισε μία φορά το chat
+  messagesDiv.innerHTML = "";
 
   onValue(messagesRef, (snap) => {
     const existingIds = new Set(
@@ -438,47 +402,34 @@ function renderMessages(room) {
     snap.forEach(childSnap => {
       const msgId = childSnap.key;
       const msg = childSnap.val();
-      if (existingIds.has(msgId)) return; // ✅ Μην ξαναπροσθέτεις υπάρχον μήνυμα
+      if (existingIds.has(msgId)) return;
 
-      // === Container ===
       const messageDiv = document.createElement("div");
       messageDiv.className = "message";
       messageDiv.dataset.id = msgId;
-if (msg.system) {
-  messageDiv.classList.add("system");
-}
-
-      // Αν είναι το δικό μου uid -> βάλε class "mine"
-      if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid) {
+      if (msg.system) messageDiv.classList.add("system");
+      if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid)
         messageDiv.classList.add("mine");
+
+      if (msg.system) {
+        const bubble = document.createElement("div");
+        bubble.className = "message-bubble system";
+        bubble.innerHTML = msg.text;
+        messagesDiv.appendChild(bubble);
+        return;
       }
-if (msg.system) {
-  const bubble = document.createElement("div");
-  bubble.className = "message-bubble system";
-
-  // 👇 εδώ επιτρέπουμε HTML (μόνο για system messages)
-  bubble.innerHTML = msg.text;
-
-  messagesDiv.appendChild(bubble);
-  return; // σταματάμε, δεν χρειάζεται avatar/username
-}
-
-
 
       // === Avatar ===
       const avatarDiv = document.createElement("div");
       avatarDiv.className = "message-avatar";
-
       const img = document.createElement("img");
       img.src = msg.photoURL || "https://i.pravatar.cc/150?u=" + (msg.uid || msg.user);
-      img.alt = "avatar";
       avatarDiv.appendChild(img);
 
       // === Content ===
       const contentDiv = document.createElement("div");
       contentDiv.className = "message-content";
 
-      // Username (πάνω από το bubble)
       const userDiv = document.createElement("div");
       userDiv.className = "message-user";
       userDiv.textContent = msg.user || "Anon";
@@ -489,48 +440,36 @@ if (msg.system) {
         const bubbleDiv = document.createElement("div");
         bubbleDiv.className = "message-bubble";
 
-        // Γραμμή 1: Text
         const line1 = document.createElement("div");
         line1.className = "msg-line1";
 
-        // === YouTube Embed Check ===
-const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-const match = msg.text.match(ytRegex);
+        // === YouTube Check (με τίτλο) ===
+        const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+        const match = msg.text.match(ytRegex);
 
-if (match) {
-  const videoId = match[1];
-  const videoTitle = msg.title || "YouTube Video";
+        if (match) {
+          const videoId = match[1];
+          const videoTitle = msg.title || "YouTube Video";
+          const link = document.createElement("a");
+          link.href = `https://youtu.be/${videoId}`;
+          link.textContent = `🎵 ${msg.user || "Someone"} is playing: ${videoTitle}`;
+          link.target = "_blank";
+          line1.appendChild(link);
+        } else {
+          line1.textContent = msg.text;
+          if (isEmojiOnly(msg.text)) {
+            const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
+            bubbleDiv.classList.add("emoji-only");
+            if (emojiCount <= 2) bubbleDiv.classList.add("big");
+          }
+        }
 
-  // 🎵 Δείξε όμορφο link με τίτλο (όχι μόνο URL)
-  const link = document.createElement("a");
-  link.href = `https://youtu.be/${videoId}`;
-  link.textContent = `🎵 ${msg.user || "Someone"} is playing: ${videoTitle}`;
-  link.target = "_blank";
-  line1.appendChild(link);
-} else {
-  // ✅ Κανονικά μηνύματα
-  line1.textContent = msg.text;
-
-  // ✅ Emoji-only check
-  if (isEmojiOnly(msg.text)) {
-    const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
-    bubbleDiv.classList.add("emoji-only");
-    if (emojiCount <= 2) {
-      bubbleDiv.classList.add("big");
-    }
-  }
-}
-
-
-          
-        // Γραμμή 2: Date + Time
         const line2 = document.createElement("div");
         line2.className = "msg-line2";
         if (msg.createdAt) {
           const date = new Date(msg.createdAt);
           line2.textContent =
-            date.toLocaleDateString() +
-            " - " +
+            date.toLocaleDateString() + " - " +
             date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         }
 
@@ -539,113 +478,18 @@ if (match) {
         contentDiv.appendChild(bubbleDiv);
       }
 
-      // === GIF ===
-      if (msg.gif) {
-        const gifEl = document.createElement("img");
-        gifEl.src = msg.gif;
-        gifEl.alt = "GIF";
-        gifEl.className = "chat-gif";
-        contentDiv.appendChild(gifEl);
-      }
-
-      // === STICKER ===
-      if (msg.sticker) {
-        const stickerEl = document.createElement("img");
-        stickerEl.src = msg.sticker;
-        stickerEl.alt = "Sticker";
-        stickerEl.className = "chat-sticker";
-        contentDiv.appendChild(stickerEl);
-      }
-
-      // === Put together ===
       messageDiv.appendChild(avatarDiv);
       messageDiv.appendChild(contentDiv);
       messagesDiv.appendChild(messageDiv);
     });
 
-    // ✅ Scroll μόνο αν είσαι ήδη κάτω
+    // ✅ Scroll κάτω μόνο αν είσαι ήδη χαμηλά
     if (messagesDiv.scrollHeight - messagesDiv.scrollTop <= messagesDiv.clientHeight + 100) {
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
   });
 }
 
-
-
-// === Message form ===
-const messageForm = document.getElementById("messageForm");
-if (messageForm) {
-  messageForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const input = document.getElementById("messageInput");
-    const text = input.value.trim();
-    if (!text) return;
-
-    const user = auth.currentUser;
-    const username = user?.displayName || "Guest";
-
-    // 🔒 Check mute
-    const muteSnap = await get(ref(db, "mutes/" + user.uid));
-    if (muteSnap.exists()) {
-      alert("⚠️ Είσαι muted και δεν μπορείς να στείλεις μηνύματα.");
-      return;
-    }
-
-  // === YouTube Integration ===
-const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-const match = text.match(ytRegex);
-
-if (match) {
-  const videoId = match[1];
-  const youtubePanel = document.getElementById("youtubePanel");
-
-  // 🎬 Άνοιξε το YouTube panel και παίξε το βίντεο (χωρίς επανάληψη)
-  if (youtubePanel) {
-    const wrapper = youtubePanel.querySelector(".video-wrapper");
-    const currentIframe = wrapper.querySelector("iframe");
-
-    // 🚫 Αν ήδη παίζει το ίδιο βίντεο → μην το ξαναφορτώνεις
-    if (currentIframe && currentIframe.src.includes(videoId)) {
-      console.log("🎵 Ήδη παίζει το ίδιο τραγούδι, skip...");
-    } else {
-      wrapper.innerHTML = `
-        <iframe 
-          src="https://www.youtube.com/embed/${videoId}?autoplay=1"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>`;
-    }
-
-    youtubePanel.classList.remove("hidden");
-  }
-
-  // 🎵 Στείλε system μήνυμα με τίτλο (χωρίς επανάληψη)
-  await push(ref(db, "messages/" + currentRoom), {
-    system: true,
-    text: `🎵 ${username} is playing: https://youtu.be/${videoId}`,
-    title: "YouTube Video",
-    createdAt: Date.now()
-  });
-
-  input.value = "";
-  input.style.height = "40px";
-  return; // ✅ σταματά εδώ, δεν συνεχίζει σαν κανονικό μήνυμα
-}
-
-
-    // ✅ Αν ΔΕΝ είναι YouTube link → κανονικό μήνυμα
-    await push(ref(db, "messages/" + currentRoom), {
-      uid: user?.uid,
-      user: username,
-      text,
-      createdAt: serverTimestamp()
-    });
-
-    input.value = "";
-    input.style.height = "40px";
-  });
-}
 
 
 // ===================== TOGGLE YOUTUBE BUTTON =====================
