@@ -41,6 +41,7 @@ if (messageForm) {
     e.preventDefault();
 
     const text = input.value.trim();
+    
     if (!text) return;
 
     const user = auth.currentUser;
@@ -58,6 +59,7 @@ if (messageForm) {
 
     // === Καθάρισε input και κράτα focus ===
     input.value = "";
+    input.style.height = "auto"; // 👈 Εδώ είναι το σωστό σημείο
     input.focus();
   });
 }
