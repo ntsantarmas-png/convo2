@@ -44,6 +44,10 @@ if (messageForm) {
     const text = input.value.trim();
     if (!text) return;
 
+    // 🧹 Καθάρισε άμεσα το input (πριν στείλει)
+    input.value = "";
+    input.style.height = "auto";
+
     const user = auth.currentUser;
     if (!user) {
       alert("⚠️ Not logged in!");
@@ -61,15 +65,12 @@ if (messageForm) {
         createdAt: serverTimestamp(),
       });
 
-     // 🧹 Καθάρισε άμεσα το input (πριν στείλει)
-input.value = "";
-input.style.height = "auto";
-
     } catch (err) {
       console.error("Message send error:", err);
     }
   });
 }
+
 
 // ===================== AUTO-GROW MESSAGE INPUT (SAFE VERSION) =====================
 const msgInput = document.getElementById("messageInput");
