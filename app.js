@@ -13,7 +13,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
-// π Firebase Config Ξ±ΟΟ ΟΞΏ Convo2 project
+//  Firebase Config ± Ώ Convo2 project
 const firebaseConfig = {
   apiKey: "AIzaSyBEiZEcY54mFT7OnrfCv0t3sPo33DthcZ4",
   authDomain: "convo2-4a075.firebaseapp.com",
@@ -35,7 +35,7 @@ const appView = document.getElementById("app");
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    // β Logged in
+    // ✅ Logged in
     authView.classList.add("hidden");
     appView.classList.remove("hidden");
 
@@ -43,15 +43,15 @@ onAuthStateChanged(auth, (user) => {
     setupPresence(user);
     renderRooms();
     renderUserList();
-    switchRoom("general");
+
+    // ✳️ Small delay for stability
+    setTimeout(() => switchRoom("general"), 200);
 
     // === Coins ===
     setupCoinsSync(user.uid);
-setupAddCoinsButton(user);
-
-
+    setupAddCoinsButton(user);
   } else {
-    // β Not logged in
+    // ❌ Not logged in
     authView.classList.remove("hidden");
     appView.classList.add("hidden");
   }
@@ -64,42 +64,42 @@ function setupPresence(user) {
   onValue(presenceRef, (snap) => {
     if (!snap.val()) return;
 
-    // π» Ξ€ΞΉ Ξ½Ξ± Ξ³Ξ―Ξ½Ξ΅ΞΉ Ξ±Ξ½ Ξ±ΟΞΏΟΟΞ½Ξ΄Ξ΅ΞΈΞ΅Ξ― (offline)
+    // » €Ή ½± ³―½΅Ή ±½ ±Ώ½΄΅΅― (offline)
     onDisconnect(userRef).update({
       online: false,
       lastSeen: Date.now()
     });
 
-    // πΉ ΞΞΉΞ¬Ξ²Ξ±ΟΞ΅ ΟΟΟΟΞ± ΟΞΉ ΟΟΞ¬ΟΟΞ΅ΞΉ Ξ�Ξ΄Ξ·
+    // Ή Ή¬²±΅ ± Ή ¬΅Ή �΄·
     get(userRef).then(userSnap => {
       const existing = userSnap.val() || {};
 
       // === Role Logic ===
       let role = existing.role || "user";
       if (user.isAnonymous) role = "guest";
-      if (user.displayName === "MysteryMan") role = "admin"; // β auto-lock admin
+      if (user.displayName === "MysteryMan") role = "admin"; //  auto-lock admin
 
-      // === ΞΞ½Ξ·ΞΌΞ­ΟΟΟΞ· ΟΟΞΏΞΉΟΞ΅Ξ―ΟΞ½ ΟΟΟΞ―Ο overwrite ΟΞΏΟ role ===
+      // === ½·Ό­· ΏΉ΅―½ ― overwrite Ώ role ===
       update(userRef, {
         uid: user.uid,
         displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
         photoURL: user.photoURL || null,
         role: role,
         online: true,
-        coins: existing.coins ?? 0 // π auto-create coins field
+        coins: existing.coins ?? 0 //  auto-create coins field
       })
       .then(() => {
-        console.log("π‘ Presence sync:", user.displayName, "| role:", role);
+        console.log("‘ Presence sync:", user.displayName, "| role:", role);
       })
       .catch(err => {
-        console.error("β Presence role sync failed:", err);
+        console.error(" Presence role sync failed:", err);
       });
-    }); // π ΞΊΞ»Ξ΅Ξ―Ξ½Ξ΅ΞΉ ΟΞΏ get(userRef).then(...)
-  }); // π ΞΊΞ»Ξ΅Ξ―Ξ½Ξ΅ΞΉ ΟΞΏ onValue(...)
-} // π ΞΊΞ»Ξ΅Ξ―Ξ½Ξ΅ΞΉ Ξ· function setupPresence
+    }); //  Ί»΅―½΅Ή Ώ get(userRef).then(...)
+  }); //  Ί»΅―½΅Ή Ώ onValue(...)
+} //  Ί»΅―½΅Ή · function setupPresence
 
 // ===================== COINS SYNC (LIVE) =====================
-let coinsUnsubscribe = null; // ΞΊΟΞ±ΟΞ¬ΞΌΞ΅ ΟΞΏΞ½ ΟΟΞΏΞ·Ξ³ΞΏΟΞΌΞ΅Ξ½ΞΏ listener
+let coinsUnsubscribe = null; // Ί±¬Ό΅ Ώ½ Ώ·³ΏΌ΅½Ώ listener
 
 function setupCoinsSync(uid) {
   if (!uid) return;
@@ -108,14 +108,14 @@ function setupCoinsSync(uid) {
   const coinsEl = document.getElementById("profileCoins");
   if (!coinsEl) return;
 
-  // ΞΞ½ ΟΟΞ¬ΟΟΞ΅ΞΉ ΟΟΞΏΞ·Ξ³ΞΏΟΞΌΞ΅Ξ½ΞΏΟ listener, ΟΞΏΞ½ Ξ±ΟΞΏΟΟΞ½Ξ΄Ξ­ΞΏΟΞΌΞ΅
+  // ½ ¬΅Ή Ώ·³ΏΌ΅½Ώ listener, Ώ½ ±Ώ½΄­ΏΌ΅
   if (coinsUnsubscribe) coinsUnsubscribe();
 
-  // ΞΞ·ΞΌΞΉΞΏΟΟΞ³ΞΏΟΞΌΞ΅ Ξ½Ξ­ΞΏ listener
+  // ·ΌΉΏ³ΏΌ΅ ½­Ώ listener
   const unsubscribe = onValue(coinsRef, (snap) => {
     const val = snap.exists() ? snap.val() : 0;
     coinsEl.textContent = val;
-    console.log("π Coins sync update:", uid, val);
+    console.log(" Coins sync update:", uid, val);
   });
 
   coinsUnsubscribe = unsubscribe;
@@ -127,7 +127,7 @@ function setupAddCoinsButton(user) {
   const btn = document.getElementById("addCoinsBtn");
   if (!btn) return;
 
-  // π ΞΞΌΟΞ±Ξ½Ξ―ΞΆΞ΅ΟΞ±ΞΉ ΞΌΟΞ½ΞΏ Ξ±Ξ½ Ξ΅Ξ―ΟΞ±ΞΉ ΞΏ MysteryMan
+  //  Ό±½―Ά΅±Ή Ό½Ώ ±½ ΅―±Ή Ώ MysteryMan
   if (user.displayName === "MysteryMan") {
     btn.classList.remove("hidden");
   } else {
@@ -135,17 +135,17 @@ function setupAddCoinsButton(user) {
     return;
   }
 
-  // π ΞΞ±ΞΈΞ¬ΟΞΉΟΞ΅ ΟΞ±Ξ»ΞΉΟ listener
+  //  ±¬Ή΅ ±»Ή listener
   const newBtn = btn.cloneNode(true);
   btn.parentNode.replaceChild(newBtn, btn);
 
-  // β ΞΞ­ΞΏΟ listener
+  //  ­Ώ listener
   newBtn.addEventListener("click", async () => {
     const panel = document.getElementById("profilePanel");
     const targetUid = panel?.dataset.viewingUid || user.uid;
 
     const amount = parseInt(
-      prompt("π Ξ ΟΟΞ± coins Ξ½Ξ± ΟΟΞΏΟΞΈΞ­ΟΞ΅ΞΉΟ;", "100"),
+      prompt("  ± coins ½± Ώ­΅Ή;", "100"),
       10
     );
     if (isNaN(amount) || amount <= 0) return;
@@ -156,11 +156,11 @@ function setupAddCoinsButton(user) {
 
     await set(targetRef, currentCoins + amount);
 
-    // ΞΞ�Ξ½ΟΞΌΞ± Ξ΅ΟΞΉΟΟΟΞ―Ξ±Ο
+    // �½Ό± ΅Ή―±
     if (targetUid === user.uid) {
-      alert(`β Ξ ΟΟΟΞΈΞ΅ΟΞ΅Ο ${amount} coins ΟΟΞΏΞ½ Ξ΅Ξ±ΟΟΟ ΟΞΏΟ!`);
+      alert(`  ΅΅ ${amount} coins Ώ½ ΅± Ώ!`);
     } else {
-      alert(`β Ξ ΟΟΟΞΈΞ΅ΟΞ΅Ο ${amount} coins ΟΟΞΏΞ½ ΟΟΞ�ΟΟΞ·!`);
+      alert(`  ΅΅ ${amount} coins Ώ½ �·!`);
     }
   });
 }
@@ -170,30 +170,30 @@ document.addEventListener("DOMContentLoaded", () => {
   let addCoinsUserBtn = document.getElementById("addCoinsUser");
 
   if (addCoinsUserBtn) {
-    // ΞΞ±ΞΈΞ¬ΟΞΉΟΞ΅ ΟΟΞΏΞ·Ξ³ΞΏΟΞΌΞ΅Ξ½ΞΏΟΟ listeners
+    // ±¬Ή΅ Ώ·³ΏΌ΅½Ώ listeners
     const newBtn = addCoinsUserBtn.cloneNode(true);
     addCoinsUserBtn.parentNode.replaceChild(newBtn, addCoinsUserBtn);
     addCoinsUserBtn = newBtn;
 
     addCoinsUserBtn.addEventListener("click", async () => {
       if (!contextTargetUid) {
-        alert("β οΈ No user selected!");
+        alert("  No user selected!");
         return;
       }
 
       const currentUser = auth.currentUser;
       if (!currentUser || currentUser.displayName !== "MysteryMan") {
-        alert("β ΞΟΞ½ΞΏ ΞΏ MysteryMan ΞΌΟΞΏΟΞ΅Ξ― Ξ½Ξ± Ξ΄ΟΟΞ΅ΞΉ coins!");
+        alert(" ½Ώ Ώ MysteryMan ΌΏ΅― ½± ΄΅Ή coins!");
         userContextMenu.classList.add("hidden");
         return;
       }
 
       const addAmount = parseInt(
-        prompt("π Ξ ΟΟΞ± coins Ξ½Ξ± ΟΟΞΏΟΞΈΞ­ΟΟ ΟΞ΅ Ξ±ΟΟΟΞ½ ΟΞΏΞ½ ΟΟΞ�ΟΟΞ·;", "50"),
+        prompt("  ± coins ½± Ώ­ ΅ ±½ Ώ½ �·;", "50"),
         10
       );
       if (isNaN(addAmount) || addAmount <= 0) {
-        alert("β ΞΞΊΟΟΞΏ ΟΞΏΟΟ!");
+        alert(" ΊΏ Ώ!");
         userContextMenu.classList.add("hidden");
         return;
       }
@@ -208,8 +208,8 @@ document.addEventListener("DOMContentLoaded", () => {
           coins: currentCoins + addAmount
         });
 
-        console.log(`π Admin added ${addAmount} coins to UID: ${contextTargetUid}`);
-        alert(`β Ξ ΟΞΏΟΟΞ­ΞΈΞ·ΞΊΞ±Ξ½ ${addAmount} coins!`);
+        console.log(` Admin added ${addAmount} coins to UID: ${contextTargetUid}`);
+        alert(`  Ώ­·Ί±½ ${addAmount} coins!`);
 
         const logRef = push(ref(db, "adminLogs"));
         await set(logRef, {
@@ -227,8 +227,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
       } catch (err) {
-        console.error("β Add coins to user failed:", err);
-        alert("β ΞΟΞΏΟΟΟΞ―Ξ± ΟΟΞΏΟΞΈΞ�ΞΊΞ·Ο coins.");
+        console.error(" Add coins to user failed:", err);
+        alert(" Ώ―± Ώ�Ί· coins.");
       }
 
       userContextMenu.classList.add("hidden");
@@ -244,7 +244,7 @@ async function renderRooms() {
 
   roomsList.innerHTML = "";
 
-  // Ξ£ΞΉΞ³ΞΏΟΟΞ΅ΟΟΞΌΞ±ΟΟΞ΅ ΟΟΞΉ ΟΟΞ¬ΟΟΞΏΟΞ½ ΟΞ± default rooms
+  // £Ή³Ώ΅Ό±΅ Ή ¬Ώ½ ± default rooms
   await Promise.all(defaultRooms.map(async (roomName) => {
     const snap = await get(child(ref(db), `rooms/${roomName}`));
     if (!snap.exists()) {
@@ -255,7 +255,7 @@ async function renderRooms() {
     }
   }));
 
-  // β ΞΞ±ΞΈΞ±ΟΞ―ΞΆΞΏΟΞΌΞ΅ ΟΟΟΟΞ½ ΟΞ±Ξ»ΞΉΞΏΟΟ listeners ΟΟΞΉΞ½ Ξ²Ξ¬Ξ»ΞΏΟΞΌΞ΅ ΞΊΞ±ΞΉΞ½ΞΏΟΟΞ³ΞΉΞΏ
+  //  ±±―ΆΏΌ΅ ½ ±»ΉΏ listeners Ή½ ²¬»ΏΌ΅ Ί±Ή½Ώ³ΉΏ
   const roomsRef = ref(db, "rooms");
   off(roomsRef);
 
@@ -272,7 +272,7 @@ async function renderRooms() {
   });
 }
 
-// ΞΞ­ΞΏ room button
+// ­Ώ room button
 const newRoomBtn = document.getElementById("newRoomBtn");
 if (newRoomBtn) {
   newRoomBtn.addEventListener("click", async () => {
@@ -282,7 +282,7 @@ if (newRoomBtn) {
     const roomRef = ref(db, "rooms/" + name);
     const snap = await get(roomRef);
     if (snap.exists()) {
-      alert("β οΈ Ξ€ΞΏ room ΟΟΞ¬ΟΟΞ΅ΞΉ Ξ�Ξ΄Ξ·!");
+      alert("  €Ώ room ¬΅Ή �΄·!");
       return;
     }
 
@@ -318,10 +318,10 @@ let currentRoom = "general";
 let typingRef;
 let typingTimeout;
 
-// π Indicator reference (ΞΊΟΞ±ΟΞ¬ΞΌΞ΅ ΟΞΏ element Ξ³ΞΉΞ± ΞΌΞ΅Ξ»Ξ»ΞΏΞ½ΟΞΉΞΊΞ� ΟΟΞ�ΟΞ·)
+//  Indicator reference (Ί±¬Ό΅ Ώ element ³Ή± Ό΅»»Ώ½ΉΊ� �·)
 const newMessagesIndicator = document.getElementById("newMessagesIndicator");
 
-// ΞΞ¬Ξ½Ξ΅ ΟΞΏ clickable -> ΟΞ¬Ξ΅ΞΉ ΟΟΞΏ ΟΞ­Ξ»ΞΏΟ (ΞΈΞ± Ξ΄ΞΏΟΞ»Ξ­ΟΞ΅ΞΉ ΞΌΟΞ½ΞΏ manual)
+// ¬½΅ Ώ clickable -> ¬΅Ή Ώ ­»Ώ (± ΄Ώ»­΅Ή Ό½Ώ manual)
 if (newMessagesIndicator) {
   newMessagesIndicator.addEventListener("click", () => {
     const messagesDiv = document.getElementById("messages");
@@ -334,7 +334,7 @@ function switchRoom(room) {
   currentRoom = room;
   document.getElementById("roomTitle").textContent = "#" + room;
     renderMessages(room);
-  watchTyping(room); // π Ξ΅Ξ΄Ο ΞΌΟΞ±Ξ―Ξ½Ξ΅ΞΉ Ξ· ΟΟΞ½Ξ΄Ξ΅ΟΞ·
+  watchTyping(room); //  ΅΄ Ό±―½΅Ή · ½΄΅·
 }
 function watchTyping(room) {
   const typingDiv = document.getElementById("typingIndicator");
@@ -361,16 +361,16 @@ function watchTyping(room) {
 
 // === Helper: check if message is only emoji ===
 function isEmojiOnly(text) {
-  // Regex ΟΞΏΟ ΟΞΉΞ¬Ξ½Ξ΅ΞΉ emoji (ΟΞΉΞΏ Ξ±ΟΞ»Ο ΞΊΞ±ΞΉ safe)
+  // Regex Ώ Ή¬½΅Ή emoji (ΉΏ ±» Ί±Ή safe)
   const emojiRegex = /[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;
   const matches = text.match(emojiRegex);
 
   if (!matches) return false;
 
-  // Trim Ξ³ΞΉΞ± Ξ½Ξ± Ξ²Ξ³Ξ¬Ξ»ΞΏΟΞΌΞ΅ ΟΟΟΟΞ½ ΞΊΞ΅Ξ½Ξ¬
+  // Trim ³Ή± ½± ²³¬»ΏΌ΅ ½ Ί΅½¬
   const stripped = text.trim();
 
-  // ΞΞ»Ξ­Ξ³ΟΞΏΟΞΌΞ΅ ΟΟΞΉ ΟΞ»ΞΏ ΟΞΏ string Ξ΅Ξ―Ξ½Ξ±ΞΉ ΞΌΟΞ½ΞΏ emoji
+  // »­³ΏΌ΅ Ή »Ώ Ώ string ΅―½±Ή Ό½Ώ emoji
   return matches.join('') === stripped;
 }
 
@@ -381,7 +381,7 @@ function renderMessages(room) {
   const messagesDiv = document.getElementById("messages");
   if (!messagesDiv) return;
 
-  // ΞΞ±ΞΈΞ±ΟΞ―ΞΆΞ΅ΞΉ ΞΌΟΞ½ΞΏ ΞΞΞ ΟΞΏΟΞ¬ ΟΟΞ·Ξ½ Ξ±Ξ»Ξ»Ξ±Ξ³Ξ� room
+  // ±±―Ά΅Ή Ό½Ώ  Ώ¬ ·½ ±»»±³� room
   messagesDiv.innerHTML = "";
   off(messagesRef);
 
@@ -393,14 +393,14 @@ function renderMessages(room) {
     snap.forEach(childSnap => {
       const msgId = childSnap.key;
       const msg = childSnap.val();
-      if (existingIds.has(msgId)) return; // β ΞΞ·Ξ½ ΞΎΞ±Ξ½Ξ±ΟΟΞΏΟΞΈΞ­ΟΞ΅ΞΉΟ ΟΟΞ¬ΟΟΞΏΞ½ ΞΌΞ�Ξ½ΟΞΌΞ±
+      if (existingIds.has(msgId)) return; //  ·½ Ύ±½±Ώ­΅Ή ¬Ώ½ Ό�½Ό±
 
       // === Container ===
       const messageDiv = document.createElement("div");
       messageDiv.className = "message";
       messageDiv.dataset.id = msgId;
 
-      // ΞΞ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ ΟΞΏ Ξ΄ΞΉΞΊΟ ΞΌΞΏΟ uid -> Ξ²Ξ¬Ξ»Ξ΅ class "mine"
+      // ½ ΅―½±Ή Ώ ΄ΉΊ ΌΏ uid -> ²¬»΅ class "mine"
       if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid) {
         messageDiv.classList.add("mine");
       }
@@ -418,7 +418,7 @@ function renderMessages(room) {
       const contentDiv = document.createElement("div");
       contentDiv.className = "message-content";
 
-      // Username (ΟΞ¬Ξ½Ο Ξ±ΟΟ ΟΞΏ bubble)
+      // Username (¬½ ± Ώ bubble)
       const userDiv = document.createElement("div");
       userDiv.className = "message-user";
       userDiv.textContent = msg.user || "Anon";
@@ -429,7 +429,7 @@ function renderMessages(room) {
         const bubbleDiv = document.createElement("div");
         bubbleDiv.className = "message-bubble";
 
-        // ΞΟΞ±ΞΌΞΌΞ� 1: Text
+        // ±ΌΌ� 1: Text
         const line1 = document.createElement("div");
         line1.className = "msg-line1";
 
@@ -452,12 +452,12 @@ function renderMessages(room) {
             `;
             youtubePanel.classList.remove("hidden");
           }
-          line1.textContent = ""; // β ΞΞ·Ξ½ Ξ΄Ξ΅Ξ―ΞΎΞ΅ΞΉΟ URL
+          line1.textContent = ""; //  ·½ ΄΅―Ύ΅Ή URL
         } else {
-          // β ΞΞ±Ξ½ΞΏΞ½ΞΉΞΊΞ¬ ΞΌΞ·Ξ½ΟΞΌΞ±ΟΞ±
+          //  ±½Ώ½ΉΊ¬ Ό·½Ό±±
           line1.textContent = msg.text;
 
-          // β Emoji-only check
+          //  Emoji-only check
           if (isEmojiOnly(msg.text)) {
             const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
             bubbleDiv.classList.add("emoji-only");
@@ -467,7 +467,7 @@ function renderMessages(room) {
           }
         }
 
-        // ΞΟΞ±ΞΌΞΌΞ� 2: Date + Time
+        // ±ΌΌ� 2: Date + Time
         const line2 = document.createElement("div");
         line2.className = "msg-line2";
         if (msg.createdAt) {
@@ -507,7 +507,7 @@ function renderMessages(room) {
       messagesDiv.appendChild(messageDiv);
     });
 
-    // β Scroll ΞΌΟΞ½ΞΏ Ξ±Ξ½ Ξ΅Ξ―ΟΞ±ΞΉ Ξ�Ξ΄Ξ· ΞΊΞ¬ΟΟ
+    //  Scroll Ό½Ώ ±½ ΅―±Ή �΄· Ί¬
     if (messagesDiv.scrollHeight - messagesDiv.scrollTop <= messagesDiv.clientHeight + 100) {
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
@@ -527,14 +527,14 @@ if (messageForm) {
 
     const user = auth.currentUser;
 
-    // π Check mute
+    //  Check mute
     const muteSnap = await get(ref(db, "mutes/" + user.uid));
     if (muteSnap.exists()) {
-      alert("β οΈ ΞΞ―ΟΞ±ΞΉ muted ΞΊΞ±ΞΉ Ξ΄Ξ΅Ξ½ ΞΌΟΞΏΟΞ΅Ξ―Ο Ξ½Ξ± ΟΟΞ΅Ξ―Ξ»Ξ΅ΞΉΟ ΞΌΞ·Ξ½ΟΞΌΞ±ΟΞ±.");
+      alert("  ―±Ή muted Ί±Ή ΄΅½ ΌΏ΅― ½± ΅―»΅Ή Ό·½Ό±±.");
       return;
     }
 
-    // ΞΞ½ Ξ΄Ξ΅Ξ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ muted β ΟΟΞ­Ξ»Ξ½Ξ΅ΞΉ ΞΊΞ±Ξ½ΞΏΞ½ΞΉΞΊΞ¬
+    // ½ ΄΅½ ΅―½±Ή muted  ­»½΅Ή Ί±½Ώ½ΉΊ¬
     await push(ref(db, "messages/" + currentRoom), {
       uid: user?.uid,
       user: user?.displayName || "Guest",
@@ -542,11 +542,11 @@ if (messageForm) {
       createdAt: serverTimestamp()
     });
 
-    // π ΞΞ»Ξ΅Ξ―ΟΞ΅ ΟΞΏ emoji panel ΞΞΞΞ ΞΌΞ΅ΟΞ¬ ΟΞ·Ξ½ Ξ±ΟΞΏΟΟΞΏΞ»Ξ�
+    //  »΅―΅ Ώ emoji panel  Ό΅¬ ·½ ±ΏΏ»�
     closeEmojiPanel();
 
     input.value = "";
-    input.style.height = "40px"; // π reset ΟΟΞΏ default ΟΟΞΏΟ
+    input.style.height = "40px"; //  reset Ώ default Ώ
     input.focus();
   });
 }
@@ -558,9 +558,9 @@ if (toggleYoutubeBtn) {
     youtubePanel.classList.toggle("hidden");
 
     if (youtubePanel.classList.contains("hidden")) {
-      toggleYoutubeBtn.textContent = "YouTube";   // ΟΟΞ±Ξ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ ΞΊΞ»Ξ΅ΞΉΟΟΟ
+      toggleYoutubeBtn.textContent = "YouTube";   // ±½ ΅―½±Ή Ί»΅Ή
     } else {
-      toggleYoutubeBtn.textContent = "Hide YouTube"; // ΟΟΞ±Ξ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ Ξ±Ξ½ΞΏΞΉΟΟΟ
+      toggleYoutubeBtn.textContent = "Hide YouTube"; // ±½ ΅―½±Ή ±½ΏΉ
     }
   });
 }
@@ -569,29 +569,29 @@ const profileBtn = document.getElementById("headerUser");
 const profilePanel = document.getElementById("profilePanel");
 const closeProfileBtn = document.getElementById("closeProfileBtn");
 
-// ΞΞ½ΞΏΞΉΞ³ΞΌΞ± panel (ΟΞ¬Ξ½ΟΞ± ΟΞΏ Ξ΄ΞΉΞΊΟ ΟΞΏΟ ΟΟΞΏΟΞ―Ξ»)
+// ½ΏΉ³Ό± panel (¬½± Ώ ΄ΉΊ Ώ Ώ―»)
 if (profileBtn && profilePanel) {
   profileBtn.addEventListener("click", () => {
     openProfilePanel(auth.currentUser.uid);
   });
 }
 
-// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ panel + ΞΊΞ±ΞΈΞ¬ΟΞΉΟΞΌΞ± listener
+// »΅―ΉΌΏ panel + Ί±¬ΉΌ± listener
 if (closeProfileBtn) {
   closeProfileBtn.addEventListener("click", () => {
     profilePanel.classList.remove("show");
     profilePanel.classList.add("hidden");
 
-    // π§Ή ΞΞ±ΞΈΞ¬ΟΞΉΟΞΌΞ± coins listener ΟΟΞ±Ξ½ ΞΊΞ»Ξ΅Ξ―Ξ½Ξ΅ΞΉ ΟΞΏ Profile Panel
+    // Ή ±¬ΉΌ± coins listener ±½ Ί»΅―½΅Ή Ώ Profile Panel
     if (typeof coinsUnsubscribe === "function") {
       coinsUnsubscribe();
       coinsUnsubscribe = null;
-      console.log("π§Ή Coins listener unsubscribed");
+      console.log("Ή Coins listener unsubscribed");
     }
   });
 }
 
-// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ Esc
+// »΅―ΉΌΏ Ό΅ Esc
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     profilePanel.classList.remove("show");
@@ -599,7 +599,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Tabs Ξ»Ξ΅ΞΉΟΞΏΟΟΞ³Ξ―Ξ±
+// Tabs »΅ΉΏ³―±
 const tabButtons = document.querySelectorAll(".tab-btn");
 const tabContents = document.querySelectorAll(".tab-content");
 
@@ -612,7 +612,7 @@ tabButtons.forEach((btn) => {
   });
 });
 
-// β ΞΟΞ±Ξ½Ξ±ΟΞΏΟΞ¬ listener Ξ³ΞΉΞ± ΟΞΏ Add Coins ΞΊΞΏΟΞΌΟΞ― (Ξ±Ξ½ ΟΟΞ¬ΟΟΞ΅ΞΉ)
+//  ±½±Ώ¬ listener ³Ή± Ώ Add Coins ΊΏΌ― (±½ ¬΅Ή)
 document.addEventListener("click", () => {
   const btn = document.getElementById("addCoinsUser");
   if (btn && !btn.dataset.listenerAdded) {
@@ -620,19 +620,19 @@ document.addEventListener("click", () => {
 
     btn.addEventListener("click", async () => {
       if (!contextTargetUid) {
-        alert("β οΈ No user selected!");
+        alert("  No user selected!");
         return;
       }
 
       const currentUser = auth.currentUser;
       if (!currentUser || currentUser.displayName !== "MysteryMan") {
-        alert("β ΞΟΞ½ΞΏ ΞΏ MysteryMan ΞΌΟΞΏΟΞ΅Ξ― Ξ½Ξ± Ξ΄ΟΟΞ΅ΞΉ coins!");
+        alert(" ½Ώ Ώ MysteryMan ΌΏ΅― ½± ΄΅Ή coins!");
         userContextMenu.classList.add("hidden");
         return;
       }
 
       const addAmount = parseInt(
-        prompt("π Ξ ΟΟΞ± coins Ξ½Ξ± ΟΟΞΏΟΞΈΞ­ΟΟ ΟΞ΅ Ξ±ΟΟΟΞ½ ΟΞΏΞ½ ΟΟΞ�ΟΟΞ·;", "50"),
+        prompt("  ± coins ½± Ώ­ ΅ ±½ Ώ½ �·;", "50"),
         10
       );
       if (isNaN(addAmount) || addAmount <= 0) return;
@@ -642,7 +642,7 @@ document.addEventListener("click", () => {
       const currentCoins = snap.exists() ? snap.val() : 0;
 
       await set(targetRef, currentCoins + addAmount);
-      alert(`β Ξ ΟΞΏΟΟΞ­ΞΈΞ·ΞΊΞ±Ξ½ ${addAmount} coins!`);
+      alert(`  Ώ­·Ί±½ ${addAmount} coins!`);
       userContextMenu.classList.add("hidden");
     });
   }
@@ -659,7 +659,7 @@ async function openProfilePanel(uid = null) {
   panel.classList.add("show");
 
   const targetUid = uid || auth.currentUser.uid;
-  // π ΞΟΞΏΞΈΞ·ΞΊΞ΅ΟΞΏΟΞΌΞ΅ ΟΞΏΞΉΞΏ ΟΟΞΏΟΞ―Ξ» Ξ²Ξ»Ξ­ΟΞΏΟΞΌΞ΅ Ξ±ΟΟΞ� ΟΞ· ΟΟΞΉΞ³ΞΌΞ�
+  //  Ώ·Ί΅ΏΌ΅ ΏΉΏ Ώ―» ²»­ΏΌ΅ ±� · Ή³Ό�
 if (panel) {
   panel.dataset.viewingUid = targetUid;
 }
@@ -668,7 +668,7 @@ if (panel) {
   const data = snap.val();
 
   if (!data) {
-    console.warn("β οΈ No user data found for", targetUid);
+    console.warn("  No user data found for", targetUid);
     return;
   }
 
@@ -679,7 +679,7 @@ if (panel) {
   document.getElementById("profileCoins").textContent = data.coins ?? 0;
 
 
-  // === Live coins sync Ξ³ΞΉΞ± ΟΞΏΞ½ ΟΟΞ�ΟΟΞ· ΟΞΏΟ Ξ²Ξ»Ξ­ΟΞΏΟΞΌΞ΅ ===
+  // === Live coins sync ³Ή± Ώ½ �· Ώ ²»­ΏΌ΅ ===
   setupCoinsSync(targetUid);
 }
 
@@ -687,8 +687,8 @@ if (panel) {
 const viewProfileBtn = document.getElementById("viewProfile");
 if (viewProfileBtn) {
   viewProfileBtn.addEventListener("click", () => {
-  if (!contextTargetUid) return alert("β οΈ No user selected!");
-  openProfilePanel(contextTargetUid); // π Ξ΄Ξ΅Ξ―ΟΞ½Ξ΅ΞΉ ΟΞΏ profile ΟΞΏΟ Ξ¬Ξ»Ξ»ΞΏΟ
+  if (!contextTargetUid) return alert("  No user selected!");
+  openProfilePanel(contextTargetUid); //  ΄΅―½΅Ή Ώ profile Ώ ¬»»Ώ
   userContextMenu.classList.add("hidden");
 });
 
@@ -702,7 +702,7 @@ const systemPanel = document.getElementById("systemPanel");
 const closeSystemBtn = document.getElementById("closeSystemBtn");
 const systemLogsDiv = document.getElementById("systemLogs");
 
-// ΞΞΌΟΞ¬Ξ½ΞΉΟΞ· ΞΊΞΏΟΞΌΟΞΉΞΏΟ ΞΌΟΞ½ΞΏ Ξ³ΞΉΞ± MysteryMan
+// Ό¬½Ή· ΊΏΌΉΏ Ό½Ώ ³Ή± MysteryMan
 onAuthStateChanged(auth, (user) => {
   if (user && user.displayName === "MysteryMan") {
     systemBtn.classList.remove("hidden");
@@ -711,35 +711,35 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// ΞΞ½ΞΏΞΉΞ³ΞΌΞ± / ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ
+// ½ΏΉ³Ό± / Ί»΅―ΉΌΏ
 if (systemBtn && systemPanel && closeSystemBtn) {
 systemBtn.addEventListener("click", () => {
-  console.log("π’ System clicked");
-  systemPanel.classList.remove("hidden"); // β ΞΎΞ΅ΞΊΞ»Ξ΅ΞΉΞ΄ΟΞ½Ξ΅ΞΉ ΟΞΏ panel
-  systemPanel.classList.add("open");      // β Ξ΅Ξ½Ξ΅ΟΞ³ΞΏΟΞΏΞΉΞ΅Ξ― ΟΞΏ slide
+  console.log("’ System clicked");
+  systemPanel.classList.remove("hidden"); //  Ύ΅Ί»΅Ή΄½΅Ή Ώ panel
+  systemPanel.classList.add("open");      //  ΅½΅³ΏΏΉ΅― Ώ slide
   loadSystemLogs();
 });
 
 closeSystemBtn.addEventListener("click", () => {
   systemPanel.classList.remove("open");
-  systemPanel.classList.add("hidden");    // β ΟΞΏ ΞΎΞ±Ξ½Ξ±ΞΊΟΟΞ²Ξ΅ΞΉ
+  systemPanel.classList.add("hidden");    //  Ώ Ύ±½±Ί²΅Ή
 });
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") systemPanel.classList.remove("open");
   });
 }
 
-// Ξ¦ΟΟΟΟΟΞ· logs
+// ¦· logs
 function loadSystemLogs() {
   const logsRef = ref(db, "adminLogs");
   onValue(logsRef, (snap) => {
     systemLogsDiv.innerHTML = "";
     if (!snap.exists()) {
-      systemLogsDiv.innerHTML = "<p class='placeholder'>ΞΞ±Ξ½Ξ­Ξ½Ξ± log Ξ±ΞΊΟΞΌΞ±.</p>";
+      systemLogsDiv.innerHTML = "<p class='placeholder'>±½­½± log ±ΊΌ±.</p>";
       return;
     }
 
-    // ΞΞ΅ΟΞ±ΟΟΞΏΟΞ� ΟΞ΅ array ΞΊΞ±ΞΉ ΟΞ±ΞΎΞΉΞ½ΟΞΌΞ·ΟΞ· (Ξ½Ξ΅ΟΟΞ΅ΟΞ± ΟΟΟΟΞ±)
+    // ΅±Ώ� ΅ array Ί±Ή ±ΎΉ½Ό·· (½΅΅± ±)
     const logs = Object.values(snap.val()).sort((a, b) => b.time - a.time);
 
     logs.forEach((log) => {
@@ -747,36 +747,36 @@ function loadSystemLogs() {
       const dateStr = time.toLocaleDateString();
       const hourStr = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-      // π§© icon by action
-      let icon = "π";
-      if (log.action === "deleteMessage") icon = "ποΈ";
-      else if (log.action === "clearChat") icon = "π§Ή";
-      else if (log.action === "changeRole") icon = "β­";
-      else if (log.action === "kick") icon = "π’";
-      else if (log.action === "ban") icon = "β";
+      // © icon by action
+      let icon = "";
+      if (log.action === "deleteMessage") icon = "";
+      else if (log.action === "clearChat") icon = "Ή";
+      else if (log.action === "changeRole") icon = "­";
+      else if (log.action === "kick") icon = "’";
+      else if (log.action === "ban") icon = "";
 
       const p = document.createElement("p");
       let details = "";
 
 if (log.action === "changeRole") {
   details = `${log.targetUser ? `<i>(${log.targetUser})</i>` : ""} 
-    <span style="color:#aaa">(${log.oldRole} β ${log.newRole})</span>`;
+    <span style="color:#aaa">(${log.oldRole}  ${log.newRole})</span>`;
 } else {
   details = `${log.targetUser ? `<i>(${log.targetUser})</i>` : ""}`;
 }
 
-p.innerHTML = `${icon} <b>${log.admin}</b> β ${log.action} ${details}
+p.innerHTML = `${icon} <b>${log.admin}</b>  ${log.action} ${details}
   <span style="color:#888">in ${log.room || "?"}</span> 
   <span style="color:#555">[${dateStr} ${hourStr}]</span>`;
 
       systemLogsDiv.appendChild(p);
-      // β ΞΞ½ ΟΟΞ¬ΟΟΞ΅ΞΉ reason, Ξ΄Ξ΅Ξ―ΞΎΞ΅ ΟΞΏ
+      //  ½ ¬΅Ή reason, ΄΅―Ύ΅ Ώ
 if (log.reason) {
   const reasonP = document.createElement("p");
   reasonP.style.color = "#999";
   reasonP.style.fontSize = "13px";
   reasonP.style.marginLeft = "25px";
-  reasonP.textContent = `π Reason: ${log.reason}`;
+  reasonP.textContent = ` Reason: ${log.reason}`;
   systemLogsDiv.appendChild(reasonP);
 }
 
@@ -787,15 +787,15 @@ if (log.reason) {
 const clearLogsBtn = document.getElementById("clearLogsBtn");
 if (clearLogsBtn) {
   clearLogsBtn.addEventListener("click", async () => {
-    const confirmClear = confirm("π§Ή ΞΞ΅Ο ΟΞ―Ξ³ΞΏΟΟΞ± Ξ½Ξ± ΞΊΞ±ΞΈΞ±ΟΞ―ΟΞ΅ΞΉΟ ΟΞ»Ξ± ΟΞ± logs;");
+    const confirmClear = confirm("Ή ΅ ―³Ώ± ½± Ί±±―΅Ή »± ± logs;");
     if (!confirmClear) return;
 
     try {
       await remove(ref(db, "adminLogs"));
-      systemLogsDiv.innerHTML = "<p class='placeholder'>ΞΞ±Ξ½Ξ­Ξ½Ξ± log Ξ±ΞΊΟΞΌΞ±.</p>";
-      console.log("β Admin logs cleared.");
+      systemLogsDiv.innerHTML = "<p class='placeholder'>±½­½± log ±ΊΌ±.</p>";
+      console.log(" Admin logs cleared.");
     } catch (err) {
-      console.error("β Clear logs failed:", err);
+      console.error(" Clear logs failed:", err);
     }
   });
 }
@@ -805,20 +805,20 @@ const copyUidBtn = document.getElementById("copyUid");
 if (copyUidBtn) {
   copyUidBtn.addEventListener("click", async () => {
     if (!contextTargetUid) {
-      alert("β οΈ No user selected!");
+      alert("  No user selected!");
       return;
     }
 
     try {
       await navigator.clipboard.writeText(contextTargetUid);
-      alert("π UID copied:\n" + contextTargetUid);
-      console.log("β Copied UID:", contextTargetUid);
+      alert(" UID copied:\n" + contextTargetUid);
+      console.log(" Copied UID:", contextTargetUid);
     } catch (err) {
-      console.error("β Failed to copy UID:", err);
-      alert("β Failed to copy UID");
+      console.error(" Failed to copy UID:", err);
+      alert(" Failed to copy UID");
     }
 
-    // ΞΞ»Ξ΅Ξ―ΟΞ΅ ΟΞΏ ΞΌΞ΅Ξ½ΞΏΟ ΞΌΞ΅ΟΞ¬ ΟΞ·Ξ½ Ξ΅Ξ½Ξ­ΟΞ³Ξ΅ΞΉΞ±
+    // »΅―΅ Ώ Ό΅½Ώ Ό΅¬ ·½ ΅½­³΅Ή±
     userContextMenu.classList.add("hidden");
   });
 }
@@ -828,7 +828,7 @@ const bannedBtn = document.getElementById("bannedBtn");
 const bannedPanel = document.getElementById("bannedPanel");
 const closeBannedBtn = document.getElementById("closeBannedBtn");
 
-// ΞΞΌΟΞ¬Ξ½ΞΉΟΞ· ΞΊΞΏΟΞΌΟΞΉΞΏΟ ΞΌΟΞ½ΞΏ Ξ³ΞΉΞ± MysteryMan Ξ� admins
+// Ό¬½Ή· ΊΏΌΉΏ Ό½Ώ ³Ή± MysteryMan � admins
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     bannedBtn.classList.add("hidden");
@@ -863,20 +863,20 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// ΞΞ½ΞΏΞΉΞ³ΞΌΞ± panel
+// ½ΏΉ³Ό± panel
 if (bannedBtn) {
   bannedBtn.addEventListener("click", () => {
-  bannedPanel.classList.remove("hidden"); // β ΞΎΞ΅ΞΊΞ»Ξ΅Ξ―Ξ΄ΟΟΞ΅
+  bannedPanel.classList.remove("hidden"); //  Ύ΅Ί»΅―΄΅
   bannedPanel.classList.add("open");
 });
 
 }
 
-// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ panel
+// »΅―ΉΌΏ panel
 if (closeBannedBtn) {
  closeBannedBtn.addEventListener("click", () => {
   bannedPanel.classList.remove("open");
-  bannedPanel.classList.add("hidden"); // β ΞΎΞ±Ξ½Ξ±ΞΊΟΟΟΞ΅
+  bannedPanel.classList.add("hidden"); //  Ύ±½±Ί΅
 });
 
 }
@@ -893,11 +893,11 @@ function loadBannedUsers() {
 
     if (!data) {
       bannedListDiv.innerHTML =
-        `<p class="placeholder">π« ΞΞ±Ξ½Ξ­Ξ½Ξ±Ο ΟΟΞ�ΟΟΞ·Ο Ξ΄Ξ΅Ξ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ ban Ξ±ΟΟΞ� ΟΞ· ΟΟΞΉΞ³ΞΌΞ�.</p>`;
+        `<p class="placeholder">« ±½­½± �· ΄΅½ ΅―½±Ή ban ±� · Ή³Ό�.</p>`;
       return;
     }
 
-    // Ξ€Ξ±ΞΎΞΉΞ½ΟΞΌΞ·ΟΞ· Ξ±ΟΟ Ξ½Ξ΅ΟΟΞ΅ΟΞΏ β ΟΞ±Ξ»ΞΉΟΟΞ΅ΟΞΏ
+    // €±ΎΉ½Ό·· ± ½΅΅Ώ  ±»Ή΅Ώ
     const entries = Object.entries(data).sort((a, b) => b[1].time - a[1].time);
 
     entries.forEach(([uid, info]) => {
@@ -909,24 +909,24 @@ function loadBannedUsers() {
       userDiv.className = "banned-entry";
       userDiv.innerHTML = `
         <p>
-          π§ββοΈ <b>${info.displayName}</b>
-          <span style="color:#aaa">β banned by ${info.bannedBy}</span><br>
+           <b>${info.displayName}</b>
+          <span style="color:#aaa"> banned by ${info.bannedBy}</span><br>
           <span style="color:#888">in ${info.room || "unknown"}</span> |
 <span style="color:#666">${dateStr} ${hourStr}</span><br>
-<span style="color:#aaa">π ${info.reason || "ΟΟΟΞ―Ο Ξ»ΟΞ³ΞΏ"}</span>
+<span style="color:#aaa"> ${info.reason || "― »³Ώ"}</span>
 
         </p>
-        <button class="unban-btn" data-uid="${uid}">β Unban</button>
+        <button class="unban-btn" data-uid="${uid}"> Unban</button>
       `;
 
       bannedListDiv.appendChild(userDiv);
     });
 
-    // Ξ£ΟΞ½Ξ΄Ξ­ΞΏΟΞΌΞ΅ ΟΞ± ΞΊΞΏΟΞΌΟΞΉΞ¬ unban
+    // £½΄­ΏΌ΅ ± ΊΏΌΉ¬ unban
     document.querySelectorAll(".unban-btn").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const targetUid = btn.dataset.uid;
-        const confirmUnban = confirm("ΞΞ΅Ο Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉΟ UNBAN Ξ±ΟΟΟΞ½ ΟΞΏΞ½ ΟΟΞ�ΟΟΞ·;");
+        const confirmUnban = confirm("΅ ½± Ί¬½΅Ή UNBAN ±½ Ώ½ �·;");
         if (!confirmUnban) return;
 
         try {
@@ -934,7 +934,7 @@ function loadBannedUsers() {
           const bannedUserSnap = await get(ref(db, "bannedUsers/" + targetUid));
           const bannedUser = bannedUserSnap.val();
 
-          // ΞΞΉΞ±Ξ³ΟΞ±ΟΞ� Ξ±ΟΟ ΟΞ· Ξ»Ξ―ΟΟΞ± banned
+          // Ή±³±� ± · »―± banned
           await remove(ref(db, "bannedUsers/" + targetUid));
 
           // Log entry
@@ -946,16 +946,16 @@ function loadBannedUsers() {
             time: Date.now()
           });
 
-          alert(`β Ξ ΟΟΞ�ΟΟΞ·Ο ${bannedUser?.displayName || "user"} Ξ­Ξ³ΞΉΞ½Ξ΅ UNBAN!`);
+          alert(`  �· ${bannedUser?.displayName || "user"} ­³Ή½΅ UNBAN!`);
         } catch (err) {
-          console.error("β Unban failed:", err);
+          console.error(" Unban failed:", err);
         }
       });
     });
   });
 }
 
-// ΞΞ¬ΞΈΞ΅ ΟΞΏΟΞ¬ ΟΞΏΟ Ξ±Ξ½ΞΏΞ―Ξ³Ξ΅ΞΉ ΟΞΏ panel, ΞΊΞ¬Ξ½Ξ΅ load ΟΞ· Ξ»Ξ―ΟΟΞ±
+// ¬΅ Ώ¬ Ώ ±½Ώ―³΅Ή Ώ panel, Ί¬½΅ load · »―±
 if (bannedBtn) {
   bannedBtn.addEventListener("click", () => {
     bannedPanel.classList.add("open");
@@ -969,7 +969,7 @@ const closeYoutubeBtn = document.getElementById("closeYoutubeBtn");
 
 if (closeYoutubeBtn) {
   closeYoutubeBtn.addEventListener("click", () => {
-    // β ΞΟΞ½ΞΏ ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ panel β ΞΞΞ ΟΞ²Ξ�Ξ½ΞΏΟΞΌΞ΅ ΟΞΏ iframe ΟΞ»Ξ­ΞΏΞ½
+    //  ½Ώ Ί»΅―ΉΌΏ panel   ²�½ΏΌ΅ Ώ iframe »­Ώ½
     youtubePanel.classList.add("hidden");
   });
 }
@@ -1002,7 +1002,7 @@ if (dragHeader && youtubePanel && appContainer) {
     let newLeft = e.clientX - offsetX - appRect.left;
     let newTop = e.clientY - offsetY - appRect.top;
 
-    // β‘οΈ Ξ Ξ΅ΟΞΉΞΏΟΞΉΟΞΌΟΟ Ξ΅Ξ½ΟΟΟ Convo
+    // ‘  ΅ΉΏΉΌ ΅½ Convo
     newLeft = Math.max(0, Math.min(newLeft, appRect.width - panelRect.width));
     newTop = Math.max(0, Math.min(newTop, appRect.height - panelRect.height));
 
@@ -1027,28 +1027,28 @@ if (clearChatBtn) {
     const user = auth.currentUser;
     if (!user) return;
 
-    // β ΞΞ»Ξ΅Ξ³ΟΞΏΟ ΟΟΞ»ΞΏΟ Ξ±ΟΟ ΟΞ· Ξ²Ξ¬ΟΞ· (ΟΟΞΉ ΞΌΟΞ½ΞΏ MysteryMan)
+    //  »΅³Ώ »Ώ ± · ²¬· (Ή Ό½Ώ MysteryMan)
     const userSnap = await get(ref(db, "users/" + user.uid));
     const userData = userSnap.val();
     const role = userData?.role || "user";
 
     if (role !== "admin") {
-      alert("β οΈ ΞΟΞ½ΞΏ admin ΞΌΟΞΏΟΞ΅Ξ― Ξ½Ξ± ΞΊΞ±ΞΈΞ±ΟΞ―ΟΞ΅ΞΉ ΟΞΏ chat!");
+      alert("  ½Ώ admin ΌΏ΅― ½± Ί±±―΅Ή Ώ chat!");
       return;
     }
 
     if (!currentRoom) {
-      alert("β ΞΞ΅Ξ½ Ξ­ΟΞ΅ΞΉ Ξ΅ΟΞΉΞ»Ξ΅Ξ³Ξ΅Ξ― room!");
+      alert(" ΅½ ­΅Ή ΅Ή»΅³΅― room!");
       return;
     }
 
-    const confirmClear = confirm(`π§Ή ΞΞ΅Ο ΟΞ―Ξ³ΞΏΟΟΞ± Ξ½Ξ± ΞΊΞ±ΞΈΞ±ΟΞ―ΟΞ΅ΞΉΟ ΟΞΏ room "${currentRoom}" ?`);
+    const confirmClear = confirm(`Ή ΅ ―³Ώ± ½± Ί±±―΅Ή Ώ room "${currentRoom}" ?`);
     if (!confirmClear) return;
 
    try {
   await remove(ref(db, "messages/" + currentRoom));
-  console.log("β Chat cleared:", currentRoom);
-     // π§Ύ === Log entry ΟΟΞΏ adminLogs ===
+  console.log(" Chat cleared:", currentRoom);
+     // Ύ === Log entry Ώ adminLogs ===
 const logRef = push(ref(db, "adminLogs"));
 await set(logRef, {
   action: "clearChat",
@@ -1059,10 +1059,10 @@ await set(logRef, {
 
      
 
-  // π¬ ΞΞ±ΞΈΞ¬ΟΞΉΟΞ΅ Ξ¬ΞΌΞ΅ΟΞ± ΟΞΏ UI
+  // ¬ ±¬Ή΅ ¬Ό΅± Ώ UI
   document.getElementById("messages").innerHTML = "";
 } catch (err) {
-  console.error("β Clear chat failed:", err);
+  console.error(" Clear chat failed:", err);
 }
 
 
@@ -1070,9 +1070,9 @@ await set(logRef, {
   });
 }
 
-let targetMessageId = null; // Ξ±ΟΞΏΞΈΞ·ΞΊΞ΅ΟΞΏΟΞΌΞ΅ ΟΞΏΞΉΞΏ ΞΌΞ�Ξ½ΟΞΌΞ± Ξ­Ξ³ΞΉΞ½Ξ΅ Ξ΄Ξ΅ΞΎΞ― ΞΊΞ»ΞΉΞΊ
+let targetMessageId = null; // ±Ώ·Ί΅ΏΌ΅ ΏΉΏ Ό�½Ό± ­³Ή½΅ ΄΅Ύ― Ί»ΉΊ
 
-// ΞΞ΅ΞΎΞ― ΞΊΞ»ΞΉΞΊ ΟΞ¬Ξ½Ο ΟΞ΅ ΞΌΞ�Ξ½ΟΞΌΞ±
+// ΅Ύ― Ί»ΉΊ ¬½ ΅ Ό�½Ό±
 document.getElementById("messages").addEventListener("contextmenu", (e) => {
   e.preventDefault();
 
@@ -1082,7 +1082,7 @@ document.getElementById("messages").addEventListener("contextmenu", (e) => {
   const currentUser = auth.currentUser;
   if (!currentUser) return;
 
-  // β ΞΞ»Ξ΅Ξ³ΟΞΏΟ ΟΟΞΏ DB Ξ±Ξ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ admin
+  //  »΅³Ώ Ώ DB ±½ ΅―½±Ή admin
   const userRef = ref(db, "users/" + currentUser.uid);
   get(userRef).then((snap) => {
     const u = snap.val();
@@ -1090,35 +1090,35 @@ document.getElementById("messages").addEventListener("contextmenu", (e) => {
 
     targetMessageId = messageDiv.dataset.id;
 
-    // Ξ€ΞΏΟΞΏΞΈΞ­ΟΞ·ΟΞ· ΟΞΏΟ menu ΟΟΞ· ΞΈΞ­ΟΞ· ΟΞΏΟ ΞΊΞ»ΞΉΞΊ
+    // €ΏΏ­·· Ώ menu · ­· Ώ Ί»ΉΊ
     contextMenu.style.top = e.pageY + "px";
     contextMenu.style.left = e.pageX + "px";
     contextMenu.classList.remove("hidden");
   });
 });
 
-// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ ΞΊΞ»ΞΉΞΊ Ξ­ΞΎΟ
+// »΅―ΉΌΏ Ό΅ Ί»ΉΊ ­Ύ
 document.addEventListener("click", () => {
   contextMenu.classList.add("hidden");
 });
 
-// ΞΞ»ΞΉΞΊ ΟΟΞΏ Delete
+// »ΉΊ Ώ Delete
 if (deleteBtn) {
   deleteBtn.addEventListener("click", async () => {
     if (!targetMessageId) return;
 
     try {
-      // πΉ Ξ ΟΟΟΞ± ΟΞ¬ΟΞ΅ ΟΞΏ message element Ξ³ΞΉΞ± log info
+      // Ή  ± ¬΅ Ώ message element ³Ή± log info
       const deletedMsg = document.querySelector(`.message[data-id="${targetMessageId}"]`);
 
       await remove(ref(db, "messages/" + currentRoom + "/" + targetMessageId));
-      console.log("β Message deleted:", targetMessageId);
+      console.log(" Message deleted:", targetMessageId);
 
-      // π§Ύ === Log entry ΟΟΞΏ adminLogs ===
+      // Ύ === Log entry Ώ adminLogs ===
       const currentUser = auth.currentUser;
       if (currentUser) {
         const logRef = push(ref(db, "adminLogs"));
-        // Ξ Ξ¬ΟΞ΅ ΟΞΏ room Ξ±ΟΟ ΟΞΏ ΞΌΞ�Ξ½ΟΞΌΞ± Ξ±Ξ½ ΟΟΞ¬ΟΟΞ΅ΞΉ
+        //  ¬΅ Ώ room ± Ώ Ό�½Ό± ±½ ¬΅Ή
 const msgRoom =
   deletedMsg?.closest("[data-room]")?.getAttribute("data-room") || currentRoom;
 
@@ -1126,17 +1126,17 @@ await set(logRef, {
   action: "deleteMessage",
   admin: currentUser.displayName || "Unknown",
   targetUser: deletedMsg?.querySelector(".message-user")?.textContent || "Unknown",
-  room: msgRoom,  // π Ξ Ξ¬Ξ½ΟΞ± ΟΟΟΟΟ Ξ΄ΟΞΌΞ¬ΟΞΉΞΏ ΟΟΟΞ±
+  room: msgRoom,  //   ¬½±  ΄Ό¬ΉΏ ±
   time: Date.now()
 });
 
       }
 
-      // π¬ ΞΟΞ±Ξ―ΟΞ΅ΟΞ΅ Ξ¬ΞΌΞ΅ΟΞ± ΟΞΏ bubble Ξ±ΟΟ ΟΞΏ UI
+      // ¬ ±―΅΅ ¬Ό΅± Ώ bubble ± Ώ UI
       if (deletedMsg) deletedMsg.remove();
 
     } catch (err) {
-      console.error("β Delete failed:", err);
+      console.error(" Delete failed:", err);
     }
 
     contextMenu.classList.add("hidden");
@@ -1152,9 +1152,9 @@ if (messageInput) {
   messageInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault(); 
-      messageForm.requestSubmit(); // π ΟΟΞ­Ξ»Ξ½Ξ΅ΞΉ ΟΞΏ ΞΌΞ�Ξ½ΟΞΌΞ±
+      messageForm.requestSubmit(); //  ­»½΅Ή Ώ Ό�½Ό±
     }
-    // Ξ±Ξ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ Shift+Enter β Ξ±ΟΞ�Ξ½ΞΏΟΞΌΞ΅ ΟΞΏ default (Ξ½Ξ­Ξ± Ξ³ΟΞ±ΞΌΞΌΞ�)
+    // ±½ ΅―½±Ή Shift+Enter  ±�½ΏΌ΅ Ώ default (½­± ³±ΌΌ�)
   });
 
   // ===================== TYPING =====================
@@ -1177,7 +1177,7 @@ if (messageInput) {
 if (messageInput) {
   messageInput.addEventListener("input", () => {
     messageInput.style.height = "auto"; // reset
-    messageInput.style.height = messageInput.scrollHeight + "px"; // ΟΟΞΏΟΞ±ΟΞΌΞΏΞ³Ξ� ΟΟΞΏ ΟΞ΅ΟΞΉΞ΅ΟΟΞΌΞ΅Ξ½ΞΏ
+    messageInput.style.height = messageInput.scrollHeight + "px"; // Ώ±ΌΏ³� Ώ ΅Ή΅Ό΅½Ώ
   });
 }
 
@@ -1190,7 +1190,7 @@ function sendGifMessage(url) {
   push(ref(db, "messages/" + currentRoom), {
     uid: user.uid,
     user: user.displayName || "Guest",
-    gif: url,  // π Ξ±ΟΞΏΞΈΞ·ΞΊΞ΅ΟΞΏΟΞΌΞ΅ ΟΞΏ URL ΟΞΏΟ GIF
+    gif: url,  //  ±Ώ·Ί΅ΏΌ΅ Ώ URL Ώ GIF
     createdAt: serverTimestamp()
   });
 }
@@ -1211,19 +1211,19 @@ if (emojiBtn && mediaPanel) {
   mediaPanel.classList.toggle("hidden");
 
   if (!mediaPanel.classList.contains("hidden")) {
-    showEmojiTrail(mediaPanel); // π Trigger effect ΟΟΞ±Ξ½ Ξ±Ξ½ΞΏΞ―Ξ³Ξ΅ΞΉ
+    showEmojiTrail(mediaPanel); //  Trigger effect ±½ ±½Ώ―³΅Ή
   }
 });
 
 
-  // ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ click Ξ­ΞΎΟ
+  // »΅―ΉΌΏ Ό΅ click ­Ύ
   document.addEventListener("click", (e) => {
     if (!mediaPanel.contains(e.target) && e.target !== emojiBtn) {
       mediaPanel.classList.add("hidden");
     }
   });
 
-  // ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ ESC
+  // »΅―ΉΌΏ Ό΅ ESC
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       mediaPanel.classList.add("hidden");
@@ -1251,10 +1251,10 @@ if (emojiBtn && mediaPanel) {
 document.querySelectorAll("#tab-emoji .emoji-grid span").forEach(span => {
   span.addEventListener("click", () => {
     const input = document.getElementById("messageInput");
-    input.value += span.textContent;  // π ΟΟΞΏΟΞΈΞ­ΟΞ΅ΞΉ ΟΞΏ emoji ΟΟΞΏ input
+    input.value += span.textContent;  //  Ώ­΅Ή Ώ emoji Ώ input
     input.focus();
 
-    // ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ panel ΞΌΞ΅ΟΞ¬ ΟΞΏ click
+    // »΅―ΉΌΏ panel Ό΅¬ Ώ click
 
   });
 });
@@ -1270,7 +1270,7 @@ if (gifSearchInput) {
       const query = gifSearchInput.value.trim();
       if (!query) return;
 
-      // ΞΞ±ΞΈΞ±ΟΞ―ΞΆΞΏΟΞΌΞ΅ ΟΞ± ΟΟΞΏΞ·Ξ³ΞΏΟΞΌΞ΅Ξ½Ξ±
+      // ±±―ΆΏΌ΅ ± Ώ·³ΏΌ΅½±
       gifResults.innerHTML = "Loading...";
 
       try {
@@ -1287,7 +1287,7 @@ if (gifSearchInput) {
           img.addEventListener("click", () => {
   sendGifMessage(img.src);
 
-  // ΞΞ»Ξ΅Ξ―ΟΞ΅ ΟΞΏ media panel
+  // »΅―΅ Ώ media panel
   const mediaPanel = document.getElementById("mediaPanel");
   if (mediaPanel) mediaPanel.classList.add("hidden");
 });
@@ -1296,12 +1296,12 @@ if (gifSearchInput) {
         });
       } catch (err) {
         console.error("GIF fetch error:", err);
-        gifResults.innerHTML = "β Error loading GIFs";
+        gifResults.innerHTML = " Error loading GIFs";
       }
     }
   });
 }
-// ==== GIF TRENDING (default ΟΟΞ±Ξ½ Ξ±Ξ½ΞΏΞ―Ξ³Ξ΅ΞΉ ΟΞΏ tab) ====
+// ==== GIF TRENDING (default ±½ ±½Ώ―³΅Ή Ώ tab) ====
 async function loadTrendingGifs() {
   if (!gifResults) return;
   gifResults.innerHTML = "Loading...";
@@ -1331,11 +1331,11 @@ async function loadTrendingGifs() {
     });
   } catch (err) {
     console.error("GIF trending error:", err);
-    gifResults.innerHTML = "β Error loading GIFs";
+    gifResults.innerHTML = " Error loading GIFs";
   }
 }
 
-// Ξ¦ΟΟΟΟΟΞ΅ trending ΞΌΟΞ»ΞΉΟ Ξ±Ξ½ΞΏΞ―ΞΎΞ΅ΞΉ Ξ· ΟΞ΅Ξ»Ξ―Ξ΄Ξ±
+// ¦΅ trending Ό»Ή ±½Ώ―Ύ΅Ή · ΅»―΄±
 loadTrendingGifs();
 // ===================== STICKER SEARCH =====================
 const stickerSearchInput = document.getElementById("stickerSearchInput");
@@ -1348,7 +1348,7 @@ if (stickerSearchInput) {
       const query = stickerSearchInput.value.trim();
       if (!query) return;
 
-      // ΞΞ±ΞΈΞ±ΟΞ―ΞΆΞΏΟΞΌΞ΅ ΟΞ± ΟΟΞΏΞ·Ξ³ΞΏΟΞΌΞ΅Ξ½Ξ±
+      // ±±―ΆΏΌ΅ ± Ώ·³ΏΌ΅½±
       stickerResults.innerHTML = "Loading...";
 
       try {
@@ -1365,11 +1365,11 @@ if (stickerSearchInput) {
           img.addEventListener("click", () => {
             sendStickerMessage(img.src);
 
-            // ΞΞ»Ξ΅Ξ―ΟΞ΅ ΟΞΏ panel
+            // »΅―΅ Ώ panel
             const mediaPanel = document.getElementById("mediaPanel");
             if (mediaPanel) mediaPanel.classList.add("hidden");
 
-            // Focus ΟΟΞΏ input
+            // Focus Ώ input
             const input = document.getElementById("messageInput");
             if (input) input.focus();
           });
@@ -1377,13 +1377,13 @@ if (stickerSearchInput) {
         });
       } catch (err) {
         console.error("Sticker fetch error:", err);
-        stickerResults.innerHTML = "β Error loading Stickers";
+        stickerResults.innerHTML = " Error loading Stickers";
       }
     }
   });
 }
 
-// ==== STICKER TRENDING (default ΟΟΞ±Ξ½ Ξ±Ξ½ΞΏΞ―Ξ³Ξ΅ΞΉ ΟΞΏ tab) ====
+// ==== STICKER TRENDING (default ±½ ±½Ώ―³΅Ή Ώ tab) ====
 async function loadTrendingStickers() {
   if (!stickerResults) return;
   stickerResults.innerHTML = "Loading...";
@@ -1412,14 +1412,14 @@ async function loadTrendingStickers() {
     });
   } catch (err) {
     console.error("Sticker trending error:", err);
-    stickerResults.innerHTML = "β Error loading Stickers";
+    stickerResults.innerHTML = " Error loading Stickers";
   }
 }
 
-// Ξ¦ΟΟΟΟΟΞ΅ trending stickers ΞΌΟΞ»ΞΉΟ Ξ±Ξ½ΞΏΞ―ΞΎΞ΅ΞΉ Ξ· ΟΞ΅Ξ»Ξ―Ξ΄Ξ±
+// ¦΅ trending stickers Ό»Ή ±½Ώ―Ύ΅Ή · ΅»―΄±
 loadTrendingStickers();
 
-// ===== Ξ£ΟΞ½Ξ±ΟΟΞ·ΟΞ· Ξ³ΞΉΞ± Ξ±ΟΞΏΟΟΞΏΞ»Ξ� Sticker =====
+// ===== £½±·· ³Ή± ±ΏΏ»� Sticker =====
 function sendStickerMessage(url) {
   const user = auth.currentUser;
   if (!user) return;
@@ -1427,14 +1427,14 @@ function sendStickerMessage(url) {
   push(ref(db, "messages/" + currentRoom), {
     uid: user.uid,
     user: user.displayName || "Guest",
-    sticker: url, // π Ξ±ΟΞΏΞΈΞ·ΞΊΞ΅ΟΞΏΟΞΌΞ΅ ΟΞΏ sticker URL
+    sticker: url, //  ±Ώ·Ί΅ΏΌ΅ Ώ sticker URL
     createdAt: serverTimestamp()
   });
 }
 // ===================== EMOJI TRAIL EFFECT =====================
 function showEmojiTrail(panel) {
-  const emojis = ["π", "π₯", "π«", "β€οΈ", "π", "β¨", "π", "π«Ά"];
-  const count = 3 + Math.floor(Math.random() * 3); // 3β5 emojis
+  const emojis = ["", "₯", "«", "€", "", "¨", "", "«Ά"];
+  const count = 3 + Math.floor(Math.random() * 3); // 35 emojis
   const rect = panel.getBoundingClientRect();
 
   for (let i = 0; i < count; i++) {
@@ -1459,11 +1459,11 @@ function renderUserList() {
   const usersList = document.getElementById("usersList");
   if (!usersList) return;
 
-    // π§Ή ΞΞ±ΞΈΞ±ΟΞ―ΞΆΞΏΟΞΌΞ΅ ΟΟΟΟΞ½ ΟΞ±Ξ»ΞΉΞΏΟΟ listeners
+    // Ή ±±―ΆΏΌ΅ ½ ±»ΉΏ listeners
   off(ref(db, "users"));
   off(ref(db, "roles"));
   
-  // ΞΞΊΞΏΟΞΌΞ΅ live Ξ³ΞΉΞ± users
+  // ΊΏΌ΅ live ³Ή± users
   onValue(ref(db, "users"), (usersSnap) => {
   onValue(ref(db, "mutes"), (mutesSnap) => {
   
@@ -1487,9 +1487,9 @@ function renderUserList() {
   Object.values(users).forEach(u => {
     let role;
     if (u.displayName === "MysteryMan") {
-      role = "admin"; // MysteryMan ΟΞ¬Ξ½ΟΞ± admin
+      role = "admin"; // MysteryMan ¬½± admin
     } else if (u.role) {
-      role = u.role; // π ΟΟΟΞ± Ξ΄ΞΉΞ±Ξ²Ξ¬ΞΆΞΏΟΞΌΞ΅ Ξ±ΟΟ ΟΞΏ users/$uid/role
+      role = u.role; //  ± ΄Ή±²¬ΆΏΌ΅ ± Ώ users/$uid/role
     } else if (u.isAnonymous) {
       role = "guest";
     } else {
@@ -1512,7 +1512,7 @@ if (role === "admin") {
   });
 
 
-    // === Helper function Ξ³ΞΉΞ± category ===
+    // === Helper function ³Ή± category ===
     function renderCategory(title, arr, cssClass) {
       if (arr.length === 0) return;
 
@@ -1548,7 +1548,7 @@ if (role === "admin") {
         img.alt = "avatar";
         avatarDiv.appendChild(img);
 
-        // ΞΞ½ΞΏΞΌΞ±
+        // ½ΏΌ±
         const nameSpan = document.createElement("span");
         nameSpan.className = "user-name";
         nameSpan.textContent = escapeHTML(u.displayName || "Guest");
@@ -1556,22 +1556,22 @@ if (role === "admin") {
         // Icons
         if (u.role === "admin") {
           const shield = document.createElement("span");
-          shield.textContent = "π‘οΈ";
+          shield.textContent = "‘";
           shield.className = "role-icon admin-icon";
           nameSpan.appendChild(shield);
         }
         if (u.role === "vip") {
           const star = document.createElement("span");
-          star.textContent = "β­";
+          star.textContent = "­";
           star.className = "role-icon vip-icon";
           nameSpan.appendChild(star);
         }
-        // π ΞΞ½ ΞΏ ΟΟΞ�ΟΟΞ·Ο Ξ΅Ξ―Ξ½Ξ±ΞΉ muted
+        //  ½ Ώ �· ΅―½±Ή muted
 if (u.muted) {
   const muteIcon = document.createElement("span");
-  muteIcon.textContent = "π";
+  muteIcon.textContent = "";
   muteIcon.className = "role-icon mute-icon";
-    muteIcon.title = "Muted";   // π Tooltip ΟΞ΅ hover
+    muteIcon.title = "Muted";   //  Tooltip ΅ hover
   nameSpan.appendChild(muteIcon);
 }
 
@@ -1580,20 +1580,20 @@ if (u.muted) {
         li.appendChild(nameSpan);
         
         
-        // ΞΞ΅ΞΎΞ― ΞΊΞ»ΞΉΞΊ (context menu) ΞΌΟΞ½ΞΏ Ξ³ΞΉΞ± admin
+        // ΅Ύ― Ί»ΉΊ (context menu) Ό½Ώ ³Ή± admin
 li.addEventListener("contextmenu", async (e) => {
   e.preventDefault();
 
   if (!auth.currentUser) return;
 
-  // β ΞΞ΅Ο ΟΞΏ role ΟΞΏΟ current user Ξ±ΟΟ ΟΞΏ DB
+  //  ΅ Ώ role Ώ current user ± Ώ DB
   const snap = await get(ref(db, "users/" + auth.currentUser.uid));
   const currentUserData = snap.val();
   if (!currentUserData || currentUserData.role !== "admin") return;
 
   contextTargetUid = u.uid;
 
-  // Ξ₯ΟΞΏΞ»ΞΏΞ³ΞΉΟΞΌΟΟ ΞΈΞ­ΟΞ·Ο (ΟΟΟΞ΅ Ξ½Ξ± ΞΌΞ­Ξ½Ξ΅ΞΉ Ξ΅Ξ½ΟΟΟ ΞΏΞΈΟΞ½Ξ·Ο)
+  // ₯Ώ»Ώ³ΉΌ ­· (΅ ½± Ό­½΅Ή ΅½ Ώ½·)
   const menuWidth = userContextMenu.offsetWidth || 180;
   const menuHeight = userContextMenu.offsetHeight || 150;
   let posX = e.clientX;
@@ -1632,29 +1632,29 @@ li.addEventListener("contextmenu", async (e) => {
       });
     }
 
-// Render ΞΊΞ±ΟΞ·Ξ³ΞΏΟΞ―Ξ΅Ο
+// Render Ί±·³Ώ―΅
 renderCategory("Admins", admins, "admin");
 renderCategory("VIP", vips, "vip");
 renderCategory("Users", normal, "user");
 renderCategory("Guests", guests, "guest");
 
-  }); // π ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΟΞΏΟ onValue(mutes)
-});   // π ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΟΞΏΟ onValue(users)
-}      // π ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΟΞ·Ο function renderUserList
+  }); //  Ί»΅―ΉΌΏ Ώ onValue(mutes)
+});   //  Ί»΅―ΉΌΏ Ώ onValue(users)
+}      //  Ί»΅―ΉΌΏ · function renderUserList
 
 
 // ===================== USER CONTEXT MENU LOGIC =====================
 const userContextMenu = document.getElementById("userContextMenu");
-let contextTargetUid = null; // ΟΞΏΞΉΞΏΞ½ user ΞΊΞ¬Ξ½Ξ±ΞΌΞ΅ Ξ΄Ξ΅ΞΎΞ― ΞΊΞ»ΞΉΞΊ
+let contextTargetUid = null; // ΏΉΏ½ user Ί¬½±Ό΅ ΄΅Ύ― Ί»ΉΊ
 
-// ΞΞ»ΞΉΞΊ Ξ­ΞΎΟ β ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ
+// »ΉΊ ­Ύ  Ί»΅―ΉΌΏ
 document.addEventListener("click", (e) => {
   if (!userContextMenu.contains(e.target)) {
     userContextMenu.classList.add("hidden");
   }
 });
 
-// Esc β ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ
+// Esc  Ί»΅―ΉΌΏ
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     userContextMenu.classList.add("hidden");
@@ -1666,43 +1666,43 @@ const roleModal = document.getElementById("roleModal");
 const closeRole = document.getElementById("closeRole");
 const roleButtons = document.querySelectorAll(".role-btn");
 
-// ΞΞ½ΞΏΞΉΞ³ΞΌΞ± modal ΟΟΞ±Ξ½ ΟΞ±ΟΞ·ΞΈΞ΅Ξ― Change Role
+// ½ΏΉ³Ό± modal ±½ ±·΅― Change Role
 document.getElementById("changeRole").addEventListener("click", () => {
-  if (!contextTargetUid) return; // Ξ±Ξ½ Ξ΄Ξ΅Ξ½ Ξ­ΟΞΏΟΞΌΞ΅ user
+  if (!contextTargetUid) return; // ±½ ΄΅½ ­ΏΌ΅ user
 
-  roleModal.classList.remove("hidden");       // Ξ΄Ξ΅Ξ―ΞΎΞ΅ ΟΞΏ modal
-  userContextMenu.classList.add("hidden");    // ΞΊΞ»Ξ΅Ξ―ΟΞ΅ ΟΞΏ context menu
+  roleModal.classList.remove("hidden");       // ΄΅―Ύ΅ Ώ modal
+  userContextMenu.classList.add("hidden");    // Ί»΅―΅ Ώ context menu
 });
-// ΞΟΞΉΞ»ΞΏΞ³Ξ� ΟΟΞ»ΞΏΟ Ξ±ΟΟ ΟΞ± ΞΊΞΏΟΞΌΟΞΉΞ¬
+// Ή»Ώ³� »Ώ ± ± ΊΏΌΉ¬
 roleButtons.forEach(btn => {
   btn.addEventListener("click", async () => {
     const newRole = btn.dataset.role;
 
     if (!contextTargetUid) return;
 
-    // π ΞΟΞ»ΞΏΞΊΞ¬ΟΞΏΟΞΌΞ΅ self-demote
+    //  »ΏΊ¬ΏΌ΅ self-demote
     if (contextTargetUid === auth.currentUser.uid && newRole !== "admin") {
-      alert("β οΈ ΞΞ΅Ξ½ ΞΌΟΞΏΟΞ΅Ξ―Ο Ξ½Ξ± Ξ±Ξ»Ξ»Ξ¬ΞΎΞ΅ΞΉΟ ΟΞΏ Ξ΄ΞΉΞΊΟ ΟΞΏΟ role!");
+      alert("  ΅½ ΌΏ΅― ½± ±»»¬Ύ΅Ή Ώ ΄ΉΊ Ώ role!");
       return;
     }
 
-// Ξ Ξ¬ΟΞ΅ ΟΞΏΞ½ ΟΟΞ­ΟΞΏΞ½ΟΞ± ΟΟΞ»ΞΏ ΟΞΏΟ target user
+//  ¬΅ Ώ½ ­Ώ½± »Ώ Ώ target user
 const targetSnap = await get(ref(db, "users/" + contextTargetUid));
 const targetData = targetSnap.val();
 const oldRole = targetData?.role || "user";
 
-// β ΞΞ½ ΞΏ ΟΟΟΟΞΏΟ Ξ΅Ξ―Ξ½Ξ±ΞΉ ΞΏ MysteryMan β ΞΌΟΞ»ΞΏΞΊΞ¬ΟΞΏΟΞΌΞ΅
+//  ½ Ώ Ώ ΅―½±Ή Ώ MysteryMan  Ό»ΏΊ¬ΏΌ΅
 if (targetData && targetData.displayName === "MysteryMan") {
-  alert("β οΈ ΞΞ΅Ξ½ ΞΌΟΞΏΟΞ΅Ξ―Ο Ξ½Ξ± ΟΞ΅ΞΉΟΞ¬ΞΎΞ΅ΞΉΟ ΟΞΏΞ½ MysteryMan!");
+  alert("  ΅½ ΌΏ΅― ½± ΅Ή¬Ύ΅Ή Ώ½ MysteryMan!");
   return;
 }
 
-// ΞΞ¬Ξ½Ξ΅ update ΟΞΏΞ½ Ξ½Ξ­ΞΏ ΟΟΞ»ΞΏ
+// ¬½΅ update Ώ½ ½­Ώ »Ώ
 await update(ref(db, "users/" + contextTargetUid), {
   role: newRole
 });
 
-// π§Ύ === Log entry ΟΟΞΏ adminLogs ===
+// Ύ === Log entry Ώ adminLogs ===
 const currentUser = auth.currentUser;
 if (currentUser) {
   const logRef = push(ref(db, "adminLogs"));
@@ -1712,30 +1712,30 @@ if (currentUser) {
   targetUser: targetData?.displayName || "Unknown",
   oldRole: oldRole,
   newRole: newRole,
-  room: currentRoom || "unknown",  // π ΟΟΞΏΟΞΈΞ�ΞΊΞ· Ξ΄ΟΞΌΞ±ΟΞ―ΞΏΟ
+  room: currentRoom || "unknown",  //  Ώ�Ί· ΄Ό±―Ώ
   time: Date.now()
 });
 }
 
-console.log("β Role updated:", contextTargetUid, "β", newRole);
+console.log(" Role updated:", contextTargetUid, "", newRole);
 
-// ΞΞ»Ξ΅Ξ―ΟΞ΅ ΟΞΏ modal ΞΌΞ΅ΟΞ¬ ΟΞ·Ξ½ Ξ±Ξ»Ξ»Ξ±Ξ³Ξ�
+// »΅―΅ Ώ modal Ό΅¬ ·½ ±»»±³�
 roleModal.classList.add("hidden");
   });
 });
-// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ β
+// »΅―ΉΌΏ Ό΅ 
 closeRole.addEventListener("click", () => {
   roleModal.classList.add("hidden");
 });
 
-// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ click Ξ­ΞΎΟ
+// »΅―ΉΌΏ Ό΅ click ­Ύ
 roleModal.addEventListener("click", (e) => {
   if (e.target === roleModal) {
     roleModal.classList.add("hidden");
   }
 });
 
-// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ Esc
+// »΅―ΉΌΏ Ό΅ Esc
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     roleModal.classList.add("hidden");
@@ -1743,7 +1743,7 @@ document.addEventListener("keydown", (e) => {
 
 // ===================== ADMIN ACTIONS: KICK / BAN / MUTE / UNMUTE =====================
 
-// Helper Ξ³ΞΉΞ± log entries
+// Helper ³Ή± log entries
 async function logAdminAction(action, targetUid, targetUser, extra = {}) {
   const currentUser = auth.currentUser;
   if (!currentUser) return;
@@ -1764,21 +1764,21 @@ async function logAdminAction(action, targetUid, targetUser, extra = {}) {
 const muteUserBtn = document.getElementById("muteUser");
 if (muteUserBtn) {
   muteUserBtn.addEventListener("click", async () => {
-    if (!contextTargetUid) return alert("β οΈ No user selected!");
+    if (!contextTargetUid) return alert("  No user selected!");
     const currentUser = auth.currentUser;
     if (!currentUser) return;
 
     const adminSnap = await get(ref(db, "users/" + currentUser.uid));
     const adminData = adminSnap.val() || {};
     if (adminData.role !== "admin" && currentUser.displayName !== "MysteryMan") {
-      alert("β οΈ ΞΟΞ½ΞΏ admin ΞΌΟΞΏΟΞ΅Ξ― Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉ mute!");
+      alert("  ½Ώ admin ΌΏ΅― ½± Ί¬½΅Ή mute!");
       return;
     }
 
     const targetSnap = await get(ref(db, "users/" + contextTargetUid));
     const targetData = targetSnap.val() || {};
     if (targetData.displayName === "MysteryMan") {
-      alert("π« ΞΞ΅Ξ½ ΞΌΟΞΏΟΞ΅Ξ―Ο Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉΟ mute ΟΞΏΞ½ MysteryMan!");
+      alert("« ΅½ ΌΏ΅― ½± Ί¬½΅Ή mute Ώ½ MysteryMan!");
       return;
     }
 
@@ -1788,7 +1788,7 @@ if (muteUserBtn) {
     });
 
     await logAdminAction("mute", contextTargetUid, targetData.displayName);
-    alert(`π Ξ ΟΟΞ�ΟΟΞ·Ο ${targetData.displayName || "user"} Ξ­Ξ³ΞΉΞ½Ξ΅ mute.`);
+    alert(`  �· ${targetData.displayName || "user"} ­³Ή½΅ mute.`);
     userContextMenu.classList.add("hidden");
   });
 }
@@ -1797,12 +1797,12 @@ if (muteUserBtn) {
 const unmuteUserBtn = document.getElementById("unmuteUser");
 if (unmuteUserBtn) {
   unmuteUserBtn.addEventListener("click", async () => {
-    if (!contextTargetUid) return alert("β οΈ No user selected!");
+    if (!contextTargetUid) return alert("  No user selected!");
 
     await remove(ref(db, "mutes/" + contextTargetUid));
 
     await logAdminAction("unmute", contextTargetUid, "Unknown");
-    alert("π Ξ ΟΟΞ�ΟΟΞ·Ο Ξ­Ξ³ΞΉΞ½Ξ΅ unmute.");
+    alert("  �· ­³Ή½΅ unmute.");
     userContextMenu.classList.add("hidden");
   });
 }
@@ -1811,31 +1811,31 @@ if (unmuteUserBtn) {
 const kickUserBtn = document.getElementById("kickUser");
 if (kickUserBtn) {
   kickUserBtn.addEventListener("click", async () => {
-    if (!contextTargetUid) return alert("β οΈ No user selected!");
+    if (!contextTargetUid) return alert("  No user selected!");
     const currentUser = auth.currentUser;
     if (!currentUser) return;
 
     const userSnap = await get(ref(db, "users/" + currentUser.uid));
     const userData = userSnap.val() || {};
     if (userData.role !== "admin" && currentUser.displayName !== "MysteryMan") {
-      alert("β οΈ ΞΟΞ½ΞΏ admin ΞΌΟΞΏΟΞ΅Ξ― Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉ kick!");
+      alert("  ½Ώ admin ΌΏ΅― ½± Ί¬½΅Ή kick!");
       return;
     }
 
     const targetSnap = await get(ref(db, "users/" + contextTargetUid));
     const targetData = targetSnap.val() || {};
     if (targetData.displayName === "MysteryMan") {
-      alert("π« ΞΞ΅Ξ½ ΞΌΟΞΏΟΞ΅Ξ―Ο Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉΟ kick ΟΞΏΞ½ MysteryMan!");
+      alert("« ΅½ ΌΏ΅― ½± Ί¬½΅Ή kick Ώ½ MysteryMan!");
       return;
     }
 
-    const reason = prompt("π’ ΞΟΞ³ΞΏΟ Ξ³ΞΉΞ± ΟΞΏ kick;", "spam / ΟΟΞΏΟΞ²ΞΏΞ»Ξ�");
-    if (!reason) return alert("β οΈ Kick Ξ±ΞΊΟΟΟΞΈΞ·ΞΊΞ΅ β Ξ΄Ξ΅Ξ½ Ξ΄ΟΞΈΞ·ΞΊΞ΅ Ξ»ΟΞ³ΞΏΟ.");
+    const reason = prompt("’ ³Ώ ³Ή± Ώ kick;", "spam / Ώ²Ώ»�");
+    if (!reason) return alert("  Kick ±Ί·Ί΅  ΄΅½ ΄·Ί΅ »³Ώ.");
 
     await remove(ref(db, "users/" + contextTargetUid));
 
     await logAdminAction("kick", contextTargetUid, targetData.displayName, { reason });
-    alert(`π’ Ξ ΟΟΞ�ΟΟΞ·Ο ${targetData.displayName || "user"} Ξ±ΟΞΏΞ²Ξ»Ξ�ΞΈΞ·ΞΊΞ΅!`);
+    alert(`’  �· ${targetData.displayName || "user"} ±Ώ²»�·Ί΅!`);
 
     userContextMenu.classList.add("hidden");
   });
@@ -1845,26 +1845,26 @@ if (kickUserBtn) {
 const banUserBtn = document.getElementById("banUser");
 if (banUserBtn) {
   banUserBtn.addEventListener("click", async () => {
-    if (!contextTargetUid) return alert("β οΈ No user selected!");
+    if (!contextTargetUid) return alert("  No user selected!");
     const currentUser = auth.currentUser;
     if (!currentUser) return;
 
     const adminSnap = await get(ref(db, "users/" + currentUser.uid));
     const adminData = adminSnap.val() || {};
     if (adminData.role !== "admin" && currentUser.displayName !== "MysteryMan") {
-      alert("β οΈ ΞΟΞ½ΞΏ admin ΞΌΟΞΏΟΞ΅Ξ― Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉ ban!");
+      alert("  ½Ώ admin ΌΏ΅― ½± Ί¬½΅Ή ban!");
       return;
     }
 
     const targetSnap = await get(ref(db, "users/" + contextTargetUid));
     const targetData = targetSnap.val() || {};
     if (targetData.displayName === "MysteryMan") {
-      alert("π« ΞΞ΅Ξ½ ΞΌΟΞΏΟΞ΅Ξ―Ο Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉΟ ban ΟΞΏΞ½ MysteryMan!");
+      alert("« ΅½ ΌΏ΅― ½± Ί¬½΅Ή ban Ώ½ MysteryMan!");
       return;
     }
 
-    const reason = prompt("β ΞΟΞ³ΞΏΟ ban;", "spamming / toxic behavior");
-    if (!reason) return alert("β οΈ Ban Ξ±ΞΊΟΟΟΞΈΞ·ΞΊΞ΅ β Ξ΄Ξ΅Ξ½ Ξ΄ΟΞΈΞ·ΞΊΞ΅ Ξ»ΟΞ³ΞΏΟ.");
+    const reason = prompt(" ³Ώ ban;", "spamming / toxic behavior");
+    if (!reason) return alert("  Ban ±Ί·Ί΅  ΄΅½ ΄·Ί΅ »³Ώ.");
 
     await set(ref(db, "bannedUsers/" + contextTargetUid), {
       uid: contextTargetUid,
@@ -1879,7 +1879,7 @@ if (banUserBtn) {
     await logAdminAction("ban", contextTargetUid, targetData.displayName, { reason });
     await remove(ref(db, "users/" + contextTargetUid));
 
-    alert(`β Ξ ΟΟΞ�ΟΟΞ·Ο ${targetData.displayName || "user"} Ξ±ΟΞΏΞΊΞ»Ξ΅Ξ―ΟΟΞ·ΞΊΞ΅!`);
+    alert(`  �· ${targetData.displayName || "user"} ±ΏΊ»΅―·Ί΅!`);
     userContextMenu.classList.add("hidden");
   });
 }
