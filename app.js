@@ -46,7 +46,9 @@ if (messageForm) {
 
     // 🧹 Καθάρισε άμεσα το input (πριν στείλει)
     input.value = "";
-    input.style.height = "auto";
+    input.style.height = "40px"; // 👈 επαναφορά στο αρχικό ύψος
+    input.scrollTop = 0;
+
 
     const user = auth.currentUser;
     if (!user) {
