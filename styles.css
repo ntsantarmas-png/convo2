@@ -217,31 +217,29 @@ body {
   flex-shrink: 0;  /* 👈 δεν “μεγαλώνει” ούτε σπρώχνει */
 }
 
-
 #messageInput {
   flex: 1;
   padding: 10px 12px;
   border-radius: 8px;
   border: none;
   resize: none;
-  overflow-y: hidden;          /* 👈 κρυφό αρχικά */
+  overflow-y: auto;           /* 👈 επιτρέπει scroll */
+  scrollbar-width: none;      /* 👈 Firefox: κρύβει οπτικά */
   font-size: 14px;
   outline: none;
   line-height: 1.6;
   height: 40px;
-  max-height: 70px;
+  max-height: 120px;          /* 👈 ύψος ~3 γραμμών, όπως εδώ */
   vertical-align: middle;
   box-sizing: border-box;
-  scrollbar-width: none;       /* 👈 κρύβει scroll στον Firefox */
+  transition: height 0.15s ease;
 }
 
 /* Chrome / Edge / Linux */
 #messageInput::-webkit-scrollbar {
-  display: none;               /* 👈 κρύβει scroll οπτικά */
+  width: 0;
+  height: 0;
 }
-
-
-
 
 
 #sendBtn {
