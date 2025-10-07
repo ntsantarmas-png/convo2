@@ -126,6 +126,7 @@ if (msgInput) {
   msgInput.addEventListener("input", () => {
     // Υπολόγισε το ύψος που θα πάρει αν γραφτεί νέο κείμενο
     msgInput.style.height = baseHeight + "px";
+    msgInput.style.overflowY = msgInput.scrollHeight > maxHeight ? "auto" : "hidden";
     const newHeight = Math.min(msgInput.scrollHeight, maxHeight);
 
     // Αν δεν έχει newline (Enter), κράτα σταθερό ύψος
