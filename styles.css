@@ -120,7 +120,6 @@ body {
 .auth-box:nth-child(3) { animation-delay: 0.4s; }
 .auth-box:nth-child(4) { animation-delay: 0.55s; }
 
-
 /* ===================== CHAT PANEL ===================== */
 #appView {
   flex: 1;
@@ -135,17 +134,20 @@ body {
   flex-direction: column;
   width: 100%;
   max-width: 800px;
-  border-radius: 10px;
-  margin: 20px;
-  padding: 10px;
+  height: 100vh; /* 👈 κρατά όλο το ύψος για να κολλήσει κάτω */
+  border-radius: 16px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 
+/* ===================== MESSAGES AREA ===================== */
 .messages {
-  flex: 1;
+  flex: 1; /* 👈 γεμίζει όλο τον διαθέσιμο χώρο */
   overflow-y: auto;
   background: #0f1319;
   border-radius: 8px;
-  padding: 10px;
+  padding: 10px 14px;
+  margin-bottom: 10px;
 }
 
 .message {
@@ -156,13 +158,17 @@ body {
   display: inline-block;
   max-width: 75%;
   line-height: 1.4;
+  color: #fff;
 }
 
 /* ===================== INPUT ===================== */
 #messageForm {
   display: flex;
   gap: 10px;
-  margin-top: 10px;
+  padding: 10px;
+  border-top: 1px solid #1f2a35;
+  background: #141b23;
+  border-radius: 0 0 16px 16px; /* 👈 στρογγυλεμένες κάτω γωνίες */
 }
 
 #messageInput {
@@ -172,6 +178,7 @@ body {
   border: none;
   resize: none;
   font-size: 14px;
+  outline: none;
 }
 
 #sendBtn {
@@ -181,8 +188,14 @@ body {
   border-radius: 8px;
   padding: 8px 16px;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
+#sendBtn:hover {
+  background: #1e6edc;
+}
+
+/* ===================== HIDDEN UTILITY ===================== */
 .hidden {
   display: none;
 }
@@ -191,7 +204,8 @@ body {
 #appView.hidden * {
   display: none !important;
 }
-/* === WELCOME BANNER === */
+
+/* ===================== WELLCOME BANNER ===================== */
 #welcomeBanner {
   background: linear-gradient(135deg, #2d8cff, #1e6edc);
   padding: 10px 18px;
