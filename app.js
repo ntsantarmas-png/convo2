@@ -31,8 +31,8 @@ if (input) {
   // === ENTER to send, SHIFT+ENTER for newline ===
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault(); // Μην κάνει newline
-      messageForm.requestSubmit(); // Στείλε το μήνυμα
+      e.preventDefault();
+      messageForm.requestSubmit();
     }
   });
 }
@@ -55,7 +55,6 @@ if (messageForm) {
     }
 
     try {
-      // ✅ fallback σε "general" αν το currentRoom είναι null
       const roomPath = currentRoom || "general";
 
       await push(ref(db, "v3/messages/" + roomPath), {
@@ -64,29 +63,11 @@ if (messageForm) {
         text,
         createdAt: serverTimestamp(),
       });
-
     } catch (err) {
       console.error("Message send error:", err);
     }
   });
 }
-
-
-// ===================== AUTO-GROW MESSAGE INPUT (SAFE VERSION) =====================
-const msgInput = document.getElementById("messageInput");
-
-if (msgInput) {
-  msgInput.addEventListener("input", () => {
-    if (!msgInput.value.trim()) {
-      // Αν είναι κενό, επαναφορά πλήρης
-      msgInput.style.height = "auto";
-      return;
-    }
-    msgInput.style.height = "auto";
-    msgInput.style.height = msgInput.scrollHeight + "px";
-  });
-}
-
 
 // ===================== RENDER MESSAGES (IMPROVED) =====================
 const messagesDiv = document.getElementById("messages");
@@ -128,6 +109,21 @@ onAuthStateChanged(auth, (user) => {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 });
+
+// ===================== AUTO-GROW MESSAGE INPUT (SAFE VERSION) =====================
+const msgInput = document.getElementById("messageInput");
+
+if (msgInput) {
+  msgInput.addEventListener("input", () => {
+    if (!msgInput.value.trim()) {
+      // Αν είναι κενό, επαναφορά πλήρης
+      msgInput.style.height = "auto";
+      return;
+    }
+    msgInput.style.height = "auto";
+    msgInput.style.height = msgInput.scrollHeight + "px";
+  });
+}
 
 // ===================== WELCOME BUBBLE =====================
 function showWelcomeBubble(userName) {
