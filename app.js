@@ -498,35 +498,28 @@ if (msg.system) {
         const match = msg.text.match(ytRegex);
 
         if (match) {
-          const videoId = match[1];
-          const youtubePanel = document.getElementById("youtubePanel");
-          if (youtubePanel) {
-            const wrapper = youtubePanel.querySelector(".video-wrapper");
-            wrapper.innerHTML = `
-              <iframe 
-                src="https://www.youtube.com/embed/${videoId}" 
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
-              </iframe>
-            `;
-            youtubePanel.classList.remove("hidden");
-          }
-          line1.textContent = ""; // ❌ Μην δείξεις URL
-        } else {
-          // ✅ Κανονικά μηνύματα
-          line1.textContent = msg.text;
+  const videoId = match[1];
+  // 🎵 Δείξε απλώς το link, ΜΗΝ ανοίγεις το panel εδώ
+  const link = document.createElement("a");
+  link.href = `https://youtu.be/${videoId}`;
+  link.textContent = `🎵 ${msg.user || "Someone"} is playing: YouTube Video`;
+  link.target = "_blank";
+  line1.appendChild(link);
+} else {
+  // ✅ Κανονικά μηνύματα
+  line1.textContent = msg.text;
 
-          // ✅ Emoji-only check
-          if (isEmojiOnly(msg.text)) {
-            const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
-            bubbleDiv.classList.add("emoji-only");
-            if (emojiCount <= 2) {
-              bubbleDiv.classList.add("big");
-            }
-          }
-        }
+  // ✅ Emoji-only check
+  if (isEmojiOnly(msg.text)) {
+    const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
+    bubbleDiv.classList.add("emoji-only");
+    if (emojiCount <= 2) {
+      bubbleDiv.classList.add("big");
+    }
+  }
+}
 
+          
         // Γραμμή 2: Date + Time
         const line2 = document.createElement("div");
         line2.className = "msg-line2";
