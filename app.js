@@ -688,7 +688,7 @@ onAuthStateChanged(auth, (user) => {
     console.log("✅ User logged in:", user.displayName || "Guest");
     // ξεκινάμε presence, rooms και messages
     setupPresence(user);
-    renderRoomsList();     // 👈 προσθέτουμε αυτό
+    // renderRoomsList();     // 👈 προσθέτουμε αυτό
     renderUserList();      // 👈 και αυτό
     renderMessages(currentRoom); // 👈 και αυτό
   } else {
