@@ -110,20 +110,35 @@ onAuthStateChanged(auth, (user) => {
   });
 });
 
-// ===================== AUTO-GROW MESSAGE INPUT (LIMITED HEIGHT) =====================
+// ===================== AUTO-GROW MESSAGE INPUT (LOCKED HEIGHT FIX) =====================
 const msgInput = document.getElementById("messageInput");
 
 if (msgInput) {
-  const baseHeight = 40; // αρχικό ύψος ~1 γραμμή
-  const maxHeight = 120; // μέγιστο ύψος ~3 γραμμές
+  const baseHeight = 40; // σταθερό ύψος 1 γραμμής
+  const maxHeight = 120; // μέγιστο 3 γραμμών
 
+  // Αρχικό ύψος
   msgInput.style.height = baseHeight + "px";
+  msgInput.style.overflowY = "hidden";
 
   msgInput.addEventListener("input", () => {
-    msgInput.style.height = "auto";
-    msgInput.style.height = Math.min(msgInput.scrollHeight, maxHeight) + "px";
+    // Υπολόγισε το ύψος που θα πάρει αν γραφτεί νέο κείμενο
+    msgInput.style.height = baseHeight + "px";
+    const newHeight = Math.min(msgInput.scrollHeight, maxHeight);
+
+    // Αν δεν έχει newline (Enter), κράτα σταθερό ύψος
+    if (!msgInput.value.includes("\n")) {
+      msgInput.style.height = baseHeight + "px";
+    } else {
+      msgInput.style.height = newHeight + "px";
+    }
+
+    // Ενεργοποίησε scroll μόνο αν χρειάζεται
+    msgInput.style.overflowY =
+      msgInput.scrollHeight > maxHeight ? "auto" : "hidden";
   });
 }
+
 
 
 // ===================== WELCOME BUBBLE =====================
