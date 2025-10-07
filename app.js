@@ -184,9 +184,18 @@ function switchRoom(room) {
   renderMessages(room);
 }
 
-
 // ===================== MESSAGES =====================
 
+// === ENTER to send, SHIFT+ENTER for newline ===
+const input = document.getElementById("messageInput");
+if (input) {
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // Μην κάνει newline
+      document.getElementById("messageForm").requestSubmit(); // Στείλε το μήνυμα
+    }
+  });
+}
 
 // === SEND MESSAGE ===
 const messageForm = document.getElementById("messageForm");
@@ -195,14 +204,6 @@ if (messageForm) {
     e.preventDefault();
 
     const input = document.getElementById("messageInput");
-    // === ENTER to send, SHIFT+ENTER for newline ===
-input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && !e.shiftKey) {
-    e.preventDefault();           // μην κάνει newline
-    messageForm.requestSubmit();  // στείλε το μήνυμα
-  }
-});
-
     const text = input.value.trim();
     if (!text) return;
 
@@ -213,6 +214,7 @@ input.addEventListener("keydown", (e) => {
     const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
     const match = text.match(ytRegex);
 
+    // === Message Data ===
     const msgData = {
       uid: user.uid,
       user: user.displayName || "Guest",
@@ -237,6 +239,7 @@ input.addEventListener("keydown", (e) => {
 
     // === Καθάρισε input ===
     input.value = "";
+    input.focus();
     messageMemory[currentRoom] = "";
   });
 }
@@ -304,7 +307,7 @@ function renderMessages(room) {
       messagesDiv.appendChild(div);
     });
 
-    // Auto-scroll
+    // Auto-scroll στο τέλος
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 }
