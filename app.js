@@ -195,6 +195,14 @@ if (messageForm) {
     e.preventDefault();
 
     const input = document.getElementById("messageInput");
+    // === ENTER to send, SHIFT+ENTER for newline ===
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();           // μην κάνει newline
+    messageForm.requestSubmit();  // στείλε το μήνυμα
+  }
+});
+
     const text = input.value.trim();
     if (!text) return;
 
