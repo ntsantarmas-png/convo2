@@ -144,6 +144,52 @@ body {
   line-height: 1.4;
   color: #fff;
 }
+/* ===================== CHAT BUBBLES ===================== */
+#messages {
+  display: flex;
+  flex-direction: column;
+}
+
+.msg {
+  display: inline-block;
+  max-width: 75%;
+  padding: 8px 12px;
+  margin: 6px 0;
+  border-radius: 14px;
+  background: #1e6edc;
+  color: #fff;
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+/* Δικά μου μηνύματα (δεξιά) */
+.msg.mine {
+  background: #2d8cff;
+  align-self: flex-end;
+  text-align: right;
+  margin-left: auto;
+}
+
+/* Όνομα αποστολέα */
+.msg-user {
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.8;
+  margin-bottom: 2px;
+}
+
+/* Κείμενο */
+.msg-text {
+  font-size: 15px;
+}
+
+/* Ώρα */
+.msg-time {
+  font-size: 11px;
+  opacity: 0.6;
+  margin-top: 4px;
+}
+
 
 /* ===================== INPUT ===================== */
 #messageForm {
