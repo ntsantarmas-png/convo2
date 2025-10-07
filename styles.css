@@ -23,33 +23,52 @@ body {
   margin: 0;
 }
 
-/* ===================== AUTH ===================== */
+/* ===================== AUTH LAYOUT ===================== */
 #authView {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
   padding: 40px;
 }
 
-.auth-block {
+/* === Κεντρικό container που κρατάει τα 4 κουτιά === */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+/* === Ενιαίο style για Login / Register / Guest / Info === */
+.auth-box {
   background: #18202a;
   border-radius: 12px;
   padding: 20px;
   width: 220px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
 
-.auth-block input {
+.auth-box h3 {
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.auth-box input {
   width: 90%;
-  margin: 5px 0;
+  margin: 5px auto;
   padding: 6px;
   border: none;
   border-radius: 6px;
+  background: #e9eef5;
 }
 
-.auth-block button {
+.auth-box button {
   width: 100%;
   padding: 8px;
   background: #2d8cff;
@@ -57,6 +76,34 @@ body {
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.auth-box button:hover {
+  background: #1e6edc;
+}
+
+/* === Link κουμπιά (Forgot Password) === */
+.link-btn {
+  background: none;
+  border: none;
+  color: #2d8cff;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 6px;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.link-btn:hover {
+  color: #1e6edc;
+}
+
+/* === Info Box (Convo info) === */
+.info-box {
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.4;
 }
 
 /* ===================== CHAT PANEL ===================== */
