@@ -1727,8 +1727,3 @@ body {
 
 
 
-/* === DEBUG MODE για YouTube Panel === */
-.youtube-panel {
-  outline: 2px dashed rgba(255, 0, 0, 0.7); /* 🔴 κόκκινο περίγραμμα */
-  background-color: rgba(255, 0, 0, 0.1);   /* ελαφρύ κόκκινο φόντο */
-}
