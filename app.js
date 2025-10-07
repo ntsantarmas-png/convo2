@@ -119,22 +119,25 @@ if (msgInput) {
   const baseHeight = 40; // αρχικό ύψος 1 γραμμής
   const maxHeight = 70;  // μέγιστο ύψος ~2 γραμμές
 
+  // αρχικές τιμές
   msgInput.style.height = baseHeight + "px";
   msgInput.style.overflowY = "hidden";
 
   msgInput.addEventListener("input", () => {
-    // Αν είναι άδειο, κρύψε το scrollbar
-if (msgInput.value.trim() === "") {
-  msgInput.style.overflowY = "hidden";
-}
+    // Αν είναι άδειο -> καθάρισε ύψος & scroll
+    if (msgInput.value.trim() === "") {
+      msgInput.style.height = baseHeight + "px";
+      msgInput.style.overflowY = "hidden";
+      return;
+    }
 
-    // Επαναφορά ύψους για επανυπολογισμό
+    // Επαναφορά ύψους πριν από νέο υπολογισμό
     msgInput.style.height = baseHeight + "px";
 
     // Υπολογισμός νέου ύψους
     const newHeight = Math.min(msgInput.scrollHeight, maxHeight);
 
-    // Αν χρειάζεται scroll -> ενεργοποίησε αμέσως
+    // Αν χρειάζεται scroll -> άνοιξε, αλλιώς κρύψε
     if (msgInput.scrollHeight > maxHeight) {
       msgInput.style.overflowY = "auto";
     } else {
