@@ -256,73 +256,78 @@ if (messageForm) {
   });
 }
 
-// === RENDER MESSAGES ===
+// === RENDER MESSAGES (optimized, no flicker) ===
 function renderMessages(room) {
   const messagesRef = ref(db, "messages/" + room);
   const messagesDiv = document.getElementById("messages");
   if (!messagesDiv) return;
 
-  onValue(messagesRef, (snap) => {
-    messagesDiv.innerHTML = "";
+  messagesDiv.innerHTML = ""; // καθάρισε στην αρχή μόνο μία φορά
 
-    snap.forEach((child) => {
-      const msg = child.val();
-      const div = document.createElement("div");
-      div.className = "message";
-      if (msg.uid === auth.currentUser?.uid) div.classList.add("mine");
+  // 🔥 Άκου μόνο νέα μηνύματα
+  onChildAdded(messagesRef, (snap) => {
+    const msg = snap.val();
+    const div = document.createElement("div");
+    div.className = "message";
+    if (msg.uid === auth.currentUser?.uid) div.classList.add("mine");
 
-      // Avatar
-      const avatar = document.createElement("div");
-      avatar.className = "message-avatar";
-      avatar.innerHTML = `<img src="${msg.photoURL || "https://i.pravatar.cc/150"}" alt="">`;
+    // Avatar
+    const avatar = document.createElement("div");
+    avatar.className = "message-avatar";
+    avatar.innerHTML = `<img src="${msg.photoURL || "https://i.pravatar.cc/150"}" alt="">`;
 
-      // Content
-      const content = document.createElement("div");
-      content.className = "message-content";
+    // Content
+    const content = document.createElement("div");
+    content.className = "message-content";
 
-      const userSpan = document.createElement("div");
-      userSpan.className = "message-user";
-      userSpan.textContent = msg.user || "Unknown";
+    const userSpan = document.createElement("div");
+    userSpan.className = "message-user";
+    userSpan.textContent = msg.user || "Unknown";
 
-      const bubble = document.createElement("div");
-      bubble.className = "message-bubble";
+    const bubble = document.createElement("div");
+    bubble.className = "message-bubble";
 
-      // === YouTube Link ===
-      const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-      const match = msg.text.match(ytRegex);
+    // === YouTube Link ===
+    const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const match = msg.text.match(ytRegex);
 
-      if (match) {
-        const videoId = match[1];
-        const link = document.createElement("a");
-        link.href = `https://youtu.be/${videoId}`;
-        link.textContent = msg.text;
-        link.target = "_blank";
-        bubble.appendChild(link);
-      } else {
-        bubble.textContent = msg.text;
-      }
+    if (match) {
+      const videoId = match[1];
+      const link = document.createElement("a");
+      link.href = `https://youtu.be/${videoId}`;
+      link.textContent = msg.text;
+      link.target = "_blank";
+      bubble.appendChild(link);
+    } else {
+      bubble.textContent = msg.text;
+    }
 
-      // === Timestamp ===
-      const time = document.createElement("div");
-      time.className = "msg-line2";
-      time.textContent = new Date(msg.createdAt).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-
-      content.appendChild(userSpan);
-      content.appendChild(bubble);
-      content.appendChild(time);
-
-      div.appendChild(avatar);
-      div.appendChild(content);
-      messagesDiv.appendChild(div);
+    // === Timestamp ===
+    const time = document.createElement("div");
+    time.className = "msg-line2";
+    time.textContent = new Date(msg.createdAt).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
     });
 
-    // Auto-scroll στο τέλος
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    content.appendChild(userSpan);
+    content.appendChild(bubble);
+    content.appendChild(time);
+
+    div.appendChild(avatar);
+    div.appendChild(content);
+    messagesDiv.appendChild(div);
+
+    // Auto-scroll μόνο όταν είσαι κοντά στο τέλος
+    if (
+      messagesDiv.scrollTop + messagesDiv.clientHeight >=
+      messagesDiv.scrollHeight - 50
+    ) {
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
   });
 }
+
 // ===================== USER LIST =====================
 async function renderUserList() {
   const usersList = document.getElementById("usersList");
