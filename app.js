@@ -95,5 +95,30 @@ onAuthStateChanged(auth, (user) => {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 });
+// ===================== WELCOME BUBBLE =====================
+function showWelcomeBubble(userName) {
+  const bubble = document.getElementById("welcomeBubble");
+  const nameSpan = document.getElementById("welcomeName");
+
+  if (!bubble) return;
+
+  nameSpan.textContent = userName || "Guest";
+  bubble.classList.add("show");
+  bubble.classList.remove("hidden");
+
+  // Εξαφανίζεται μετά από 3 δευτερόλεπτα
+  setTimeout(() => {
+    bubble.classList.remove("show");
+    bubble.classList.add("hidden");
+  }, 3000);
+}
+
+// Κάλεσμα μετά το login
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    showWelcomeBubble(user.displayName || "Guest");
+  }
+});
+
 
 console.log("✅ Convo v3 base loaded");
