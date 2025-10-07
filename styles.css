@@ -170,10 +170,10 @@ body {
 #messageForm {
   display: flex;
   gap: 10px;
-  padding: 10px;
+  padding: 8px 10px;
   border-top: 1px solid #1f2a35;
   background: #141b23;
-  border-radius: 0 0 16px 16px; /* 👈 στρογγυλεμένες κάτω γωνίες */
+  border-radius: 0 0 16px 16px;
 }
 
 #messageInput {
