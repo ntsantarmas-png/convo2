@@ -123,6 +123,11 @@ if (msgInput) {
   msgInput.style.overflowY = "hidden";
 
   msgInput.addEventListener("input", () => {
+    // Αν είναι άδειο, κρύψε το scrollbar
+if (msgInput.value.trim() === "") {
+  msgInput.style.overflowY = "hidden";
+}
+
     // Επαναφορά ύψους για επανυπολογισμό
     msgInput.style.height = baseHeight + "px";
 
