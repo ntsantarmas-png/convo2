@@ -46,6 +46,7 @@ onAuthStateChanged(auth, (user) => {
   const welcomeName = document.getElementById("welcomeName");
 
   if (user) {
+    document.getElementById("authView").style.display = "none";
     // === Εμφάνιση Chat ===
     authView.classList.add("hidden");
     appView.classList.remove("hidden");
@@ -64,6 +65,7 @@ onAuthStateChanged(auth, (user) => {
     }
 
   } else {
+    document.getElementById("authView").style.display = "block";
     // === Επιστροφή στο Auth View ===
     authView.classList.remove("hidden");
     appView.classList.add("hidden");
