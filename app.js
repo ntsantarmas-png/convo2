@@ -841,7 +841,7 @@ if (emojiBtn && mediaPanel) {
   }
 }
 
-// === Εφέ: Emoji Trail ===
+// === Εφέ: Emoji Trail (fixed, no layout shift) ===
 function createEmojiTrail() {
   const emojis = ["😀", "✨", "🎉", "💫", "🥳", "🌈"];
   const count = 4;
@@ -851,18 +851,25 @@ function createEmojiTrail() {
     const el = document.createElement("span");
     el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
     el.className = "emoji-float";
+    el.style.position = "fixed"; // 👈 επιπλέει πάνω από το UI
     el.style.left = rect.left + rect.width / 2 + (Math.random() * 40 - 20) + "px";
     el.style.top = rect.top + "px";
+    el.style.fontSize = 22 + Math.random() * 10 + "px";
+    el.style.transition = "transform 0.7s ease-out, opacity 0.7s ease-out";
+    el.style.opacity = "1";
+    el.style.zIndex = "9999";
+    el.style.pointerEvents = "none";
+
     document.body.appendChild(el);
 
-    // Animation
-    setTimeout(() => {
-      el.style.transform = `translateY(${80 + Math.random() * 40}px) scale(0.8) rotate(${Math.random() * 60 - 30}deg)`;
+    // animation start (με μικρή καθυστέρηση για smooth)
+    requestAnimationFrame(() => {
+      el.style.transform = `translate(${Math.random() * 60 - 30}px, ${-60 - Math.random() * 40}px) rotate(${Math.random() * 60 - 30}deg) scale(0.9)`;
       el.style.opacity = "0";
-    }, 10);
+    });
 
-    // Remove after fade
-    setTimeout(() => el.remove(), 600);
+    // remove μετά από fade
+    setTimeout(() => el.remove(), 800);
   }
 }
 
