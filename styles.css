@@ -228,7 +228,6 @@ body {
   line-height: 1.6;
   height: 40px;
   max-height: 70px;       /* 👈 μικρότερο ύψος (2 γραμμές περίπου) */
-  transition: height 0.2s ease;
   vertical-align: middle;
   box-sizing: border-box;
 }
