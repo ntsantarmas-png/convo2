@@ -588,6 +588,13 @@ if (messageForm) {
     const user = auth.currentUser;
     const username = user?.displayName || "Guest";
 
+    // 🔒 Check mute
+    const muteSnap = await get(ref(db, "mutes/" + user.uid));
+    if (muteSnap.exists()) {
+      alert("⚠️ Είσαι muted και δεν μπορείς να στείλεις μηνύματα.");
+      return;
+    }
+
     // === YouTube Integration ===
     const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
     const match = text.match(ytRegex);
@@ -598,17 +605,11 @@ if (messageForm) {
       if (youtubePanel) {
         const wrapper = youtubePanel.querySelector(".video-wrapper");
         wrapper.innerHTML = `
-          <iframe 
-            src="https://www.youtube.com/embed/${videoId}" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-          </iframe>
-        `;
+          <iframe src="https://www.youtube.com/embed/${videoId}" 
+          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
         youtubePanel.classList.remove("hidden");
       }
 
-      // ✅ System message μόνο για το YouTube
       push(ref(db, "messages/" + currentRoom), {
         system: true,
         text: `🎵 ${username} is playing: <a href="#" class="yt-play" data-videoid="${videoId}">YouTube Video</a>`,
@@ -617,52 +618,22 @@ if (messageForm) {
 
       input.value = "";
       input.style.height = "40px";
-      return; // ⛔ σταμάτα εδώ αν είναι YouTube link
-    } else {
-      // ✅ Κανονικά μηνύματα (όχι YouTube)
-      await push(ref(db, "messages/" + currentRoom), {
-        uid: user?.uid,
-        user: username,
-        text,
-        createdAt: serverTimestamp()
-      });
-
-      input.value = "";
-      input.style.height = "40px";
-    }
-  });
-}
-
-
-
-    const user = auth.currentUser;
-
-    // 🔒 Check mute
-    const muteSnap = await get(ref(db, "mutes/" + user.uid));
-    if (muteSnap.exists()) {
-      alert("⚠️ Είσαι muted και δεν μπορείς να στείλεις μηνύματα.");
       return;
     }
 
-    // Αν δεν είναι muted → στέλνει κανονικά
+    // ✅ Κανονικά μηνύματα (όχι YouTube)
     await push(ref(db, "messages/" + currentRoom), {
       uid: user?.uid,
-      user: user?.displayName || "Guest",
+      user: username,
       text,
       createdAt: serverTimestamp()
     });
 
-    // 👉 Κλείσε το emoji panel ΜΟΝΟ μετά την αποστολή
-    closeEmojiPanel();
-
     input.value = "";
-    // 🧹 Καθάρισε το memory για το τωρινό room
-inputMemory[currentRoom] = "";
-
-    input.style.height = "40px"; // 👈 reset στο default ύψος
-    input.focus();
+    input.style.height = "40px";
   });
 }
+
 // ===================== TOGGLE YOUTUBE BUTTON =====================
 const toggleYoutubeBtn = document.getElementById("toggleYoutubeBtn");
 
