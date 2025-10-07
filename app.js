@@ -127,6 +127,7 @@ if (msgInput) {
     // Υπολόγισε το ύψος που θα πάρει αν γραφτεί νέο κείμενο
     msgInput.style.height = baseHeight + "px";
     msgInput.style.overflowY = msgInput.scrollHeight > maxHeight ? "auto" : "hidden";
+    msgInput.offsetHeight; // 👈 αναγκάζει άμεσο refresh (scroll χωρίς καθυστέρηση)
     const newHeight = Math.min(msgInput.scrollHeight, maxHeight);
 
     // Αν δεν έχει newline (Enter), κράτα σταθερό ύψος
