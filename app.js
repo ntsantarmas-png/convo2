@@ -1101,45 +1101,7 @@ if (closeYoutubeBtn) {
 
 
 // ===================== DRAGGABLE YOUTUBE PANEL (IN-APP LIMITS) =====================
-let isDragging = false;
-let offsetX, offsetY;
-
-const dragHeader = document.querySelector(".yt-drag-header");
-const youtubePanel = document.getElementById("youtubePanel");
-const appContainer = document.getElementById("app");
-
-if (dragHeader && youtubePanel && appContainer) {
-  dragHeader.addEventListener("mousedown", (e) => {
-    isDragging = true;
-    const rect = youtubePanel.getBoundingClientRect();
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-    dragHeader.style.cursor = "grabbing";
-  });
-
-  document.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
-
-    const appRect = appContainer.getBoundingClientRect();
-    const panelRect = youtubePanel.getBoundingClientRect();
-
-    let newLeft = e.clientX - offsetX - appRect.left;
-    let newTop = e.clientY - offsetY - appRect.top;
-
-    // ➡️ Περιορισμός εντός Convo
-    newLeft = Math.max(0, Math.min(newLeft, appRect.width - panelRect.width));
-    newTop = Math.max(0, Math.min(newTop, appRect.height - panelRect.height));
-
-    youtubePanel.style.left = `${newLeft}px`;
-    youtubePanel.style.top = `${newTop}px`;
-    youtubePanel.style.transform = "none";
-  });
-
-  document.addEventListener("mouseup", () => {
-    isDragging = false;
-    dragHeader.style.cursor = "grab";
-  });
-}
+   
 
 // ===================== ADMIN CONTEXT MENU =====================
 const contextMenu = document.getElementById("contextMenu");
