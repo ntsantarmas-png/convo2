@@ -186,6 +186,8 @@ body {
 .msg-text {
  font-size: 15px;
  white-space: pre-wrap; /* 👈 κρατάει τα line breaks & τα πολλαπλά κενά */
+  text-align: left;      /* 👈 βασική στοίχιση αριστερά */
+  word-wrap: break-word; /* ασφαλής αναδίπλωση */
 }
 
 /* Ώρα */
