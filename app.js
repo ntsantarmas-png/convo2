@@ -70,14 +70,18 @@ if (messageForm) {
     }
   });
 }
-
-// ===================== AUTO-GROW MESSAGE INPUT =====================
+// ===================== AUTO-GROW MESSAGE INPUT (SAFE VERSION) =====================
 const msgInput = document.getElementById("messageInput");
 
 if (msgInput) {
   msgInput.addEventListener("input", () => {
-    msgInput.style.height = "auto";                // επαναφορά
-    msgInput.style.height = msgInput.scrollHeight + "px"; // μεγαλώνει ανάλογα
+    if (!msgInput.value.trim()) {
+      // Αν είναι κενό, επαναφορά πλήρης
+      msgInput.style.height = "auto";
+      return;
+    }
+    msgInput.style.height = "auto";
+    msgInput.style.height = msgInput.scrollHeight + "px";
   });
 }
 
