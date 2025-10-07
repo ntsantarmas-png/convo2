@@ -224,7 +224,7 @@ body {
   border-radius: 8px;
   border: none;
   resize: none;
-  overflow-y: auto;       /* 👈 δείχνει scroll όταν γεμίσει */
+  overflow-y: hidden;       /* 👈 δείχνει scroll όταν γεμίσει */
   font-size: 14px;
   outline: none;
   line-height: 1.6;
