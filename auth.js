@@ -37,37 +37,41 @@ document.getElementById("guestBtn").addEventListener("click", async () => {
   await signInAnonymously(auth);
 });
 
-// === AUTH STATE ===
+// ===================== AUTH STATE =====================
 onAuthStateChanged(auth, (user) => {
   const authView = document.getElementById("authView");
   const appView = document.getElementById("appView");
   const logoutBtn = document.getElementById("logoutBtn");
+  const welcomeBanner = document.getElementById("welcomeBanner");
+  const welcomeName = document.getElementById("welcomeName");
 
   if (user) {
+    // === Εμφάνιση Chat ===
     authView.classList.add("hidden");
     appView.classList.remove("hidden");
+    appView.style.display = "block";
     logoutBtn.classList.remove("hidden");
 
     // === WELCOME BANNER ===
-    const welcomeBanner = document.getElementById("welcomeBanner");
-    const welcomeName = document.getElementById("welcomeName");
-
     if (welcomeBanner && welcomeName) {
       welcomeName.textContent = user.displayName || "Guest";
       welcomeBanner.classList.remove("hidden");
 
-      // Εξαφανίζεται μετά από 3 δευτερόλεπτα
+      // Fade out μετά από 3 δευτερόλεπτα
       setTimeout(() => {
         welcomeBanner.classList.add("hidden");
       }, 3000);
     }
 
   } else {
+    // === Επιστροφή στο Auth View ===
     authView.classList.remove("hidden");
     appView.classList.add("hidden");
+    appView.style.display = "none";
     logoutBtn.classList.add("hidden");
   }
 });
+
 
 document.getElementById("logoutBtn").addEventListener("click", async () => {
   await auth.signOut();
