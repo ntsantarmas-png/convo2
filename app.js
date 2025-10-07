@@ -1740,6 +1740,7 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     roleModal.classList.add("hidden");
   }
+});
 
 // ===================== ADMIN ACTIONS: KICK / BAN / MUTE / UNMUTE =====================
 
