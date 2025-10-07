@@ -220,25 +220,25 @@ body {
 #messageInput {
   flex: 1;
   padding: 10px 12px;
-  border-radius: 8px;
   border: none;
-  resize: none;
+  border-radius: 8px;
+  background: #fff;
   font-size: 14px;
+  line-height: 1.5;
+  resize: none;
   outline: none;
-  line-height: 1.6;
-  height: 40px;
-  max-height: 100px;         /* 👈 σταθερό όριο ~3 γραμμές */
-  overflow-y: auto;          /* 👈 scroll μόνο μέσα, ποτέ “φούσκωμα” */
-  scrollbar-width: none;     /* Firefox: κρύβει scrollbar */
+  overflow-y: auto;          /* ✅ scroll εσωτερικά */
+  max-height: 150px;         /* ✅ όριο ~4 γραμμές */
+  min-height: 40px;          /* ✅ αρχικό ύψος */
   box-sizing: border-box;
+  scrollbar-width: none;     /* ✅ κρύβει scrollbar σε Firefox */
+  transition: height 0.1s ease;
 }
 
-/* Chrome / Edge / Linux */
+/* ✅ Κρύβει scrollbar σε Chrome / Edge / Safari */
 #messageInput::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+  display: none;
 }
-
 
 
 #sendBtn {
