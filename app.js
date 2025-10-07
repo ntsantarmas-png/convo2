@@ -61,6 +61,15 @@ if (messageForm) {
     input.focus();
   });
 }
+// ===================== AUTO-GROW MESSAGE INPUT =====================
+const msgInput = document.getElementById("messageInput");
+
+if (msgInput) {
+  msgInput.addEventListener("input", () => {
+    msgInput.style.height = "auto";                // επαναφορά
+    msgInput.style.height = msgInput.scrollHeight + "px"; // μεγαλώνει ανάλογα
+  });
+}
 
 
 // ===================== RENDER MESSAGES =====================
