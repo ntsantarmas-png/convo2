@@ -142,12 +142,17 @@ body {
 
 /* ===================== MESSAGES AREA ===================== */
 .messages {
-  flex: 1; /* 👈 γεμίζει όλο τον διαθέσιμο χώρο */
+  flex: 1;
   overflow-y: auto;
   background: #0f1319;
   border-radius: 8px;
   padding: 10px 14px;
-  margin-bottom: 10px;
+  min-height: 0; /* 👈 επιτρέπει σωστό flex shrink */
+}
+
+/* Όταν είναι άδειο, απόφυγε ψεύτικο scroll */
+.messages:empty {
+  overflow-y: hidden;
 }
 
 .message {
