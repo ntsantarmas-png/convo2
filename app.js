@@ -60,18 +60,10 @@ if (messageForm) {
         createdAt: serverTimestamp(),
       });
 
-      // ✅ Καθαρισμός input (σταθερός σε όλους τους browsers)
-      input.value = "";
-      input.style.height = "auto";
-      input.scrollTop = 0;
+     // 🧹 Καθάρισε άμεσα το input (πριν στείλει)
+input.value = "";
+input.style.height = "auto";
 
-      // 👇 Extra fix για Chrome/Linux bug (buffer flush + re-render)
-      setTimeout(() => {
-        input.value = "";
-        input.dispatchEvent(new Event("input"));
-        input.blur();       // αναγκάζει re-render
-        input.focus();      // επαναφέρει focus για συνεχή πληκτρολόγηση
-      }, 50);
     } catch (err) {
       console.error("Message send error:", err);
     }
