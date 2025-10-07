@@ -110,20 +110,21 @@ onAuthStateChanged(auth, (user) => {
   });
 });
 
-// ===================== AUTO-GROW MESSAGE INPUT (SAFE VERSION) =====================
+// ===================== AUTO-GROW MESSAGE INPUT (LIMITED HEIGHT) =====================
 const msgInput = document.getElementById("messageInput");
 
 if (msgInput) {
+  const baseHeight = 40; // αρχικό ύψος ~1 γραμμή
+  const maxHeight = 120; // μέγιστο ύψος ~3 γραμμές
+
+  msgInput.style.height = baseHeight + "px";
+
   msgInput.addEventListener("input", () => {
-    if (!msgInput.value.trim()) {
-      // Αν είναι κενό, επαναφορά πλήρης
-      msgInput.style.height = "auto";
-      return;
-    }
     msgInput.style.height = "auto";
-    msgInput.style.height = msgInput.scrollHeight + "px";
+    msgInput.style.height = Math.min(msgInput.scrollHeight, maxHeight) + "px";
   });
 }
+
 
 // ===================== WELCOME BUBBLE =====================
 function showWelcomeBubble(userName) {
