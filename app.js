@@ -1,5 +1,6 @@
 // ===================== GIPHY CONFIG =====================
 const GIPHY_KEY = "bCn5Jvx2ZOepneH6fMteNoX31hVfqX25";
+
 // ===================== FIREBASE INIT =====================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
