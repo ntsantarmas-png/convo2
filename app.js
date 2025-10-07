@@ -378,6 +378,14 @@ function switchRoom(room) {
 
   // ✅ Θυμήσου ποιο room είναι τώρα
   switchRoom.prev = room;
+// ✅ Reset typing status για το νέο room
+if (auth.currentUser) {
+  const userTypingRef = ref(db, `typing/${room}/${auth.currentUser.uid}`);
+  set(userTypingRef, {
+    name: auth.currentUser.displayName || "Guest",
+    typing: false
+  });
+}
 
   // ===================== TYPING INDICATOR (μέσα στο switchRoom) =====================
   const typingDiv = document.getElementById("typingIndicator");
