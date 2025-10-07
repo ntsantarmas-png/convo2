@@ -224,7 +224,7 @@ body {
   border-radius: 8px;
   border: none;
   resize: none;
-  overflow-y: hidden;       /* 👈 πάντα καθαρό στην αρχή */
+  overflow-y: hidden;          /* 👈 κρυφό αρχικά */
   font-size: 14px;
   outline: none;
   line-height: 1.6;
@@ -232,11 +232,12 @@ body {
   max-height: 70px;
   vertical-align: middle;
   box-sizing: border-box;
-  scrollbar-width: none;    /* 👈 κρύβει scroll στο Firefox */
+  scrollbar-width: none;       /* 👈 κρύβει scroll στον Firefox */
 }
 
+/* Chrome / Edge / Linux */
 #messageInput::-webkit-scrollbar {
-  display: none;            /* 👈 κρύβει scroll στο Chrome/Edge */
+  display: none;               /* 👈 κρύβει scroll οπτικά */
 }
 
 
