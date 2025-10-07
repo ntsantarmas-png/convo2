@@ -115,7 +115,7 @@ onAuthStateChanged(auth, (user) => {
 
 // ===================== CHATGPT-STYLE AUTO-GROW INPUT =====================
 const msgInput = document.getElementById("messageInput");
-const messageForm = document.getElementById("messageForm");
+
 
 if (msgInput) {
   const baseHeight = 40;   // αρχικό ύψος (1 γραμμή)
