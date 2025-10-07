@@ -94,20 +94,47 @@ if (msgInput) {
 }
 
 
-// ===================== RENDER MESSAGES =====================
+// ===================== RENDER MESSAGES (IMPROVED) =====================
 const messagesDiv = document.getElementById("messages");
+
 onAuthStateChanged(auth, (user) => {
   if (!user) return;
+
   const msgRef = ref(db, "v3/messages/" + currentRoom);
   onChildAdded(msgRef, (snap) => {
     const msg = snap.val();
-    const div = document.createElement("div");
-    div.className = "message";
-    div.textContent = `${msg.user}: ${msg.text}`;
-    messagesDiv.appendChild(div);
+    const mine = msg.uid === user.uid;
+
+    // === Bubble ===
+    const bubble = document.createElement("div");
+    bubble.className = mine ? "msg mine" : "msg";
+
+    // === Username ===
+    const name = document.createElement("div");
+    name.className = "msg-user";
+    name.textContent = msg.user || "Guest";
+
+    // === Text ===
+    const text = document.createElement("div");
+    text.className = "msg-text";
+    text.textContent = msg.text;
+
+    // === Timestamp ===
+    const time = document.createElement("div");
+    time.className = "msg-time";
+    const date = new Date(msg.createdAt || Date.now());
+    time.textContent = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+    // === Assemble ===
+    bubble.appendChild(name);
+    bubble.appendChild(text);
+    bubble.appendChild(time);
+
+    messagesDiv.appendChild(bubble);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 });
+
 // ===================== WELCOME BUBBLE =====================
 function showWelcomeBubble(userName) {
   const bubble = document.getElementById("welcomeBubble");
