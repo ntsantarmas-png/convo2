@@ -186,6 +186,7 @@ function switchRoom(room) {
 
 
 // ===================== MESSAGES =====================
+let currentRoom = "general"; // ✅ default room για αποστολή
 
 // === SEND MESSAGE ===
 const messageForm = document.getElementById("messageForm");
