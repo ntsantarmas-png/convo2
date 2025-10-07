@@ -793,6 +793,80 @@ function handleYouTubeLinks(text) {
     playYouTubeVideo(match[1]);
   }
 }
+// ===================== EMOJI PANEL =====================
+const emojiBtn = document.getElementById("emojiBtn");
+const mediaPanel = document.getElementById("mediaPanel");
+const messageInput = document.getElementById("messageInput");
+const messageFormEl = document.getElementById("messageForm");
+
+if (emojiBtn && mediaPanel) {
+  // === Toggle εμφάνισης ===
+  emojiBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isHidden = mediaPanel.classList.toggle("hidden");
+
+    // ✨ Αν άνοιξε → emoji trail
+    if (!isHidden) {
+      createEmojiTrail();
+    }
+  });
+
+  // === Click έξω → κλείσιμο ===
+  document.addEventListener("click", (e) => {
+    if (!mediaPanel.contains(e.target) && e.target !== emojiBtn) {
+      mediaPanel.classList.add("hidden");
+    }
+  });
+
+  // === ESC → κλείσιμο ===
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      mediaPanel.classList.add("hidden");
+    }
+  });
+
+  // === Επιλογή emoji ===
+  mediaPanel.querySelectorAll(".emoji-grid span").forEach((emoji) => {
+    emoji.addEventListener("click", () => {
+      messageInput.value += emoji.textContent;
+      messageInput.focus();
+    });
+  });
+
+  // === Με αποστολή (Send) → κλείσιμο ===
+  if (messageFormEl) {
+    messageFormEl.addEventListener("submit", () => {
+      mediaPanel.classList.add("hidden");
+    });
+  }
+}
+
+// === Εφέ: Emoji Trail ===
+function createEmojiTrail() {
+  const emojis = ["😀", "✨", "🎉", "💫", "🥳", "🌈"];
+  const count = 4;
+  const rect = emojiBtn.getBoundingClientRect();
+
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement("span");
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.className = "emoji-float";
+    el.style.left = rect.left + rect.width / 2 + (Math.random() * 40 - 20) + "px";
+    el.style.top = rect.top + "px";
+    document.body.appendChild(el);
+
+    // Animation
+    setTimeout(() => {
+      el.style.transform = `translateY(${80 + Math.random() * 40}px) scale(0.8) rotate(${Math.random() * 60 - 30}deg)`;
+      el.style.opacity = "0";
+    }, 10);
+
+    // Remove after fade
+    setTimeout(() => el.remove(), 600);
+  }
+}
+
+
 // ===================== HELPERS & EVENTS =====================
 
 // === Γενικό κλείσιμο panels με ESC ===
