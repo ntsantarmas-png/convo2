@@ -12,34 +12,46 @@
     <button id="logoutBtn" class="hidden">Logout</button>
   </header>
 
-  <!-- ===================== AUTH VIEW ===================== -->
-  <main id="authView">
-    <h2>Welcome to Convo</h2>
+<!-- ===================== AUTH VIEW ===================== -->
+<main id="authView">
+  <h2>Welcome to Convo</h2>
+
+  <!-- === AUTH CONTAINER === -->
+  <div class="auth-container">
 
     <!-- === LOGIN === -->
-    <div class="auth-block">
+    <div class="auth-box">
       <h3>Login</h3>
-      <input id="loginEmail" type="email" placeholder="Email">
-      <input id="loginPassword" type="password" placeholder="Password">
+      <input id="loginEmail" type="email" placeholder="Email" />
+      <input id="loginPassword" type="password" placeholder="Password" />
       <button id="loginBtn">Login</button>
-        <button id="forgotPasswordBtn" class="link-btn">Forgot Password?</button>
+      <button id="forgotPasswordBtn" class="link-btn">Forgot Password?</button>
     </div>
 
     <!-- === REGISTER === -->
-    <div class="auth-block">
+    <div class="auth-box">
       <h3>Register</h3>
-      <input id="registerUsername" type="text" placeholder="Username">
-      <input id="registerEmail" type="email" placeholder="Email">
-      <input id="registerPassword" type="password" placeholder="Password">
+      <input id="registerUsername" type="text" placeholder="Username" />
+      <input id="registerEmail" type="email" placeholder="Email" />
+      <input id="registerPassword" type="password" placeholder="Password" />
       <button id="registerBtn">Register</button>
     </div>
 
-    <!-- === GUEST === -->
-    <div class="auth-block">
+    <!-- === GUEST ACCESS === -->
+    <div class="auth-box">
       <h3>Guest Access</h3>
       <button id="guestBtn">Continue as Guest</button>
     </div>
-  </main>
+
+    <!-- === INFO BOX === -->
+    <div class="auth-box info-box">
+      <h3>Convo v3</h3>
+      <p>Simple, fast and friendly chat platform.<br>🎧 Stay connected!</p>
+    </div>
+
+  </div>
+</main>
+
 
   <!-- ===================== APP VIEW ===================== -->
   <main id="appView" class="hidden">
