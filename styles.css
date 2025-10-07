@@ -1281,8 +1281,8 @@ body {
 /* ===================== YOUTUBE PANEL ===================== */
 .youtube-panel {
   position: fixed;
-  top: 60px;     /* 📍 Ρυθμίζεις πόσο πάνω είναι */
-  left: 33%;     /* 📍 Ρυθμίζεις πόσο αριστερά */
+  top: 61px;     /* 📍 Ρυθμίζεις πόσο πάνω είναι */
+  left: 33,5%;     /* 📍 Ρυθμίζεις πόσο αριστερά */
   transform: translateX(-50%);
   width: 480px;
   aspect-ratio: 16 / 9;
