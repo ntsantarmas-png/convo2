@@ -1281,36 +1281,21 @@ body {
 /* ===================== YOUTUBE PANEL ===================== */
 .youtube-panel {
   position: fixed;
-  top: 57px;          /* 📍 Απόσταση από το πάνω μέρος (αν θες πιο πάνω → 60, πιο κάτω → 80) */
-  left: 220px;        /* 📍 Απόσταση από τα rooms (αν θες πιο δεξιά → αύξησε) */
-  width: 340px;       /* 📏 Πλάτος του παραθύρου */
-  height: 200px;      /* 📏 Ύψος */
+  top: 57px;          /* 📍 Απόσταση από το πάνω μέρος (μικρότερο = πιο πάνω) */
+  left: 220px;        /* 📍 Απόσταση από τα rooms (μεγαλύτερο = πιο δεξιά) */
+  width: 340px;       /* 📏 Αρχικό πλάτος */
+  height: 200px;      /* 📏 Αρχικό ύψος */
   z-index: 9999;
   border-radius: 10px;
   overflow: hidden;
-  resize: both;
-  min-width: 300px;
+  resize: both;             /* ✅ Επιτρέπει resize */
+  min-width: 300px;         /* 🔒 Όρια */
   max-width: 700px;
   min-height: 180px;
   max-height: 500px;
   background: #161a20;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
   transition: all 0.25s ease;
-}
-
-
-
-  /* ✅ Επιτρέπει resize από κάτω-δεξιά */
-  resize: both;
-  min-width: 320px;
-  max-width: 800px;
-  min-height: 180px;
-  max-height: 600px;
-
-  cursor: grab; /* default cursor */
-}
-.youtube-panel:active {
-  cursor: grabbing;
 }
 
 /* ✅ Το iframe πιάνει όλο το panel */
@@ -1324,7 +1309,7 @@ body {
   height: 100%;
   border: none;
   display: block;
-  border-radius: 0; /* αν δεν θέλεις στρογγυλεμένες άκρες στο video */
+  border-radius: 0;
 }
 
 /* === Hidden state === */
@@ -1332,7 +1317,7 @@ body {
   display: none;
 }
 
-/* === Κουμπιά === */
+/* === Κουμπί Κλεισίματος === */
 .youtube-panel .close-btn {
   position: absolute;
   top: 8px;
@@ -1354,7 +1339,7 @@ body {
 
 /* === YouTube toggle button (στο topbar) === */
 .yt-toggle-btn {
-  background: #2563eb;        /* μπλε σαν το Send */
+  background: #2563eb;        /* Μπλε σαν το Send */
   border: none;
   color: white;
   padding: 6px 12px;
@@ -1366,39 +1351,7 @@ body {
 }
 
 .yt-toggle-btn:hover {
-  background: #1d4ed8;        /* πιο σκούρο στο hover */
-}
-/* ✅ Floating dark-glass header πάνω στο video */
-.yt-drag-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 28px;
-  background: rgba(20, 20, 20, 0.5);
-  backdrop-filter: blur(8px) saturate(140%);
-  -webkit-backdrop-filter: blur(8px) saturate(140%);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10px;
-  cursor: grab;
-  user-select: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  z-index: 2;
-}
-
-.yt-drag-header:active {
-  cursor: grabbing;
-}
-
-.yt-title {
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.85);
-  letter-spacing: 0.3px;
+  background: #1d4ed8;        /* Πιο σκούρο στο hover */
 }
 
 /* ===================== SYSTEM PANEL ===================== */
