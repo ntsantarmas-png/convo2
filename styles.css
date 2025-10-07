@@ -415,15 +415,6 @@ body {
   flex-shrink: 0;
 }
 
-#messageInput {
-  flex: 1;
-  padding: 8px;
-  border-radius: 8px;
-  border: none;
-  resize: none;
-  font-size: 14px;
-}
-
 #sendBtn {
   background: #2d8cff;
   color: white;
