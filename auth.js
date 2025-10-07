@@ -15,6 +15,24 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
   if (!email || !pass) return alert("⚠️ Fill all fields");
   await signInWithEmailAndPassword(auth, email, pass).catch(err => alert(err.message));
 });
+// === FORGOT PASSWORD ===
+const forgotBtn = document.getElementById("forgotPasswordBtn");
+if (forgotBtn) {
+  forgotBtn.addEventListener("click", async () => {
+    const email = document.getElementById("loginEmail").value.trim();
+    if (!email) {
+      alert("⚠️ Please enter your email first!");
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      alert("📧 Password reset email sent! Check your inbox.");
+    } catch (err) {
+      alert("❌ " + err.message);
+    }
+  });
+}
+
 
 // === REGISTER ===
 document.getElementById("registerBtn").addEventListener("click", async () => {
