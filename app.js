@@ -112,39 +112,18 @@ onAuthStateChanged(auth, (user) => {
   });
 });
 
-// ===================== AUTO-GROW MESSAGE INPUT (INSTANT SCROLL) =====================
+// ===================== AUTO-GROW MESSAGE INPUT (STEALTH SCROLL) =====================
 const msgInput = document.getElementById("messageInput");
 
 if (msgInput) {
-  const baseHeight = 40; // αρχικό ύψος 1 γραμμής
-  const maxHeight = 70;  // μέγιστο ύψος ~2 γραμμές
+  const baseHeight = 40; // αρχικό ύψος (1 γραμμή)
+  const maxHeight = 120; // μέγιστο ύψος (περίπου 3 γραμμές)
 
-  // αρχικές τιμές
   msgInput.style.height = baseHeight + "px";
-  msgInput.style.overflowY = "hidden";
 
   msgInput.addEventListener("input", () => {
-    // Αν είναι άδειο -> καθάρισε ύψος & scroll
-    if (msgInput.value.trim() === "") {
-      msgInput.style.height = baseHeight + "px";
-      msgInput.style.overflowY = "hidden";
-      return;
-    }
-
-    // Επαναφορά ύψους πριν από νέο υπολογισμό
     msgInput.style.height = baseHeight + "px";
-
-    // Υπολογισμός νέου ύψους
     const newHeight = Math.min(msgInput.scrollHeight, maxHeight);
-
-    // Αν χρειάζεται scroll -> άνοιξε, αλλιώς κρύψε
-    if (msgInput.scrollHeight > maxHeight) {
-      msgInput.style.overflowY = "auto";
-    } else {
-      msgInput.style.overflowY = "hidden";
-    }
-
-    // Εφαρμογή νέου ύψους
     msgInput.style.height = newHeight + "px";
   });
 }
