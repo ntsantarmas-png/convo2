@@ -328,7 +328,8 @@ if (newMessagesIndicator) {
   });
 }
 
-// ===================== SWITCH ROOM (FIXED) =====================
+
+// ===================== SWITCH ROOM (WITH TYPING BUILT-IN) =====================
 function switchRoom(room) {
   // 🧠 Αν είναι ήδη στο ίδιο room, μην κάνεις τίποτα
   if (room === switchRoom.prev) return;
@@ -347,20 +348,20 @@ function switchRoom(room) {
   // 🧠 Επαναφορά αποθηκευμένου κειμένου για το νέο room
   if (inputEl) {
     inputEl.value = inputMemory[room] || "";
-    inputEl.style.height = "40px";
+    inputEl.style.height = "40px"; // reset ύψους για auto-grow
   }
 
-  document.getElementById("roomTitle").textContent = "#" + room;
+  // 🏷️ Ενημέρωσε τον τίτλο δωματίου
+  const titleEl = document.getElementById("roomTitle");
+  if (titleEl) titleEl.textContent = "#" + room;
 
-  // ✅ Φόρτωση μηνυμάτων + typing indicator
+  // ✅ Φόρτωση μηνυμάτων
   renderMessages(room);
-  watchTyping(room);
 
   // === JOIN / LEAVE system messages ===
   const user = auth.currentUser;
   if (!user) return;
 
-  // 🔴 Αν υπήρχε προηγούμενο room, στείλε leave message
   if (switchRoom.prev && switchRoom.prev !== room) {
     push(ref(db, "messages/" + switchRoom.prev), {
       system: true,
@@ -369,29 +370,53 @@ function switchRoom(room) {
     });
   }
 
-  // 🟢 Αν είναι νέο room (όχι ίδιο με πριν)
   push(ref(db, "messages/" + room), {
     system: true,
     text: `🟢 ${user.displayName || "Guest"} joined the room`,
     createdAt: Date.now()
   });
 
-  // ✅ Θυμήσου το τελευταίο room
+  // ✅ Θυμήσου ποιο room είναι τώρα
   switchRoom.prev = room;
+
+  // ===================== TYPING INDICATOR (μέσα στο switchRoom) =====================
+  const typingDiv = document.getElementById("typingIndicator");
+  const roomTypingRef = ref(db, `typing/${room}`);
+
+  // Καθαρίζει παλιούς listeners πριν βάλει καινούργιο
+  off(roomTypingRef);
+
+  onValue(roomTypingRef, (snap) => {
+    const typers = [];
+    snap.forEach(child => {
+      const t = child.val();
+      if (t.typing) typers.push(t.name);
+    });
+
+    if (typers.length > 0) {
+      typingDiv.textContent =
+        typers.length === 1
+          ? `${typers[0]} is typing...`
+          : `${typers.join(", ")} are typing...`;
+      typingDiv.classList.remove("hidden");
+    } else {
+      typingDiv.classList.add("hidden");
+    }
+  });
 }
 
 
 
-// ===================== RENDER MESSAGES (Optimized + FIX) =====================
+// ===================== RENDER MESSAGES (STABLE FINAL) =====================
 function renderMessages(room) {
   const messagesRef = ref(db, "messages/" + room);
   const messagesDiv = document.getElementById("messages");
   if (!messagesDiv) return;
 
-  // ✅ 1. Καθάρισε ΠΑΛΙΟΥΣ listeners πριν βάλεις νέο
+  // ✅ 1. Καθάρισε παλιούς listeners για να μην διπλασιάζονται
   off(messagesRef);
 
-  // ✅ 2. Καθάρισε μία φορά το chat
+  // ✅ 2. Καθάρισε το chat πριν ξεκινήσεις
   messagesDiv.innerHTML = "";
 
   onValue(messagesRef, (snap) => {
@@ -407,10 +432,12 @@ function renderMessages(room) {
       const messageDiv = document.createElement("div");
       messageDiv.className = "message";
       messageDiv.dataset.id = msgId;
+
       if (msg.system) messageDiv.classList.add("system");
       if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid)
         messageDiv.classList.add("mine");
 
+      // === SYSTEM MESSAGE ===
       if (msg.system) {
         const bubble = document.createElement("div");
         bubble.className = "message-bubble system";
@@ -424,6 +451,7 @@ function renderMessages(room) {
       avatarDiv.className = "message-avatar";
       const img = document.createElement("img");
       img.src = msg.photoURL || "https://i.pravatar.cc/150?u=" + (msg.uid || msg.user);
+      img.alt = "avatar";
       avatarDiv.appendChild(img);
 
       // === Content ===
@@ -443,7 +471,7 @@ function renderMessages(room) {
         const line1 = document.createElement("div");
         line1.className = "msg-line1";
 
-        // === YouTube Check (με τίτλο) ===
+        // 🎵 YouTube Link Check
         const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
         const match = msg.text.match(ytRegex);
 
@@ -457,6 +485,8 @@ function renderMessages(room) {
           line1.appendChild(link);
         } else {
           line1.textContent = msg.text;
+
+          // 😎 Emoji-only check
           if (isEmojiOnly(msg.text)) {
             const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
             bubbleDiv.classList.add("emoji-only");
@@ -478,6 +508,24 @@ function renderMessages(room) {
         contentDiv.appendChild(bubbleDiv);
       }
 
+      // === GIF ===
+      if (msg.gif) {
+        const gifEl = document.createElement("img");
+        gifEl.src = msg.gif;
+        gifEl.alt = "GIF";
+        gifEl.className = "chat-gif";
+        contentDiv.appendChild(gifEl);
+      }
+
+      // === STICKER ===
+      if (msg.sticker) {
+        const stickerEl = document.createElement("img");
+        stickerEl.src = msg.sticker;
+        stickerEl.alt = "Sticker";
+        stickerEl.className = "chat-sticker";
+        contentDiv.appendChild(stickerEl);
+      }
+
       messageDiv.appendChild(avatarDiv);
       messageDiv.appendChild(contentDiv);
       messagesDiv.appendChild(messageDiv);
@@ -489,7 +537,6 @@ function renderMessages(room) {
     }
   });
 }
-
 
 
 // ===================== TOGGLE YOUTUBE BUTTON =====================
