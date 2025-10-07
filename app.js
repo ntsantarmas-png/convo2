@@ -22,7 +22,7 @@ const auth = getAuth(app);
 
 let currentRoom = "general";
 
-// ===================== SEND MESSAGE (FIXED & CLEAN) =====================
+// ===================== SEND MESSAGE (FINAL CLEAN FIX) =====================
 const messageForm = document.getElementById("messageForm");
 const input = document.getElementById("messageInput");
 
@@ -60,9 +60,10 @@ if (messageForm) {
         createdAt: serverTimestamp(),
       });
 
-      // ✅ καθαρισμός input μετά το push
+      // ✅ Καθαρισμός input και reset ύψους
       input.value = "";
       input.style.height = "auto";
+      input.scrollTop = 0; // 👈 Επαναφορά scroll
       input.focus();
     } catch (err) {
       console.error("Message send error:", err);
