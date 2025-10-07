@@ -743,12 +743,15 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.4);
   transition: transform 0.15s;
   display: inline-block;
+  text-align: left;          /* ✅ πρόσθεσε αυτό */
+  vertical-align: top;       /* ✅ και αυτό */
   min-width: 50px;
   white-space: pre-wrap;
   overflow-wrap: break-word;
   word-break: break-word;
   animation: popIn 0.25s ease-out;
 }
+
 
 .message-bubble:hover {
   transform: scale(1.03);
