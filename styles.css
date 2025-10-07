@@ -1280,9 +1280,9 @@ body {
 
 /* ===================== YOUTUBE PANEL ===================== */
 .youtube-panel {
-  position: fixed; /* ✅ τώρα μετρά ως προς όλο το παράθυρο */
-  top: 120px;
-  left: 50%;
+  position: fixed;
+  top: 80px;     /* 📍 Ρυθμίζεις πόσο πάνω είναι */
+  left: 40%;     /* 📍 Ρυθμίζεις πόσο αριστερά */
   transform: translateX(-50%);
   width: 480px;
   aspect-ratio: 16 / 9;
@@ -1297,6 +1297,7 @@ body {
   background: transparent;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
 }
+
 
   /* ✅ Επιτρέπει resize από κάτω-δεξιά */
   resize: both;
