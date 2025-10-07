@@ -13,7 +13,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 
-// 👉 Firebase Config από το Convo2 project
+// π Firebase Config Ξ±ΟΟ ΟΞΏ Convo2 project
 const firebaseConfig = {
   apiKey: "AIzaSyBEiZEcY54mFT7OnrfCv0t3sPo33DthcZ4",
   authDomain: "convo2-4a075.firebaseapp.com",
@@ -35,7 +35,7 @@ const appView = document.getElementById("app");
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    // ✅ Logged in
+    // β Logged in
     authView.classList.add("hidden");
     appView.classList.remove("hidden");
 
@@ -51,7 +51,7 @@ setupAddCoinsButton(user);
 
 
   } else {
-    // ❌ Not logged in
+    // β Not logged in
     authView.classList.remove("hidden");
     appView.classList.add("hidden");
   }
@@ -64,37 +64,42 @@ function setupPresence(user) {
   onValue(presenceRef, (snap) => {
     if (!snap.val()) return;
 
-    // 🔻 Όταν φύγει
+    // π» Ξ€ΞΉ Ξ½Ξ± Ξ³Ξ―Ξ½Ξ΅ΞΉ Ξ±Ξ½ Ξ±ΟΞΏΟΟΞ½Ξ΄Ξ΅ΞΈΞ΅Ξ― (offline)
     onDisconnect(userRef).update({
       online: false,
       lastSeen: Date.now()
     });
 
-    // 🔹 Ενημέρωση ρόλου & παρουσίας
+    // πΉ ΞΞΉΞ¬Ξ²Ξ±ΟΞ΅ ΟΟΟΟΞ± ΟΞΉ ΟΟΞ¬ΟΟΞ΅ΞΉ Ξ�Ξ΄Ξ·
     get(userRef).then(userSnap => {
       const existing = userSnap.val() || {};
+
+      // === Role Logic ===
       let role = existing.role || "user";
       if (user.isAnonymous) role = "guest";
-      if (user.displayName === "MysteryMan") role = "admin";
+      if (user.displayName === "MysteryMan") role = "admin"; // β auto-lock admin
 
+      // === ΞΞ½Ξ·ΞΌΞ­ΟΟΟΞ· ΟΟΞΏΞΉΟΞ΅Ξ―ΟΞ½ ΟΟΟΞ―Ο overwrite ΟΞΏΟ role ===
       update(userRef, {
         uid: user.uid,
         displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
         photoURL: user.photoURL || null,
         role: role,
         online: true,
-        coins: existing.coins ?? 0
-      }).then(() => {
-        console.log("📡 Presence sync:", user.displayName, "| role:", role);
-      }).catch(err => {
-        console.error("❌ Presence role sync failed:", err);
+        coins: existing.coins ?? 0 // π auto-create coins field
+      })
+      .then(() => {
+        console.log("π‘ Presence sync:", user.displayName, "| role:", role);
+      })
+      .catch(err => {
+        console.error("β Presence role sync failed:", err);
       });
-    });
-  });
-}
+    }); // π ΞΊΞ»Ξ΅Ξ―Ξ½Ξ΅ΞΉ ΟΞΏ get(userRef).then(...)
+  }); // π ΞΊΞ»Ξ΅Ξ―Ξ½Ξ΅ΞΉ ΟΞΏ onValue(...)
+} // π ΞΊΞ»Ξ΅Ξ―Ξ½Ξ΅ΞΉ Ξ· function setupPresence
 
 // ===================== COINS SYNC (LIVE) =====================
-let coinsUnsubscribe = null; // κρατάμε τον προηγούμενο listener
+let coinsUnsubscribe = null; // ΞΊΟΞ±ΟΞ¬ΞΌΞ΅ ΟΞΏΞ½ ΟΟΞΏΞ·Ξ³ΞΏΟΞΌΞ΅Ξ½ΞΏ listener
 
 function setupCoinsSync(uid) {
   if (!uid) return;
@@ -103,14 +108,14 @@ function setupCoinsSync(uid) {
   const coinsEl = document.getElementById("profileCoins");
   if (!coinsEl) return;
 
-  // Αν υπάρχει προηγούμενος listener, τον αποσυνδέουμε
+  // ΞΞ½ ΟΟΞ¬ΟΟΞ΅ΞΉ ΟΟΞΏΞ·Ξ³ΞΏΟΞΌΞ΅Ξ½ΞΏΟ listener, ΟΞΏΞ½ Ξ±ΟΞΏΟΟΞ½Ξ΄Ξ­ΞΏΟΞΌΞ΅
   if (coinsUnsubscribe) coinsUnsubscribe();
 
-  // Δημιουργούμε νέο listener
+  // ΞΞ·ΞΌΞΉΞΏΟΟΞ³ΞΏΟΞΌΞ΅ Ξ½Ξ­ΞΏ listener
   const unsubscribe = onValue(coinsRef, (snap) => {
     const val = snap.exists() ? snap.val() : 0;
     coinsEl.textContent = val;
-    console.log("💎 Coins sync update:", uid, val);
+    console.log("π Coins sync update:", uid, val);
   });
 
   coinsUnsubscribe = unsubscribe;
@@ -122,7 +127,7 @@ function setupAddCoinsButton(user) {
   const btn = document.getElementById("addCoinsBtn");
   if (!btn) return;
 
-  // 💎 Εμφανίζεται μόνο αν είσαι ο MysteryMan
+  // π ΞΞΌΟΞ±Ξ½Ξ―ΞΆΞ΅ΟΞ±ΞΉ ΞΌΟΞ½ΞΏ Ξ±Ξ½ Ξ΅Ξ―ΟΞ±ΞΉ ΞΏ MysteryMan
   if (user.displayName === "MysteryMan") {
     btn.classList.remove("hidden");
   } else {
@@ -130,17 +135,17 @@ function setupAddCoinsButton(user) {
     return;
   }
 
-  // 🔄 Καθάρισε παλιό listener
+  // π ΞΞ±ΞΈΞ¬ΟΞΉΟΞ΅ ΟΞ±Ξ»ΞΉΟ listener
   const newBtn = btn.cloneNode(true);
   btn.parentNode.replaceChild(newBtn, btn);
 
-  // ➕ Νέος listener
+  // β ΞΞ­ΞΏΟ listener
   newBtn.addEventListener("click", async () => {
     const panel = document.getElementById("profilePanel");
     const targetUid = panel?.dataset.viewingUid || user.uid;
 
     const amount = parseInt(
-      prompt("💎 Πόσα coins να προσθέσεις;", "100"),
+      prompt("π Ξ ΟΟΞ± coins Ξ½Ξ± ΟΟΞΏΟΞΈΞ­ΟΞ΅ΞΉΟ;", "100"),
       10
     );
     if (isNaN(amount) || amount <= 0) return;
@@ -151,11 +156,11 @@ function setupAddCoinsButton(user) {
 
     await set(targetRef, currentCoins + amount);
 
-    // Μήνυμα επιτυχίας
+    // ΞΞ�Ξ½ΟΞΌΞ± Ξ΅ΟΞΉΟΟΟΞ―Ξ±Ο
     if (targetUid === user.uid) {
-      alert(`✅ Πρόσθεσες ${amount} coins στον εαυτό σου!`);
+      alert(`β Ξ ΟΟΟΞΈΞ΅ΟΞ΅Ο ${amount} coins ΟΟΞΏΞ½ Ξ΅Ξ±ΟΟΟ ΟΞΏΟ!`);
     } else {
-      alert(`✅ Πρόσθεσες ${amount} coins στον χρήστη!`);
+      alert(`β Ξ ΟΟΟΞΈΞ΅ΟΞ΅Ο ${amount} coins ΟΟΞΏΞ½ ΟΟΞ�ΟΟΞ·!`);
     }
   });
 }
@@ -165,30 +170,30 @@ document.addEventListener("DOMContentLoaded", () => {
   let addCoinsUserBtn = document.getElementById("addCoinsUser");
 
   if (addCoinsUserBtn) {
-    // Καθάρισε προηγούμενους listeners
+    // ΞΞ±ΞΈΞ¬ΟΞΉΟΞ΅ ΟΟΞΏΞ·Ξ³ΞΏΟΞΌΞ΅Ξ½ΞΏΟΟ listeners
     const newBtn = addCoinsUserBtn.cloneNode(true);
     addCoinsUserBtn.parentNode.replaceChild(newBtn, addCoinsUserBtn);
     addCoinsUserBtn = newBtn;
 
     addCoinsUserBtn.addEventListener("click", async () => {
       if (!contextTargetUid) {
-        alert("⚠️ No user selected!");
+        alert("β οΈ No user selected!");
         return;
       }
 
       const currentUser = auth.currentUser;
       if (!currentUser || currentUser.displayName !== "MysteryMan") {
-        alert("❌ Μόνο ο MysteryMan μπορεί να δώσει coins!");
+        alert("β ΞΟΞ½ΞΏ ΞΏ MysteryMan ΞΌΟΞΏΟΞ΅Ξ― Ξ½Ξ± Ξ΄ΟΟΞ΅ΞΉ coins!");
         userContextMenu.classList.add("hidden");
         return;
       }
 
       const addAmount = parseInt(
-        prompt("💎 Πόσα coins να προσθέσω σε αυτόν τον χρήστη;", "50"),
+        prompt("π Ξ ΟΟΞ± coins Ξ½Ξ± ΟΟΞΏΟΞΈΞ­ΟΟ ΟΞ΅ Ξ±ΟΟΟΞ½ ΟΞΏΞ½ ΟΟΞ�ΟΟΞ·;", "50"),
         10
       );
       if (isNaN(addAmount) || addAmount <= 0) {
-        alert("❌ Άκυρο ποσό!");
+        alert("β ΞΞΊΟΟΞΏ ΟΞΏΟΟ!");
         userContextMenu.classList.add("hidden");
         return;
       }
@@ -203,8 +208,8 @@ document.addEventListener("DOMContentLoaded", () => {
           coins: currentCoins + addAmount
         });
 
-        console.log(`💎 Admin added ${addAmount} coins to UID: ${contextTargetUid}`);
-        alert(`✅ Προστέθηκαν ${addAmount} coins!`);
+        console.log(`π Admin added ${addAmount} coins to UID: ${contextTargetUid}`);
+        alert(`β Ξ ΟΞΏΟΟΞ­ΞΈΞ·ΞΊΞ±Ξ½ ${addAmount} coins!`);
 
         const logRef = push(ref(db, "adminLogs"));
         await set(logRef, {
@@ -222,8 +227,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
       } catch (err) {
-        console.error("❌ Add coins to user failed:", err);
-        alert("❌ Αποτυχία προσθήκης coins.");
+        console.error("β Add coins to user failed:", err);
+        alert("β ΞΟΞΏΟΟΟΞ―Ξ± ΟΟΞΏΟΞΈΞ�ΞΊΞ·Ο coins.");
       }
 
       userContextMenu.classList.add("hidden");
@@ -239,7 +244,7 @@ async function renderRooms() {
 
   roomsList.innerHTML = "";
 
-  // Σιγουρευόμαστε ότι υπάρχουν τα default rooms
+  // Ξ£ΞΉΞ³ΞΏΟΟΞ΅ΟΟΞΌΞ±ΟΟΞ΅ ΟΟΞΉ ΟΟΞ¬ΟΟΞΏΟΞ½ ΟΞ± default rooms
   await Promise.all(defaultRooms.map(async (roomName) => {
     const snap = await get(child(ref(db), `rooms/${roomName}`));
     if (!snap.exists()) {
@@ -250,7 +255,7 @@ async function renderRooms() {
     }
   }));
 
-  // ✅ Καθαρίζουμε τυχόν παλιούς listeners πριν βάλουμε καινούργιο
+  // β ΞΞ±ΞΈΞ±ΟΞ―ΞΆΞΏΟΞΌΞ΅ ΟΟΟΟΞ½ ΟΞ±Ξ»ΞΉΞΏΟΟ listeners ΟΟΞΉΞ½ Ξ²Ξ¬Ξ»ΞΏΟΞΌΞ΅ ΞΊΞ±ΞΉΞ½ΞΏΟΟΞ³ΞΉΞΏ
   const roomsRef = ref(db, "rooms");
   off(roomsRef);
 
@@ -267,7 +272,7 @@ async function renderRooms() {
   });
 }
 
-// Νέο room button
+// ΞΞ­ΞΏ room button
 const newRoomBtn = document.getElementById("newRoomBtn");
 if (newRoomBtn) {
   newRoomBtn.addEventListener("click", async () => {
@@ -277,7 +282,7 @@ if (newRoomBtn) {
     const roomRef = ref(db, "rooms/" + name);
     const snap = await get(roomRef);
     if (snap.exists()) {
-      alert("⚠️ Το room υπάρχει ήδη!");
+      alert("β οΈ Ξ€ΞΏ room ΟΟΞ¬ΟΟΞ΅ΞΉ Ξ�Ξ΄Ξ·!");
       return;
     }
 
@@ -309,17 +314,14 @@ if (toggleUsersBtn && usersPanel) {
 
 // ===================== CHAT =====================
 let currentRoom = "general";
-// 🧠 Input memory ανά room
-const inputMemory = {};
-
 // Typing indicator reference
 let typingRef;
 let typingTimeout;
 
-// 👇 Indicator reference (κρατάμε το element για μελλοντική χρήση)
+// π Indicator reference (ΞΊΟΞ±ΟΞ¬ΞΌΞ΅ ΟΞΏ element Ξ³ΞΉΞ± ΞΌΞ΅Ξ»Ξ»ΞΏΞ½ΟΞΉΞΊΞ� ΟΟΞ�ΟΞ·)
 const newMessagesIndicator = document.getElementById("newMessagesIndicator");
 
-// Κάνε το clickable -> πάει στο τέλος (θα δουλέψει μόνο manual)
+// ΞΞ¬Ξ½Ξ΅ ΟΞΏ clickable -> ΟΞ¬Ξ΅ΞΉ ΟΟΞΏ ΟΞ­Ξ»ΞΏΟ (ΞΈΞ± Ξ΄ΞΏΟΞ»Ξ­ΟΞ΅ΞΉ ΞΌΟΞ½ΞΏ manual)
 if (newMessagesIndicator) {
   newMessagesIndicator.addEventListener("click", () => {
     const messagesDiv = document.getElementById("messages");
@@ -328,71 +330,15 @@ if (newMessagesIndicator) {
   });
 }
 
-
-// ===================== SWITCH ROOM (WITH TYPING BUILT-IN) =====================
 function switchRoom(room) {
-  // 🧠 Αν είναι ήδη στο ίδιο room, μην κάνεις τίποτα
-  if (room === switchRoom.prev) return;
-
-  const messagesDiv = document.getElementById("messages");
-  if (messagesDiv) messagesDiv.innerHTML = "";
-
-  // 💾 Αποθήκευσε ό,τι έχει γραφτεί στο input του προηγούμενου room
-  const inputEl = document.getElementById("messageInput");
-  if (inputEl && switchRoom.prev) {
-    inputMemory[switchRoom.prev] = inputEl.value;
-  }
-
   currentRoom = room;
-
-  // 🧠 Επαναφορά αποθηκευμένου κειμένου για το νέο room
-  if (inputEl) {
-    inputEl.value = inputMemory[room] || "";
-    inputEl.style.height = "40px"; // reset ύψους για auto-grow
-  }
-
-  // 🏷️ Ενημέρωσε τον τίτλο δωματίου
-  const titleEl = document.getElementById("roomTitle");
-  if (titleEl) titleEl.textContent = "#" + room;
-
-  // ✅ Φόρτωση μηνυμάτων
-  renderMessages(room);
-
-  // === JOIN / LEAVE system messages ===
-  const user = auth.currentUser;
-  if (!user) return;
-
-  if (switchRoom.prev && switchRoom.prev !== room) {
-    push(ref(db, "messages/" + switchRoom.prev), {
-      system: true,
-      text: `🔴 ${user.displayName || "Guest"} left the room`,
-      createdAt: Date.now()
-    });
-  }
-
-  push(ref(db, "messages/" + room), {
-    system: true,
-    text: `🟢 ${user.displayName || "Guest"} joined the room`,
-    createdAt: Date.now()
-  });
-
-  // ✅ Θυμήσου ποιο room είναι τώρα
-  switchRoom.prev = room;
-// ✅ Reset typing status για το νέο room
-if (auth.currentUser) {
-  const userTypingRef = ref(db, `typing/${room}/${auth.currentUser.uid}`);
-  set(userTypingRef, {
-    name: auth.currentUser.displayName || "Guest",
-    typing: false
-  });
+  document.getElementById("roomTitle").textContent = "#" + room;
+    renderMessages(room);
+  watchTyping(room); // π Ξ΅Ξ΄Ο ΞΌΟΞ±Ξ―Ξ½Ξ΅ΞΉ Ξ· ΟΟΞ½Ξ΄Ξ΅ΟΞ·
 }
-
-  // ===================== TYPING INDICATOR (μέσα στο switchRoom) =====================
+function watchTyping(room) {
   const typingDiv = document.getElementById("typingIndicator");
   const roomTypingRef = ref(db, `typing/${room}`);
-
-  // Καθαρίζει παλιούς listeners πριν βάλει καινούργιο
-  off(roomTypingRef);
 
   onValue(roomTypingRef, (snap) => {
     const typers = [];
@@ -413,19 +359,31 @@ if (auth.currentUser) {
   });
 }
 
+// === Helper: check if message is only emoji ===
+function isEmojiOnly(text) {
+  // Regex ΟΞΏΟ ΟΞΉΞ¬Ξ½Ξ΅ΞΉ emoji (ΟΞΉΞΏ Ξ±ΟΞ»Ο ΞΊΞ±ΞΉ safe)
+  const emojiRegex = /[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu;
+  const matches = text.match(emojiRegex);
+
+  if (!matches) return false;
+
+  // Trim Ξ³ΞΉΞ± Ξ½Ξ± Ξ²Ξ³Ξ¬Ξ»ΞΏΟΞΌΞ΅ ΟΟΟΟΞ½ ΞΊΞ΅Ξ½Ξ¬
+  const stripped = text.trim();
+
+  // ΞΞ»Ξ­Ξ³ΟΞΏΟΞΌΞ΅ ΟΟΞΉ ΟΞ»ΞΏ ΟΞΏ string Ξ΅Ξ―Ξ½Ξ±ΞΉ ΞΌΟΞ½ΞΏ emoji
+  return matches.join('') === stripped;
+}
 
 
-// ===================== RENDER MESSAGES (STABLE FINAL) =====================
+// ===================== RENDER MESSAGES (Optimized) =====================
 function renderMessages(room) {
   const messagesRef = ref(db, "messages/" + room);
   const messagesDiv = document.getElementById("messages");
   if (!messagesDiv) return;
 
-  // ✅ 1. Καθάρισε παλιούς listeners για να μην διπλασιάζονται
-  off(messagesRef);
-
-  // ✅ 2. Καθάρισε το chat πριν ξεκινήσεις
+  // ΞΞ±ΞΈΞ±ΟΞ―ΞΆΞ΅ΞΉ ΞΌΟΞ½ΞΏ ΞΞΞ ΟΞΏΟΞ¬ ΟΟΞ·Ξ½ Ξ±Ξ»Ξ»Ξ±Ξ³Ξ� room
   messagesDiv.innerHTML = "";
+  off(messagesRef);
 
   onValue(messagesRef, (snap) => {
     const existingIds = new Set(
@@ -435,28 +393,22 @@ function renderMessages(room) {
     snap.forEach(childSnap => {
       const msgId = childSnap.key;
       const msg = childSnap.val();
-      if (existingIds.has(msgId)) return;
+      if (existingIds.has(msgId)) return; // β ΞΞ·Ξ½ ΞΎΞ±Ξ½Ξ±ΟΟΞΏΟΞΈΞ­ΟΞ΅ΞΉΟ ΟΟΞ¬ΟΟΞΏΞ½ ΞΌΞ�Ξ½ΟΞΌΞ±
 
+      // === Container ===
       const messageDiv = document.createElement("div");
       messageDiv.className = "message";
       messageDiv.dataset.id = msgId;
 
-      if (msg.system) messageDiv.classList.add("system");
-      if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid)
+      // ΞΞ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ ΟΞΏ Ξ΄ΞΉΞΊΟ ΞΌΞΏΟ uid -> Ξ²Ξ¬Ξ»Ξ΅ class "mine"
+      if (msg.uid && auth.currentUser && msg.uid === auth.currentUser.uid) {
         messageDiv.classList.add("mine");
-
-      // === SYSTEM MESSAGE ===
-      if (msg.system) {
-        const bubble = document.createElement("div");
-        bubble.className = "message-bubble system";
-        bubble.innerHTML = msg.text;
-        messagesDiv.appendChild(bubble);
-        return;
       }
 
       // === Avatar ===
       const avatarDiv = document.createElement("div");
       avatarDiv.className = "message-avatar";
+
       const img = document.createElement("img");
       img.src = msg.photoURL || "https://i.pravatar.cc/150?u=" + (msg.uid || msg.user);
       img.alt = "avatar";
@@ -466,6 +418,7 @@ function renderMessages(room) {
       const contentDiv = document.createElement("div");
       contentDiv.className = "message-content";
 
+      // Username (ΟΞ¬Ξ½Ο Ξ±ΟΟ ΟΞΏ bubble)
       const userDiv = document.createElement("div");
       userDiv.className = "message-user";
       userDiv.textContent = msg.user || "Anon";
@@ -476,38 +429,52 @@ function renderMessages(room) {
         const bubbleDiv = document.createElement("div");
         bubbleDiv.className = "message-bubble";
 
+        // ΞΟΞ±ΞΌΞΌΞ� 1: Text
         const line1 = document.createElement("div");
         line1.className = "msg-line1";
 
-        // 🎵 YouTube Link Check
+        // === YouTube Embed Check ===
         const ytRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
         const match = msg.text.match(ytRegex);
 
         if (match) {
           const videoId = match[1];
-          const videoTitle = msg.title || "YouTube Video";
-          const link = document.createElement("a");
-          link.href = `https://youtu.be/${videoId}`;
-          link.textContent = `🎵 ${msg.user || "Someone"} is playing: ${videoTitle}`;
-          link.target = "_blank";
-          line1.appendChild(link);
+          const youtubePanel = document.getElementById("youtubePanel");
+          if (youtubePanel) {
+            const wrapper = youtubePanel.querySelector(".video-wrapper");
+            wrapper.innerHTML = `
+              <iframe 
+                src="https://www.youtube.com/embed/${videoId}" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+              </iframe>
+            `;
+            youtubePanel.classList.remove("hidden");
+          }
+          line1.textContent = ""; // β ΞΞ·Ξ½ Ξ΄Ξ΅Ξ―ΞΎΞ΅ΞΉΟ URL
         } else {
+          // β ΞΞ±Ξ½ΞΏΞ½ΞΉΞΊΞ¬ ΞΌΞ·Ξ½ΟΞΌΞ±ΟΞ±
           line1.textContent = msg.text;
 
-          // 😎 Emoji-only check
+          // β Emoji-only check
           if (isEmojiOnly(msg.text)) {
             const emojiCount = msg.text.match(/\p{Extended_Pictographic}/gu).length;
             bubbleDiv.classList.add("emoji-only");
-            if (emojiCount <= 2) bubbleDiv.classList.add("big");
+            if (emojiCount <= 2) {
+              bubbleDiv.classList.add("big");
+            }
           }
         }
 
+        // ΞΟΞ±ΞΌΞΌΞ� 2: Date + Time
         const line2 = document.createElement("div");
         line2.className = "msg-line2";
         if (msg.createdAt) {
           const date = new Date(msg.createdAt);
           line2.textContent =
-            date.toLocaleDateString() + " - " +
+            date.toLocaleDateString() +
+            " - " +
             date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         }
 
@@ -534,12 +501,13 @@ function renderMessages(room) {
         contentDiv.appendChild(stickerEl);
       }
 
+      // === Put together ===
       messageDiv.appendChild(avatarDiv);
       messageDiv.appendChild(contentDiv);
       messagesDiv.appendChild(messageDiv);
     });
 
-    // ✅ Scroll κάτω μόνο αν είσαι ήδη χαμηλά
+    // β Scroll ΞΌΟΞ½ΞΏ Ξ±Ξ½ Ξ΅Ξ―ΟΞ±ΞΉ Ξ�Ξ΄Ξ· ΞΊΞ¬ΟΟ
     if (messagesDiv.scrollHeight - messagesDiv.scrollTop <= messagesDiv.clientHeight + 100) {
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
@@ -547,6 +515,41 @@ function renderMessages(room) {
 }
 
 
+
+// === Message form ===
+const messageForm = document.getElementById("messageForm");
+if (messageForm) {
+  messageForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const input = document.getElementById("messageInput");
+    const text = input.value.trim();
+    if (!text) return;
+
+    const user = auth.currentUser;
+
+    // π Check mute
+    const muteSnap = await get(ref(db, "mutes/" + user.uid));
+    if (muteSnap.exists()) {
+      alert("β οΈ ΞΞ―ΟΞ±ΞΉ muted ΞΊΞ±ΞΉ Ξ΄Ξ΅Ξ½ ΞΌΟΞΏΟΞ΅Ξ―Ο Ξ½Ξ± ΟΟΞ΅Ξ―Ξ»Ξ΅ΞΉΟ ΞΌΞ·Ξ½ΟΞΌΞ±ΟΞ±.");
+      return;
+    }
+
+    // ΞΞ½ Ξ΄Ξ΅Ξ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ muted β ΟΟΞ­Ξ»Ξ½Ξ΅ΞΉ ΞΊΞ±Ξ½ΞΏΞ½ΞΉΞΊΞ¬
+    await push(ref(db, "messages/" + currentRoom), {
+      uid: user?.uid,
+      user: user?.displayName || "Guest",
+      text,
+      createdAt: serverTimestamp()
+    });
+
+    // π ΞΞ»Ξ΅Ξ―ΟΞ΅ ΟΞΏ emoji panel ΞΞΞΞ ΞΌΞ΅ΟΞ¬ ΟΞ·Ξ½ Ξ±ΟΞΏΟΟΞΏΞ»Ξ�
+    closeEmojiPanel();
+
+    input.value = "";
+    input.style.height = "40px"; // π reset ΟΟΞΏ default ΟΟΞΏΟ
+    input.focus();
+  });
+}
 // ===================== TOGGLE YOUTUBE BUTTON =====================
 const toggleYoutubeBtn = document.getElementById("toggleYoutubeBtn");
 
@@ -555,9 +558,9 @@ if (toggleYoutubeBtn) {
     youtubePanel.classList.toggle("hidden");
 
     if (youtubePanel.classList.contains("hidden")) {
-      toggleYoutubeBtn.textContent = "YouTube";   // όταν είναι κλειστό
+      toggleYoutubeBtn.textContent = "YouTube";   // ΟΟΞ±Ξ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ ΞΊΞ»Ξ΅ΞΉΟΟΟ
     } else {
-      toggleYoutubeBtn.textContent = "Hide YouTube"; // όταν είναι ανοιχτό
+      toggleYoutubeBtn.textContent = "Hide YouTube"; // ΟΟΞ±Ξ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ Ξ±Ξ½ΞΏΞΉΟΟΟ
     }
   });
 }
@@ -566,29 +569,29 @@ const profileBtn = document.getElementById("headerUser");
 const profilePanel = document.getElementById("profilePanel");
 const closeProfileBtn = document.getElementById("closeProfileBtn");
 
-// Άνοιγμα panel (πάντα το δικό σου προφίλ)
+// ΞΞ½ΞΏΞΉΞ³ΞΌΞ± panel (ΟΞ¬Ξ½ΟΞ± ΟΞΏ Ξ΄ΞΉΞΊΟ ΟΞΏΟ ΟΟΞΏΟΞ―Ξ»)
 if (profileBtn && profilePanel) {
   profileBtn.addEventListener("click", () => {
     openProfilePanel(auth.currentUser.uid);
   });
 }
 
-// Κλείσιμο panel + καθάρισμα listener
+// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ panel + ΞΊΞ±ΞΈΞ¬ΟΞΉΟΞΌΞ± listener
 if (closeProfileBtn) {
   closeProfileBtn.addEventListener("click", () => {
     profilePanel.classList.remove("show");
     profilePanel.classList.add("hidden");
 
-    // 🧹 Καθάρισμα coins listener όταν κλείνει το Profile Panel
+    // π§Ή ΞΞ±ΞΈΞ¬ΟΞΉΟΞΌΞ± coins listener ΟΟΞ±Ξ½ ΞΊΞ»Ξ΅Ξ―Ξ½Ξ΅ΞΉ ΟΞΏ Profile Panel
     if (typeof coinsUnsubscribe === "function") {
       coinsUnsubscribe();
       coinsUnsubscribe = null;
-      console.log("🧹 Coins listener unsubscribed");
+      console.log("π§Ή Coins listener unsubscribed");
     }
   });
 }
 
-// Κλείσιμο με Esc
+// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ Esc
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     profilePanel.classList.remove("show");
@@ -596,7 +599,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-// Tabs λειτουργία
+// Tabs Ξ»Ξ΅ΞΉΟΞΏΟΟΞ³Ξ―Ξ±
 const tabButtons = document.querySelectorAll(".tab-btn");
 const tabContents = document.querySelectorAll(".tab-content");
 
@@ -609,7 +612,7 @@ tabButtons.forEach((btn) => {
   });
 });
 
-// ✅ Επαναφορά listener για το Add Coins κουμπί (αν υπάρχει)
+// β ΞΟΞ±Ξ½Ξ±ΟΞΏΟΞ¬ listener Ξ³ΞΉΞ± ΟΞΏ Add Coins ΞΊΞΏΟΞΌΟΞ― (Ξ±Ξ½ ΟΟΞ¬ΟΟΞ΅ΞΉ)
 document.addEventListener("click", () => {
   const btn = document.getElementById("addCoinsUser");
   if (btn && !btn.dataset.listenerAdded) {
@@ -617,19 +620,19 @@ document.addEventListener("click", () => {
 
     btn.addEventListener("click", async () => {
       if (!contextTargetUid) {
-        alert("⚠️ No user selected!");
+        alert("β οΈ No user selected!");
         return;
       }
 
       const currentUser = auth.currentUser;
       if (!currentUser || currentUser.displayName !== "MysteryMan") {
-        alert("❌ Μόνο ο MysteryMan μπορεί να δώσει coins!");
+        alert("β ΞΟΞ½ΞΏ ΞΏ MysteryMan ΞΌΟΞΏΟΞ΅Ξ― Ξ½Ξ± Ξ΄ΟΟΞ΅ΞΉ coins!");
         userContextMenu.classList.add("hidden");
         return;
       }
 
       const addAmount = parseInt(
-        prompt("💎 Πόσα coins να προσθέσω σε αυτόν τον χρήστη;", "50"),
+        prompt("π Ξ ΟΟΞ± coins Ξ½Ξ± ΟΟΞΏΟΞΈΞ­ΟΟ ΟΞ΅ Ξ±ΟΟΟΞ½ ΟΞΏΞ½ ΟΟΞ�ΟΟΞ·;", "50"),
         10
       );
       if (isNaN(addAmount) || addAmount <= 0) return;
@@ -639,7 +642,7 @@ document.addEventListener("click", () => {
       const currentCoins = snap.exists() ? snap.val() : 0;
 
       await set(targetRef, currentCoins + addAmount);
-      alert(`✅ Προστέθηκαν ${addAmount} coins!`);
+      alert(`β Ξ ΟΞΏΟΟΞ­ΞΈΞ·ΞΊΞ±Ξ½ ${addAmount} coins!`);
       userContextMenu.classList.add("hidden");
     });
   }
@@ -656,7 +659,7 @@ async function openProfilePanel(uid = null) {
   panel.classList.add("show");
 
   const targetUid = uid || auth.currentUser.uid;
-  // 📌 Αποθηκεύουμε ποιο προφίλ βλέπουμε αυτή τη στιγμή
+  // π ΞΟΞΏΞΈΞ·ΞΊΞ΅ΟΞΏΟΞΌΞ΅ ΟΞΏΞΉΞΏ ΟΟΞΏΟΞ―Ξ» Ξ²Ξ»Ξ­ΟΞΏΟΞΌΞ΅ Ξ±ΟΟΞ� ΟΞ· ΟΟΞΉΞ³ΞΌΞ�
 if (panel) {
   panel.dataset.viewingUid = targetUid;
 }
@@ -665,7 +668,7 @@ if (panel) {
   const data = snap.val();
 
   if (!data) {
-    console.warn("⚠️ No user data found for", targetUid);
+    console.warn("β οΈ No user data found for", targetUid);
     return;
   }
 
@@ -676,7 +679,7 @@ if (panel) {
   document.getElementById("profileCoins").textContent = data.coins ?? 0;
 
 
-  // === Live coins sync για τον χρήστη που βλέπουμε ===
+  // === Live coins sync Ξ³ΞΉΞ± ΟΞΏΞ½ ΟΟΞ�ΟΟΞ· ΟΞΏΟ Ξ²Ξ»Ξ­ΟΞΏΟΞΌΞ΅ ===
   setupCoinsSync(targetUid);
 }
 
@@ -684,8 +687,8 @@ if (panel) {
 const viewProfileBtn = document.getElementById("viewProfile");
 if (viewProfileBtn) {
   viewProfileBtn.addEventListener("click", () => {
-  if (!contextTargetUid) return alert("⚠️ No user selected!");
-  openProfilePanel(contextTargetUid); // 👈 δείχνει το profile του άλλου
+  if (!contextTargetUid) return alert("β οΈ No user selected!");
+  openProfilePanel(contextTargetUid); // π Ξ΄Ξ΅Ξ―ΟΞ½Ξ΅ΞΉ ΟΞΏ profile ΟΞΏΟ Ξ¬Ξ»Ξ»ΞΏΟ
   userContextMenu.classList.add("hidden");
 });
 
@@ -699,7 +702,7 @@ const systemPanel = document.getElementById("systemPanel");
 const closeSystemBtn = document.getElementById("closeSystemBtn");
 const systemLogsDiv = document.getElementById("systemLogs");
 
-// Εμφάνιση κουμπιού μόνο για MysteryMan
+// ΞΞΌΟΞ¬Ξ½ΞΉΟΞ· ΞΊΞΏΟΞΌΟΞΉΞΏΟ ΞΌΟΞ½ΞΏ Ξ³ΞΉΞ± MysteryMan
 onAuthStateChanged(auth, (user) => {
   if (user && user.displayName === "MysteryMan") {
     systemBtn.classList.remove("hidden");
@@ -708,35 +711,35 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// Άνοιγμα / κλείσιμο
+// ΞΞ½ΞΏΞΉΞ³ΞΌΞ± / ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ
 if (systemBtn && systemPanel && closeSystemBtn) {
 systemBtn.addEventListener("click", () => {
-  console.log("🟢 System clicked");
-  systemPanel.classList.remove("hidden"); // ✅ ξεκλειδώνει το panel
-  systemPanel.classList.add("open");      // ✅ ενεργοποιεί το slide
+  console.log("π’ System clicked");
+  systemPanel.classList.remove("hidden"); // β ΞΎΞ΅ΞΊΞ»Ξ΅ΞΉΞ΄ΟΞ½Ξ΅ΞΉ ΟΞΏ panel
+  systemPanel.classList.add("open");      // β Ξ΅Ξ½Ξ΅ΟΞ³ΞΏΟΞΏΞΉΞ΅Ξ― ΟΞΏ slide
   loadSystemLogs();
 });
 
 closeSystemBtn.addEventListener("click", () => {
   systemPanel.classList.remove("open");
-  systemPanel.classList.add("hidden");    // ✅ το ξανακρύβει
+  systemPanel.classList.add("hidden");    // β ΟΞΏ ΞΎΞ±Ξ½Ξ±ΞΊΟΟΞ²Ξ΅ΞΉ
 });
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") systemPanel.classList.remove("open");
   });
 }
 
-// Φόρτωση logs
+// Ξ¦ΟΟΟΟΟΞ· logs
 function loadSystemLogs() {
   const logsRef = ref(db, "adminLogs");
   onValue(logsRef, (snap) => {
     systemLogsDiv.innerHTML = "";
     if (!snap.exists()) {
-      systemLogsDiv.innerHTML = "<p class='placeholder'>Κανένα log ακόμα.</p>";
+      systemLogsDiv.innerHTML = "<p class='placeholder'>ΞΞ±Ξ½Ξ­Ξ½Ξ± log Ξ±ΞΊΟΞΌΞ±.</p>";
       return;
     }
 
-    // Μετατροπή σε array και ταξινόμηση (νεότερα πρώτα)
+    // ΞΞ΅ΟΞ±ΟΟΞΏΟΞ� ΟΞ΅ array ΞΊΞ±ΞΉ ΟΞ±ΞΎΞΉΞ½ΟΞΌΞ·ΟΞ· (Ξ½Ξ΅ΟΟΞ΅ΟΞ± ΟΟΟΟΞ±)
     const logs = Object.values(snap.val()).sort((a, b) => b.time - a.time);
 
     logs.forEach((log) => {
@@ -744,36 +747,36 @@ function loadSystemLogs() {
       const dateStr = time.toLocaleDateString();
       const hourStr = time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-      // 🧩 icon by action
-      let icon = "📝";
-      if (log.action === "deleteMessage") icon = "🗑️";
-      else if (log.action === "clearChat") icon = "🧹";
-      else if (log.action === "changeRole") icon = "⭐";
-      else if (log.action === "kick") icon = "👢";
-      else if (log.action === "ban") icon = "⛔";
+      // π§© icon by action
+      let icon = "π";
+      if (log.action === "deleteMessage") icon = "ποΈ";
+      else if (log.action === "clearChat") icon = "π§Ή";
+      else if (log.action === "changeRole") icon = "β­";
+      else if (log.action === "kick") icon = "π’";
+      else if (log.action === "ban") icon = "β";
 
       const p = document.createElement("p");
       let details = "";
 
 if (log.action === "changeRole") {
   details = `${log.targetUser ? `<i>(${log.targetUser})</i>` : ""} 
-    <span style="color:#aaa">(${log.oldRole} → ${log.newRole})</span>`;
+    <span style="color:#aaa">(${log.oldRole} β ${log.newRole})</span>`;
 } else {
   details = `${log.targetUser ? `<i>(${log.targetUser})</i>` : ""}`;
 }
 
-p.innerHTML = `${icon} <b>${log.admin}</b> → ${log.action} ${details}
+p.innerHTML = `${icon} <b>${log.admin}</b> β ${log.action} ${details}
   <span style="color:#888">in ${log.room || "?"}</span> 
   <span style="color:#555">[${dateStr} ${hourStr}]</span>`;
 
       systemLogsDiv.appendChild(p);
-      // ➕ Αν υπάρχει reason, δείξε το
+      // β ΞΞ½ ΟΟΞ¬ΟΟΞ΅ΞΉ reason, Ξ΄Ξ΅Ξ―ΞΎΞ΅ ΟΞΏ
 if (log.reason) {
   const reasonP = document.createElement("p");
   reasonP.style.color = "#999";
   reasonP.style.fontSize = "13px";
   reasonP.style.marginLeft = "25px";
-  reasonP.textContent = `📝 Reason: ${log.reason}`;
+  reasonP.textContent = `π Reason: ${log.reason}`;
   systemLogsDiv.appendChild(reasonP);
 }
 
@@ -784,15 +787,15 @@ if (log.reason) {
 const clearLogsBtn = document.getElementById("clearLogsBtn");
 if (clearLogsBtn) {
   clearLogsBtn.addEventListener("click", async () => {
-    const confirmClear = confirm("🧹 Θες σίγουρα να καθαρίσεις όλα τα logs;");
+    const confirmClear = confirm("π§Ή ΞΞ΅Ο ΟΞ―Ξ³ΞΏΟΟΞ± Ξ½Ξ± ΞΊΞ±ΞΈΞ±ΟΞ―ΟΞ΅ΞΉΟ ΟΞ»Ξ± ΟΞ± logs;");
     if (!confirmClear) return;
 
     try {
       await remove(ref(db, "adminLogs"));
-      systemLogsDiv.innerHTML = "<p class='placeholder'>Κανένα log ακόμα.</p>";
-      console.log("✅ Admin logs cleared.");
+      systemLogsDiv.innerHTML = "<p class='placeholder'>ΞΞ±Ξ½Ξ­Ξ½Ξ± log Ξ±ΞΊΟΞΌΞ±.</p>";
+      console.log("β Admin logs cleared.");
     } catch (err) {
-      console.error("❌ Clear logs failed:", err);
+      console.error("β Clear logs failed:", err);
     }
   });
 }
@@ -802,20 +805,20 @@ const copyUidBtn = document.getElementById("copyUid");
 if (copyUidBtn) {
   copyUidBtn.addEventListener("click", async () => {
     if (!contextTargetUid) {
-      alert("⚠️ No user selected!");
+      alert("β οΈ No user selected!");
       return;
     }
 
     try {
       await navigator.clipboard.writeText(contextTargetUid);
-      alert("📋 UID copied:\n" + contextTargetUid);
-      console.log("✅ Copied UID:", contextTargetUid);
+      alert("π UID copied:\n" + contextTargetUid);
+      console.log("β Copied UID:", contextTargetUid);
     } catch (err) {
-      console.error("❌ Failed to copy UID:", err);
-      alert("❌ Failed to copy UID");
+      console.error("β Failed to copy UID:", err);
+      alert("β Failed to copy UID");
     }
 
-    // Κλείσε το μενού μετά την ενέργεια
+    // ΞΞ»Ξ΅Ξ―ΟΞ΅ ΟΞΏ ΞΌΞ΅Ξ½ΞΏΟ ΞΌΞ΅ΟΞ¬ ΟΞ·Ξ½ Ξ΅Ξ½Ξ­ΟΞ³Ξ΅ΞΉΞ±
     userContextMenu.classList.add("hidden");
   });
 }
@@ -825,7 +828,7 @@ const bannedBtn = document.getElementById("bannedBtn");
 const bannedPanel = document.getElementById("bannedPanel");
 const closeBannedBtn = document.getElementById("closeBannedBtn");
 
-// Εμφάνιση κουμπιού μόνο για MysteryMan ή admins
+// ΞΞΌΟΞ¬Ξ½ΞΉΟΞ· ΞΊΞΏΟΞΌΟΞΉΞΏΟ ΞΌΟΞ½ΞΏ Ξ³ΞΉΞ± MysteryMan Ξ� admins
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     bannedBtn.classList.add("hidden");
@@ -860,20 +863,20 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-// Άνοιγμα panel
+// ΞΞ½ΞΏΞΉΞ³ΞΌΞ± panel
 if (bannedBtn) {
   bannedBtn.addEventListener("click", () => {
-  bannedPanel.classList.remove("hidden"); // ✅ ξεκλείδωσε
+  bannedPanel.classList.remove("hidden"); // β ΞΎΞ΅ΞΊΞ»Ξ΅Ξ―Ξ΄ΟΟΞ΅
   bannedPanel.classList.add("open");
 });
 
 }
 
-// Κλείσιμο panel
+// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ panel
 if (closeBannedBtn) {
  closeBannedBtn.addEventListener("click", () => {
   bannedPanel.classList.remove("open");
-  bannedPanel.classList.add("hidden"); // ✅ ξανακρύψε
+  bannedPanel.classList.add("hidden"); // β ΞΎΞ±Ξ½Ξ±ΞΊΟΟΟΞ΅
 });
 
 }
@@ -890,11 +893,11 @@ function loadBannedUsers() {
 
     if (!data) {
       bannedListDiv.innerHTML =
-        `<p class="placeholder">🚫 Κανένας χρήστης δεν είναι ban αυτή τη στιγμή.</p>`;
+        `<p class="placeholder">π« ΞΞ±Ξ½Ξ­Ξ½Ξ±Ο ΟΟΞ�ΟΟΞ·Ο Ξ΄Ξ΅Ξ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ ban Ξ±ΟΟΞ� ΟΞ· ΟΟΞΉΞ³ΞΌΞ�.</p>`;
       return;
     }
 
-    // Ταξινόμηση από νεότερο → παλιότερο
+    // Ξ€Ξ±ΞΎΞΉΞ½ΟΞΌΞ·ΟΞ· Ξ±ΟΟ Ξ½Ξ΅ΟΟΞ΅ΟΞΏ β ΟΞ±Ξ»ΞΉΟΟΞ΅ΟΞΏ
     const entries = Object.entries(data).sort((a, b) => b[1].time - a[1].time);
 
     entries.forEach(([uid, info]) => {
@@ -906,24 +909,24 @@ function loadBannedUsers() {
       userDiv.className = "banned-entry";
       userDiv.innerHTML = `
         <p>
-          🧍‍♂️ <b>${info.displayName}</b>
-          <span style="color:#aaa">— banned by ${info.bannedBy}</span><br>
+          π§ββοΈ <b>${info.displayName}</b>
+          <span style="color:#aaa">β banned by ${info.bannedBy}</span><br>
           <span style="color:#888">in ${info.room || "unknown"}</span> |
 <span style="color:#666">${dateStr} ${hourStr}</span><br>
-<span style="color:#aaa">📝 ${info.reason || "χωρίς λόγο"}</span>
+<span style="color:#aaa">π ${info.reason || "ΟΟΟΞ―Ο Ξ»ΟΞ³ΞΏ"}</span>
 
         </p>
-        <button class="unban-btn" data-uid="${uid}">✅ Unban</button>
+        <button class="unban-btn" data-uid="${uid}">β Unban</button>
       `;
 
       bannedListDiv.appendChild(userDiv);
     });
 
-    // Συνδέουμε τα κουμπιά unban
+    // Ξ£ΟΞ½Ξ΄Ξ­ΞΏΟΞΌΞ΅ ΟΞ± ΞΊΞΏΟΞΌΟΞΉΞ¬ unban
     document.querySelectorAll(".unban-btn").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const targetUid = btn.dataset.uid;
-        const confirmUnban = confirm("Θες να κάνεις UNBAN αυτόν τον χρήστη;");
+        const confirmUnban = confirm("ΞΞ΅Ο Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉΟ UNBAN Ξ±ΟΟΟΞ½ ΟΞΏΞ½ ΟΟΞ�ΟΟΞ·;");
         if (!confirmUnban) return;
 
         try {
@@ -931,7 +934,7 @@ function loadBannedUsers() {
           const bannedUserSnap = await get(ref(db, "bannedUsers/" + targetUid));
           const bannedUser = bannedUserSnap.val();
 
-          // Διαγραφή από τη λίστα banned
+          // ΞΞΉΞ±Ξ³ΟΞ±ΟΞ� Ξ±ΟΟ ΟΞ· Ξ»Ξ―ΟΟΞ± banned
           await remove(ref(db, "bannedUsers/" + targetUid));
 
           // Log entry
@@ -943,16 +946,16 @@ function loadBannedUsers() {
             time: Date.now()
           });
 
-          alert(`✅ Ο χρήστης ${bannedUser?.displayName || "user"} έγινε UNBAN!`);
+          alert(`β Ξ ΟΟΞ�ΟΟΞ·Ο ${bannedUser?.displayName || "user"} Ξ­Ξ³ΞΉΞ½Ξ΅ UNBAN!`);
         } catch (err) {
-          console.error("❌ Unban failed:", err);
+          console.error("β Unban failed:", err);
         }
       });
     });
   });
 }
 
-// Κάθε φορά που ανοίγει το panel, κάνε load τη λίστα
+// ΞΞ¬ΞΈΞ΅ ΟΞΏΟΞ¬ ΟΞΏΟ Ξ±Ξ½ΞΏΞ―Ξ³Ξ΅ΞΉ ΟΞΏ panel, ΞΊΞ¬Ξ½Ξ΅ load ΟΞ· Ξ»Ξ―ΟΟΞ±
 if (bannedBtn) {
   bannedBtn.addEventListener("click", () => {
     bannedPanel.classList.add("open");
@@ -966,21 +969,53 @@ const closeYoutubeBtn = document.getElementById("closeYoutubeBtn");
 
 if (closeYoutubeBtn) {
   closeYoutubeBtn.addEventListener("click", () => {
-    // ✅ Κλείσιμο panel
+    // β ΞΟΞ½ΞΏ ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ panel β ΞΞΞ ΟΞ²Ξ�Ξ½ΞΏΟΞΌΞ΅ ΟΞΏ iframe ΟΞ»Ξ­ΞΏΞ½
     youtubePanel.classList.add("hidden");
-
-    // ✅ Επαναφορά κειμένου στο κουμπί YouTube
-    const toggleYoutubeBtn = document.getElementById("toggleYoutubeBtn");
-    if (toggleYoutubeBtn) {
-      toggleYoutubeBtn.textContent = "YouTube";
-    }
   });
 }
 
 
 
 // ===================== DRAGGABLE YOUTUBE PANEL (IN-APP LIMITS) =====================
-   
+let isDragging = false;
+let offsetX, offsetY;
+
+const dragHeader = document.querySelector(".yt-drag-header");
+const youtubePanel = document.getElementById("youtubePanel");
+const appContainer = document.getElementById("app");
+
+if (dragHeader && youtubePanel && appContainer) {
+  dragHeader.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    const rect = youtubePanel.getBoundingClientRect();
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+    dragHeader.style.cursor = "grabbing";
+  });
+
+  document.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+
+    const appRect = appContainer.getBoundingClientRect();
+    const panelRect = youtubePanel.getBoundingClientRect();
+
+    let newLeft = e.clientX - offsetX - appRect.left;
+    let newTop = e.clientY - offsetY - appRect.top;
+
+    // β‘οΈ Ξ Ξ΅ΟΞΉΞΏΟΞΉΟΞΌΟΟ Ξ΅Ξ½ΟΟΟ Convo
+    newLeft = Math.max(0, Math.min(newLeft, appRect.width - panelRect.width));
+    newTop = Math.max(0, Math.min(newTop, appRect.height - panelRect.height));
+
+    youtubePanel.style.left = `${newLeft}px`;
+    youtubePanel.style.top = `${newTop}px`;
+    youtubePanel.style.transform = "none";
+  });
+
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+    dragHeader.style.cursor = "grab";
+  });
+}
 
 // ===================== ADMIN CONTEXT MENU =====================
 const contextMenu = document.getElementById("contextMenu");
@@ -992,28 +1027,28 @@ if (clearChatBtn) {
     const user = auth.currentUser;
     if (!user) return;
 
-    // ✅ Έλεγχος ρόλου από τη βάση (όχι μόνο MysteryMan)
+    // β ΞΞ»Ξ΅Ξ³ΟΞΏΟ ΟΟΞ»ΞΏΟ Ξ±ΟΟ ΟΞ· Ξ²Ξ¬ΟΞ· (ΟΟΞΉ ΞΌΟΞ½ΞΏ MysteryMan)
     const userSnap = await get(ref(db, "users/" + user.uid));
     const userData = userSnap.val();
     const role = userData?.role || "user";
 
     if (role !== "admin") {
-      alert("⚠️ Μόνο admin μπορεί να καθαρίσει το chat!");
+      alert("β οΈ ΞΟΞ½ΞΏ admin ΞΌΟΞΏΟΞ΅Ξ― Ξ½Ξ± ΞΊΞ±ΞΈΞ±ΟΞ―ΟΞ΅ΞΉ ΟΞΏ chat!");
       return;
     }
 
     if (!currentRoom) {
-      alert("❗ Δεν έχει επιλεγεί room!");
+      alert("β ΞΞ΅Ξ½ Ξ­ΟΞ΅ΞΉ Ξ΅ΟΞΉΞ»Ξ΅Ξ³Ξ΅Ξ― room!");
       return;
     }
 
-    const confirmClear = confirm(`🧹 Θες σίγουρα να καθαρίσεις το room "${currentRoom}" ?`);
+    const confirmClear = confirm(`π§Ή ΞΞ΅Ο ΟΞ―Ξ³ΞΏΟΟΞ± Ξ½Ξ± ΞΊΞ±ΞΈΞ±ΟΞ―ΟΞ΅ΞΉΟ ΟΞΏ room "${currentRoom}" ?`);
     if (!confirmClear) return;
 
    try {
   await remove(ref(db, "messages/" + currentRoom));
-  console.log("✅ Chat cleared:", currentRoom);
-     // 🧾 === Log entry στο adminLogs ===
+  console.log("β Chat cleared:", currentRoom);
+     // π§Ύ === Log entry ΟΟΞΏ adminLogs ===
 const logRef = push(ref(db, "adminLogs"));
 await set(logRef, {
   action: "clearChat",
@@ -1024,10 +1059,10 @@ await set(logRef, {
 
      
 
-  // 💬 Καθάρισε άμεσα το UI
+  // π¬ ΞΞ±ΞΈΞ¬ΟΞΉΟΞ΅ Ξ¬ΞΌΞ΅ΟΞ± ΟΞΏ UI
   document.getElementById("messages").innerHTML = "";
 } catch (err) {
-  console.error("❌ Clear chat failed:", err);
+  console.error("β Clear chat failed:", err);
 }
 
 
@@ -1035,9 +1070,9 @@ await set(logRef, {
   });
 }
 
-let targetMessageId = null; // αποθηκεύουμε ποιο μήνυμα έγινε δεξί κλικ
+let targetMessageId = null; // Ξ±ΟΞΏΞΈΞ·ΞΊΞ΅ΟΞΏΟΞΌΞ΅ ΟΞΏΞΉΞΏ ΞΌΞ�Ξ½ΟΞΌΞ± Ξ­Ξ³ΞΉΞ½Ξ΅ Ξ΄Ξ΅ΞΎΞ― ΞΊΞ»ΞΉΞΊ
 
-// Δεξί κλικ πάνω σε μήνυμα
+// ΞΞ΅ΞΎΞ― ΞΊΞ»ΞΉΞΊ ΟΞ¬Ξ½Ο ΟΞ΅ ΞΌΞ�Ξ½ΟΞΌΞ±
 document.getElementById("messages").addEventListener("contextmenu", (e) => {
   e.preventDefault();
 
@@ -1047,7 +1082,7 @@ document.getElementById("messages").addEventListener("contextmenu", (e) => {
   const currentUser = auth.currentUser;
   if (!currentUser) return;
 
-  // ✅ Έλεγχος στο DB αν είναι admin
+  // β ΞΞ»Ξ΅Ξ³ΟΞΏΟ ΟΟΞΏ DB Ξ±Ξ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ admin
   const userRef = ref(db, "users/" + currentUser.uid);
   get(userRef).then((snap) => {
     const u = snap.val();
@@ -1055,35 +1090,35 @@ document.getElementById("messages").addEventListener("contextmenu", (e) => {
 
     targetMessageId = messageDiv.dataset.id;
 
-    // Τοποθέτηση του menu στη θέση του κλικ
+    // Ξ€ΞΏΟΞΏΞΈΞ­ΟΞ·ΟΞ· ΟΞΏΟ menu ΟΟΞ· ΞΈΞ­ΟΞ· ΟΞΏΟ ΞΊΞ»ΞΉΞΊ
     contextMenu.style.top = e.pageY + "px";
     contextMenu.style.left = e.pageX + "px";
     contextMenu.classList.remove("hidden");
   });
 });
 
-// Κλείσιμο με κλικ έξω
+// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ ΞΊΞ»ΞΉΞΊ Ξ­ΞΎΟ
 document.addEventListener("click", () => {
   contextMenu.classList.add("hidden");
 });
 
-// Κλικ στο Delete
+// ΞΞ»ΞΉΞΊ ΟΟΞΏ Delete
 if (deleteBtn) {
   deleteBtn.addEventListener("click", async () => {
     if (!targetMessageId) return;
 
     try {
-      // 🔹 Πρώτα πάρε το message element για log info
+      // πΉ Ξ ΟΟΟΞ± ΟΞ¬ΟΞ΅ ΟΞΏ message element Ξ³ΞΉΞ± log info
       const deletedMsg = document.querySelector(`.message[data-id="${targetMessageId}"]`);
 
       await remove(ref(db, "messages/" + currentRoom + "/" + targetMessageId));
-      console.log("✅ Message deleted:", targetMessageId);
+      console.log("β Message deleted:", targetMessageId);
 
-      // 🧾 === Log entry στο adminLogs ===
+      // π§Ύ === Log entry ΟΟΞΏ adminLogs ===
       const currentUser = auth.currentUser;
       if (currentUser) {
         const logRef = push(ref(db, "adminLogs"));
-        // Πάρε το room από το μήνυμα αν υπάρχει
+        // Ξ Ξ¬ΟΞ΅ ΟΞΏ room Ξ±ΟΟ ΟΞΏ ΞΌΞ�Ξ½ΟΞΌΞ± Ξ±Ξ½ ΟΟΞ¬ΟΟΞ΅ΞΉ
 const msgRoom =
   deletedMsg?.closest("[data-room]")?.getAttribute("data-room") || currentRoom;
 
@@ -1091,17 +1126,17 @@ await set(logRef, {
   action: "deleteMessage",
   admin: currentUser.displayName || "Unknown",
   targetUser: deletedMsg?.querySelector(".message-user")?.textContent || "Unknown",
-  room: msgRoom,  // 👈 Πάντα σωστό δωμάτιο τώρα
+  room: msgRoom,  // π Ξ Ξ¬Ξ½ΟΞ± ΟΟΟΟΟ Ξ΄ΟΞΌΞ¬ΟΞΉΞΏ ΟΟΟΞ±
   time: Date.now()
 });
 
       }
 
-      // 💬 Αφαίρεσε άμεσα το bubble από το UI
+      // π¬ ΞΟΞ±Ξ―ΟΞ΅ΟΞ΅ Ξ¬ΞΌΞ΅ΟΞ± ΟΞΏ bubble Ξ±ΟΟ ΟΞΏ UI
       if (deletedMsg) deletedMsg.remove();
 
     } catch (err) {
-      console.error("❌ Delete failed:", err);
+      console.error("β Delete failed:", err);
     }
 
     contextMenu.classList.add("hidden");
@@ -1117,9 +1152,9 @@ if (messageInput) {
   messageInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault(); 
-      messageForm.requestSubmit(); // 👈 στέλνει το μήνυμα
+      messageForm.requestSubmit(); // π ΟΟΞ­Ξ»Ξ½Ξ΅ΞΉ ΟΞΏ ΞΌΞ�Ξ½ΟΞΌΞ±
     }
-    // αν είναι Shift+Enter → αφήνουμε το default (νέα γραμμή)
+    // Ξ±Ξ½ Ξ΅Ξ―Ξ½Ξ±ΞΉ Shift+Enter β Ξ±ΟΞ�Ξ½ΞΏΟΞΌΞ΅ ΟΞΏ default (Ξ½Ξ­Ξ± Ξ³ΟΞ±ΞΌΞΌΞ�)
   });
 
   // ===================== TYPING =====================
@@ -1142,7 +1177,7 @@ if (messageInput) {
 if (messageInput) {
   messageInput.addEventListener("input", () => {
     messageInput.style.height = "auto"; // reset
-    messageInput.style.height = messageInput.scrollHeight + "px"; // προσαρμογή στο περιεχόμενο
+    messageInput.style.height = messageInput.scrollHeight + "px"; // ΟΟΞΏΟΞ±ΟΞΌΞΏΞ³Ξ� ΟΟΞΏ ΟΞ΅ΟΞΉΞ΅ΟΟΞΌΞ΅Ξ½ΞΏ
   });
 }
 
@@ -1155,7 +1190,7 @@ function sendGifMessage(url) {
   push(ref(db, "messages/" + currentRoom), {
     uid: user.uid,
     user: user.displayName || "Guest",
-    gif: url,  // 👈 αποθηκεύουμε το URL του GIF
+    gif: url,  // π Ξ±ΟΞΏΞΈΞ·ΞΊΞ΅ΟΞΏΟΞΌΞ΅ ΟΞΏ URL ΟΞΏΟ GIF
     createdAt: serverTimestamp()
   });
 }
@@ -1176,19 +1211,19 @@ if (emojiBtn && mediaPanel) {
   mediaPanel.classList.toggle("hidden");
 
   if (!mediaPanel.classList.contains("hidden")) {
-    showEmojiTrail(mediaPanel); // 🎉 Trigger effect όταν ανοίγει
+    showEmojiTrail(mediaPanel); // π Trigger effect ΟΟΞ±Ξ½ Ξ±Ξ½ΞΏΞ―Ξ³Ξ΅ΞΉ
   }
 });
 
 
-  // Κλείσιμο με click έξω
+  // ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ click Ξ­ΞΎΟ
   document.addEventListener("click", (e) => {
     if (!mediaPanel.contains(e.target) && e.target !== emojiBtn) {
       mediaPanel.classList.add("hidden");
     }
   });
 
-  // Κλείσιμο με ESC
+  // ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ ESC
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       mediaPanel.classList.add("hidden");
@@ -1216,10 +1251,10 @@ if (emojiBtn && mediaPanel) {
 document.querySelectorAll("#tab-emoji .emoji-grid span").forEach(span => {
   span.addEventListener("click", () => {
     const input = document.getElementById("messageInput");
-    input.value += span.textContent;  // 👈 προσθέτει το emoji στο input
+    input.value += span.textContent;  // π ΟΟΞΏΟΞΈΞ­ΟΞ΅ΞΉ ΟΞΏ emoji ΟΟΞΏ input
     input.focus();
 
-    // Κλείσιμο panel μετά το click
+    // ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ panel ΞΌΞ΅ΟΞ¬ ΟΞΏ click
 
   });
 });
@@ -1235,7 +1270,7 @@ if (gifSearchInput) {
       const query = gifSearchInput.value.trim();
       if (!query) return;
 
-      // Καθαρίζουμε τα προηγούμενα
+      // ΞΞ±ΞΈΞ±ΟΞ―ΞΆΞΏΟΞΌΞ΅ ΟΞ± ΟΟΞΏΞ·Ξ³ΞΏΟΞΌΞ΅Ξ½Ξ±
       gifResults.innerHTML = "Loading...";
 
       try {
@@ -1252,7 +1287,7 @@ if (gifSearchInput) {
           img.addEventListener("click", () => {
   sendGifMessage(img.src);
 
-  // Κλείσε το media panel
+  // ΞΞ»Ξ΅Ξ―ΟΞ΅ ΟΞΏ media panel
   const mediaPanel = document.getElementById("mediaPanel");
   if (mediaPanel) mediaPanel.classList.add("hidden");
 });
@@ -1261,12 +1296,12 @@ if (gifSearchInput) {
         });
       } catch (err) {
         console.error("GIF fetch error:", err);
-        gifResults.innerHTML = "❌ Error loading GIFs";
+        gifResults.innerHTML = "β Error loading GIFs";
       }
     }
   });
 }
-// ==== GIF TRENDING (default όταν ανοίγει το tab) ====
+// ==== GIF TRENDING (default ΟΟΞ±Ξ½ Ξ±Ξ½ΞΏΞ―Ξ³Ξ΅ΞΉ ΟΞΏ tab) ====
 async function loadTrendingGifs() {
   if (!gifResults) return;
   gifResults.innerHTML = "Loading...";
@@ -1296,11 +1331,11 @@ async function loadTrendingGifs() {
     });
   } catch (err) {
     console.error("GIF trending error:", err);
-    gifResults.innerHTML = "❌ Error loading GIFs";
+    gifResults.innerHTML = "β Error loading GIFs";
   }
 }
 
-// Φόρτωσε trending μόλις ανοίξει η σελίδα
+// Ξ¦ΟΟΟΟΟΞ΅ trending ΞΌΟΞ»ΞΉΟ Ξ±Ξ½ΞΏΞ―ΞΎΞ΅ΞΉ Ξ· ΟΞ΅Ξ»Ξ―Ξ΄Ξ±
 loadTrendingGifs();
 // ===================== STICKER SEARCH =====================
 const stickerSearchInput = document.getElementById("stickerSearchInput");
@@ -1313,7 +1348,7 @@ if (stickerSearchInput) {
       const query = stickerSearchInput.value.trim();
       if (!query) return;
 
-      // Καθαρίζουμε τα προηγούμενα
+      // ΞΞ±ΞΈΞ±ΟΞ―ΞΆΞΏΟΞΌΞ΅ ΟΞ± ΟΟΞΏΞ·Ξ³ΞΏΟΞΌΞ΅Ξ½Ξ±
       stickerResults.innerHTML = "Loading...";
 
       try {
@@ -1330,11 +1365,11 @@ if (stickerSearchInput) {
           img.addEventListener("click", () => {
             sendStickerMessage(img.src);
 
-            // Κλείσε το panel
+            // ΞΞ»Ξ΅Ξ―ΟΞ΅ ΟΞΏ panel
             const mediaPanel = document.getElementById("mediaPanel");
             if (mediaPanel) mediaPanel.classList.add("hidden");
 
-            // Focus στο input
+            // Focus ΟΟΞΏ input
             const input = document.getElementById("messageInput");
             if (input) input.focus();
           });
@@ -1342,13 +1377,13 @@ if (stickerSearchInput) {
         });
       } catch (err) {
         console.error("Sticker fetch error:", err);
-        stickerResults.innerHTML = "❌ Error loading Stickers";
+        stickerResults.innerHTML = "β Error loading Stickers";
       }
     }
   });
 }
 
-// ==== STICKER TRENDING (default όταν ανοίγει το tab) ====
+// ==== STICKER TRENDING (default ΟΟΞ±Ξ½ Ξ±Ξ½ΞΏΞ―Ξ³Ξ΅ΞΉ ΟΞΏ tab) ====
 async function loadTrendingStickers() {
   if (!stickerResults) return;
   stickerResults.innerHTML = "Loading...";
@@ -1377,14 +1412,14 @@ async function loadTrendingStickers() {
     });
   } catch (err) {
     console.error("Sticker trending error:", err);
-    stickerResults.innerHTML = "❌ Error loading Stickers";
+    stickerResults.innerHTML = "β Error loading Stickers";
   }
 }
 
-// Φόρτωσε trending stickers μόλις ανοίξει η σελίδα
+// Ξ¦ΟΟΟΟΟΞ΅ trending stickers ΞΌΟΞ»ΞΉΟ Ξ±Ξ½ΞΏΞ―ΞΎΞ΅ΞΉ Ξ· ΟΞ΅Ξ»Ξ―Ξ΄Ξ±
 loadTrendingStickers();
 
-// ===== Συναρτηση για αποστολή Sticker =====
+// ===== Ξ£ΟΞ½Ξ±ΟΟΞ·ΟΞ· Ξ³ΞΉΞ± Ξ±ΟΞΏΟΟΞΏΞ»Ξ� Sticker =====
 function sendStickerMessage(url) {
   const user = auth.currentUser;
   if (!user) return;
@@ -1392,14 +1427,14 @@ function sendStickerMessage(url) {
   push(ref(db, "messages/" + currentRoom), {
     uid: user.uid,
     user: user.displayName || "Guest",
-    sticker: url, // 👈 αποθηκεύουμε το sticker URL
+    sticker: url, // π Ξ±ΟΞΏΞΈΞ·ΞΊΞ΅ΟΞΏΟΞΌΞ΅ ΟΞΏ sticker URL
     createdAt: serverTimestamp()
   });
 }
 // ===================== EMOJI TRAIL EFFECT =====================
 function showEmojiTrail(panel) {
-  const emojis = ["😂", "🔥", "💫", "❤️", "😎", "✨", "🎉", "🫶"];
-  const count = 3 + Math.floor(Math.random() * 3); // 3–5 emojis
+  const emojis = ["π", "π₯", "π«", "β€οΈ", "π", "β¨", "π", "π«Ά"];
+  const count = 3 + Math.floor(Math.random() * 3); // 3β5 emojis
   const rect = panel.getBoundingClientRect();
 
   for (let i = 0; i < count; i++) {
@@ -1424,11 +1459,11 @@ function renderUserList() {
   const usersList = document.getElementById("usersList");
   if (!usersList) return;
 
-    // 🧹 Καθαρίζουμε τυχόν παλιούς listeners
+    // π§Ή ΞΞ±ΞΈΞ±ΟΞ―ΞΆΞΏΟΞΌΞ΅ ΟΟΟΟΞ½ ΟΞ±Ξ»ΞΉΞΏΟΟ listeners
   off(ref(db, "users"));
   off(ref(db, "roles"));
   
-  // Ακούμε live για users
+  // ΞΞΊΞΏΟΞΌΞ΅ live Ξ³ΞΉΞ± users
   onValue(ref(db, "users"), (usersSnap) => {
   onValue(ref(db, "mutes"), (mutesSnap) => {
   
@@ -1452,9 +1487,9 @@ function renderUserList() {
   Object.values(users).forEach(u => {
     let role;
     if (u.displayName === "MysteryMan") {
-      role = "admin"; // MysteryMan πάντα admin
+      role = "admin"; // MysteryMan ΟΞ¬Ξ½ΟΞ± admin
     } else if (u.role) {
-      role = u.role; // 👈 τώρα διαβάζουμε από το users/$uid/role
+      role = u.role; // π ΟΟΟΞ± Ξ΄ΞΉΞ±Ξ²Ξ¬ΞΆΞΏΟΞΌΞ΅ Ξ±ΟΟ ΟΞΏ users/$uid/role
     } else if (u.isAnonymous) {
       role = "guest";
     } else {
@@ -1477,7 +1512,7 @@ if (role === "admin") {
   });
 
 
-    // === Helper function για category ===
+    // === Helper function Ξ³ΞΉΞ± category ===
     function renderCategory(title, arr, cssClass) {
       if (arr.length === 0) return;
 
@@ -1513,7 +1548,7 @@ if (role === "admin") {
         img.alt = "avatar";
         avatarDiv.appendChild(img);
 
-        // Όνομα
+        // ΞΞ½ΞΏΞΌΞ±
         const nameSpan = document.createElement("span");
         nameSpan.className = "user-name";
         nameSpan.textContent = escapeHTML(u.displayName || "Guest");
@@ -1521,22 +1556,22 @@ if (role === "admin") {
         // Icons
         if (u.role === "admin") {
           const shield = document.createElement("span");
-          shield.textContent = "🛡️";
+          shield.textContent = "π‘οΈ";
           shield.className = "role-icon admin-icon";
           nameSpan.appendChild(shield);
         }
         if (u.role === "vip") {
           const star = document.createElement("span");
-          star.textContent = "⭐";
+          star.textContent = "β­";
           star.className = "role-icon vip-icon";
           nameSpan.appendChild(star);
         }
-        // 🔇 Αν ο χρήστης είναι muted
+        // π ΞΞ½ ΞΏ ΟΟΞ�ΟΟΞ·Ο Ξ΅Ξ―Ξ½Ξ±ΞΉ muted
 if (u.muted) {
   const muteIcon = document.createElement("span");
-  muteIcon.textContent = "🔇";
+  muteIcon.textContent = "π";
   muteIcon.className = "role-icon mute-icon";
-    muteIcon.title = "Muted";   // 👈 Tooltip σε hover
+    muteIcon.title = "Muted";   // π Tooltip ΟΞ΅ hover
   nameSpan.appendChild(muteIcon);
 }
 
@@ -1545,20 +1580,20 @@ if (u.muted) {
         li.appendChild(nameSpan);
         
         
-        // Δεξί κλικ (context menu) μόνο για admin
+        // ΞΞ΅ΞΎΞ― ΞΊΞ»ΞΉΞΊ (context menu) ΞΌΟΞ½ΞΏ Ξ³ΞΉΞ± admin
 li.addEventListener("contextmenu", async (e) => {
   e.preventDefault();
 
   if (!auth.currentUser) return;
 
-  // ➜ Δες το role του current user από το DB
+  // β ΞΞ΅Ο ΟΞΏ role ΟΞΏΟ current user Ξ±ΟΟ ΟΞΏ DB
   const snap = await get(ref(db, "users/" + auth.currentUser.uid));
   const currentUserData = snap.val();
   if (!currentUserData || currentUserData.role !== "admin") return;
 
   contextTargetUid = u.uid;
 
-  // Υπολογισμός θέσης (ώστε να μένει εντός οθόνης)
+  // Ξ₯ΟΞΏΞ»ΞΏΞ³ΞΉΟΞΌΟΟ ΞΈΞ­ΟΞ·Ο (ΟΟΟΞ΅ Ξ½Ξ± ΞΌΞ­Ξ½Ξ΅ΞΉ Ξ΅Ξ½ΟΟΟ ΞΏΞΈΟΞ½Ξ·Ο)
   const menuWidth = userContextMenu.offsetWidth || 180;
   const menuHeight = userContextMenu.offsetHeight || 150;
   let posX = e.clientX;
@@ -1597,29 +1632,29 @@ li.addEventListener("contextmenu", async (e) => {
       });
     }
 
-// Render κατηγορίες
+// Render ΞΊΞ±ΟΞ·Ξ³ΞΏΟΞ―Ξ΅Ο
 renderCategory("Admins", admins, "admin");
 renderCategory("VIP", vips, "vip");
 renderCategory("Users", normal, "user");
 renderCategory("Guests", guests, "guest");
 
-  }); // 👈 κλείσιμο του onValue(mutes)
-});   // 👈 κλείσιμο του onValue(users)
-}      // 👈 κλείσιμο της function renderUserList
+  }); // π ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΟΞΏΟ onValue(mutes)
+});   // π ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΟΞΏΟ onValue(users)
+}      // π ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΟΞ·Ο function renderUserList
 
 
 // ===================== USER CONTEXT MENU LOGIC =====================
 const userContextMenu = document.getElementById("userContextMenu");
-let contextTargetUid = null; // ποιον user κάναμε δεξί κλικ
+let contextTargetUid = null; // ΟΞΏΞΉΞΏΞ½ user ΞΊΞ¬Ξ½Ξ±ΞΌΞ΅ Ξ΄Ξ΅ΞΎΞ― ΞΊΞ»ΞΉΞΊ
 
-// Κλικ έξω → κλείσιμο
+// ΞΞ»ΞΉΞΊ Ξ­ΞΎΟ β ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ
 document.addEventListener("click", (e) => {
   if (!userContextMenu.contains(e.target)) {
     userContextMenu.classList.add("hidden");
   }
 });
 
-// Esc → κλείσιμο
+// Esc β ΞΊΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
     userContextMenu.classList.add("hidden");
@@ -1631,43 +1666,43 @@ const roleModal = document.getElementById("roleModal");
 const closeRole = document.getElementById("closeRole");
 const roleButtons = document.querySelectorAll(".role-btn");
 
-// Άνοιγμα modal όταν πατηθεί Change Role
+// ΞΞ½ΞΏΞΉΞ³ΞΌΞ± modal ΟΟΞ±Ξ½ ΟΞ±ΟΞ·ΞΈΞ΅Ξ― Change Role
 document.getElementById("changeRole").addEventListener("click", () => {
-  if (!contextTargetUid) return; // αν δεν έχουμε user
+  if (!contextTargetUid) return; // Ξ±Ξ½ Ξ΄Ξ΅Ξ½ Ξ­ΟΞΏΟΞΌΞ΅ user
 
-  roleModal.classList.remove("hidden");       // δείξε το modal
-  userContextMenu.classList.add("hidden");    // κλείσε το context menu
+  roleModal.classList.remove("hidden");       // Ξ΄Ξ΅Ξ―ΞΎΞ΅ ΟΞΏ modal
+  userContextMenu.classList.add("hidden");    // ΞΊΞ»Ξ΅Ξ―ΟΞ΅ ΟΞΏ context menu
 });
-// Επιλογή ρόλου από τα κουμπιά
+// ΞΟΞΉΞ»ΞΏΞ³Ξ� ΟΟΞ»ΞΏΟ Ξ±ΟΟ ΟΞ± ΞΊΞΏΟΞΌΟΞΉΞ¬
 roleButtons.forEach(btn => {
   btn.addEventListener("click", async () => {
     const newRole = btn.dataset.role;
 
     if (!contextTargetUid) return;
 
-    // 🔒 Μπλοκάρουμε self-demote
+    // π ΞΟΞ»ΞΏΞΊΞ¬ΟΞΏΟΞΌΞ΅ self-demote
     if (contextTargetUid === auth.currentUser.uid && newRole !== "admin") {
-      alert("⚠️ Δεν μπορείς να αλλάξεις το δικό σου role!");
+      alert("β οΈ ΞΞ΅Ξ½ ΞΌΟΞΏΟΞ΅Ξ―Ο Ξ½Ξ± Ξ±Ξ»Ξ»Ξ¬ΞΎΞ΅ΞΉΟ ΟΞΏ Ξ΄ΞΉΞΊΟ ΟΞΏΟ role!");
       return;
     }
 
-// Πάρε τον τρέχοντα ρόλο του target user
+// Ξ Ξ¬ΟΞ΅ ΟΞΏΞ½ ΟΟΞ­ΟΞΏΞ½ΟΞ± ΟΟΞ»ΞΏ ΟΞΏΟ target user
 const targetSnap = await get(ref(db, "users/" + contextTargetUid));
 const targetData = targetSnap.val();
 const oldRole = targetData?.role || "user";
 
-// ❌ Αν ο στόχος είναι ο MysteryMan → μπλοκάρουμε
+// β ΞΞ½ ΞΏ ΟΟΟΟΞΏΟ Ξ΅Ξ―Ξ½Ξ±ΞΉ ΞΏ MysteryMan β ΞΌΟΞ»ΞΏΞΊΞ¬ΟΞΏΟΞΌΞ΅
 if (targetData && targetData.displayName === "MysteryMan") {
-  alert("⚠️ Δεν μπορείς να πειράξεις τον MysteryMan!");
+  alert("β οΈ ΞΞ΅Ξ½ ΞΌΟΞΏΟΞ΅Ξ―Ο Ξ½Ξ± ΟΞ΅ΞΉΟΞ¬ΞΎΞ΅ΞΉΟ ΟΞΏΞ½ MysteryMan!");
   return;
 }
 
-// Κάνε update τον νέο ρόλο
+// ΞΞ¬Ξ½Ξ΅ update ΟΞΏΞ½ Ξ½Ξ­ΞΏ ΟΟΞ»ΞΏ
 await update(ref(db, "users/" + contextTargetUid), {
   role: newRole
 });
 
-// 🧾 === Log entry στο adminLogs ===
+// π§Ύ === Log entry ΟΟΞΏ adminLogs ===
 const currentUser = auth.currentUser;
 if (currentUser) {
   const logRef = push(ref(db, "adminLogs"));
@@ -1677,38 +1712,38 @@ if (currentUser) {
   targetUser: targetData?.displayName || "Unknown",
   oldRole: oldRole,
   newRole: newRole,
-  room: currentRoom || "unknown",  // 👈 προσθήκη δωματίου
+  room: currentRoom || "unknown",  // π ΟΟΞΏΟΞΈΞ�ΞΊΞ· Ξ΄ΟΞΌΞ±ΟΞ―ΞΏΟ
   time: Date.now()
 });
 }
 
-console.log("✅ Role updated:", contextTargetUid, "→", newRole);
+console.log("β Role updated:", contextTargetUid, "β", newRole);
 
-// Κλείσε το modal μετά την αλλαγή
+// ΞΞ»Ξ΅Ξ―ΟΞ΅ ΟΞΏ modal ΞΌΞ΅ΟΞ¬ ΟΞ·Ξ½ Ξ±Ξ»Ξ»Ξ±Ξ³Ξ�
 roleModal.classList.add("hidden");
   });
 });
-// Κλείσιμο με ❌
+// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ β
 closeRole.addEventListener("click", () => {
   roleModal.classList.add("hidden");
 });
 
-// Κλείσιμο με click έξω
+// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ click Ξ­ΞΎΟ
 roleModal.addEventListener("click", (e) => {
   if (e.target === roleModal) {
     roleModal.classList.add("hidden");
   }
 });
 
-// Κλείσιμο με Esc
+// ΞΞ»Ξ΅Ξ―ΟΞΉΞΌΞΏ ΞΌΞ΅ Esc
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && !roleModal.classList.contains("hidden")) {
+  if (e.key === "Escape") {
     roleModal.classList.add("hidden");
   }
-});
+
 // ===================== ADMIN ACTIONS: KICK / BAN / MUTE / UNMUTE =====================
 
-// Helper για log entries
+// Helper Ξ³ΞΉΞ± log entries
 async function logAdminAction(action, targetUid, targetUser, extra = {}) {
   const currentUser = auth.currentUser;
   if (!currentUser) return;
@@ -1729,21 +1764,21 @@ async function logAdminAction(action, targetUid, targetUser, extra = {}) {
 const muteUserBtn = document.getElementById("muteUser");
 if (muteUserBtn) {
   muteUserBtn.addEventListener("click", async () => {
-    if (!contextTargetUid) return alert("⚠️ No user selected!");
+    if (!contextTargetUid) return alert("β οΈ No user selected!");
     const currentUser = auth.currentUser;
     if (!currentUser) return;
 
     const adminSnap = await get(ref(db, "users/" + currentUser.uid));
     const adminData = adminSnap.val() || {};
     if (adminData.role !== "admin" && currentUser.displayName !== "MysteryMan") {
-      alert("⚠️ Μόνο admin μπορεί να κάνει mute!");
+      alert("β οΈ ΞΟΞ½ΞΏ admin ΞΌΟΞΏΟΞ΅Ξ― Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉ mute!");
       return;
     }
 
     const targetSnap = await get(ref(db, "users/" + contextTargetUid));
     const targetData = targetSnap.val() || {};
     if (targetData.displayName === "MysteryMan") {
-      alert("🚫 Δεν μπορείς να κάνεις mute τον MysteryMan!");
+      alert("π« ΞΞ΅Ξ½ ΞΌΟΞΏΟΞ΅Ξ―Ο Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉΟ mute ΟΞΏΞ½ MysteryMan!");
       return;
     }
 
@@ -1753,7 +1788,7 @@ if (muteUserBtn) {
     });
 
     await logAdminAction("mute", contextTargetUid, targetData.displayName);
-    alert(`🔇 Ο χρήστης ${targetData.displayName || "user"} έγινε mute.`);
+    alert(`π Ξ ΟΟΞ�ΟΟΞ·Ο ${targetData.displayName || "user"} Ξ­Ξ³ΞΉΞ½Ξ΅ mute.`);
     userContextMenu.classList.add("hidden");
   });
 }
@@ -1762,12 +1797,12 @@ if (muteUserBtn) {
 const unmuteUserBtn = document.getElementById("unmuteUser");
 if (unmuteUserBtn) {
   unmuteUserBtn.addEventListener("click", async () => {
-    if (!contextTargetUid) return alert("⚠️ No user selected!");
+    if (!contextTargetUid) return alert("β οΈ No user selected!");
 
     await remove(ref(db, "mutes/" + contextTargetUid));
 
     await logAdminAction("unmute", contextTargetUid, "Unknown");
-    alert("🔊 Ο χρήστης έγινε unmute.");
+    alert("π Ξ ΟΟΞ�ΟΟΞ·Ο Ξ­Ξ³ΞΉΞ½Ξ΅ unmute.");
     userContextMenu.classList.add("hidden");
   });
 }
@@ -1776,31 +1811,31 @@ if (unmuteUserBtn) {
 const kickUserBtn = document.getElementById("kickUser");
 if (kickUserBtn) {
   kickUserBtn.addEventListener("click", async () => {
-    if (!contextTargetUid) return alert("⚠️ No user selected!");
+    if (!contextTargetUid) return alert("β οΈ No user selected!");
     const currentUser = auth.currentUser;
     if (!currentUser) return;
 
     const userSnap = await get(ref(db, "users/" + currentUser.uid));
     const userData = userSnap.val() || {};
     if (userData.role !== "admin" && currentUser.displayName !== "MysteryMan") {
-      alert("⚠️ Μόνο admin μπορεί να κάνει kick!");
+      alert("β οΈ ΞΟΞ½ΞΏ admin ΞΌΟΞΏΟΞ΅Ξ― Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉ kick!");
       return;
     }
 
     const targetSnap = await get(ref(db, "users/" + contextTargetUid));
     const targetData = targetSnap.val() || {};
     if (targetData.displayName === "MysteryMan") {
-      alert("🚫 Δεν μπορείς να κάνεις kick τον MysteryMan!");
+      alert("π« ΞΞ΅Ξ½ ΞΌΟΞΏΟΞ΅Ξ―Ο Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉΟ kick ΟΞΏΞ½ MysteryMan!");
       return;
     }
 
-    const reason = prompt("👢 Λόγος για το kick;", "spam / προσβολή");
-    if (!reason) return alert("⚠️ Kick ακυρώθηκε — δεν δόθηκε λόγος.");
+    const reason = prompt("π’ ΞΟΞ³ΞΏΟ Ξ³ΞΉΞ± ΟΞΏ kick;", "spam / ΟΟΞΏΟΞ²ΞΏΞ»Ξ�");
+    if (!reason) return alert("β οΈ Kick Ξ±ΞΊΟΟΟΞΈΞ·ΞΊΞ΅ β Ξ΄Ξ΅Ξ½ Ξ΄ΟΞΈΞ·ΞΊΞ΅ Ξ»ΟΞ³ΞΏΟ.");
 
     await remove(ref(db, "users/" + contextTargetUid));
 
     await logAdminAction("kick", contextTargetUid, targetData.displayName, { reason });
-    alert(`👢 Ο χρήστης ${targetData.displayName || "user"} αποβλήθηκε!`);
+    alert(`π’ Ξ ΟΟΞ�ΟΟΞ·Ο ${targetData.displayName || "user"} Ξ±ΟΞΏΞ²Ξ»Ξ�ΞΈΞ·ΞΊΞ΅!`);
 
     userContextMenu.classList.add("hidden");
   });
@@ -1810,26 +1845,26 @@ if (kickUserBtn) {
 const banUserBtn = document.getElementById("banUser");
 if (banUserBtn) {
   banUserBtn.addEventListener("click", async () => {
-    if (!contextTargetUid) return alert("⚠️ No user selected!");
+    if (!contextTargetUid) return alert("β οΈ No user selected!");
     const currentUser = auth.currentUser;
     if (!currentUser) return;
 
     const adminSnap = await get(ref(db, "users/" + currentUser.uid));
     const adminData = adminSnap.val() || {};
     if (adminData.role !== "admin" && currentUser.displayName !== "MysteryMan") {
-      alert("⚠️ Μόνο admin μπορεί να κάνει ban!");
+      alert("β οΈ ΞΟΞ½ΞΏ admin ΞΌΟΞΏΟΞ΅Ξ― Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉ ban!");
       return;
     }
 
     const targetSnap = await get(ref(db, "users/" + contextTargetUid));
     const targetData = targetSnap.val() || {};
     if (targetData.displayName === "MysteryMan") {
-      alert("🚫 Δεν μπορείς να κάνεις ban τον MysteryMan!");
+      alert("π« ΞΞ΅Ξ½ ΞΌΟΞΏΟΞ΅Ξ―Ο Ξ½Ξ± ΞΊΞ¬Ξ½Ξ΅ΞΉΟ ban ΟΞΏΞ½ MysteryMan!");
       return;
     }
 
-    const reason = prompt("⛔ Λόγος ban;", "spamming / toxic behavior");
-    if (!reason) return alert("⚠️ Ban ακυρώθηκε — δεν δόθηκε λόγος.");
+    const reason = prompt("β ΞΟΞ³ΞΏΟ ban;", "spamming / toxic behavior");
+    if (!reason) return alert("β οΈ Ban Ξ±ΞΊΟΟΟΞΈΞ·ΞΊΞ΅ β Ξ΄Ξ΅Ξ½ Ξ΄ΟΞΈΞ·ΞΊΞ΅ Ξ»ΟΞ³ΞΏΟ.");
 
     await set(ref(db, "bannedUsers/" + contextTargetUid), {
       uid: contextTargetUid,
@@ -1844,30 +1879,7 @@ if (banUserBtn) {
     await logAdminAction("ban", contextTargetUid, targetData.displayName, { reason });
     await remove(ref(db, "users/" + contextTargetUid));
 
-    alert(`⛔ Ο χρήστης ${targetData.displayName || "user"} αποκλείστηκε!`);
+    alert(`β Ξ ΟΟΞ�ΟΟΞ·Ο ${targetData.displayName || "user"} Ξ±ΟΞΏΞΊΞ»Ξ΅Ξ―ΟΟΞ·ΞΊΞ΅!`);
     userContextMenu.classList.add("hidden");
   });
 }
-
-// 🎵 Listener για clicks πάνω σε system YouTube links
-document.addEventListener("click", (e) => {
-  const target = e.target;
-  if (target.classList.contains("yt-play")) {
-    e.preventDefault();
-    const videoId = target.dataset.videoid;
-    const youtubePanel = document.getElementById("youtubePanel");
-
-    if (youtubePanel) {
-      const wrapper = youtubePanel.querySelector(".video-wrapper");
-      wrapper.innerHTML = `
-        <iframe 
-          src="https://www.youtube.com/embed/${videoId}" 
-          frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen>
-        </iframe>
-      `;
-      youtubePanel.classList.remove("hidden");
-    }
-  }
-});
