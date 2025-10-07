@@ -602,26 +602,33 @@ if (messageForm) {
     if (match) {
       const videoId = match[1];
       const youtubePanel = document.getElementById("youtubePanel");
+
+      // 🎬 Άνοιξε το YouTube panel και παίξε το βίντεο
       if (youtubePanel) {
         const wrapper = youtubePanel.querySelector(".video-wrapper");
         wrapper.innerHTML = `
-          <iframe src="https://www.youtube.com/embed/${videoId}" 
-          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+          <iframe 
+            src="https://www.youtube.com/embed/${videoId}" 
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>`;
         youtubePanel.classList.remove("hidden");
       }
 
-      push(ref(db, "messages/" + currentRoom), {
+      // 🎵 Στείλε μόνο ένα system message για το τραγούδι
+      await push(ref(db, "messages/" + currentRoom), {
         system: true,
-        text: `🎵 ${username} is playing: <a href="#" class="yt-play" data-videoid="${videoId}">YouTube Video</a>`,
+        text: `🎵 ${username} is playing: https://youtu.be/${videoId}`,
         createdAt: Date.now()
       });
 
       input.value = "";
       input.style.height = "40px";
-      return;
+      return; // ✅ σταματά εδώ, δεν συνεχίζει σαν κανονικό μήνυμα
     }
 
-    // ✅ Κανονικά μηνύματα (όχι YouTube)
+    // ✅ Αν ΔΕΝ είναι YouTube link → κανονικό μήνυμα
     await push(ref(db, "messages/" + currentRoom), {
       uid: user?.uid,
       user: username,
@@ -633,6 +640,7 @@ if (messageForm) {
     input.style.height = "40px";
   });
 }
+
 
 // ===================== TOGGLE YOUTUBE BUTTON =====================
 const toggleYoutubeBtn = document.getElementById("toggleYoutubeBtn");
