@@ -22,7 +22,7 @@ const auth = getAuth(app);
 
 let currentRoom = "general";
 
-// ===================== SEND MESSAGE =====================
+// ===================== SEND MESSAGE (FIXED & CLEAN) =====================
 const messageForm = document.getElementById("messageForm");
 const input = document.getElementById("messageInput");
 
@@ -31,7 +31,7 @@ if (input) {
   input.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault(); // Μην κάνει newline
-      document.getElementById("messageForm").requestSubmit(); // Στείλε το μήνυμα
+      messageForm.requestSubmit(); // Στείλε το μήνυμα
     }
   });
 }
@@ -41,7 +41,6 @@ if (messageForm) {
     e.preventDefault();
 
     const text = input.value.trim();
-    
     if (!text) return;
 
     const user = auth.currentUser;
@@ -50,19 +49,27 @@ if (messageForm) {
       return;
     }
 
-    await push(ref(db, "v3/messages/" + currentRoom), {
-      uid: user.uid,
-      user: user.displayName || "Guest",
-      text,
-      createdAt: serverTimestamp()
-    });
+    try {
+      // ✅ fallback σε "general" αν το currentRoom είναι null
+      const roomPath = currentRoom || "general";
 
-    // === Καθάρισε input και κράτα focus ===
-    input.value = "";
-    input.style.height = "auto"; // 👈 Εδώ είναι το σωστό σημείο
-    input.focus();
+      await push(ref(db, "v3/messages/" + roomPath), {
+        uid: user.uid,
+        user: user.displayName || "Guest",
+        text,
+        createdAt: serverTimestamp(),
+      });
+
+      // ✅ καθαρισμός input μετά το push
+      input.value = "";
+      input.style.height = "auto";
+      input.focus();
+    } catch (err) {
+      console.error("Message send error:", err);
+    }
   });
 }
+
 // ===================== AUTO-GROW MESSAGE INPUT =====================
 const msgInput = document.getElementById("messageInput");
 
