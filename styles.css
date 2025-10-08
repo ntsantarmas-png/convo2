@@ -390,6 +390,10 @@ body {
 #appView.hidden * {
   display: none !important;
 }
+#authView.hidden {
+  display: none !important;
+}
+
 
 /* ===================== WELCOME BANNER / BUBBLE (CONVO SIGNATURE STYLE) ===================== */
 
