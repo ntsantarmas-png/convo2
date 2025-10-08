@@ -408,4 +408,31 @@ body {
   padding: 8px 16px;
   cursor: pointer;
 }
+/* ===================== INPUT DARK THEME (CONVO2 STYLE) ===================== */
+#messageInput {
+  background: #1a1f27; /* σκούρο φόντο */
+  color: #fff;          /* λευκό κείμενο */
+  border: 1px solid #2b3645; /* ελαφρύ περίγραμμα */
+  border-radius: 10px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+  transition: all 0.2s ease;
+}
+
+/* ✨ Hover effect */
+#messageInput:hover {
+  border-color: #2d8cff;
+  box-shadow: 0 0 4px rgba(45,140,255,0.4);
+}
+
+/* ✨ Focus (όταν γράφεις) */
+#messageInput:focus {
+  border-color: #2d8cff;
+  box-shadow: 0 0 6px rgba(45,140,255,0.6);
+  background: #1c242f; /* λίγο πιο φωτεινό φόντο όταν είναι ενεργό */
+}
+
+/* Placeholder πιο απαλό */
+#messageInput::placeholder {
+  color: #8b97a5;
+}
 
