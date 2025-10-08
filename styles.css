@@ -205,20 +205,20 @@ body {
 
 
 
-/* ===================== INPUT ===================== */
+/* ===================== MESSAGE FORM (NO SEND BUTTON) ===================== */
 #messageForm {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  align-items: center;
   padding: 8px 10px;
   background: #141b23;
   border-top: 1px solid #1f2a35;
   border-radius: 0 0 12px 12px;
-  flex-shrink: 0;  /* 👈 δεν “μεγαλώνει” ούτε σπρώχνει */
+  flex-shrink: 0;
 }
 
 #messageInput {
   flex: 1;
+  width: 100%;
   padding: 10px 12px;
   border: none;
   border-radius: 8px;
@@ -227,11 +227,11 @@ body {
   line-height: 1.5;
   resize: none;
   outline: none;
-  overflow-y: auto;          /* ✅ scroll εσωτερικά */
-  max-height: 150px;         /* ✅ όριο ~4 γραμμές */
-  min-height: 40px;          /* ✅ αρχικό ύψος */
+  overflow-y: auto;
+  max-height: 120px;
+  min-height: 40px;
   box-sizing: border-box;
-  scrollbar-width: none;     /* ✅ κρύβει scrollbar σε Firefox */
+  scrollbar-width: none; /* κρύβει scrollbar σε Firefox */
   transition: height 0.1s ease;
 }
 
@@ -240,20 +240,6 @@ body {
   display: none;
 }
 
-
-#sendBtn {
-  background: #2d8cff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-#sendBtn:hover {
-  background: #1e6edc;
-}
 
 /* ===================== HIDDEN UTILITY ===================== */
 .hidden {
@@ -412,16 +398,6 @@ body {
   border-radius: 8px;
   padding: 10px 14px;
   min-height: 0;
-}
-
-#messageForm {
-  display: flex;
-  gap: 10px;
-  padding: 8px 10px;
-  background: #141b23;
-  border-top: 1px solid #1f2a35;
-  border-radius: 0 0 12px 12px;
-  flex-shrink: 0;
 }
 
 #sendBtn {
