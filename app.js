@@ -205,10 +205,22 @@ function renderUserCategories() {
         avatar.classList.add("user-glow");
       }
 
-      // 💬 Όνομα
-      const nameSpan = document.createElement("span");
-      nameSpan.className = "user-name";
-      nameSpan.textContent = u.displayName || "Guest";
+   // 💬 Όνομα με role-based class
+const nameSpan = document.createElement("span");
+nameSpan.className = "user-name";
+
+if (u.displayName === "MysteryMan" || u.role === "admin") {
+  nameSpan.classList.add("admin");
+} else if (u.role === "vip") {
+  nameSpan.classList.add("vip");
+} else if (u.online === false) {
+  nameSpan.classList.add("offline");
+} else {
+  nameSpan.classList.add("user");
+}
+
+nameSpan.textContent = u.displayName || "Guest";
+
 
       // 👑 Badge (ανάλογα με το role)
       const badge = document.createElement("span");
