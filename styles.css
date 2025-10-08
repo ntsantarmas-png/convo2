@@ -918,3 +918,7 @@ body {
   border-color: #333;
   box-shadow: 0 0 5px rgba(80,80,80,0.4);
 }
+
+#usersPanel li[title]:hover {
+  cursor: help;
+}
