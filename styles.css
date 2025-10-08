@@ -649,3 +649,85 @@ body {
   text-alig
 
 
+/* ===================== USERLIST CATEGORIES (CONVO STYLE) ===================== */
+.user-category {
+  margin-bottom: 14px;
+}
+
+.cat-header {
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding: 6px 0;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.4);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* 👑 Admins */
+.cat-header.admin {
+  background: linear-gradient(135deg, #5d6bff, #9a6cff);
+  border: 1px solid #6e7cff;
+  color: #fff;
+  text-shadow: 0 0 6px rgba(150,160,255,0.6);
+  box-shadow: 0 0 8px rgba(93,107,255,0.5);
+}
+
+/* 💎 VIPs */
+.cat-header.vip {
+  background: radial-gradient(circle at 50% 50%, #000 0%, #0b0f17 100%);
+  border: 2px solid gold;
+  color: #32d4ff;
+  text-shadow: 0 0 8px rgba(50,212,255,0.6);
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.08) 0,
+    rgba(255,255,255,0.08) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  box-shadow: 0 0 10px rgba(255,215,0,0.5);
+}
+
+/* 💬 Normal Users */
+.cat-header.users {
+  background: linear-gradient(135deg, #1a1f27, #242d38);
+  border: 1px solid #2b3645;
+  color: #9bb7ff;
+  box-shadow: inset 0 0 5px rgba(45,140,255,0.3);
+}
+
+/* 🌙 Offline */
+.cat-header.offline {
+  background: #14191f;
+  border: 1px solid #2b3645;
+  color: #666;
+  font-style: italic;
+}
+
+/* === Λίστες === */
+#usersPanel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#usersPanel li {
+  background: #1e252e;
+  padding: 8px 10px;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  font-size: 14px;
+  transition: background 0.2s, transform 0.15s;
+  cursor: default;
+}
+
+/* Hover Effect */
+#usersPanel li:hover {
+  background: #2d8cff;
+  transform: translateX(2px);
+  color: white;
+}
