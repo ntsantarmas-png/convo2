@@ -1,59 +1,98 @@
-
-/* =========================================================
-   CONVO v3 — CLEANED & STRUCTURED STYLESHEET
-   ========================================================= */
-
-/* ===================== GLOBAL ===================== */
 body {
-  background: #10141a;
-  color: #fff;
-  font-family: "Segoe UI", sans-serif;
   margin: 0;
-  padding: 0;
+  font-family: "Inter", sans-serif;
+  background: #0f141a;
+  color: #e6e6e6;
+}
+
+.hidden { display: none; }
+
+.center-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #2d8cff;
+}
+
+.auth-box {
+  background: #1a1f27;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  width: 250px;
+}
+
+.auth-box h2 {
+  margin-bottom: 10px;
+  color: #2d8cff;
+}
+
+.auth-box input {
+  width: 100%;
+  margin: 6px 0;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #2a2a2a;
+  background: #11161c;
+  color: #fff;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.auth-box input:focus {
+  border-color: #2d8cff;
+  box-shadow: 0 0 6px rgba(45,140,255,0.5);
+}
+
+.auth-box button {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: #2d8cff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.auth-box a {
+  color: #2d8cff;
+  font-size: 0.9em;
+}
+
+/* ============== CHAT LAYOUT ============== */
+#chatScreen {
   display: flex;
   flex-direction: column;
   height: 100vh;
 }
 
-/* ===================== TOPBAR ===================== */
-#topbar {
-  background: linear-gradient(135deg, #1a1f27, #1c242f);
-  border-bottom: 1px solid #2d8cff33;
-  box-shadow: 0 0 8px rgba(45,140,255,0.25);
-  padding: 10px 20px;
+header {
+  background: #1a1f27;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 0 0 10px 10px;
-  transition: box-shadow 0.3s ease;
+  padding: 10px 15px;
+  border-bottom: 1px solid #2d8cff40;
 }
-#topbar:hover { box-shadow: 0 0 12px rgba(45,140,255,0.4); }
 
-.brand {
-  font-weight: 700;
-  font-size: 1.35rem;
-  background: linear-gradient(135deg, #5cb8ff, #2d8cff 70%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-shadow: 0 0 8px rgba(45,140,255,0.5);
-}
-.brand::before { content: "💬"; font-size: 1.2rem; }
-.brand span.version { font-size: 0.7rem; color: #8abfff; margin-left: 3px; }
-
-/* ===================== LOGOUT BUTTON ===================== */
 #logoutBtn {
-  background: #1a1f27;
-  color: #fff;
-  border: 1px solid #2b3645;
-  border-radius: 8px;
-  padding: 6px 14px;
-  font-size: 14px;
+  background: none;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  padding: 5px 10px;
+  color: #ccc;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+  transition: all 0.3s;
 }
 #logoutBtn:hover {
   background: #1c242f;
@@ -62,191 +101,107 @@ body {
   color: #2d8cff;
 }
 
-/* ===================== AUTH VIEW ===================== */
-#authView {
+#chatContainer {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px;
+  flex: 1;
+  overflow: hidden;
 }
-.auth-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-.auth-box {
-  background: #1a1f27;
-  border: 1px solid #2b3645;
-  border-radius: 12px;
-  padding: 20px;
+
+aside {
   width: 220px;
-  text-align: center;
-  color: #fff;
-  transition: all 0.25s ease;
-}
-.auth-box:hover { border-color: #2d8cff; box-shadow: 0 0 8px rgba(45,140,255,0.4); }
-.auth-box input, .auth-box button {
-  border-radius: 8px;
-  border: 1px solid #2b3645;
-  padding: 8px;
-}
-.auth-box input { background: #1a1f27; color: #fff; }
-.auth-box input:focus {
-  border-color: #2d8cff;
-  box-shadow: 0 0 6px rgba(45,140,255,0.6);
-}
-.auth-box button {
-  background: #2d8cff;
-  color: #fff;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.25s ease;
-}
-.auth-box button:hover { background: #1e6edc; }
-
-/* ===================== APP LAYOUT ===================== */
-#appView {
-  display: none;
-  flex-direction: row;
-  height: 100vh;
-  background: #0d1117;
-  overflow: hidden;
-  padding: 10px;
-  gap: 10px;
-}
-#roomsPanel, #chatPanel, #usersPanel {
-  background: #151b22;
-  border-radius: 12px;
+  background: #14191f;
   padding: 10px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-}
-#roomsPanel { flex: 0 0 220px; }
-#chatPanel { flex: 1; }
-#usersPanel { flex: 0 0 220px; }
-
-/* ===================== ROOMS & USERS LIST ===================== */
-#roomsPanel ul, #usersPanel ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  overflow-x: hidden;
+  border-right: 1px solid #1f2630;
   overflow-y: auto;
 }
-#roomsPanel li, #usersPanel li {
-  background: #1e252e;
-  color: #cfd8e3;
-  border: 1px solid #2b3645;
-  border-radius: 8px;
-  padding: 8px 10px;
-  margin-bottom: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-sizing: border-box;
-  width: calc(100% - 4px);
-  overflow-x: hidden;
-  white-space: nowrap;
-}
-#roomsPanel li:hover, #usersPanel li:hover {
-  background: #263040;
-  border-color: #2d8cff;
-  color: #fff;
-}
-#roomsPanel li.active {
-  background: #2d8cff;
-  color: #fff;
-  border-color: #2d8cff;
+
+#usersPanel {
+  border-left: 1px solid #1f2630;
 }
 
-/* ===================== MESSAGE INPUT ===================== */
+#mainPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #0f141a;
+}
+
+#messages {
+  flex: 1;
+  padding: 15px;
+  overflow-y: auto;
+}
+
+.msg {
+  margin-bottom: 10px;
+}
+
+.msg-name {
+  font-size: 0.85em;
+  margin-bottom: 2px;
+  color: #7aa9ff;
+}
+
+.msg-bubble {
+  background: #1a1f27;
+  padding: 8px 12px;
+  border-radius: 10px;
+  display: inline-block;
+  max-width: 80%;
+  word-wrap: break-word;
+  border: 1px solid #1f2630;
+  position: relative;
+}
+
+.msg-time {
+  font-size: 0.7em;
+  color: #aaa;
+  margin-left: 6px;
+}
+
 #messageInput {
+  resize: none;
+  border: 1px solid #2a2a2a;
+  border-radius: 8px;
   background: #1a1f27;
   color: #fff;
-  border: 1px solid #2b3645;
-  border-radius: 10px;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
-  transition: all 0.2s ease;
+  padding: 10px;
+  margin: 10px;
+  outline: none;
+  transition: all 0.3s;
+  overflow-y: hidden;
 }
-#messageInput:hover, #messageInput:focus {
+
+#messageInput:focus {
   border-color: #2d8cff;
-  box-shadow: 0 0 6px rgba(45,140,255,0.6);
+  box-shadow: 0 0 6px rgba(45,140,255,0.5);
+}
+
+/* Hover/Glow effect reuse */
+.room-item:hover, .user-item:hover, #createRoomBtn:hover {
   background: #1c242f;
+  border-color: #2d8cff;
+  box-shadow: 0 0 6px rgba(45,140,255,0.5);
+  color: #2d8cff;
 }
 
-/* ===================== USER AVATAR & STATUS ===================== */
-.user-avatar-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+/* Room & User items */
+.room-item, .user-item {
   padding: 6px 8px;
-  border-radius: 8px;
-  transition: all 0.25s ease;
-}
-.user-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #1e293b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-weight: 600;
-  border: 1px solid #2d8cff33;
-}
-.status-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-.status-dot.online { background: #34ff74; }
-.status-dot.offline { background: #888; opacity: 0.6; }
-
-/* ===================== MINI PROFILE CARD ===================== */
-#profileCard {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.95);
-  background: linear-gradient(145deg, #1a1f27, #1e2530);
-  border: 1px solid rgba(45,140,255,0.3);
-  border-radius: 16px;
-  box-shadow: 0 0 25px rgba(45,140,255,0.4);
-  padding: 20px;
-  width: 260px;
-  color: #fff;
-  opacity: 0;
-  transition: all 0.25s ease;
-  z-index: 2000;
-}
-#profileCard.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-/* ===================== WELCOME BUBBLE CENTER ===================== */
-#welcomeBubble {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: linear-gradient(145deg, #1a1f27, #1e2530);
-  border: 1px solid rgba(45, 140, 255, 0.4);
-  color: #fff;
-  padding: 14px 26px;
-  border-radius: 12px;
-  font-size: 17px;
-  box-shadow: 0 0 20px rgba(45, 140, 255, 0.25);
-  z-index: 5000;
-  opacity: 0;
-  animation: fadePop 3.5s ease forwards;
+  margin: 4px 0;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  transition: all 0.3s;
+  cursor: pointer;
 }
 
-@keyframes fadePop {
-  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-  10%, 90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
 }
-
-
-/* ===================== UTILITIES ===================== */
-.hidden { display: none !important; }
+::-webkit-scrollbar-thumb {
+  background: #2d8cff55;
+  border-radius: 3px;
+}
