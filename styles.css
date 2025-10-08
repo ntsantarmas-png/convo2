@@ -922,3 +922,34 @@ body {
 #usersPanel li[title]:hover {
   cursor: help;
 }
+/* ===================== CONVO TOOLTIP STYLE ===================== */
+#convoTooltip {
+  position: absolute;
+  background: linear-gradient(135deg, #2d8cff, #1e6edc);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 0 10px rgba(45, 140, 255, 0.5);
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 1000;
+  white-space: nowrap;
+}
+
+#convoTooltip.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+#usersPanel li {
+  position: relative;
+}
+
+/* Αντί για title, τώρα χρησιμοποιούμε data-tooltip */
+#usersPanel li:hover {
+  cursor: help;
+}
