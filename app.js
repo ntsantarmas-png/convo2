@@ -113,17 +113,22 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
-// ===================== CHATGPT-STYLE AUTO-GROW INPUT =====================
+// ===================== AUTO-GROW MESSAGE INPUT (DISCORD STYLE) =====================
 const msgInput = document.getElementById("messageInput");
-
+const baseHeight = 40;   // 1 γραμμή
+const maxHeight = 120;   // περίπου 3 γραμμές
 
 if (msgInput) {
-  const baseHeight = 40;   // αρχικό ύψος (1 γραμμή)
-  const maxHeight = 150;   // μέγιστο ύψος (~4 γραμμές)
+  msgInput.style.height = baseHeight + "px";
+  msgInput.style.overflowY = "auto"; // ενεργό scroll (αλλά αόρατο λόγω CSS)
 
   msgInput.addEventListener("input", () => {
-    msgInput.style.height = "auto"; // επανυπολογισμός
-    msgInput.style.height = Math.min(msgInput.scrollHeight, maxHeight) + "px";
+    msgInput.style.height = "auto"; // μηδενίζει πριν μετρήσει
+    const newHeight = Math.min(msgInput.scrollHeight, maxHeight);
+    msgInput.style.height = newHeight + "px";
+
+    // Αν περάσει το όριο, κρατά scroll ενεργό (χωρίς να φαίνεται)
+    msgInput.scrollTop = msgInput.scrollHeight;
   });
 
   // ✅ Μετά την αποστολή, καθάρισε & επανέφερε ύψος
@@ -131,10 +136,10 @@ if (msgInput) {
     messageForm.addEventListener("submit", () => {
       msgInput.value = "";
       msgInput.style.height = baseHeight + "px";
+      msgInput.scrollTop = 0;
     });
   }
 }
-
 
 
 // ===================== WELCOME BUBBLE =====================
