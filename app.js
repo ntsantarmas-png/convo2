@@ -281,6 +281,37 @@ onAuthStateChanged(auth, (user) => {
     showWelcomeBubble(user.displayName || "Guest");
   }
 });
+// ===================== PRESENCE SYSTEM (ONLINE / OFFLINE) =====================
+function setupPresence(user) {
+  if (!user) return;
+
+  const userRef = ref(db, "users/" + user.uid);
+  const connectedRef = ref(db, ".info/connected");
+
+  onValue(connectedRef, (snap) => {
+    if (snap.val() === false) return;
+
+    // 🔌 Αν κοπεί η σύνδεση → κάνε offline
+    onDisconnect(userRef).update({
+      online: false,
+      lastSeen: Date.now(),
+    });
+
+    // ✅ Αν είναι online → ενημέρωσε
+    update(userRef, {
+      online: true,
+      lastSeen: Date.now(),
+    });
+  });
+}
+
+// 🚀 Κάλεσέ το μετά το login
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    setupPresence(user);
+    renderUserCategories(); // για να ενημερώνεται η λίστα live
+  }
+});
 
 
 console.log("✅ Convo v3 base loaded");
