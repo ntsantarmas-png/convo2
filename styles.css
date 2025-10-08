@@ -981,3 +981,42 @@ body {
 #usersPanel li:hover {
   cursor: help;
 }
+
+/* ===================== USERNAME ROLE COLORS (CONVO STYLE) ===================== */
+
+/* 👑 Admin */
+.user-name.admin {
+  color: #2d8cff;
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(45,140,255,0.6);
+}
+
+/* 💎 VIP */
+.user-name.vip {
+  color: #ffd700;
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(255,215,0,0.6);
+}
+
+/* 💬 Normal User */
+.user-name.user {
+  color: #e0e6f0;
+  font-weight: 500;
+  text-shadow: 0 0 3px rgba(200,200,200,0.3);
+}
+
+/* 🌙 Offline */
+.user-name.offline {
+  color: #606873;
+  font-weight: 400;
+  text-shadow: none;
+  opacity: 0.7;
+}
+
+/* ✨ Convo Glow Hover */
+.user-name:hover {
+  color: #fff;
+  text-shadow: 0 0 10px rgba(45,140,255,0.9);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
