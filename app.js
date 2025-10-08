@@ -160,6 +160,7 @@ function renderUserCategories() {
 
   if (!adminsList || !vipsList || !normalUsersList || !offlineList) return;
 
+  // 🔹 Real-time listener
   onValue(ref(db, "users"), (snap) => {
     // 🧹 Καθάρισε τις λίστες
     adminsList.innerHTML = "";
@@ -198,6 +199,24 @@ function renderUserCategories() {
       li.innerHTML = `💬 ${u.displayName}`;
       normalUsersList.appendChild(li);
     });
+
+    // === Μετά το loop: υπολόγισε counters ===
+    const adminCount = adminsList.childElementCount;
+    const vipCount = vipsList.childElementCount;
+    const userCount = normalUsersList.childElementCount;
+    const offlineCount = offlineList.childElementCount;
+
+    // Βρες τα headers
+    const adminHeader = document.querySelector(".cat-header.admin");
+    const vipHeader = document.querySelector(".cat-header.vip");
+    const userHeader = document.querySelector(".cat-header.users");
+    const offlineHeader = document.querySelector(".cat-header.offline");
+
+    // ✅ Ενημέρωσε το attribute data-count
+    if (adminHeader) adminHeader.setAttribute("data-count", adminCount);
+    if (vipHeader) vipHeader.setAttribute("data-count", vipCount);
+    if (userHeader) userHeader.setAttribute("data-count", userCount);
+    if (offlineHeader) offlineHeader.setAttribute("data-count", offlineCount);
   });
 }
 
@@ -205,6 +224,7 @@ function renderUserCategories() {
 onAuthStateChanged(auth, (user) => {
   if (user) renderUserCategories();
 });
+
 
 // ===================== AUTO-GROW MESSAGE INPUT (DISCORD STYLE) =====================
 const msgInput = document.getElementById("messageInput");
