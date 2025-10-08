@@ -131,7 +131,7 @@ msgInput.addEventListener("input", () => {
 
     // Αν περάσει το όριο, κρατά scroll ενεργό (χωρίς να φαίνεται)
     msgInput.scrollTop = msgInput.scrollHeight;
-  });
+  
 
   // ✅ Μετά την αποστολή, καθάρισε & επανέφερε ύψος
   if (messageForm) {
