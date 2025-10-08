@@ -161,18 +161,26 @@ aside {
   margin-left: 6px;
 }
 
+/* ====== MAIN PANEL INPUT ====== */
+#mainPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #0f141a;
+  border-right: 1px solid #1f2630; /* οπτικό διαχωριστικό από userlist */
+}
+
 #messageForm {
   width: 100%;
   padding: 10px;
   background: #0f141a;
   border-top: 1px solid #1f2630;
   display: flex;
-  justify-content: center;
 }
 
 #messageInput {
-  width: 100%;
-  max-width: 100%;
+  flex: 1;
   resize: none;
   border: 1px solid #2a2a2a;
   border-radius: 8px;
@@ -185,6 +193,10 @@ aside {
   box-sizing: border-box;
 }
 
+#messageInput:focus {
+  border-color: #2d8cff;
+  box-shadow: 0 0 6px rgba(45,140,255,0.5);
+}
 #messageInput:focus {
   border-color: #2d8cff;
   box-shadow: 0 0 6px rgba(45,140,255,0.5);
