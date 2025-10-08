@@ -53,6 +53,22 @@ document.getElementById("registerBtn").addEventListener("click", async () => {
   const pass = document.getElementById("registerPassword").value.trim();
   if (!email || !pass) return alert("⚠️ Fill all fields");
   const cred = await createUserWithEmailAndPassword(auth, email, pass);
+  import { updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+// ✅ Ορισμός username ή fallback
+const finalName = username || "User" + Math.floor(Math.random() * 10000);
+
+// ✅ Ενημέρωση Firebase Auth προφίλ
+await updateProfile(cred.user, { displayName: finalName });
+
+// ✅ Καταχώρηση στο Realtime Database
+await update(ref(db, "users/" + cred.user.uid), {
+  uid: cred.user.uid,
+  displayName: finalName,
+  email,
+  createdAt: Date.now(),
+});
+
   await update(ref(db, "users/" + cred.user.uid), {
     uid: cred.user.uid,
     displayName: username,
