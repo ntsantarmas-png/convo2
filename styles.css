@@ -1,3 +1,8 @@
+
+/* =========================================================
+   CONVO v3 — CLEANED & STRUCTURED STYLESHEET
+   ========================================================= */
+
 /* ===================== GLOBAL ===================== */
 body {
   background: #10141a;
@@ -9,7 +14,21 @@ body {
   flex-direction: column;
   height: 100vh;
 }
-/* ===================== CONVO SIGNATURE LOGO (PREMIUM BUBBLE) ===================== */
+
+/* ===================== TOPBAR ===================== */
+#topbar {
+  background: linear-gradient(135deg, #1a1f27, #1c242f);
+  border-bottom: 1px solid #2d8cff33;
+  box-shadow: 0 0 8px rgba(45,140,255,0.25);
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0 0 10px 10px;
+  transition: box-shadow 0.3s ease;
+}
+#topbar:hover { box-shadow: 0 0 12px rgba(45,140,255,0.4); }
+
 .brand {
   font-weight: 700;
   font-size: 1.35rem;
@@ -19,76 +38,16 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  letter-spacing: 0.5px;
   text-shadow: 0 0 8px rgba(45,140,255,0.5);
-  transition: transform 0.25s ease, text-shadow 0.25s ease;
 }
+.brand::before { content: "💬"; font-size: 1.2rem; }
+.brand span.version { font-size: 0.7rem; color: #8abfff; margin-left: 3px; }
 
-/* ✨ Hover – premium breathing effect */
-.brand:hover {
-  transform: scale(1.03);
-  text-shadow: 0 0 12px rgba(45,140,255,0.8);
-}
-
-/* 💬 Γυαλιστερό bubble icon */
-.brand::before {
-  content: "💬";
-  font-size: 1.2rem;
-  background: radial-gradient(circle at 30% 30%, #6ec3ff, #2d8cff 80%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 3px rgba(45,140,255,0.6))
-          drop-shadow(0 0 8px rgba(45,140,255,0.3));
-  transform: translateY(1px);
-}
-
-/* 🔹 Έκδοση v3 πιο light & μικρότερη */
-.brand span.version {
-  font-size: 0.7rem;
-  font-weight: 500;
-  color: #8abfff;
-  text-shadow: none;
-  margin-left: 3px;
-}
-
-/* ===================== TOPBAR (CONVO STYLE) ===================== */
-#topbar {
-  background: linear-gradient(135deg, #1a1f27, #1c242f); /* σκούρο μπλε-μαύρο base */
-  border-bottom: 1px solid #2d8cff33; /* λεπτό μπλε διαφανές περίγραμμα */
-  box-shadow: 0 0 8px rgba(45, 140, 255, 0.25); /* ελαφρύ μπλε glow */
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 0 0 10px 10px;
-  transition: box-shadow 0.3s ease;
-}
-
-/* ✨ Hover effect στο topbar (ελαφρύ φωτεινό κύμα) */
-#topbar:hover {
-  box-shadow: 0 0 12px rgba(45, 140, 255, 0.4);
-}
-
-/* Λογότυπο – λίγο πιο έντονο */
-.brand {
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* Εικονίδιο συνομιλίας πριν από το Convo */
-.brand::before {
-  content: "💬";
-  font-size: 1.1rem;
-}
-/* ===================== LOGOUT BUTTON (CONVO STYLE) ===================== */
+/* ===================== LOGOUT BUTTON ===================== */
 #logoutBtn {
-  background: #1a1f27;             /* ίδιο base με input */
+  background: #1a1f27;
   color: #fff;
-  border: 1px solid #2b3645;       /* λεπτό σκούρο περίγραμμα */
+  border: 1px solid #2b3645;
   border-radius: 8px;
   padding: 6px 14px;
   font-size: 14px;
@@ -96,8 +55,6 @@ body {
   transition: all 0.2s ease;
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
 }
-
-/* Hover – Convo blue glow */
 #logoutBtn:hover {
   background: #1c242f;
   border-color: #2d8cff;
@@ -105,51 +62,19 @@ body {
   color: #2d8cff;
 }
 
-/* Focus / Active – ελαφρύ highlight */
-#logoutBtn:active {
-  background: #222a36;
-  box-shadow: 0 0 4px rgba(45,140,255,0.7);
-}
-/* ===================== WELCOME TITLE (CONVO SIGNATURE STYLE) ===================== */
-#authView h2 {
-  font-weight: 700;
-  font-size: 26px;
-  background: linear-gradient(135deg, #2d8cff, #6cc5ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 10px rgba(45,140,255,0.4);
-  margin-top: 10px;
-  margin-bottom: 20px;
-  letter-spacing: 0.5px;
-  transition: text-shadow 0.3s ease, transform 0.3s ease;
-}
-
-/* ✨ Hover – μικρή "ανάσα" φωτός */
-#authView h2:hover {
-  text-shadow: 0 0 14px rgba(45,140,255,0.6);
-  transform: scale(1.02);
-}
-
-
-/* ===================== AUTH LAYOUT (CONVO SIGNATURE STYLE) ===================== */
+/* ===================== AUTH VIEW ===================== */
 #authView {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 40px;
 }
-
-/* === Κεντρικό container που κρατάει τα 4 κουτιά === */
 .auth-container {
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  gap: 20px;
   flex-wrap: wrap;
-  margin-top: 30px;
+  gap: 20px;
 }
-
-/* === Ενιαίο style για Login / Register / Guest / Info === */
 .auth-box {
   background: #1a1f27;
   border: 1px solid #2b3645;
@@ -157,366 +82,30 @@ body {
   padding: 20px;
   width: 220px;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
   color: #fff;
-  box-shadow: 0 0 6px rgba(45,140,255,0.15);
-  transition: all 0.25s ease, transform 0.25s ease;
-  animation: fadeUp 0.6s ease-out forwards;
-  opacity: 0;
+  transition: all 0.25s ease;
 }
-
-/* ✨ Hover / Focus effect */
-.auth-box:hover {
-  border-color: #2d8cff;
-  box-shadow: 0 0 8px rgba(45,140,255,0.4);
-  transform: translateY(-2px);
-}
-
-/* === Καθυστέρηση ανά κουτί για πιο smooth είσοδο === */
-.auth-box:nth-child(1) { animation-delay: 0.1s; }
-.auth-box:nth-child(2) { animation-delay: 0.25s; }
-.auth-box:nth-child(3) { animation-delay: 0.4s; }
-.auth-box:nth-child(4) { animation-delay: 0.55s; }
-
-/* === Κεντρικός τίτλος === */
-#authView h2 {
-  text-align: center;
-  width: 100%;
-  color: #6cc5ff;
-  font-size: 24px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-  text-shadow: 0 0 6px rgba(45,140,255,0.4);
-}
-
-/* === Υπότιτλοι στα κουτιά === */
-.auth-box h3 {
-  margin-bottom: 10px;
-  color: #6cc5ff;
-  font-weight: 600;
-  text-shadow: 0 0 4px rgba(45,140,255,0.3);
-}
-
-/* === Input fields === */
-.auth-box input {
-  width: 90%;
-  margin: 5px auto;
-  padding: 8px;
-  border: 1px solid #2b3645;
+.auth-box:hover { border-color: #2d8cff; box-shadow: 0 0 8px rgba(45,140,255,0.4); }
+.auth-box input, .auth-box button {
   border-radius: 8px;
-  background: #1a1f27;
-  color: #fff;
-  font-size: 14px;
-  outline: none;
-  transition: all 0.2s ease;
+  border: 1px solid #2b3645;
+  padding: 8px;
 }
-
+.auth-box input { background: #1a1f27; color: #fff; }
 .auth-box input:focus {
   border-color: #2d8cff;
   box-shadow: 0 0 6px rgba(45,140,255,0.6);
-  background: #1c242f;
 }
-
-/* === Buttons === */
 .auth-box button {
-  width: 100%;
-  padding: 10px;
   background: #2d8cff;
   color: #fff;
-  border: none;
-  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  transition: background 0.25s ease, box-shadow 0.25s ease;
+  transition: background 0.25s ease;
 }
+.auth-box button:hover { background: #1e6edc; }
 
-.auth-box button:hover {
-  background: #1e6edc;
-  box-shadow: 0 0 8px rgba(45,140,255,0.4);
-}
-
-/* === Info Box (Convo Info) === */
-.info-box {
-  background: #1c242f;
-  border: 1px solid #2d8cff55;
-  box-shadow: 0 0 8px rgba(45,140,255,0.25);
-  color: #fff;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-/* === Fade-up animation === */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-/* ===================== MESSAGES AREA ===================== */
-.messages {
-  flex: 1;
-  overflow-y: auto;
-  background: #0f1319;
-  border-radius: 8px;
-  padding: 10px 14px;
-  min-height: 0;
-}
-
-.messages:empty {
-  overflow-y: hidden;  /* 👈 χωρίς ψεύτικο scroll */
-}
-
-.message {
-  background: linear-gradient(135deg, #2d8cff, #1e6edc);
-  margin-bottom: 6px;
-  padding: 8px 12px;
-  border-radius: 12px;
-  display: inline-block;
-  max-width: 75%;
-  line-height: 1.4;
-  color: #fff;
-}
-/* ===================== CHAT BUBBLES ===================== */
-#messages {
-  display: flex;
-  flex-direction: column;
-  padding: 10px 14px;
-  overflow-y: auto;
-}
-
-.msg {
-  display: inline-block;
-  max-width: 75%;
-  padding: 8px 12px;
-  margin: 6px 0;
-  border-radius: 14px;
-  background: #1e6edc;
-  color: #fff;
-  word-wrap: break-word;
-  line-height: 1.4;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
-  animation: fadeInMsg 0.25s ease-out;
-}
-
-/* Δικά μου μηνύματα (δεξιά) */
-.msg.mine {
-  background: #2d8cff;
-  align-self: flex-end;
-  text-align: right;
-  margin-left: auto;
-}
-
-/* Όνομα αποστολέα */
-.msg-user {
-  font-size: 13px;
-  font-weight: 600;
-  opacity: 0.8;
-  margin-bottom: 2px;
-}
-
-/* Κείμενο */
-.msg-text {
- font-size: 15px;
- white-space: pre-wrap; /* 👈 κρατάει τα line breaks & τα πολλαπλά κενά */
-  text-align: left;      /* 👈 βασική στοίχιση αριστερά */
-  word-wrap: break-word; /* ασφαλής αναδίπλωση */
-}
-
-/* Ώρα */
-.msg-time {
-  font-size: 11px;
-  opacity: 0.6;
-  margin-top: 4px;
-}
-
-/* Εφέ εμφάνισης */
-@keyframes fadeInMsg {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-
-
-/* ===================== MESSAGE FORM (NO SEND BUTTON) ===================== */
-#messageForm {
-  display: flex;
-  align-items: center;
-  padding: 8px 10px;
-  background: #141b23;
-  border-top: 1px solid #1f2a35;
-  border-radius: 0 0 12px 12px;
-  flex-shrink: 0;
-}
-
-#messageInput {
-  flex: 1;
-  width: 100%;
-  padding: 10px 12px;
-  border: none;
-  border-radius: 8px;
-  background: #fff;
-  font-size: 14px;
-  line-height: 1.5;
-  resize: none;
-  outline: none;
-  overflow-y: auto;
-  max-height: 120px;
-  min-height: 40px;
-  box-sizing: border-box;
-  scrollbar-width: none; /* κρύβει scrollbar σε Firefox */
-  transition: height 0.1s ease;
-}
-
-/* ✅ Κρύβει scrollbar σε Chrome / Edge / Safari */
-#messageInput::-webkit-scrollbar {
-  display: none;
-}
-
-
-/* ===================== HIDDEN UTILITY ===================== */
-.hidden {
-  display: none;
-}
-/* === Force Hide all content when hidden === */
-#appView.hidden,
-#appView.hidden * {
-  display: none !important;
-}
-#authView.hidden {
-  display: none !important;
-}
-
-
-/* ===================== WELCOME BANNER / BUBBLE (CONVO SIGNATURE STYLE) ===================== */
-
-/* === Κεντρικό banner στην είσοδο === */
-#welcomeBanner {
-  background: #1a1f27;
-  border: 1px solid #2b3645;
-  border-radius: 12px;
-  margin: 10px auto;
-  color: #fff;
-  font-size: 15px;
-  width: fit-content;
-  padding: 10px 18px;
-  box-shadow: 0 0 8px rgba(45,140,255,0.25);
-  animation: fadeIn 0.6s ease-out;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.4s ease;
-}
-
-/* ✨ Hover glow effect */
-#welcomeBanner:hover {
-  border-color: #2d8cff;
-  box-shadow: 0 0 12px rgba(45,140,255,0.45);
-  transform: translateY(-2px);
-}
-
-/* === Fade animation === */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* === Hidden state === */
-#welcomeBanner.hidden {
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-/* === Floating bubble (popup welcome) === */
-#welcomeBubble {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.95);
-  background: #1a1f27;
-  border: 1px solid #2b3645;
-  color: #fff;
-  padding: 16px 24px;
-  border-radius: 18px;
-  font-size: 18px;
-  box-shadow: 0 0 12px rgba(45,140,255,0.35);
-  opacity: 0;
-  transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.3s ease;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* ✨ Εμφάνιση με glow */
-#welcomeBubble.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-  border-color: #2d8cff;
-  box-shadow: 0 0 16px rgba(45,140,255,0.6);
-}
-
-/* 👋 Προσθήκη animation για το emoji */
-#welcomeBubble::before {
-  content: "👋";
-  font-size: 22px;
-  animation: wave 1.3s infinite ease-in-out;
-}
-
-/* 👋 Wave animation */
-@keyframes wave {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(20deg); }
-  50% { transform: rotate(0deg); }
-  75% { transform: rotate(-20deg); }
-  100% { transform: rotate(0deg); }
-}
-
-/* ===================== FORGOT PASSWORD BUTTON ===================== */
-.link-btn {
-  width: 100%;
-  padding: 8px;
-  background: #2d8cff;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 0.2s;
-  font-size: 14px;
-  margin-top: 6px;
-}
-
-.link-btn:hover {
-  background: #1e6edc;
-}
-
-/* ===================== PASSWORD RESET BANNER ===================== */
-#resetBanner {
-  background: linear-gradient(135deg, #00c853, #009624);
-  padding: 10px 18px;
-  border-radius: 12px;
-  margin: 10px auto;
-  color: #fff;
-  font-size: 15px;
-  width: fit-content;
-  animation: fadeIn 0.6s ease-out;
-}
-
-#resetBanner.hidden {
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-/* ===================== APP LAYOUT (3 PANELS) ===================== */
+/* ===================== APP LAYOUT ===================== */
 #appView {
   display: none;
   flex-direction: row;
@@ -526,13 +115,7 @@ body {
   padding: 10px;
   gap: 10px;
 }
-
-
-
-/* --- Common panel style --- */
-#roomsPanel,
-#chatPanel,
-#usersPanel {
+#roomsPanel, #chatPanel, #usersPanel {
   background: #151b22;
   border-radius: 12px;
   padding: 10px;
@@ -540,398 +123,87 @@ body {
   flex-direction: column;
   overflow: hidden;
 }
+#roomsPanel { flex: 0 0 220px; }
+#chatPanel { flex: 1; }
+#usersPanel { flex: 0 0 220px; }
 
-/* --- Width proportions --- */
-#roomsPanel {
-  flex: 0 0 220px; /* αριστερό σταθερό */
-}
-#chatPanel {
-  flex: 1; /* κεντρικό επεκτεινόμενο */
-}
-#usersPanel {
-  flex: 0 0 220px; /* δεξί σταθερό */
-}
-
-/* --- Lists inside panels --- */
-#roomsPanel ul,
-#usersPanel ul {
+/* ===================== ROOMS & USERS LIST ===================== */
+#roomsPanel ul, #usersPanel ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  overflow-x: hidden;
   overflow-y: auto;
 }
-
-/* === ROOMLIST & USERLIST (CONVO GLOW EDITION) === */
-
-
-
-/* --- Chat Panel Content --- */
-#messages {
-  flex: 1;
-  overflow-y: auto;
-  background: #0f1319;
+#roomsPanel li, #usersPanel li {
+  background: #1e252e;
+  color: #cfd8e3;
+  border: 1px solid #2b3645;
   border-radius: 8px;
-  padding: 10px 14px;
-  min-height: 0;
-}
-
-#sendBtn {
-  background: #2d8cff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  font-size: 14px;
   cursor: pointer;
+  transition: all 0.25s ease;
+  box-sizing: border-box;
+  width: calc(100% - 4px);
+  overflow-x: hidden;
+  white-space: nowrap;
 }
-/* ===================== INPUT DARK THEME (CONVO2 STYLE) ===================== */
+#roomsPanel li:hover, #usersPanel li:hover {
+  background: #263040;
+  border-color: #2d8cff;
+  color: #fff;
+}
+#roomsPanel li.active {
+  background: #2d8cff;
+  color: #fff;
+  border-color: #2d8cff;
+}
+
+/* ===================== MESSAGE INPUT ===================== */
 #messageInput {
-  background: #1a1f27; /* σκούρο φόντο */
-  color: #fff;          /* λευκό κείμενο */
-  border: 1px solid #2b3645; /* ελαφρύ περίγραμμα */
+  background: #1a1f27;
+  color: #fff;
+  border: 1px solid #2b3645;
   border-radius: 10px;
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
   transition: all 0.2s ease;
 }
-
-/* ✨ Hover effect */
-#messageInput:hover {
-  border-color: #2d8cff;
-  box-shadow: 0 0 4px rgba(45,140,255,0.4);
-}
-
-/* ✨ Focus (όταν γράφεις) */
-#messageInput:focus {
+#messageInput:hover, #messageInput:focus {
   border-color: #2d8cff;
   box-shadow: 0 0 6px rgba(45,140,255,0.6);
-  background: #1c242f; /* λίγο πιο φωτεινό φόντο όταν είναι ενεργό */
+  background: #1c242f;
 }
 
-/* Placeholder πιο απαλό */
-#messageInput::placeholder {
-  color: #8b97a5;
-}
-/* ===================== USERNAME MODAL (CONVO STYLE) ===================== */
-#usernameModal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(10, 14, 20, 0.85); /* σκοτεινό ημιδιάφανο φόντο */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-#usernameModal.hidden {
-  display: none;
-}
-
-#usernameModal .modal-content {
-  background: #1a1f27;
-  border: 1px solid #2d8cff55;
-  border-radius: 14px;
-  box-shadow: 0 0 16px rgba(45,140,255,0.4);
-  padding: 30px 40px;
-  text-alig
-
-
-/* ===================== USERLIST CATEGORIES (CONVO STYLE) ===================== */
-.user-category {
-  margin-bottom: 14px;
-}
-
-.cat-header {
-  text-align: center;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 1px;
-  padding: 6px 0;
-  border-radius: 8px;
-  margin-bottom: 6px;
-  box-shadow: 0 0 6px rgba(0,0,0,0.4);
-  text-transform: uppercase;
-  user-select: none;
-}
-
-/* 👑 Admins */
-.cat-header.admin {
-  background: linear-gradient(135deg, #5d6bff, #9a6cff);
-  border: 1px solid #6e7cff;
-  color: #fff;
-  text-shadow: 0 0 6px rgba(150,160,255,0.6);
-  box-shadow: 0 0 8px rgba(93,107,255,0.5);
-}
-
-/* 💎 VIPs */
-.cat-header.vip {
-  background: radial-gradient(circle at 50% 50%, #000 0%, #0b0f17 100%);
-  border: 2px solid gold;
-  color: #32d4ff;
-  text-shadow: 0 0 8px rgba(50,212,255,0.6);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(255,255,255,0.08) 0,
-    rgba(255,255,255,0.08) 1px,
-    transparent 2px,
-    transparent 4px
-  );
-  box-shadow: 0 0 10px rgba(255,215,0,0.5);
-}
-
-/* 💬 Normal Users */
-.cat-header.users {
-  background: linear-gradient(135deg, #1a1f27, #242d38);
-  border: 1px solid #2b3645;
-  color: #9bb7ff;
-  box-shadow: inset 0 0 5px rgba(45,140,255,0.3);
-}
-
-/* 🌙 Offline */
-.cat-header.offline {
-  background: #14191f;
-  border: 1px solid #2b3645;
-  color: #666;
-  font-style: italic;
-}
-
-/* === Λίστες === */
-#usersPanel ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-/* ===================== ROOM & USER ITEMS (Clean, No Scroll) ===================== */
-
-
-
-
-/* ===================== USERLIST POLISH (CONVO GLOW STYLE) ===================== */
-
-/* --- Κεντρικό container spacing --- */
-#usersPanel {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* --- Headers (cat-header) glow και counter --- */
-.cat-header {
-  position: relative;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  padding: 6px 0;
-  border-radius: 8px;
-  user-select: none;
-}
-
-/* Counter badge */
-.cat-header::after {
-  content: attr(data-count);
-  position: absolute;
-  right: 10px;
-  top: 4px;
-  background: rgba(255,255,255,0.1);
-  color: #fff;
-  font-size: 11px;
-  padding: 1px 6px;
-  border-radius: 6px;
-  border: 1px solid rgba(255,255,255,0.15);
-}
-
-/* --- Glow διαφορετικό ανά κατηγορία --- */
-.cat-header.admin {
-  background: linear-gradient(135deg, #516aff, #9b6cff);
-  box-shadow: 0 0 10px rgba(120,140,255,0.5);
-}
-
-.cat-header.vip {
-  background: linear-gradient(135deg, #111, #1c1c1c);
-  border: 2px solid gold;
-  box-shadow: 0 0 10px rgba(255,215,0,0.5);
-}
-
-.cat-header.users {
-  background: linear-gradient(135deg, #1b2330, #1f2938);
-  border: 1px solid #2b3645;
-  box-shadow: inset 0 0 6px rgba(45,140,255,0.3);
-}
-
-.cat-header.offline {
-  background: #14191f;
-  color: #777;
-  border: 1px solid #2b3645;
-}
-
-
-
-
-/* --- Ειδικά στυλ --- */
-#adminsList li {
-  color: #fff;
-  font-weight: 600;
-  text-shadow: 0 0 6px rgba(90,120,255,0.6);
-}
-
-#vipsList li {
-  color: #32d4ff;
-  text-shadow: 0 0 6px rgba(50,212,255,0.6);
-}
-
-#offlineList li {
-  color: #777;
-  opacity: 0.6;
-}
-
-/* ===================== USER AVATAR + STATUS DOT ===================== */
+/* ===================== USER AVATAR & STATUS ===================== */
 .user-avatar-wrap {
   display: flex;
   align-items: center;
   gap: 8px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: all 0.25s ease;
 }
-
-.status-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  box-shadow: 0 0 4px rgba(0,0,0,0.4);
-}
-
-.status-dot.online {
-  background: #34ff74; /* 🟢 */
-  box-shadow: 0 0 6px rgba(52,255,116,0.6);
-}
-
-.status-dot.offline {
-  background: #888; /* ⚪ */
-  opacity: 0.6;
-}
-
-.user-avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #1e293b;
-  color: #fff;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  border: 1px solid #2d8cff33;
-  box-shadow: 0 0 4px rgba(45,140,255,0.3);
-  flex-shrink: 0;
-  transition: transform 0.2s ease;
-}
-
-.user-avatar:hover {
-  transform: scale(1.1);
-}
-
-.user-name {
-  flex: 1;
-}
-  /* ===================== CONVO GLOW HOVER FOR USERLIST ===================== */
-.user-name {
-  transition: all 0.2s ease-in-out;
-}
-
-/* ✨ Hover glow όπως στο input */
-.user-name:hover {
-  color: #fff;
-  text-shadow:
-    0 0 6px rgba(45,140,255,0.8),
-    0 0 12px rgba(45,140,255,0.6),
-    0 0 18px rgba(45,140,255,0.4);
-  transform: scale(1.04);
-  cursor: pointer;
-}
-
-/* ===================== AVATAR IMAGE + GLOW ===================== */
 .user-avatar {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  overflow: hidden;
+  background: #1e293b;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   font-weight: 600;
-  font-size: 14px;
-  text-transform: uppercase;
-  background: #1e293b;
-  border: 2px solid transparent;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  border: 1px solid #2d8cff33;
 }
-
-.user-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
 }
-
-/* 👑 Admin Glow */
-.admin-glow {
-  border-color: #2d8cff;
-  box-shadow: 0 0 8px rgba(45,140,255,0.6);
-}
-
-/* 💎 VIP Glow */
-.vip-glow {
-  border-color: gold;
-  box-shadow: 0 0 8px rgba(255,215,0,0.6);
-}
-
-/* 👤 Normal User Glow */
-.user-glow {
-  border-color: #333;
-  box-shadow: 0 0 5px rgba(80,80,80,0.4);
-}
-
-
-/* ===================== USERNAME ROLE COLORS (CONVO STYLE) ===================== */
-
-/* 👑 Admin */
-.user-name.admin {
-  color: #2d8cff;
-  font-weight: 600;
-  text-shadow: 0 0 6px rgba(45,140,255,0.6);
-}
-
-/* 💎 VIP */
-.user-name.vip {
-  color: #ffd700;
-  font-weight: 600;
-  text-shadow: 0 0 6px rgba(255,215,0,0.6);
-}
-
-/* 💬 Normal User */
-.user-name.user {
-  color: #e0e6f0;
-  font-weight: 500;
-  text-shadow: 0 0 3px rgba(200,200,200,0.3);
-}
-
-/* 🌙 Offline */
-.user-name.offline {
-  color: #606873;
-  font-weight: 400;
-  text-shadow: none;
-  opacity: 0.7;
-}
-
-/* ✨ Convo Glow Hover */
-.user-name:hover {
-  color: #fff;
-  text-shadow: 0 0 10px rgba(45,140,255,0.9);
-  transition: all 0.2s ease;
-  cursor: pointer;
-}
+.status-dot.online { background: #34ff74; }
+.status-dot.offline { background: #888; opacity: 0.6; }
 
 /* ===================== MINI PROFILE CARD ===================== */
 #profileCard {
@@ -950,136 +222,7 @@ body {
   transition: all 0.25s ease;
   z-index: 2000;
 }
+#profileCard.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-#profileCard.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.profile-card-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-.profile-avatar {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  background: #2d8cff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 30px;
-  color: #fff;
-  text-transform: uppercase;
-  box-shadow: 0 0 15px rgba(45,140,255,0.6);
-}
-
-.profile-info .profile-name {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.profile-info .profile-role {
-  font-size: 13px;
-  color: #aeb9c8;
-}
-
-.profile-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.profile-actions button {
-  flex: 1;
-  background: #2d8cff;
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-weight: 500;
-  padding: 6px 0;
-  cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
-}
-
-.profile-actions button:hover {
-  background: #1e6edc;
-  transform: scale(1.05);
-}
-
-.hidden {
-  display: none;
-}
-
-/* ===================== PROFILE AVATAR IMAGE SUPPORT ===================== */
-.profile-avatar img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-}
-/* ===================== FINAL USERLIST POLISH ===================== */
-/* === USERLIST HOVER (CONVO GLOW EDITION) === */
-.user-avatar-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 8px;
-  border-radius: 8px;
-  transition: all 0.25s ease;
-  border: 1px solid transparent;
-}
-
-/* ✨ Hover / Active Glow — ίδιο με Logout κουμπί */
-.user-avatar-wrap:hover,
-.user-avatar-wrap.active {
-  background: #1a1f27;
-  border: 1px solid #2d8cff;
-  box-shadow:
-    0 0 10px rgba(45,140,255,0.4),
-    inset 0 0 6px rgba(45,140,255,0.25);
-  transform: scale(1.02);
-  cursor: pointer;
-}
-
-
-.user-badge {
-  font-size: 14px;
-  margin-left: auto;
-  opacity: 0.9;
-}
-
-/* ===================== CONVO LIST STYLE (RESTORE + NO SCROLL) ===================== */
-#roomsPanel li,
-#usersPanel li {
-  background: #1e252e;
-  color: #cfd8e3;
-  border: 1px solid #2b3645;
-  border-radius: 8px;
-  padding: 8px 10px;
-  margin-bottom: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  box-sizing: border-box;
-  width: calc(100% - 4px);
-  overflow-x: hidden;
-  white-space: nowrap;
-}
-
-#roomsPanel li:hover,
-#usersPanel li:hover {
-  background: #263040;
-  border-color: #2d8cff;
-  color: #ffffff;
-}
-
-#roomsPanel li.active {
-  background: #2d8cff;
-  color: #fff;
-  border-color: #2d8cff;
-}
+/* ===================== UTILITIES ===================== */
+.hidden { display: none !important; }
