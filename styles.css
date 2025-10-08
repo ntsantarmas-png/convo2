@@ -562,16 +562,7 @@ body {
 }
 
 /* === ROOMLIST & USERLIST (CONVO GLOW EDITION) === */
-#roomsPanel li,
-#usersPanel li {
-  background: #1e252e;
-  padding: 8px 10px;
-  border-radius: 8px;
-  margin-bottom: 6px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  border: 1px solid #2b3645;
-}
+
 
 /* ✨ Hover / Active Glow — ίδιο με Logout κουμπί */
 #roomsPanel li:hover,
@@ -725,16 +716,25 @@ body {
   padding: 0;
   margin: 0;
 }
-
-#usersPanel li {
+/* --- User entries --- */
+#usersPanel li,
+#roomsPanel li {
   background: #1e252e;
-  padding: 8px 10px;
-  border-radius: 6px;
+  padding: 7px 10px;
+  border-radius: 8px;
   margin-bottom: 5px;
   font-size: 14px;
-  transition: background 0.2s, transform 0.15s;
-  cursor: default;
+  color: #cfd8e3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  width: calc(100% - 4px); /* 👈 αποτρέπει οριζόντιο scroll */
+  overflow-x: hidden;
 }
+
 
 /* Hover Effect */
 #usersPanel li:hover {
@@ -801,19 +801,6 @@ body {
   border: 1px solid #2b3645;
 }
 
-/* --- User entries --- */
-#usersPanel li {
-  background: #1e252e;
-  padding: 7px 10px;
-  border-radius: 8px;
-  margin-bottom: 4px;
-  font-size: 14px;
-  color: #cfd8e3;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s ease;
-}
 
 #usersPanel li:hover {
   background: #2d8cff;
