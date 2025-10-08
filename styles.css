@@ -922,23 +922,51 @@ body {
 #usersPanel li[title]:hover {
   cursor: help;
 }
-/* ===================== CONVO TOOLTIP STYLE ===================== */
+/* ===================== CONVO TOOLTIP + TAIL ===================== */
 #convoTooltip {
   position: absolute;
   background: linear-gradient(135deg, #2d8cff, #1e6edc);
   color: #fff;
-  padding: 6px 10px;
-  border-radius: 8px;
+  padding: 7px 12px;
+  border-radius: 10px;
   font-size: 13px;
   font-weight: 500;
-  box-shadow: 0 0 10px rgba(45, 140, 255, 0.5);
+  box-shadow: 0 0 12px rgba(45, 140, 255, 0.6);
   pointer-events: none;
   opacity: 0;
-  transform: scale(0.95);
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transform: translateY(5px) scale(0.95);
+  transition: opacity 0.2s ease, transform 0.25s ease;
   z-index: 1000;
   white-space: nowrap;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.4));
 }
+
+/* ✨ Fade In */
+#convoTooltip.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 🫧 Tail (βελάκι) */
+#convoTooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(135deg, #2d8cff, #1e6edc);
+  box-shadow: 0 0 6px rgba(45,140,255,0.6);
+  border-radius: 2px;
+}
+
+/* Hover effect για user list */
+#usersPanel li:hover {
+  cursor: help;
+  filter: brightness(1.1);
+}
+
 
 #convoTooltip.visible {
   opacity: 1;
