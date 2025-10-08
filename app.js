@@ -3,8 +3,14 @@ const GIPHY_KEY = "bCn5Jvx2ZOepneH6fMteNoX31hVfqX25";
 
 // ===================== FIREBASE INIT =====================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getDatabase,
+  ref,
+  push,
+  onChildAdded,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 // === CONFIG ===
 const firebaseConfig = {
@@ -12,16 +18,23 @@ const firebaseConfig = {
   authDomain: "convo2-4a075.firebaseapp.com",
   databaseURL: "https://convo2-4a075-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "convo2-4a075",
-  storageBucket: "convo2-4a075.firebasestorage.app",
+  storageBucket: "convo2-4a075.appspot.com", // ✅ μικρή διόρθωση εδώ
   messagingSenderId: "543901633763",
   appId: "1:543901633763:web:2f91926e4c0c6ce11789d6"
 };
 
+// === INIT FIREBASE ===
 export const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const auth = getAuth(app);
+export const db = getDatabase(app);
+export const auth = getAuth(app);
 
+// === DEFAULT ROOM ===
 let currentRoom = "general";
+export { currentRoom };
+
+// === TEST LOG ===
+console.log("✅ Convo Firebase initialized");
+
 
 // ===================== SEND MESSAGE (FINAL CLEAN FIX) =====================
 const messageForm = document.getElementById("messageForm");
