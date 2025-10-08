@@ -110,6 +110,7 @@ document.getElementById("guestBtn").addEventListener("click", async () => {
 });
 
 // ===================== AUTH STATE (Universal) =====================
+// ===================== AUTH STATE (Universal) =====================
 onAuthStateChanged(auth, async (user) => {
   const authView = document.getElementById("authView");
   const appView = document.getElementById("appView");
@@ -124,21 +125,45 @@ onAuthStateChanged(auth, async (user) => {
       console.log("👑 Logged in as MysteryMan");
     }
 
-    // ✅ 2. Αν δεν έχει καθόλου displayName → φτιάξε του ένα
-    if (!user.displayName) {
-      let newName;
+    // ===================== USERNAME MODAL CHECK =====================
+    const usernameModal = document.getElementById("usernameModal");
+    const usernameInput = document.getElementById("usernameInput");
+    const saveUsernameBtn = document.getElementById("saveUsernameBtn");
 
-      if (user.isAnonymous) {
-        newName = "Guest" + Math.floor(Math.random() * 1000);
-      } else if (user.email) {
-        const emailPrefix = user.email.split("@")[0];
-        newName = emailPrefix.length > 2 ? emailPrefix : "User" + Math.floor(Math.random() * 10000);
-      } else {
-        newName = "User" + Math.floor(Math.random() * 10000);
-      }
+    // Εμφάνιση modal μόνο αν δεν έχει displayName
+    if (!user.displayName || user.displayName.trim() === "") {
+      usernameModal.classList.remove("hidden");
+      usernameInput.focus();
 
-      await updateProfile(user, { displayName: newName });
-      console.log("✅ Assigned displayName:", newName);
+      saveUsernameBtn.onclick = async () => {
+        const newName = usernameInput.value.trim();
+        if (!newName) {
+          alert("⚠️ Please enter a valid name!");
+          return;
+        }
+
+        try {
+          // ✅ Ενημέρωση Auth profile
+          await updateProfile(user, { displayName: newName });
+
+          // ✅ Ενημέρωση Database
+          await update(ref(db, "users/" + user.uid), {
+            displayName: newName
+          });
+
+          console.log("✅ Username saved:", newName);
+
+          // Κλείσιμο modal
+          usernameModal.classList.add("hidden");
+
+          // Welcome bubble ενημέρωση
+          const welcomeName = document.getElementById("welcomeName");
+          if (welcomeName) welcomeName.textContent = newName;
+
+        } catch (err) {
+          console.error("❌ Error saving username:", err);
+        }
+      };
     }
 
     // ✅ 3. Καταχώρηση/ενημέρωση στο Realtime Database
@@ -153,9 +178,8 @@ onAuthStateChanged(auth, async (user) => {
     // ✅ 4. Εμφάνιση Chat
     authView.classList.add("hidden");
     appView.classList.remove("hidden");
-    appView.style.display = "flex"; // 👈 μόνο αυτή πρόσθεσε
+    appView.style.display = "flex";
     logoutBtn.classList.remove("hidden");
-
 
     // ✅ 5. Welcome bubble/banner
     if (welcomeBanner && welcomeName) {
@@ -169,7 +193,6 @@ onAuthStateChanged(auth, async (user) => {
     authView.classList.remove("hidden");
     appView.classList.add("hidden");
     logoutBtn.classList.add("hidden");
-    
   }
 });
 
