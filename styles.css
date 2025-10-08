@@ -561,21 +561,32 @@ body {
   overflow-y: auto;
 }
 
+/* === ROOMLIST & USERLIST (CONVO GLOW EDITION) === */
 #roomsPanel li,
 #usersPanel li {
   background: #1e252e;
   padding: 8px 10px;
-  border-radius: 6px;
+  border-radius: 8px;
   margin-bottom: 6px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.25s ease;
+  border: 1px solid #2b3645;
 }
 
+/* ✨ Hover / Active Glow — ίδιο με Logout κουμπί */
 #roomsPanel li:hover,
-#usersPanel li:hover {
-  background: #2d8cff;
-  color: white;
+#roomsPanel li.active,
+#usersPanel li:hover,
+#usersPanel li.active {
+  background: #1a1f27;
+  border: 1px solid #2d8cff;
+  box-shadow:
+    0 0 10px rgba(45,140,255,0.4),
+    inset 0 0 6px rgba(45,140,255,0.25);
+  color: #fff;
+  transform: scale(1.02);
 }
+
 
 /* --- Chat Panel Content --- */
 #messages {
@@ -1127,22 +1138,72 @@ body {
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 /* ===================== FINAL USERLIST POLISH ===================== */
+/* === USERLIST HOVER (CONVO GLOW EDITION) === */
 .user-avatar-wrap {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 6px;
+  padding: 6px 8px;
   border-radius: 8px;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
 }
 
-.user-avatar-wrap:hover {
-  background: rgba(45,140,255,0.08);
+/* ✨ Hover / Active Glow — ίδιο με Logout κουμπί */
+.user-avatar-wrap:hover,
+.user-avatar-wrap.active {
+  background: #1a1f27;
+  border: 1px solid #2d8cff;
+  box-shadow:
+    0 0 10px rgba(45,140,255,0.4),
+    inset 0 0 6px rgba(45,140,255,0.25);
   transform: scale(1.02);
+  cursor: pointer;
 }
+
 
 .user-badge {
   font-size: 14px;
   margin-left: auto;
   opacity: 0.9;
+}
+/* === CONVO GLOW CONSISTENCY FIX === */
+
+/* Ίδιο ύψος και απόσταση για Room + User items */
+#roomsPanel li,
+.user-avatar-wrap {
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+}
+
+/* Ενοποιημένο hover background */
+#roomsPanel li:hover,
+#roomsPanel li.active,
+.user-avatar-wrap:hover,
+.user-avatar-wrap.active {
+  background: #1a1f27;
+}
+
+/* Ενοποιημένο border + glow */
+#roomsPanel li:hover,
+#roomsPanel li.active,
+.user-avatar-wrap:hover,
+.user-avatar-wrap.active {
+  border: 1px solid #2d8cff;
+  box-shadow:
+    0 0 10px rgba(45,140,255,0.4),
+    inset 0 0 6px rgba(45,140,255,0.25);
+  color: #fff;
+  transform: scale(1.02);
+}
+
+/* Καθαρό transition σε όλες τις λίστες */
+#roomsPanel li,
+.user-avatar-wrap {
+  transition: all 0.25s ease;
 }
