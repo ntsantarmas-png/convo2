@@ -9,32 +9,46 @@ body {
   flex-direction: column;
   height: 100vh;
 }
-/* ===================== LOGO POLISH (CONVO STYLE) ===================== */
+/* ===================== CONVO SIGNATURE LOGO (PREMIUM BUBBLE) ===================== */
 .brand {
   font-weight: 700;
-  font-size: 1.3rem;
-  background: linear-gradient(135deg, #2d8cff, #6cc5ff);
+  font-size: 1.35rem;
+  background: linear-gradient(135deg, #5cb8ff, #2d8cff 70%);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent; /* 👈 κάνει το gradient στο κείμενο */
-  letter-spacing: 0.5px;
+  -webkit-text-fill-color: transparent;
   display: flex;
   align-items: center;
-  gap: 6px;
-  text-shadow: 0 0 6px rgba(45, 140, 255, 0.4);
-  transition: transform 0.2s ease;
+  gap: 8px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 8px rgba(45,140,255,0.5);
+  transition: transform 0.25s ease, text-shadow 0.25s ease;
 }
 
-/* Hover μικρή κίνηση για “ζωντάνια” */
+/* ✨ Hover – premium breathing effect */
 .brand:hover {
   transform: scale(1.03);
-  text-shadow: 0 0 10px rgba(45, 140, 255, 0.6);
+  text-shadow: 0 0 12px rgba(45,140,255,0.8);
 }
 
-/* Το emoji 💬 λίγο πιο έντονο */
+/* 💬 Γυαλιστερό bubble icon */
 .brand::before {
   content: "💬";
   font-size: 1.2rem;
-  filter: drop-shadow(0 0 2px rgba(45, 140, 255, 0.6));
+  background: radial-gradient(circle at 30% 30%, #6ec3ff, #2d8cff 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 3px rgba(45,140,255,0.6))
+          drop-shadow(0 0 8px rgba(45,140,255,0.3));
+  transform: translateY(1px);
+}
+
+/* 🔹 Έκδοση v3 πιο light & μικρότερη */
+.brand span.version {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: #8abfff;
+  text-shadow: none;
+  margin-left: 3px;
 }
 
 /* ===================== TOPBAR (CONVO STYLE) ===================== */
