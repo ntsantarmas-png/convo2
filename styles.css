@@ -205,3 +205,17 @@ aside {
   background: #2d8cff55;
   border-radius: 3px;
 }
+/* ================= FORCE FIX VISIBILITY ================= */
+#authScreen.hidden {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+#chatScreen.hidden {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
