@@ -122,10 +122,12 @@ if (msgInput) {
   msgInput.style.height = baseHeight + "px";
   msgInput.style.overflowY = "auto"; // ενεργό scroll (αλλά αόρατο λόγω CSS)
 
-  msgInput.addEventListener("input", () => {
-    msgInput.style.height = "auto"; // μηδενίζει πριν μετρήσει
-    const newHeight = Math.min(msgInput.scrollHeight, maxHeight);
-    msgInput.style.height = newHeight + "px";
+msgInput.addEventListener("input", () => {
+  msgInput.style.height = baseHeight + "px"; // πάντα ξεκινά από τη βάση
+  const newHeight = Math.min(msgInput.scrollHeight, maxHeight);
+  msgInput.style.height = newHeight + "px";
+});
+
 
     // Αν περάσει το όριο, κρατά scroll ενεργό (χωρίς να φαίνεται)
     msgInput.scrollTop = msgInput.scrollHeight;
