@@ -119,6 +119,36 @@ onAuthStateChanged(auth, (user) => {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 });
+// ===================== RENDER USER LIST (REALTIME) =====================
+function renderUserList() {
+  const usersList = document.getElementById("usersList");
+  if (!usersList) return;
+
+  // 📡 Άκου κάθε αλλαγή στο /users
+  onValue(ref(db, "users"), (snap) => {
+    usersList.innerHTML = "";
+
+    snap.forEach((child) => {
+      const u = child.val();
+      if (!u) return;
+
+      const li = document.createElement("li");
+
+      // ✅ Εμφάνιση ονόματος (πραγματικό displayName)
+      const displayName = u.displayName || "Guest";
+
+      // 👑 Αν είναι MysteryMan → ειδικό σήμα
+      li.textContent = displayName === "MysteryMan" ? "MysteryMan 👑" : displayName;
+
+      usersList.appendChild(li);
+    });
+  });
+}
+
+// 🧠 Κάλεσέ την μετά το login
+onAuthStateChanged(auth, (user) => {
+  if (user) renderUserList();
+});
 
 // ===================== AUTO-GROW MESSAGE INPUT (DISCORD STYLE) =====================
 const msgInput = document.getElementById("messageInput");
