@@ -731,3 +731,99 @@ body {
   transform: translateX(2px);
   color: white;
 }
+/* ===================== USERLIST POLISH (CONVO GLOW STYLE) ===================== */
+
+/* --- Κεντρικό container spacing --- */
+#usersPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* --- Headers (cat-header) glow και counter --- */
+.cat-header {
+  position: relative;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 0;
+  border-radius: 8px;
+  user-select: none;
+}
+
+/* Counter badge */
+.cat-header::after {
+  content: attr(data-count);
+  position: absolute;
+  right: 10px;
+  top: 4px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* --- Glow διαφορετικό ανά κατηγορία --- */
+.cat-header.admin {
+  background: linear-gradient(135deg, #516aff, #9b6cff);
+  box-shadow: 0 0 10px rgba(120,140,255,0.5);
+}
+
+.cat-header.vip {
+  background: linear-gradient(135deg, #111, #1c1c1c);
+  border: 2px solid gold;
+  box-shadow: 0 0 10px rgba(255,215,0,0.5);
+}
+
+.cat-header.users {
+  background: linear-gradient(135deg, #1b2330, #1f2938);
+  border: 1px solid #2b3645;
+  box-shadow: inset 0 0 6px rgba(45,140,255,0.3);
+}
+
+.cat-header.offline {
+  background: #14191f;
+  color: #777;
+  border: 1px solid #2b3645;
+}
+
+/* --- User entries --- */
+#usersPanel li {
+  background: #1e252e;
+  padding: 7px 10px;
+  border-radius: 8px;
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: #cfd8e3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+#usersPanel li:hover {
+  background: #2d8cff;
+  color: #fff;
+  transform: translateX(3px);
+  box-shadow: 0 0 6px rgba(45,140,255,0.5);
+}
+
+/* --- Ειδικά στυλ --- */
+#adminsList li {
+  color: #fff;
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(90,120,255,0.6);
+}
+
+#vipsList li {
+  color: #32d4ff;
+  text-shadow: 0 0 6px rgba(50,212,255,0.6);
+}
+
+#offlineList li {
+  color: #777;
+  opacity: 0.6;
+}
