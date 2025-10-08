@@ -386,35 +386,48 @@ onAuthStateChanged(auth, (user) => {
     renderUserCategories(); // για να ενημερώνεται η λίστα live
   }
 });
-// ===================== CUSTOM CONVO TOOLTIP =====================
+// ===================== CUSTOM CONVO TOOLTIP (FIXED VERSION) =====================
 const tooltip = document.createElement("div");
 tooltip.id = "convoTooltip";
 document.body.appendChild(tooltip);
 
+let tooltipTimeout;
+
+// ✅ Κίνηση του tooltip μαζί με το ποντίκι
 document.addEventListener("mousemove", (e) => {
-  if (tooltip.dataset.visible === "true") {
+  if (tooltip.classList.contains("visible")) {
     tooltip.style.left = e.pageX + 15 + "px";
     tooltip.style.top = e.pageY + 10 + "px";
   }
 });
 
-// Hover detection
+// ✅ Εμφάνιση tooltip
 document.addEventListener("mouseover", (e) => {
   const target = e.target.closest("li");
   if (target && target.hasAttribute("data-tooltip")) {
     tooltip.innerHTML = target.getAttribute("data-tooltip");
-    tooltip.dataset.visible = "true";
     tooltip.classList.add("visible");
+    tooltip.style.opacity = "1";
+    tooltip.style.left = e.pageX + 15 + "px";
+    tooltip.style.top = e.pageY + 10 + "px";
+    clearTimeout(tooltipTimeout);
   }
 });
 
+// ✅ Απόκρυψη tooltip με μικρή καθυστέρηση (πιο smooth)
 document.addEventListener("mouseout", (e) => {
   const target = e.target.closest("li");
   if (target && target.hasAttribute("data-tooltip")) {
-    tooltip.dataset.visible = "false";
-    tooltip.classList.remove("visible");
+    clearTimeout(tooltipTimeout);
+    tooltipTimeout = setTimeout(() => {
+      tooltip.classList.remove("visible");
+      tooltip.style.opacity = "0";
+      tooltip.style.left = "-9999px"; // 👈 ασφαλές κρύψιμο, δεν μένει κάτω αριστερά
+      tooltip.style.top = "-9999px";
+    }, 100);
   }
 });
+
 // ===================== MINI PROFILE POPUP LOGIC =====================
 const profileCard = document.getElementById("profileCard");
 const profileAvatar = profileCard.querySelector(".profile-avatar");
