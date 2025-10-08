@@ -124,7 +124,7 @@ onAuthStateChanged(auth, async (user) => {
     authView.classList.add("hidden");
     appView.classList.remove("hidden");
     logoutBtn.classList.remove("hidden");
-    appView.style.display = "block";
+
 
     // ✅ 5. Welcome bubble/banner
     if (welcomeBanner && welcomeName) {
@@ -138,7 +138,7 @@ onAuthStateChanged(auth, async (user) => {
     authView.classList.remove("hidden");
     appView.classList.add("hidden");
     logoutBtn.classList.add("hidden");
-    appView.style.display = "none";
+    
   }
 });
 
