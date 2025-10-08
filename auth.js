@@ -122,25 +122,22 @@ setTimeout(() => {
     const chatScreen = document.getElementById("chatScreen");
 
     if (user) {
-      if (user.displayName === "MysteryMan") {
-        await update(ref(db, "users/" + user.uid), {
-          displayName: "MysteryMan",
-          role: "admin",
-          online: true
-        });
-      } else {
-        await update(ref(db, "users/" + user.uid), {
-          displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
-          role: "user",
-          online: true
-        });
-      }
+      // ✅ Αν είναι ο MysteryMan => admin
+      const role = user.displayName === "MysteryMan" ? "admin" : "user";
 
+      await update(ref(db, "users/" + user.uid), {
+        displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
+        role,
+        online: true
+      });
+
+      // 🟢 Δείξε μόνο το chat
       authScreen.classList.add("hidden");
       chatScreen.classList.remove("hidden");
     } else {
+      // 🔴 Δείξε μόνο το auth
       chatScreen.classList.add("hidden");
       authScreen.classList.remove("hidden");
     }
   });
-}, 300);
+}, 200);
