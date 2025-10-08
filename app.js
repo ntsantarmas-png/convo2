@@ -173,7 +173,41 @@ function renderUserCategories() {
       if (!u) return;
 
       const li = document.createElement("li");
-      li.textContent = u.displayName || "Guest";
+
+      // === Avatar + Status + Name wrapper ===
+      const avatarWrap = document.createElement("div");
+      avatarWrap.className = "user-avatar-wrap";
+
+      // 🟢 Status dot
+      const statusDot = document.createElement("span");
+      statusDot.className = u.online ? "status-dot online" : "status-dot offline";
+
+      // 👤 Avatar placeholder (με αρχικό)
+      const avatar = document.createElement("div");
+      avatar.className = "user-avatar";
+      const initial = (u.displayName || "?").charAt(0).toUpperCase();
+      avatar.textContent = initial;
+
+      // 💬 Όνομα
+      const nameSpan = document.createElement("span");
+      nameSpan.className = "user-name";
+      nameSpan.textContent = u.displayName || "Guest";
+
+      // 👑 Badge (ανάλογα με το role)
+      const badge = document.createElement("span");
+      badge.className = "user-badge";
+
+      if (u.displayName === "MysteryMan" || u.role === "admin") {
+        badge.textContent = "👑";
+      } else if (u.role === "vip") {
+        badge.textContent = "💎";
+      } else {
+        badge.textContent = "";
+      }
+
+      // === Assemble ===
+      avatarWrap.append(statusDot, avatar, nameSpan, badge);
+      li.appendChild(avatarWrap);
 
       // 🌙 Offline users
       if (u.online === false) {
@@ -181,23 +215,14 @@ function renderUserCategories() {
         return;
       }
 
-      // 👑 MysteryMan -> Admins
+      // Ανάλογα το role → σωστή λίστα
       if (u.displayName === "MysteryMan" || u.role === "admin") {
-        li.innerHTML = `👑 ${u.displayName || "Admin"}`;
         adminsList.appendChild(li);
-        return;
-      }
-
-      // 💎 VIP
-      if (u.role === "vip") {
-        li.innerHTML = `💎 ${u.displayName}`;
+      } else if (u.role === "vip") {
         vipsList.appendChild(li);
-        return;
+      } else {
+        normalUsersList.appendChild(li);
       }
-
-      // 💬 Regular Users
-      li.innerHTML = `💬 ${u.displayName}`;
-      normalUsersList.appendChild(li);
     });
 
     // === Μετά το loop: υπολόγισε counters ===
@@ -206,13 +231,11 @@ function renderUserCategories() {
     const userCount = normalUsersList.childElementCount;
     const offlineCount = offlineList.childElementCount;
 
-    // Βρες τα headers
     const adminHeader = document.querySelector(".cat-header.admin");
     const vipHeader = document.querySelector(".cat-header.vip");
     const userHeader = document.querySelector(".cat-header.users");
     const offlineHeader = document.querySelector(".cat-header.offline");
 
-    // ✅ Ενημέρωσε το attribute data-count
     if (adminHeader) adminHeader.setAttribute("data-count", adminCount);
     if (vipHeader) vipHeader.setAttribute("data-count", vipCount);
     if (userHeader) userHeader.setAttribute("data-count", userCount);
@@ -224,7 +247,6 @@ function renderUserCategories() {
 onAuthStateChanged(auth, (user) => {
   if (user) renderUserCategories();
 });
-
 
 // ===================== AUTO-GROW MESSAGE INPUT (DISCORD STYLE) =====================
 const msgInput = document.getElementById("messageInput");
