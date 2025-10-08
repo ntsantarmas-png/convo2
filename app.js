@@ -67,7 +67,7 @@ if (messageForm) {
 
       await push(ref(db, "v3/messages/" + roomPath), {
         uid: user.uid,
-        user: user.displayName || "Guest",
+  displayName: user.displayName || "Guest",
         text,
         createdAt: serverTimestamp(),
       });
