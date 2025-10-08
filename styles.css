@@ -877,6 +877,22 @@ body {
 .user-name {
   flex: 1;
 }
+  /* ===================== CONVO GLOW HOVER FOR USERLIST ===================== */
+.user-name {
+  transition: all 0.2s ease-in-out;
+}
+
+/* ✨ Hover glow όπως στο input */
+.user-name:hover {
+  color: #fff;
+  text-shadow:
+    0 0 6px rgba(45,140,255,0.8),
+    0 0 12px rgba(45,140,255,0.6),
+    0 0 18px rgba(45,140,255,0.4);
+  transform: scale(1.04);
+  cursor: pointer;
+}
+
 /* ===================== AVATAR IMAGE + GLOW ===================== */
 .user-avatar {
   width: 32px;
