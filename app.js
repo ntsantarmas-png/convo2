@@ -149,6 +149,62 @@ function renderUserList() {
 onAuthStateChanged(auth, (user) => {
   if (user) renderUserList();
 });
+// ===================== USERLIST CATEGORIES (REALTIME RENDER) =====================
+import { onValue } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+function renderUserCategories() {
+  const adminsList = document.getElementById("adminsList");
+  const vipsList = document.getElementById("vipsList");
+  const normalUsersList = document.getElementById("normalUsersList");
+  const offlineList = document.getElementById("offlineList");
+
+  if (!adminsList || !vipsList || !normalUsersList || !offlineList) return;
+
+  onValue(ref(db, "users"), (snap) => {
+    // 🧹 Καθάρισε τις λίστες
+    adminsList.innerHTML = "";
+    vipsList.innerHTML = "";
+    normalUsersList.innerHTML = "";
+    offlineList.innerHTML = "";
+
+    snap.forEach((child) => {
+      const u = child.val();
+      if (!u) return;
+
+      const li = document.createElement("li");
+      li.textContent = u.displayName || "Guest";
+
+      // 🌙 Offline users
+      if (u.online === false) {
+        offlineList.appendChild(li);
+        return;
+      }
+
+      // 👑 MysteryMan -> Admins
+      if (u.displayName === "MysteryMan" || u.role === "admin") {
+        li.innerHTML = `👑 ${u.displayName || "Admin"}`;
+        adminsList.appendChild(li);
+        return;
+      }
+
+      // 💎 VIP
+      if (u.role === "vip") {
+        li.innerHTML = `💎 ${u.displayName}`;
+        vipsList.appendChild(li);
+        return;
+      }
+
+      // 💬 Regular Users
+      li.innerHTML = `💬 ${u.displayName}`;
+      normalUsersList.appendChild(li);
+    });
+  });
+}
+
+// 🚀 Εκτέλεση μετά το login
+onAuthStateChanged(auth, (user) => {
+  if (user) renderUserCategories();
+});
 
 // ===================== AUTO-GROW MESSAGE INPUT (DISCORD STYLE) =====================
 const msgInput = document.getElementById("messageInput");
