@@ -182,11 +182,31 @@ function renderUserCategories() {
       const statusDot = document.createElement("span");
       statusDot.className = u.online ? "status-dot online" : "status-dot offline";
 
-      // 👤 Avatar placeholder (με αρχικό)
-      const avatar = document.createElement("div");
-      avatar.className = "user-avatar";
-      const initial = (u.displayName || "?").charAt(0).toUpperCase();
-      avatar.textContent = initial;
+      // 👤 Avatar (εικόνα ή αρχικό)
+const avatar = document.createElement("div");
+avatar.className = "user-avatar";
+
+// Αν υπάρχει avatar URL -> βάλε εικόνα
+if (u.photoURL) {
+  const img = document.createElement("img");
+  img.src = u.photoURL;
+  img.alt = u.displayName || "User";
+  avatar.appendChild(img);
+} else {
+  // αλλιώς fallback με αρχικό
+  const initial = (u.displayName || "?").charAt(0).toUpperCase();
+  avatar.textContent = initial;
+}
+
+// 💫 Glow ανάλογα με role
+if (u.displayName === "MysteryMan" || u.role === "admin") {
+  avatar.classList.add("admin-glow");
+} else if (u.role === "vip") {
+  avatar.classList.add("vip-glow");
+} else {
+  avatar.classList.add("user-glow");
+}
+
 
       // 💬 Όνομα
       const nameSpan = document.createElement("span");
