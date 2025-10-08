@@ -446,9 +446,47 @@ document.addEventListener("click", (e) => {
     ? "Offline 🌙"
     : "User 💬";
 
-  // Avatar αρχικό
-  const initial = name.charAt(0).toUpperCase();
-  profileAvatar.textContent = initial;
+// ===================== Avatar εμφάνιση =====================
+profileAvatar.innerHTML = ""; // καθάρισε προηγούμενο περιεχόμενο
+
+// Πάρε το displayName και προσπάθησε να βρεις τον χρήστη στη λίστα users
+let foundUser = null;
+const usersRef = ref(db, "users");
+onValue(usersRef, (snap) => {
+  snap.forEach((child) => {
+    const u = child.val();
+    if (u.displayName === name) foundUser = u;
+  });
+
+  if (foundUser) {
+    // Αν υπάρχει avatar URL -> εμφάνισε εικόνα
+    if (foundUser.photoURL) {
+      const img = document.createElement("img");
+      img.src = foundUser.photoURL;
+      img.alt = foundUser.displayName || "User";
+      img.style.width = "100%";
+      img.style.height = "100%";
+      img.style.borderRadius = "50%";
+      img.style.objectFit = "cover";
+      profileAvatar.appendChild(img);
+    } else {
+      // αλλιώς δείξε το αρχικό γράμμα
+      const initial = name.charAt(0).toUpperCase();
+      profileAvatar.textContent = initial;
+    }
+
+    // 💫 Glow ανάλογα με ρόλο
+    profileAvatar.classList.remove("admin-glow", "vip-glow", "user-glow");
+    if (foundUser.displayName === "MysteryMan" || foundUser.role === "admin") {
+      profileAvatar.classList.add("admin-glow");
+    } else if (foundUser.role === "vip") {
+      profileAvatar.classList.add("vip-glow");
+    } else {
+      profileAvatar.classList.add("user-glow");
+    }
+  }
+});
+
 
   // Εμφάνιση info
   profileName.textContent = name;
