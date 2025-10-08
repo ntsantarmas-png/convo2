@@ -9,6 +9,33 @@ body {
   flex-direction: column;
   height: 100vh;
 }
+/* ===================== LOGO POLISH (CONVO STYLE) ===================== */
+.brand {
+  font-weight: 700;
+  font-size: 1.3rem;
+  background: linear-gradient(135deg, #2d8cff, #6cc5ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; /* 👈 κάνει το gradient στο κείμενο */
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 0 6px rgba(45, 140, 255, 0.4);
+  transition: transform 0.2s ease;
+}
+
+/* Hover μικρή κίνηση για “ζωντάνια” */
+.brand:hover {
+  transform: scale(1.03);
+  text-shadow: 0 0 10px rgba(45, 140, 255, 0.6);
+}
+
+/* Το emoji 💬 λίγο πιο έντονο */
+.brand::before {
+  content: "💬";
+  font-size: 1.2rem;
+  filter: drop-shadow(0 0 2px rgba(45, 140, 255, 0.6));
+}
 
 /* ===================== TOPBAR (CONVO STYLE) ===================== */
 #topbar {
