@@ -1110,3 +1110,23 @@ body {
   object-fit: cover;
   box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
+/* ===================== FINAL USERLIST POLISH ===================== */
+.user-avatar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border-radius: 8px;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.user-avatar-wrap:hover {
+  background: rgba(45,140,255,0.08);
+  transform: scale(1.02);
+}
+
+.user-badge {
+  font-size: 14px;
+  margin-left: auto;
+  opacity: 0.9;
+}
