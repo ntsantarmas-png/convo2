@@ -415,6 +415,49 @@ document.addEventListener("mouseout", (e) => {
     tooltip.classList.remove("visible");
   }
 });
+// ===================== MINI PROFILE POPUP LOGIC =====================
+const profileCard = document.getElementById("profileCard");
+const profileAvatar = profileCard.querySelector(".profile-avatar");
+const profileName = profileCard.querySelector(".profile-name");
+const profileRole = profileCard.querySelector(".profile-role");
+
+// Κλείσιμο όταν κάνεις click έξω
+document.addEventListener("click", (e) => {
+  if (!profileCard.contains(e.target) && !e.target.closest(".user-avatar-wrap")) {
+    profileCard.classList.remove("show");
+    setTimeout(() => profileCard.classList.add("hidden"), 150);
+  }
+});
+
+// Άνοιγμα profile όταν κάνεις click σε user
+document.addEventListener("click", (e) => {
+  const userEl = e.target.closest(".user-avatar-wrap");
+  if (!userEl) return;
+
+  const nameEl = userEl.querySelector(".user-name");
+  if (!nameEl) return;
+
+  const name = nameEl.textContent.trim();
+  const role = nameEl.classList.contains("admin")
+    ? "Admin 👑"
+    : nameEl.classList.contains("vip")
+    ? "VIP 💎"
+    : nameEl.classList.contains("offline")
+    ? "Offline 🌙"
+    : "User 💬";
+
+  // Avatar αρχικό
+  const initial = name.charAt(0).toUpperCase();
+  profileAvatar.textContent = initial;
+
+  // Εμφάνιση info
+  profileName.textContent = name;
+  profileRole.textContent = role;
+
+  // Εμφάνιση popup
+  profileCard.classList.remove("hidden");
+  setTimeout(() => profileCard.classList.add("show"), 10);
+});
 
 
 console.log("✅ Convo v3 base loaded");
