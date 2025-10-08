@@ -10,17 +10,38 @@ body {
   height: 100vh;
 }
 
-/* ===================== TOPBAR ===================== */
+/* ===================== TOPBAR (CONVO STYLE) ===================== */
 #topbar {
-  background: linear-gradient(135deg, #2d8cff, #1e6edc);
+  background: linear-gradient(135deg, #1a1f27, #1c242f); /* σκούρο μπλε-μαύρο base */
+  border-bottom: 1px solid #2d8cff33; /* λεπτό μπλε διαφανές περίγραμμα */
+  box-shadow: 0 0 8px rgba(45, 140, 255, 0.25); /* ελαφρύ μπλε glow */
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-radius: 0 0 10px 10px;
+  transition: box-shadow 0.3s ease;
 }
 
+/* ✨ Hover effect στο topbar (ελαφρύ φωτεινό κύμα) */
+#topbar:hover {
+  box-shadow: 0 0 12px rgba(45, 140, 255, 0.4);
+}
+
+/* Λογότυπο – λίγο πιο έντονο */
 .brand {
-  margin: 0;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Εικονίδιο συνομιλίας πριν από το Convo */
+.brand::before {
+  content: "💬";
+  font-size: 1.1rem;
 }
 
 /* ===================== AUTH LAYOUT ===================== */
