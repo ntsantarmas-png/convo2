@@ -153,6 +153,7 @@ onAuthStateChanged(auth, async (user) => {
     // ✅ 4. Εμφάνιση Chat
     authView.classList.add("hidden");
     appView.classList.remove("hidden");
+    appView.style.display = "flex"; // 👈 μόνο αυτή πρόσθεσε
     logoutBtn.classList.remove("hidden");
 
 
