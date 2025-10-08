@@ -564,20 +564,6 @@ body {
 /* === ROOMLIST & USERLIST (CONVO GLOW EDITION) === */
 
 
-/* ✨ Hover / Active Glow — ίδιο με Logout κουμπί */
-#roomsPanel li:hover,
-#roomsPanel li.active,
-#usersPanel li:hover,
-#usersPanel li.active {
-  background: #1a1f27;
-  border: 1px solid #2d8cff;
-  box-shadow:
-    0 0 10px rgba(45,140,255,0.4),
-    inset 0 0 6px rgba(45,140,255,0.25);
-  color: #fff;
-  transform: scale(1.02);
-}
-
 
 /* --- Chat Panel Content --- */
 #messages {
@@ -717,41 +703,10 @@ body {
   margin: 0;
 }
 /* ===================== ROOM & USER ITEMS (Clean, No Scroll) ===================== */
-#roomsPanel li,
-#usersPanel li {
-  background: #1e252e;
-  padding: 8px 10px;
-  border-radius: 8px;
-  margin-bottom: 6px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  border: 1px solid #2b3645;
-  color: #cfd8e3;
-  box-sizing: border-box;
-  width: calc(100% - 4px); /* 💯 Εξαλείφει το οριζόντιο scroll */
-  overflow-x: hidden;
-  white-space: nowrap;
-}
 
-/* Hover effect */
-#roomsPanel li:hover,
-#usersPanel li:hover {
-  background: #263040;
-  border-color: #2d8cff;
-}
 
-/* Optional active room look */
-#roomsPanel li.active {
-  background: #2d8cff;
-  color: white;
-}
 
-/* Hover Effect */
-#usersPanel li:hover {
-  background: #2d8cff;
-  transform: translateX(2px);
-  color: white;
-}
+
 /* ===================== USERLIST POLISH (CONVO GLOW STYLE) ===================== */
 
 /* --- Κεντρικό container spacing --- */
@@ -812,12 +767,7 @@ body {
 }
 
 
-#usersPanel li:hover {
-  background: #2d8cff;
-  color: #fff;
-  transform: translateX(3px);
-  box-shadow: 0 0 6px rgba(45,140,255,0.5);
-}
+
 
 /* --- Ειδικά στυλ --- */
 #adminsList li {
@@ -943,9 +893,6 @@ body {
   box-shadow: 0 0 5px rgba(80,80,80,0.4);
 }
 
-#usersPanel li[title]:hover {
-  cursor: help;
-}
 
 /* ===================== USERNAME ROLE COLORS (CONVO STYLE) ===================== */
 
@@ -1105,43 +1052,46 @@ body {
   margin-left: auto;
   opacity: 0.9;
 }
-/* === CONVO GLOW CONSISTENCY FIX === */
 
-/* Ίδιο ύψος και απόσταση για Room + User items */
+/* ===================== CONVO LIST STYLE (RESTORE + NO SCROLL) ===================== */
 #roomsPanel li,
-.user-avatar-wrap {
-  min-height: 36px;
-  display: flex;
-  align-items: center;
+#usersPanel li {
+  background: #1e252e;
+  color: #cfd8e3;
+  border: 1px solid #2b3645;
   border-radius: 8px;
+  padding: 8px 10px;
   margin-bottom: 6px;
+  font-size: 14px;
+  cursor: pointer;
   transition: all 0.25s ease;
-  border: 1px solid transparent;
+  box-sizing: border-box;
+
+  /* 🧩 Τερμα το horizontal scroll */
+  width: calc(100% - 4px);
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 
-/* Ενοποιημένο hover background */
+/* Hover Glow */
 #roomsPanel li:hover,
-#roomsPanel li.active,
-.user-avatar-wrap:hover,
-.user-avatar-wrap.active {
-  background: #1a1f27;
+#usersPanel li:hover {
+  background: #263040;
+  border-color: #2d8cff;
+  color: #ffffff;
 }
 
-/* Ενοποιημένο border + glow */
-#roomsPanel li:hover,
-#roomsPanel li.active,
-.user-avatar-wrap:hover,
-.user-avatar-wrap.active {
-  border: 1px solid #2d8cff;
-  box-shadow:
-    0 0 10px rgba(45,140,255,0.4),
-    inset 0 0 6px rgba(45,140,255,0.25);
+/* Active Room highlight */
+#roomsPanel li.active {
+  background: #2d8cff;
   color: #fff;
-  transform: scale(1.02);
+  border-color: #2d8cff;
 }
 
-/* Καθαρό transition σε όλες τις λίστες */
-#roomsPanel li,
-.user-avatar-wrap {
-  transition: all 0.25s ease;
+/* Safety for lists */
+#roomsPanel ul,
+#usersPanel ul {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
