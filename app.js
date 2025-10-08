@@ -183,30 +183,27 @@ function renderUserCategories() {
       statusDot.className = u.online ? "status-dot online" : "status-dot offline";
 
       // 👤 Avatar (εικόνα ή αρχικό)
-const avatar = document.createElement("div");
-avatar.className = "user-avatar";
+      const avatar = document.createElement("div");
+      avatar.className = "user-avatar";
 
-// Αν υπάρχει avatar URL -> βάλε εικόνα
-if (u.photoURL) {
-  const img = document.createElement("img");
-  img.src = u.photoURL;
-  img.alt = u.displayName || "User";
-  avatar.appendChild(img);
-} else {
-  // αλλιώς fallback με αρχικό
-  const initial = (u.displayName || "?").charAt(0).toUpperCase();
-  avatar.textContent = initial;
-}
+      if (u.photoURL) {
+        const img = document.createElement("img");
+        img.src = u.photoURL;
+        img.alt = u.displayName || "User";
+        avatar.appendChild(img);
+      } else {
+        const initial = (u.displayName || "?").charAt(0).toUpperCase();
+        avatar.textContent = initial;
+      }
 
-// 💫 Glow ανάλογα με role
-if (u.displayName === "MysteryMan" || u.role === "admin") {
-  avatar.classList.add("admin-glow");
-} else if (u.role === "vip") {
-  avatar.classList.add("vip-glow");
-} else {
-  avatar.classList.add("user-glow");
-}
-
+      // 💫 Glow ανάλογα με role
+      if (u.displayName === "MysteryMan" || u.role === "admin") {
+        avatar.classList.add("admin-glow");
+      } else if (u.role === "vip") {
+        avatar.classList.add("vip-glow");
+      } else {
+        avatar.classList.add("user-glow");
+      }
 
       // 💬 Όνομα
       const nameSpan = document.createElement("span");
@@ -230,52 +227,26 @@ if (u.displayName === "MysteryMan" || u.role === "admin") {
       li.appendChild(avatarWrap);
 
       // 🕓 Tooltip info (Last seen + Role)
-let roleLabel = "User";
-if (u.displayName === "MysteryMan" || u.role === "admin") roleLabel = "Admin";
-else if (u.role === "vip") roleLabel = "VIP";
-else if (u.isAnonymous) roleLabel = "Guest";
+      let roleLabel = "User";
+      if (u.displayName === "MysteryMan" || u.role === "admin") roleLabel = "Admin";
+      else if (u.role === "vip") roleLabel = "VIP";
+      else if (u.isAnonymous) roleLabel = "Guest";
 
-const lastSeen = u.lastSeen
-  ? new Date(u.lastSeen).toLocaleString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-      day: "2-digit",
-      month: "2-digit",
-    })
-  : "–";
+      const lastSeen = u.lastSeen
+        ? new Date(u.lastSeen).toLocaleString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            day: "2-digit",
+            month: "2-digit",
+          })
+        : "–";
 
-li.setAttribute(
-  "data-tooltip",
-  u.online
-    ? `${u.displayName} (${roleLabel}) — Online 🟢`
-    : `${u.displayName} (${roleLabel}) — Last seen: ${lastSeen}`
-);
-
-
-// === Tooltip (Last seen + Role info) ===
-let roleLabel = "User";
-if (u.displayName === "MysteryMan" || u.role === "admin") roleLabel = "Admin";
-else if (u.role === "vip") roleLabel = "VIP";
-else if (u.isAnonymous) roleLabel = "Guest";
-
-let statusText;
-if (u.online) {
-  statusText = "Online now";
-} else if (u.lastSeen) {
-  const minsAgo = Math.floor((Date.now() - u.lastSeen) / 60000);
-  if (minsAgo < 1) statusText = "Just now";
-  else if (minsAgo === 1) statusText = "1 minute ago";
-  else if (minsAgo < 60) statusText = `${minsAgo} minutes ago`;
-  else {
-    const hours = Math.floor(minsAgo / 60);
-    statusText = `${hours} hour${hours > 1 ? "s" : ""} ago`;
-  }
-} else {
-  statusText = "Unknown";
-}
-
-li.title = `${u.displayName || "Guest"} — ${roleLabel}\n🕒 ${statusText}`;
-
+      li.setAttribute(
+        "data-tooltip",
+        u.online
+          ? `${u.displayName} (${roleLabel}) — Online 🟢`
+          : `${u.displayName} (${roleLabel}) — Last seen: ${lastSeen}`
+      );
 
       // 🌙 Offline users
       if (u.online === false) {
@@ -315,6 +286,7 @@ li.title = `${u.displayName || "Guest"} — ${roleLabel}\n🕒 ${statusText}`;
 onAuthStateChanged(auth, (user) => {
   if (user) renderUserCategories();
 });
+
 
 // ===================== AUTO-GROW MESSAGE INPUT (DISCORD STYLE) =====================
 const msgInput = document.getElementById("messageInput");
