@@ -116,32 +116,31 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
 });
 
 // === AUTH STATE ===
-onAuthStateChanged(auth, async (user) => {
-  const authScreen = document.getElementById("authScreen");
-  const chatScreen = document.getElementById("chatScreen");
+setTimeout(() => {
+  onAuthStateChanged(auth, async (user) => {
+    const authScreen = document.getElementById("authScreen");
+    const chatScreen = document.getElementById("chatScreen");
 
-  if (user) {
-    // 🧠 Αν είναι ο MysteryMan → πάντα admin
-    if (user.displayName === "MysteryMan") {
-      await update(ref(db, "users/" + user.uid), {
-        displayName: "MysteryMan",
-        role: "admin",
-        online: true
-      });
+    if (user) {
+      if (user.displayName === "MysteryMan") {
+        await update(ref(db, "users/" + user.uid), {
+          displayName: "MysteryMan",
+          role: "admin",
+          online: true
+        });
+      } else {
+        await update(ref(db, "users/" + user.uid), {
+          displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
+          role: "user",
+          online: true
+        });
+      }
+
+      authScreen.classList.add("hidden");
+      chatScreen.classList.remove("hidden");
     } else {
-      await update(ref(db, "users/" + user.uid), {
-        displayName: user.displayName || "User" + Math.floor(Math.random() * 10000),
-        role: "user",
-        online: true
-      });
+      chatScreen.classList.add("hidden");
+      authScreen.classList.remove("hidden");
     }
-
-    // 🟢 Εμφάνισε το chat μόνο αφού γίνει update
-    authScreen.classList.add("hidden");
-    chatScreen.classList.remove("hidden");
-  } else {
-    // 🔴 Αν δεν υπάρχει χρήστης → γύρνα στην οθόνη auth
-    chatScreen.classList.add("hidden");
-    authScreen.classList.remove("hidden");
-  }
-});
+  });
+}, 300);
