@@ -514,15 +514,14 @@ body {
 
 /* ===================== APP LAYOUT (3 PANELS) ===================== */
 #appView {
-  display: none; /* 👈 αρχικά κρυφό */
-  flex-direction: row;
+  display: flex !important;
+  flex-direction: row !important;
   height: 100vh;
   background: #0d1117;
   overflow: hidden;
   padding: 10px;
   gap: 10px;
 }
-
 
 
 /* --- Common panel style --- */
