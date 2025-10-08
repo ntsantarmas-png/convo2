@@ -244,9 +244,13 @@ const lastSeen = u.lastSeen
     })
   : "–";
 
-li.title = u.online
-  ? `${u.displayName} (${roleLabel}) — Online 🟢`
-  : `${u.displayName} (${roleLabel}) — Last seen: ${lastSeen}`;
+li.setAttribute(
+  "data-tooltip",
+  u.online
+    ? `${u.displayName} (${roleLabel}) — Online 🟢`
+    : `${u.displayName} (${roleLabel}) — Last seen: ${lastSeen}`
+);
+
 
 // === Tooltip (Last seen + Role info) ===
 let roleLabel = "User";
