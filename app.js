@@ -229,6 +229,25 @@ if (u.displayName === "MysteryMan" || u.role === "admin") {
       avatarWrap.append(statusDot, avatar, nameSpan, badge);
       li.appendChild(avatarWrap);
 
+      // 🕓 Tooltip info (Last seen + Role)
+let roleLabel = "User";
+if (u.displayName === "MysteryMan" || u.role === "admin") roleLabel = "Admin";
+else if (u.role === "vip") roleLabel = "VIP";
+else if (u.isAnonymous) roleLabel = "Guest";
+
+const lastSeen = u.lastSeen
+  ? new Date(u.lastSeen).toLocaleString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      day: "2-digit",
+      month: "2-digit",
+    })
+  : "–";
+
+li.title = u.online
+  ? `${u.displayName} (${roleLabel}) — Online 🟢`
+  : `${u.displayName} (${roleLabel}) — Last seen: ${lastSeen}`;
+
 // === Tooltip (Last seen + Role info) ===
 let roleLabel = "User";
 if (u.displayName === "MysteryMan" || u.role === "admin") roleLabel = "Admin";
