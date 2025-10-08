@@ -2,6 +2,8 @@
 import { 
   getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInAnonymously, onAuthStateChanged 
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
 import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 import { app } from "./app.js";
 
@@ -53,7 +55,6 @@ document.getElementById("registerBtn").addEventListener("click", async () => {
   const pass = document.getElementById("registerPassword").value.trim();
   if (!email || !pass) return alert("⚠️ Fill all fields");
   const cred = await createUserWithEmailAndPassword(auth, email, pass);
-  import { updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 // ✅ Ορισμός username ή fallback
 const finalName = username || "User" + Math.floor(Math.random() * 10000);
