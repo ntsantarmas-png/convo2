@@ -1148,27 +1148,29 @@ body {
 .user-avatar-wrap {
   transition: all 0.25s ease;
 }
-/* ===================== FINAL SCROLL FIX (NO HORIZONTAL SCROLL) ===================== */
-#roomsPanel,
-#usersPanel {
-  overflow-x: hidden !important;
-}
+/* ===================== FINAL FIX — Remove horizontal scrollbars from lists ===================== */
 
-/* Για τα εσωτερικά ul και li */
+/* 1️⃣ Αφαίρεση οριζόντιου scroll σε panels & λίστες */
+#roomsPanel,
+#usersPanel,
 #roomsPanel ul,
 #usersPanel ul {
   overflow-x: hidden !important;
-  margin-right: 0;
-  padding-right: 0;
-  width: 100%;
+  padding-right: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* 2️⃣ Διασφάλιση ότι δεν ξεχειλώνουν τα items */
+#roomsPanel li,
+#usersPanel li,
+.user-avatar-wrap {
+  max-width: 100% !important;
+  overflow-x: hidden !important;
   box-sizing: border-box;
 }
 
-/* Καθαρισμός για τα li ώστε να μην προκαλούν overflow */
-#roomsPanel li,
-#usersPanel li {
-  max-width: 100%;
-  overflow-x: hidden;
-  text-overflow: ellipsis; /* κόβει μακριά κείμενα αν ποτέ υπάρξουν */
-  white-space: nowrap; /* κρατά τη γραμμή μονή, χωρίς break */
+/* 3️⃣ Προληπτικά αφαιρούμε “outline offset” από focus states */
+#roomsPanel li:focus,
+#usersPanel li:focus {
+  outline: none !important;
 }
