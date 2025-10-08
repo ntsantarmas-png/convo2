@@ -877,3 +877,44 @@ body {
 .user-name {
   flex: 1;
 }
+/* ===================== AVATAR IMAGE + GLOW ===================== */
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  background: #1e293b;
+  border: 2px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 👑 Admin Glow */
+.admin-glow {
+  border-color: #2d8cff;
+  box-shadow: 0 0 8px rgba(45,140,255,0.6);
+}
+
+/* 💎 VIP Glow */
+.vip-glow {
+  border-color: gold;
+  box-shadow: 0 0 8px rgba(255,215,0,0.6);
+}
+
+/* 👤 Normal User Glow */
+.user-glow {
+  border-color: #333;
+  box-shadow: 0 0 5px rgba(80,80,80,0.4);
+}
