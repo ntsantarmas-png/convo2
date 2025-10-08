@@ -223,6 +223,30 @@ body {
   z-index: 2000;
 }
 #profileCard.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+/* ===================== WELCOME MESSAGE CENTER ===================== */
+#welcomeMsg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(145deg, #1a1f27, #1e2530);
+  border: 1px solid rgba(45,140,255,0.4);
+  color: #fff;
+  padding: 12px 22px;
+  border-radius: 10px;
+  font-size: 16px;
+  box-shadow: 0 0 15px rgba(45,140,255,0.3);
+  z-index: 3000;
+  opacity: 0;
+  animation: fadeInOut 3.5s ease forwards;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+  10%, 90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+}
+
 
 /* ===================== UTILITIES ===================== */
 .hidden { display: none !important; }
