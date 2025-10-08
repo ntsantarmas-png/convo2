@@ -84,13 +84,14 @@ if (messageForm) {
   });
 }
 
-// ===================== RENDER MESSAGES (IMPROVED) =====================
+// ===================== RENDER MESSAGES (STABLE v3) =====================
 const messagesDiv = document.getElementById("messages");
 
 onAuthStateChanged(auth, (user) => {
-  if (!user) return;
+  if (!user || !messagesDiv) return;
 
   const msgRef = ref(db, "v3/messages/" + currentRoom);
+
   onChildAdded(msgRef, (snap) => {
     const msg = snap.val();
     const mine = msg.uid === user.uid;
@@ -102,12 +103,14 @@ onAuthStateChanged(auth, (user) => {
     // === Username ===
     const name = document.createElement("div");
     name.className = "msg-user";
-    name.textContent = msg.user || "Guest";
+    name.textContent = msg.displayName || "Guest";
 
     // === Text ===
     const text = document.createElement("div");
     text.className = "msg-text";
-    text.textContent = msg.text;
+    text.innerHTML = (msg.text || "")
+      .replace(/\n/g, "<br>")
+      .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
 
     // === Timestamp ===
     const time = document.createElement("div");
@@ -116,15 +119,13 @@ onAuthStateChanged(auth, (user) => {
     time.textContent = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
     // === Assemble ===
-    bubble.appendChild(name);
-    bubble.appendChild(text);
-    bubble.appendChild(time);
-
+    bubble.append(name, text, time);
     messagesDiv.appendChild(bubble);
+
+    // === Auto scroll ===
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 });
-
 
 // ===================== AUTO-GROW MESSAGE INPUT (DISCORD STYLE) =====================
 const msgInput = document.getElementById("messageInput");
