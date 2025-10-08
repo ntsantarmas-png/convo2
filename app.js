@@ -398,6 +398,35 @@ onAuthStateChanged(auth, (user) => {
     renderUserCategories(); // για να ενημερώνεται η λίστα live
   }
 });
+// ===================== CUSTOM CONVO TOOLTIP =====================
+const tooltip = document.createElement("div");
+tooltip.id = "convoTooltip";
+document.body.appendChild(tooltip);
+
+document.addEventListener("mousemove", (e) => {
+  if (tooltip.dataset.visible === "true") {
+    tooltip.style.left = e.pageX + 15 + "px";
+    tooltip.style.top = e.pageY + 10 + "px";
+  }
+});
+
+// Hover detection
+document.addEventListener("mouseover", (e) => {
+  const target = e.target.closest("li");
+  if (target && target.hasAttribute("data-tooltip")) {
+    tooltip.innerHTML = target.getAttribute("data-tooltip");
+    tooltip.dataset.visible = "true";
+    tooltip.classList.add("visible");
+  }
+});
+
+document.addEventListener("mouseout", (e) => {
+  const target = e.target.closest("li");
+  if (target && target.hasAttribute("data-tooltip")) {
+    tooltip.dataset.visible = "false";
+    tooltip.classList.remove("visible");
+  }
+});
 
 
 console.log("✅ Convo v3 base loaded");
