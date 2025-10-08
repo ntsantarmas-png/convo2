@@ -229,6 +229,31 @@ if (u.displayName === "MysteryMan" || u.role === "admin") {
       avatarWrap.append(statusDot, avatar, nameSpan, badge);
       li.appendChild(avatarWrap);
 
+// === Tooltip (Last seen + Role info) ===
+let roleLabel = "User";
+if (u.displayName === "MysteryMan" || u.role === "admin") roleLabel = "Admin";
+else if (u.role === "vip") roleLabel = "VIP";
+else if (u.isAnonymous) roleLabel = "Guest";
+
+let statusText;
+if (u.online) {
+  statusText = "Online now";
+} else if (u.lastSeen) {
+  const minsAgo = Math.floor((Date.now() - u.lastSeen) / 60000);
+  if (minsAgo < 1) statusText = "Just now";
+  else if (minsAgo === 1) statusText = "1 minute ago";
+  else if (minsAgo < 60) statusText = `${minsAgo} minutes ago`;
+  else {
+    const hours = Math.floor(minsAgo / 60);
+    statusText = `${hours} hour${hours > 1 ? "s" : ""} ago`;
+  }
+} else {
+  statusText = "Unknown";
+}
+
+li.title = `${u.displayName || "Guest"} — ${roleLabel}\n🕒 ${statusText}`;
+
+
       // 🌙 Offline users
       if (u.online === false) {
         offlineList.appendChild(li);
