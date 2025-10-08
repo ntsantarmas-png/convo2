@@ -1,147 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="el">
 <head>
   <meta charset="UTF-8">
-  <title>Convo v3</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Convo 💬</title>
   <link rel="stylesheet" href="styles.css">
+  <script type="module" src="auth.js" defer></script>
+  <script type="module" src="app.js" defer></script>
 </head>
 <body>
-   <!-- === WELCOME BUBBLE === -->
-  <div id="welcomeBubble" class="hidden">
-    👋 Welcome, <span id="welcomeName">Guest</span>!
-  </div>
-  <!-- ===================== TOPBAR ===================== -->
-  <header id="topbar">
-    <h1 class="brand">Convo <span class="version">v3</span></h1>
-    <button id="logoutBtn" class="hidden">Logout</button>
-  </header>
+  <!-- ================= AUTH SCREEN ================= -->
+  <div id="authScreen" class="center-screen">
+    <h1 class="logo">Convo 💬</h1>
 
-<!-- ===================== AUTH VIEW ===================== -->
-<main id="authView">
-  <h2>Welcome to Convo</h2>
+    <div id="authBoxes">
+      <div class="auth-box" id="loginBox">
+        <h2>Login</h2>
+        <input type="email" id="loginEmail" placeholder="Email">
+        <input type="password" id="loginPassword" placeholder="Password">
+        <button id="loginBtn">Login</button>
+        <p><a href="#" id="showForget">Ξέχασες τον κωδικό;</a></p>
+        <p><a href="#" id="showRegister">Δεν έχεις λογαριασμό;</a></p>
+      </div>
 
-  <!-- === AUTH CONTAINER === -->
-  <div class="auth-container">
+      <div class="auth-box hidden" id="registerBox">
+        <h2>Register</h2>
+        <input type="text" id="registerUsername" placeholder="Display Name">
+        <input type="email" id="registerEmail" placeholder="Email">
+        <input type="password" id="registerPassword" placeholder="Password">
+        <button id="registerBtn">Εγγραφή</button>
+        <p><a href="#" id="showLogin">Έχεις ήδη λογαριασμό;</a></p>
+      </div>
 
-    <!-- === LOGIN === -->
-    <div class="auth-box">
-      <h3>Login</h3>
-      <input id="loginEmail" type="email" placeholder="Email" />
-      <input id="loginPassword" type="password" placeholder="Password" />
-      <button id="loginBtn">Login</button>
-      <button id="forgotPasswordBtn" class="link-btn">Forgot Password?</button>
-    </div>
+      <div class="auth-box hidden" id="forgetBox">
+        <h2>Forgot Password</h2>
+        <input type="email" id="forgetEmail" placeholder="Email">
+        <button id="resetBtn">Αποστολή Email Επαναφοράς</button>
+        <p><a href="#" id="backToLogin">Πίσω στο Login</a></p>
+      </div>
 
-    <!-- === REGISTER === -->
-    <div class="auth-box">
-      <h3>Register</h3>
-      <input id="registerUsername" type="text" placeholder="Username" />
-      <input id="registerEmail" type="email" placeholder="Email" />
-      <input id="registerPassword" type="password" placeholder="Password" />
-      <button id="registerBtn">Register</button>
-    </div>
-
-    <!-- === GUEST ACCESS === -->
-    <div class="auth-box">
-      <h3>Guest Access</h3>
-      <button id="guestBtn">Continue as Guest</button>
-    </div>
-
-    <!-- === INFO BOX === -->
-    <div class="auth-box info-box">
-      <h3>Convo v3</h3>
-      <p>Simple, fast and friendly chat platform.<br>🎧 Stay connected!</p>
-    </div>
-
-  </div>
-</main>
-  
-
-<!-- ===================== APP VIEW ===================== -->
-<main id="appView" class="hidden">
-
-
-  <!-- ==== ROOMS PANEL ==== -->
-  <aside id="roomsPanel">
-    <h3>Rooms</h3>
-    <ul id="roomsList">
-      <li>#general</li>
-      <li>#music</li>
-      <li>#games</li>
-    </ul>
-  </aside>
-
-  <!-- ==== CHAT PANEL (CENTER) ==== -->
-  <section id="chatPanel">
-    <h3 id="roomTitle">#general</h3>
-    <div id="messages" class="messages"></div>
-
-    <form id="messageForm">
-      <textarea id="messageInput" placeholder="Type a message..."></textarea>
-      </form>
-  </section>
-
-  <!-- ==== USERS PANEL (CATEGORIES) ==== -->
-<aside id="usersPanel">
-
-  <!-- 🟣 ADMINS -->
-  <div class="user-category">
-    <div class="cat-header admin">ADMINS</div>
-    <ul id="adminsList"></ul>
-  </div>
-
-  <!-- 💎 VIP -->
-  <div class="user-category">
-    <div class="cat-header vip">VIP</div>
-    <ul id="vipsList"></ul>
-  </div>
-
-  <!-- 💬 USERS -->
-  <div class="user-category">
-    <div class="cat-header users">USERS</div>
-    <ul id="normalUsersList"></ul>
-  </div>
-
-  <!-- 🌙 OFFLINE -->
-  <div class="user-category">
-    <div class="cat-header offline">OFFLINE</div>
-    <ul id="offlineList"></ul>
-  </div>
-</aside>
-  
-  <!-- === PASSWORD RESET BANNER === -->
-  <div id="resetBanner" class="hidden">
-    📨 Email sent to your inbox!
-  </div>
-  <!-- ===================== USERNAME MODAL ===================== -->
-<div id="usernameModal" class="hidden">
-  <div class="modal-content">
-    <h3>✨ Choose your display name</h3>
-    <input id="usernameInput" type="text" maxlength="20" placeholder="Type your name..." />
-    <button id="saveUsernameBtn">Save</button>
-  </div>
-</div>
-
-
-</main>
-<!-- ===================== MINI PROFILE CARD ===================== -->
-<div id="profileCard" class="hidden">
-  <div class="profile-card-inner">
-    <div class="profile-avatar"></div>
-    <div class="profile-info">
-      <div class="profile-name">Username</div>
-      <div class="profile-role">Role</div>
-    </div>
-    <div class="profile-actions">
-      <button id="viewProfileBtn">👁️ View</button>
-      <button id="addFriendBtn">🤝 Add</button>
-      <button id="sendMsgBtn">💌 Message</button>
+      <div class="auth-box" id="guestBox">
+        <h2>Guest</h2>
+        <button id="guestBtn">Σύνδεση ως Επισκέπτης</button>
+      </div>
     </div>
   </div>
-</div>
 
-  <!-- ===================== SCRIPTS ===================== -->
-  <script type="module" src="app.js"></script>
-  <script type="module" src="auth.js"></script>
+  <!-- ================= MAIN CHAT ================= -->
+  <div id="chatScreen" class="hidden">
+    <header>
+      <h2>Convo 💬</h2>
+      <button id="logoutBtn">Logout</button>
+    </header>
+
+    <div id="chatContainer">
+      <!-- Rooms -->
+      <aside id="roomsPanel">
+        <h3>Rooms</h3>
+        <ul id="roomsList"></ul>
+        <button id="createRoomBtn">+ Νέο Room</button>
+      </aside>
+
+      <!-- Main Chat -->
+      <main id="mainPanel">
+        <div id="messages"></div>
+        <form id="messageForm">
+          <textarea id="messageInput" placeholder="Γράψε ένα μήνυμα..." rows="1"></textarea>
+        </form>
+      </main>
+
+      <!-- Users -->
+      <aside id="usersPanel">
+        <h3>ADMINS</h3>
+        <ul id="adminsList"></ul>
+        <h3>VIP</h3>
+        <ul id="vipsList"></ul>
+        <h3>USERS</h3>
+        <ul id="usersList"></ul>
+      </aside>
+    </div>
+  </div>
 </body>
 </html>
