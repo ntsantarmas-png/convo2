@@ -43,6 +43,33 @@ body {
   content: "💬";
   font-size: 1.1rem;
 }
+/* ===================== LOGOUT BUTTON (CONVO STYLE) ===================== */
+#logoutBtn {
+  background: #1a1f27;             /* ίδιο base με input */
+  color: #fff;
+  border: 1px solid #2b3645;       /* λεπτό σκούρο περίγραμμα */
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+}
+
+/* Hover – Convo blue glow */
+#logoutBtn:hover {
+  background: #1c242f;
+  border-color: #2d8cff;
+  box-shadow: 0 0 6px rgba(45,140,255,0.5);
+  color: #2d8cff;
+}
+
+/* Focus / Active – ελαφρύ highlight */
+#logoutBtn:active {
+  background: #222a36;
+  box-shadow: 0 0 4px rgba(45,140,255,0.7);
+}
+
 
 /* ===================== AUTH LAYOUT ===================== */
 #authView {
