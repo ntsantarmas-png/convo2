@@ -1066,14 +1066,11 @@ body {
   cursor: pointer;
   transition: all 0.25s ease;
   box-sizing: border-box;
-
-  /* 🧩 Τερμα το horizontal scroll */
   width: calc(100% - 4px);
   overflow-x: hidden;
   white-space: nowrap;
 }
 
-/* Hover Glow */
 #roomsPanel li:hover,
 #usersPanel li:hover {
   background: #263040;
@@ -1081,17 +1078,8 @@ body {
   color: #ffffff;
 }
 
-/* Active Room highlight */
 #roomsPanel li.active {
   background: #2d8cff;
   color: #fff;
   border-color: #2d8cff;
-}
-
-/* Safety for lists */
-#roomsPanel ul,
-#usersPanel ul {
-  overflow-x: hidden;
-  margin: 0;
-  padding: 0;
 }
