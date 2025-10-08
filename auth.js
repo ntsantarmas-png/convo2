@@ -70,12 +70,7 @@ await update(ref(db, "users/" + cred.user.uid), {
   createdAt: Date.now(),
 });
 
-  await update(ref(db, "users/" + cred.user.uid), {
-    uid: cred.user.uid,
-    displayName: username,
-    email,
-    createdAt: Date.now(),
-  });
+
   alert("✅ Registration complete!");
 });
 
