@@ -79,14 +79,33 @@
       </form>
   </section>
 
-  <!-- ==== USERS PANEL ==== -->
-  <aside id="usersPanel">
-    <h3>Users</h3>
-    <ul id="usersList">
-      <li>MysteryMan 👑</li>
-      <li>Guest</li>
-    </ul>
-  </aside>
+  <!-- ==== USERS PANEL (CATEGORIES) ==== -->
+<aside id="usersPanel">
+
+  <!-- 🟣 ADMINS -->
+  <div class="user-category">
+    <div class="cat-header admin">ADMINS</div>
+    <ul id="adminsList"></ul>
+  </div>
+
+  <!-- 💎 VIP -->
+  <div class="user-category">
+    <div class="cat-header vip">VIP</div>
+    <ul id="vipsList"></ul>
+  </div>
+
+  <!-- 💬 USERS -->
+  <div class="user-category">
+    <div class="cat-header users">USERS</div>
+    <ul id="normalUsersList"></ul>
+  </div>
+
+  <!-- 🌙 OFFLINE -->
+  <div class="user-category">
+    <div class="cat-header offline">OFFLINE</div>
+    <ul id="offlineList"></ul>
+  </div>
+</aside>
   
   <!-- === PASSWORD RESET BANNER === -->
   <div id="resetBanner" class="hidden">
