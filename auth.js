@@ -92,8 +92,28 @@ onAuthStateChanged(auth, (user) => {
   const welcomeName = document.getElementById("welcomeName");
 
   if (user) {
-    document.getElementById("authView").style.display = "none";
+    import { updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    // ✅ MysteryMan recognition
+    if (user.email === "ntsantarmas@gmail.com" && user.displayName !== "MysteryMan") {
+      await updateProfile(user, { displayName: "MysteryMan" });
+      console.log("👑 Logged in as MysteryMan");
+    }
+
+    // ✅ Αν δεν έχει όνομα καθόλου (άδειο displayName)
+    if (!user.displayName) {
+      const randomName = user.isAnonymous
+        ? "Guest"
+        : "User" + Math.floor(Math.random() * 10000);
+
+      await updateProfile(user, { displayName: randomName });
+      console.log("✅ Assigned displayName:", randomName);
+    }
+
     // === Εμφάνιση Chat ===
+    document.getElementById("authView").style.display = "none";
     authView.classList.add("hidden");
     appView.classList.remove("hidden");
     appView.style.display = "block";
@@ -111,8 +131,8 @@ onAuthStateChanged(auth, (user) => {
     }
 
   } else {
-    document.getElementById("authView").style.display = "block";
     // === Επιστροφή στο Auth View ===
+    document.getElementById("authView").style.display = "block";
     authView.classList.remove("hidden");
     appView.classList.add("hidden");
     appView.style.display = "none";
@@ -120,7 +140,7 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-
+// === LOGOUT ===
 document.getElementById("logoutBtn").addEventListener("click", async () => {
   await auth.signOut();
 });
