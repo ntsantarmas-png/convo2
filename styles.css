@@ -1148,3 +1148,16 @@ body {
 .user-avatar-wrap {
   transition: all 0.25s ease;
 }
+/* ===================== FIX: Remove horizontal scrollbars from lists ===================== */
+#roomsPanel,
+#usersPanel,
+#roomsPanel ul,
+#usersPanel ul {
+  overflow-x: hidden !important; /* 🚫 Καταργεί οριζόντιο scroll */
+}
+
+#roomsPanel ul li,
+#usersPanel ul li {
+  max-width: 100%; /* Εγγυάται ότι δεν ξεχειλώνει */
+  box-sizing: border-box;
+}
