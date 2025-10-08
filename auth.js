@@ -1,22 +1,52 @@
 // ===================== FIREBASE AUTH =====================
-import { 
-  getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInAnonymously, onAuthStateChanged 
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signInAnonymously,
+  onAuthStateChanged,
+  updateProfile
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { updateProfile } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 import { app } from "./app.js";
 
+// === INIT FIREBASE ===
 const auth = getAuth(app);
 const db = getDatabase(app);
 
 // === LOGIN ===
-document.getElementById("loginBtn").addEventListener("click", async () => {
-  const email = document.getElementById("loginEmail").value.trim();
-  const pass = document.getElementById("loginPassword").value.trim();
-  if (!email || !pass) return alert("⚠️ Fill all fields");
-  await signInWithEmailAndPassword(auth, email, pass).catch(err => alert(err.message));
-});
+const loginBtn = document.getElementById("loginBtn");
+if (loginBtn) {
+  loginBtn.addEventListener("click", async () => {
+    const email = document.getElementById("loginEmail").value.trim();
+    const pass = document.getElementById("loginPassword").value.trim();
+
+    if (!email || !pass) {
+      alert("⚠️ Please fill in both fields!");
+      return;
+    }
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, pass);
+      const user = userCredential.user;
+      console.log("✅ Login successful:", user.email);
+
+      // Προαιρετικά: ενημέρωσε την τελευταία είσοδο
+      await update(ref(db, "users/" + user.uid), {
+        lastLogin: Date.now()
+      });
+
+      // Μικρό welcome alert (προσωρινό)
+      alert("✅ Welcome back, " + (user.displayName || "User") + "!");
+
+    } catch (error) {
+      console.error("❌ Login failed:", error);
+      alert("❌ " + error.message);
+    }
+  });
+}
+
 // ===================== FORGOT PASSWORD =====================
 const forgotBtn = document.getElementById("forgotPasswordBtn");
 const resetBanner = document.getElementById("resetBanner");
