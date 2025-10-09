@@ -179,22 +179,45 @@ if (giphyBtn) {
     });
   });
 }
-// ===================== CONVO MODAL SYSTEM (v1.8.2) =====================
-// Universal custom modal for alert / confirm / prompt
+// ===================== CONVO MODAL SYSTEM (v1.8.3) =====================
+// replaces default alert(), confirm(), prompt() with custom Convo UI modals
 
-function showConvoAlert(message, title = "Ειδοποίηση") {
+function convoAlert(message, title = "Ειδοποίηση") {
   return new Promise((resolve) => {
     const modal = document.getElementById("convoModal");
     const titleEl = document.getElementById("convoModalTitle");
     const msgEl = document.getElementById("convoModalMsg");
     const inputBox = document.getElementById("convoModalInputBox");
-    const inputEl = document.getElementById("convoModalInput");
     const okBtn = document.getElementById("convoModalOk");
     const cancelBtn = document.getElementById("convoModalCancel");
 
     titleEl.textContent = title;
     msgEl.textContent = message;
     inputBox.classList.add("hidden");
+    cancelBtn.classList.add("hidden");
+    modal.classList.remove("hidden");
+
+    okBtn.onclick = () => {
+      modal.classList.add("hidden");
+      cancelBtn.classList.remove("hidden");
+      resolve(true);
+    };
+  });
+}
+
+function convoConfirm(message, title = "Επιβεβαίωση") {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("convoModal");
+    const titleEl = document.getElementById("convoModalTitle");
+    const msgEl = document.getElementById("convoModalMsg");
+    const inputBox = document.getElementById("convoModalInputBox");
+    const okBtn = document.getElementById("convoModalOk");
+    const cancelBtn = document.getElementById("convoModalCancel");
+
+    titleEl.textContent = title;
+    msgEl.textContent = message;
+    inputBox.classList.add("hidden");
+    cancelBtn.classList.remove("hidden");
     modal.classList.remove("hidden");
 
     okBtn.onclick = () => {
@@ -208,7 +231,7 @@ function showConvoAlert(message, title = "Ειδοποίηση") {
   });
 }
 
-function showConvoPrompt(title = "Εισαγωγή", placeholder = "") {
+function convoPrompt(title = "Εισαγωγή", placeholder = "") {
   return new Promise((resolve) => {
     const modal = document.getElementById("convoModal");
     const titleEl = document.getElementById("convoModalTitle");
@@ -223,6 +246,7 @@ function showConvoPrompt(title = "Εισαγωγή", placeholder = "") {
     inputBox.classList.remove("hidden");
     inputEl.placeholder = placeholder;
     inputEl.value = "";
+    cancelBtn.classList.remove("hidden");
     modal.classList.remove("hidden");
     inputEl.focus();
 
@@ -236,3 +260,8 @@ function showConvoPrompt(title = "Εισαγωγή", placeholder = "") {
     };
   });
 }
+
+// ✅ Override native popups globally
+window.alert = (msg) => convoAlert(msg);
+window.confirm = (msg) => convoConfirm(msg);
+window.prompt = (msg, placeholder = "") => convoPrompt(msg, placeholder);
