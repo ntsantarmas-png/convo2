@@ -17,6 +17,14 @@ window.addEventListener("load", () => {
   const splash = document.getElementById("splashScreen");
   const authContainer = document.getElementById("authContainer");
   const appContainer = document.getElementById("appContainer");
+  // ⚡ Αν ο χρήστης είναι ήδη logged in, μην δείχνεις καθόλου splash
+  const user = window.auth.currentUser;
+  if (user) {
+    splash.style.display = "none";
+    authContainer.style.display = "none";
+    appContainer.style.display = "block";
+    return;
+  }
 
   // 🔹 Κρύβουμε login και chat μέχρι να τελειώσει το splash
   if (authContainer) authContainer.style.opacity = "0";
