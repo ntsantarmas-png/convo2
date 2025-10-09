@@ -158,7 +158,7 @@ if (giphyBtn) {
     const query = prompt("🔍 Αναζήτησε GIF:");
     if (!query) return;
 
-    const apiKey = "YOUR_GIPHY_KEY"; // ✅ το δικό σου key εδώ
+    const apiKey = GIPHY_KEY; // ✅ το δικό σου key εδώ
     const res = await fetch(
       `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${encodeURIComponent(query)}&limit=1`
     );
