@@ -87,6 +87,20 @@ const firebaseConfig = {
     <p>or</p>
     <button id="guestLoginBtn" class="btn secondary">Login as Guest</button>
   </div>
+<!-- ===================== CONVO MODAL (ALERT/PROMPT) ===================== -->
+<div id="convoModal" class="hidden">
+  <div class="convo-modal-box">
+    <h3 id="convoModalTitle">Μήνυμα</h3>
+    <p id="convoModalMsg">...</p>
+    <div id="convoModalInputBox" class="hidden">
+      <input type="text" id="convoModalInput" placeholder="Πληκτρολόγησε εδώ..." />
+    </div>
+    <div class="convo-modal-actions">
+      <button id="convoModalOk" class="btn">OK</button>
+      <button id="convoModalCancel" class="btn secondary">Άκυρο</button>
+    </div>
+  </div>
+</div>
 
   <!-- ===================== SECTION 4: SCRIPTS ===================== -->
   <script type="module" src="auth.js"></script>
