@@ -490,20 +490,21 @@ input:focus {
 
 /* ---------- ⚡ TOPBAR ICON ---------- */
 #topIcon {
-  width: 28px;
-  height: 28px;
-  margin-right: 10px;
-  border-radius: 8px;
+  width: 42px;             /* 🔹 ήταν 28px — μεγαλύτερος */
+  height: 42px;            /* 🔹 ίδιο ύψος */
+  margin-right: 12px;      /* λίγο παραπάνω κενό από το “convo” */
+  border-radius: 10px;
   background: #0e1117;
   position: relative;
   overflow: hidden;
   vertical-align: middle;
-  padding: 3px;
+  padding: 6px;            /* λίγο περισσότερο για να φαίνεται καθαρός */
   filter: brightness(2.2) drop-shadow(0 0 6px rgba(45,140,255,0.9));
   box-shadow: 0 0 10px rgba(45,140,255,0.8), 0 0 20px rgba(30,110,220,0.6);
   transition: 0.3s ease;
-  animation: convoPulse 4s ease-in-out infinite; /* synced */
+  animation: convoPulse 4s ease-in-out infinite;
 }
+
 
 #topIcon:hover {
   transform: scale(1.1);
