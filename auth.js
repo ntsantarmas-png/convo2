@@ -12,61 +12,43 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import { ref, set, update } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 
-// ===================== SPLASH SCREEN CONTROL =====================
+// ===================== SPLASH + AUTH FLOW =====================
+
+// Μόλις φορτώσει η σελίδα
 window.addEventListener("load", () => {
   const splash = document.getElementById("splashScreen");
   const authContainer = document.getElementById("authContainer");
   const appContainer = document.getElementById("appContainer");
-  // ⚡ Αν ο χρήστης είναι ήδη logged in, μην δείχνεις καθόλου splash
-  const user = window.auth.currentUser;
-  if (user) {
-    splash.style.display = "none";
-    authContainer.style.display = "none";
-    appContainer.style.display = "block";
-    return;
-  }
 
-  // 🔹 Κρύβουμε login και chat μέχρι να τελειώσει το splash
-  if (authContainer) authContainer.style.opacity = "0";
-  if (appContainer) appContainer.style.display = "none";
-
-  // ⏳ Μετά από 3.5 δευτ. (όσο κρατά το animation)
-  setTimeout(() => {
-    // Κρύψε το splash
-    if (splash) splash.style.display = "none";
-
-    // Δείξε το login panel με ομαλό fade-in
-    if (authContainer) {
-      authContainer.style.transition = "opacity 0.8s ease-in-out";
-      authContainer.style.opacity = "1";
+  // 1️⃣ Ελέγχουμε πρώτα αν υπάρχει ήδη logged user
+  onAuthStateChanged(window.auth, (user) => {
+    if (user) {
+      // Αν υπάρχει χρήστης: δείξε κατευθείαν το chat
+      if (splash) splash.style.display = "none";
+      if (authContainer) authContainer.style.display = "none";
+      if (appContainer) {
+        appContainer.style.display = "block";
+        appContainer.style.opacity = "1";
+      }
+      console.log("✅ User already logged in:", user.displayName || "Guest");
+      return;
     }
 
-    // Το chat παραμένει κρυφό μέχρι το login success
+    // 2️⃣ Αν ΔΕΝ υπάρχει user, δείξε cinematic splash για 3.5s
+    if (authContainer) authContainer.style.opacity = "0";
     if (appContainer) appContainer.style.display = "none";
-  }, 3500);
+
+    setTimeout(() => {
+      // Κρύψε splash και δείξε login panel με fade-in
+      if (splash) splash.style.display = "none";
+      if (authContainer) {
+        authContainer.style.transition = "opacity 0.8s ease-in-out";
+        authContainer.style.opacity = "1";
+        authContainer.style.display = "block";
+      }
+    }, 3500);
+  });
 });
-
-
-// ===================== CHECK IF USER ALREADY LOGGED IN =====================
-onAuthStateChanged(window.auth, (user) => {
-  const splash = document.getElementById("splashScreen");
-  const authContainer = document.getElementById("authContainer");
-  const appContainer = document.getElementById("appContainer");
-
-  if (user) {
-    // 👇 Αν υπάρχει ήδη user, προσπέρασε splash/login
-    if (splash) splash.style.display = "none";
-    if (authContainer) authContainer.style.display = "none";
-
-    if (appContainer) {
-      appContainer.style.display = "block";
-      appContainer.style.opacity = "1";
-    }
-
-    console.log("⚡ User already logged in:", user.displayName || "Guest");
-  }
-});
-
 
 // === DOM references ===
 const authContainer = document.getElementById("authContainer");
