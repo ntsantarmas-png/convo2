@@ -178,3 +178,60 @@ if (giphyBtn) {
     });
   });
 }
+// ===================== CONVO MODAL SYSTEM (v1.8.2) =====================
+// Universal custom modal for alert / confirm / prompt
+
+function showConvoAlert(message, title = "Ειδοποίηση") {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("convoModal");
+    const titleEl = document.getElementById("convoModalTitle");
+    const msgEl = document.getElementById("convoModalMsg");
+    const inputBox = document.getElementById("convoModalInputBox");
+    const inputEl = document.getElementById("convoModalInput");
+    const okBtn = document.getElementById("convoModalOk");
+    const cancelBtn = document.getElementById("convoModalCancel");
+
+    titleEl.textContent = title;
+    msgEl.textContent = message;
+    inputBox.classList.add("hidden");
+    modal.classList.remove("hidden");
+
+    okBtn.onclick = () => {
+      modal.classList.add("hidden");
+      resolve(true);
+    };
+    cancelBtn.onclick = () => {
+      modal.classList.add("hidden");
+      resolve(false);
+    };
+  });
+}
+
+function showConvoPrompt(title = "Εισαγωγή", placeholder = "") {
+  return new Promise((resolve) => {
+    const modal = document.getElementById("convoModal");
+    const titleEl = document.getElementById("convoModalTitle");
+    const msgEl = document.getElementById("convoModalMsg");
+    const inputBox = document.getElementById("convoModalInputBox");
+    const inputEl = document.getElementById("convoModalInput");
+    const okBtn = document.getElementById("convoModalOk");
+    const cancelBtn = document.getElementById("convoModalCancel");
+
+    titleEl.textContent = title;
+    msgEl.textContent = "";
+    inputBox.classList.remove("hidden");
+    inputEl.placeholder = placeholder;
+    inputEl.value = "";
+    modal.classList.remove("hidden");
+    inputEl.focus();
+
+    okBtn.onclick = () => {
+      modal.classList.add("hidden");
+      resolve(inputEl.value.trim());
+    };
+    cancelBtn.onclick = () => {
+      modal.classList.add("hidden");
+      resolve(null);
+    };
+  });
+}
