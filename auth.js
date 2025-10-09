@@ -68,20 +68,15 @@ if (appContainer) appContainer.style.display = "none";
 
 setTimeout(() => {
   if (splash) splash.style.display = "none";
-
   if (authContainer) {
-    console.log("➡️ Εμφανίζω το authContainer χειροκίνητα");
+    authContainer.classList.remove("hidden"); // 👈 ΑΦΑΙΡΕΙ ΤΟ ΚΡΥΨΙΜΟ
     authContainer.classList.add("show");
     authContainer.style.display = "block";
     authContainer.style.opacity = "1";
-    authContainer.style.transform = "translate(-50%, -50%) scale(1)";
-    authContainer.innerHTML += "<p style='color:#2d8cff;margin-top:10px;'>DEBUG: AUTH CONTAINER ΟΡΑΤΟ ✅</p>";
   }
-
   sessionStorage.setItem("splashPlayed", "true");
 }, 3500);
-
-      }
+}
 
       console.log("👋 User logged out or no session");
     }
