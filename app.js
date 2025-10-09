@@ -155,8 +155,9 @@ function renderUserList() {
 // ============================================================================
 if (giphyBtn) {
   giphyBtn.addEventListener("click", async () => {
-    const query = prompt("🔍 Αναζήτησε GIF:");
+    const query = await showConvoPrompt("🔍 Αναζήτησε GIF", "Πληκτρολόγησε λέξη...");
     if (!query) return;
+
 
     const apiKey = GIPHY_KEY; // ✅ το δικό σου key εδώ
     const res = await fetch(
