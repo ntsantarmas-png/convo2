@@ -224,25 +224,28 @@ body {
 #usersList li.online {
   border-left: 4px solid #2d8cff;
 }
-
-/* ===================== SECTION 3: AUTH CONTAINER ===================== */
+/* ===================== SECTION 3: AUTH CONTAINER (Unified & Cinematic) ===================== */
 #authContainer {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(1);
   width: 400px;
   max-width: 90%;
   text-align: center;
-  transition: opacity 0.8s ease-in-out;
+  opacity: 0; /* αρχικά κρυφό */
+  display: none; /* θα το χειρίζεται η auth.js */
+  transition: opacity 0.8s ease-in-out, transform 0.6s ease-in-out;
   z-index: 100;
 }
-#authContainer {
-  opacity: 0;
+
+/* 👇 Όταν το auth ενεργοποιηθεί μέσω JS (fade-in cinematic) */
+#authContainer.show {
+  display: block;
   animation: authFadeIn 1.5s ease forwards;
-  animation-delay: 3.3s; /* λίγο πριν τελειώσει το splash */
 }
 
+/* ✨ Κινηματογραφικό fade-in effect */
 @keyframes authFadeIn {
   from {
     opacity: 0;
@@ -254,12 +257,14 @@ body {
   }
 }
 
-
+/* === Titles === */
 #authContainer h2 {
   font-size: 1.5em;
   color: #2d8cff;
   margin-bottom: 10px;
 }
+
+/* === Inputs === */
 #authContainer input {
   width: 250px;
   padding: 8px;
@@ -269,10 +274,13 @@ body {
   color: #fff;
   outline: none;
 }
+
 #authContainer input:focus {
   border-color: #2d8cff;
   box-shadow: 0 0 8px #2d8cff;
 }
+
+/* === Separator line === */
 #authContainer hr {
   width: 60%;
   margin: 8px 0;
