@@ -242,8 +242,11 @@ body {
 /* 👇 Όταν το auth ενεργοποιηθεί μέσω JS (fade-in cinematic) */
 #authContainer.show {
   display: block;
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
   animation: authFadeIn 1.5s ease forwards;
 }
+
 
 /* ✨ Κινηματογραφικό fade-in effect */
 @keyframes authFadeIn {
