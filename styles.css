@@ -426,7 +426,7 @@ button:hover,
 input:focus {
   transition: 0.25s ease-in-out;
 }
-/* ===================== CONVO MODAL (v1.8.2) ===================== */
+/* ===================== CONVO MODAL THEME (v1.8.3) ===================== */
 #convoModal {
   position: fixed;
   inset: 0;
@@ -435,25 +435,25 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 500;
+  z-index: 999;
 }
 
 .convo-modal-box {
   background: #0e1117;
   border: 1px solid rgba(45,140,255,0.6);
+  border-radius: 10px;
+  padding: 25px;
+  width: 320px;
+  text-align: center;
+  color: #fff;
   box-shadow: var(--glow-strength) var(--glow-color),
               var(--glow-spread) rgba(45,140,255,var(--glow-opacity));
-  border-radius: 10px;
-  padding: 20px 25px;
-  text-align: center;
-  width: 320px;
-  color: #fff;
   animation: convoModalPop 0.25s ease;
 }
 
 @keyframes convoModalPop {
   from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  to   { transform: scale(1); opacity: 1; }
 }
 
 .convo-modal-box h3 {
