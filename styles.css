@@ -485,15 +485,16 @@ input:focus {
 }
 /* ===================== TOPBAR ICON (⚡ Favicon Glow) ===================== */
 #topIcon {
-  width: 22px;
-  height: 22px;
-  margin-right: 8px;
-  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  margin-right: 10px;
+  border-radius: 8px;
   background: #0e1117;
-  box-shadow: 0 0 8px rgba(45, 140, 255, 0.8), 0 0 16px rgba(30, 110, 220, 0.6);
+  box-shadow: 0 0 10px rgba(45,140,255,0.8), 0 0 20px rgba(30,110,220,0.6);
   transition: 0.4s ease;
   vertical-align: middle;
-  padding: 2px;
+  padding: 3px;
+  animation: topIconGlow 3s ease-in-out infinite;
 }
 
 /* breathing glow effect */
@@ -515,23 +516,32 @@ input:focus {
   transition: 0.25s ease;
 }
 
-/* ===================== CONVO LOGO GLOW ===================== */
+/* ===================== CONVO LOGO (Outline Glow Text) ===================== */
 #topbar .brand {
   display: flex;
   align-items: center;
-  font-size: 1.4em;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: #ffffff;
-  text-shadow: 0 0 8px rgba(45, 140, 255, 0.8), 0 0 14px rgba(30, 110, 220, 0.6);
-  animation: convoTextGlow 3s ease-in-out infinite;
+  font-size: 1.6em;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: transparent;                         /* κάνει το εσωτερικό διάφανο */
+  -webkit-text-stroke: 1px rgba(45,140,255,0.8); /* μπλε περίγραμμα */
+  text-shadow:
+    0 0 6px rgba(45,140,255,0.7),
+    0 0 14px rgba(30,110,220,0.6);
+  animation: convoTextPulse 3s ease-in-out infinite;
 }
 
-@keyframes convoTextGlow {
-  0%, 100% {
-    text-shadow: 0 0 8px rgba(45, 140, 255, 0.8), 0 0 14px rgba(30, 110, 220, 0.6);
+@keyframes convoTextPulse {
+  0%,100% {
+    -webkit-text-stroke: 1px rgba(45,140,255,0.8);
+    text-shadow:
+      0 0 6px rgba(45,140,255,0.7),
+      0 0 14px rgba(30,110,220,0.6);
   }
   50% {
-    text-shadow: 0 0 14px rgba(45, 140, 255, 1), 0 0 26px rgba(30, 110, 220, 0.9);
+    -webkit-text-stroke: 1.2px rgba(45,140,255,1);
+    text-shadow:
+      0 0 10px rgba(45,140,255,1),
+      0 0 20px rgba(30,110,220,0.9);
   }
 }
