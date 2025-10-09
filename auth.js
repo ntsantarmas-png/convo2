@@ -138,15 +138,40 @@ if (logoutBtn) {
 }
 
 // ============================================================================
-//  AUTH STATE CHANGE → δείξε/κρύψε auth container
+//  AUTH STATE CHANGE → Εμφάνιση / Απόκρυψη Auth & Chat Containers
 // ============================================================================
 onAuthStateChanged(window.auth, (user) => {
+  const authContainer = document.getElementById("authContainer");
+  const appContainer = document.getElementById("appContainer");
+
   if (user) {
-    authContainer.classList.add("hidden");
+    console.log("✅ User logged in:", user.displayName || "Guest");
+
+    // Κρύψε το login/register panel
+    if (authContainer) authContainer.classList.add("hidden");
+
+    // Εμφάνισε το chat με ομαλό fade-in
+    if (appContainer) {
+      appContainer.style.display = "block";
+      appContainer.style.opacity = "0";
+      appContainer.style.transition = "opacity 0.6s ease-in-out";
+      setTimeout(() => (appContainer.style.opacity = "1"), 50);
+    }
+
+    // Ενημέρωσε την ένδειξη ονόματος
     document.getElementById("currentUserName").textContent =
       user.displayName || "Guest";
+
+    // Ενημέρωσε Firebase για online status
     update(ref(window.db, "users/" + user.uid), { online: true });
   } else {
-    authContainer.classList.remove("hidden");
+    console.log("🔒 No user logged in");
+
+    // Κρύψε το chat
+    if (appContainer) appContainer.style.display = "none";
+
+    // Εμφάνισε το login/register panel
+    if (authContainer) authContainer.classList.remove("hidden");
   }
 });
+
