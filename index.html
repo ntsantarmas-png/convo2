@@ -85,22 +85,35 @@ const firebaseConfig = {
 </div>
 
 
-  <!-- ===================== SECTION 3: AUTH MODAL ===================== -->
+    <!-- ===================== AUTH CONTAINER (2x2 Layout v2.0) ===================== -->
   <div id="authContainer" class="hidden">
     <h2>Welcome to Convo</h2>
 
-    <input type="text" id="registerUsername" placeholder="Username" />
-    <input type="email" id="registerEmail" placeholder="Email" />
-    <input type="password" id="registerPassword" placeholder="Password" />
-    <button id="registerBtn" class="btn">Register</button>
+    <div class="auth-grid">
+      <!-- ==== REGISTER ==== -->
+      <div class="auth-section">
+        <h3>Create Account</h3>
+        <div class="grid-2x2">
+          <input type="text" id="registerUsername" placeholder="Username" />
+          <input type="email" id="registerEmail" placeholder="Email" />
+          <input type="password" id="registerPassword" placeholder="Password" />
+          <button id="registerBtn" class="btn">Register</button>
+        </div>
+      </div>
 
-    <hr />
+      <!-- ==== LOGIN ==== -->
+      <div class="auth-section">
+        <h3>Login</h3>
+        <div class="grid-2x2">
+          <input type="email" id="loginEmail" placeholder="Email" />
+          <input type="password" id="loginPassword" placeholder="Password" />
+          <button id="loginBtn" class="btn">Login</button>
+          <button id="forgotBtn" class="btn secondary">Forgot Password</button>
+        </div>
+      </div>
+    </div>
 
-    <input type="email" id="loginEmail" placeholder="Email" />
-    <input type="password" id="loginPassword" placeholder="Password" />
-    <button id="loginBtn" class="btn">Login</button>
-
-    <p>or</p>
+    <p style="margin: 12px 0;">or</p>
     <button id="guestLoginBtn" class="btn secondary">Login as Guest</button>
   </div>
   
