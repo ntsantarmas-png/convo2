@@ -517,8 +517,46 @@ input:focus {
 }
 #topIcon {
   filter: brightness(2.2) drop-shadow(0 0 6px rgba(45,140,255,0.9));
+}/* ===================== TOPICON LIGHT SWEEP ===================== */
+#topIcon {
+  position: relative;
+  overflow: hidden;
 }
 
+#topIcon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  animation: iconShine 7s ease-in-out infinite;
+}
+
+@keyframes iconShine {
+  0% {
+    left: -80%;
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    left: 120%;
+    opacity: 0.8;
+  }
+  100% {
+    left: 120%;
+    opacity: 0;
+  }
+}
 
 /* ===================== CONVO LOGO (Outline Glow Text) ===================== */
 #topbar .brand {
