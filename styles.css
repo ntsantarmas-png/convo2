@@ -255,3 +255,55 @@ body {
   background: #2d8cff;
   border-radius: 6px;
 }
+
+/* ===================== PATCH v1.8.1 — NEON FOCUS GLOW ===================== */
+/*  Blue focus/hover glow effect across Convo UI elements 💫  */
+
+:root {
+  --glow-color: #2d8cff;
+}
+
+/* ==== General hover/focus glow ==== */
+input:focus,
+button:focus,
+.btn:focus,
+#messageInput:focus,
+#addRoomBtn:hover,
+#sendBtn:hover,
+#logoutBtn:hover,
+#roomsList li:hover,
+#usersList li:hover {
+  outline: none;
+  border-color: var(--glow-color);
+  box-shadow: 0 0 10px var(--glow-color), 0 0 20px rgba(45, 140, 255, 0.6);
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+/* ==== Topbar subtle glow (hover only) ==== */
+#topbar:hover {
+  box-shadow: 0 0 10px rgba(45, 140, 255, 0.6);
+  transition: 0.3s ease;
+}
+
+/* ==== Room/User list item on hover ==== */
+#roomsList li:hover,
+#usersList li:hover {
+  background: rgba(45, 140, 255, 0.1);
+  box-shadow: 0 0 10px rgba(45, 140, 255, 0.3);
+  transform: translateX(2px);
+  transition: 0.25s ease;
+}
+
+/* ==== Buttons ==== */
+.btn:hover,
+button:hover {
+  box-shadow: 0 0 15px var(--glow-color), 0 0 25px rgba(45, 140, 255, 0.6);
+  transform: translateY(-1px);
+  transition: 0.25s ease;
+}
+
+/* ==== Inputs focus smooth ==== */
+input:focus {
+  background: #111a25;
+  border-color: var(--glow-color);
+}
