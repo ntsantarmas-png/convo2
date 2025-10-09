@@ -16,22 +16,28 @@ import { ref, set, update } from "https://www.gstatic.com/firebasejs/10.13.1/fir
 window.addEventListener("load", () => {
   const splash = document.getElementById("splashScreen");
   const authContainer = document.getElementById("authContainer");
+  const appContainer = document.getElementById("appContainer");
 
-  // Κρύψε προσωρινά το login/register panel
-  if (authContainer) {
-    authContainer.style.opacity = "0";
-  }
+  // 🔹 Κρύβουμε login και chat μέχρι να τελειώσει το splash
+  if (authContainer) authContainer.style.opacity = "0";
+  if (appContainer) appContainer.style.display = "none";
 
-  // Μετά από 3.5s → κρύψε splash & δείξε το auth panel
+  // ⏳ Μετά από 3.5 δευτ. (όσο κρατά το animation):
   setTimeout(() => {
+    // Κρύψε το splash
     if (splash) splash.style.display = "none";
 
+    // Δείξε το login panel με ομαλό fade-in
     if (authContainer) {
       authContainer.style.transition = "opacity 0.8s ease-in-out";
       authContainer.style.opacity = "1";
     }
+
+    // Το chat παραμένει κρυφό μέχρι το login success
+    if (appContainer) appContainer.style.display = "none";
   }, 3500);
 });
+
 
 // === DOM references ===
 const authContainer = document.getElementById("authContainer");
