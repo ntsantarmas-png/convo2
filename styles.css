@@ -515,3 +515,23 @@ input:focus {
   transition: 0.25s ease;
 }
 
+/* ===================== CONVO LOGO GLOW ===================== */
+#topbar .brand {
+  display: flex;
+  align-items: center;
+  font-size: 1.4em;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(45, 140, 255, 0.8), 0 0 14px rgba(30, 110, 220, 0.6);
+  animation: convoTextGlow 3s ease-in-out infinite;
+}
+
+@keyframes convoTextGlow {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(45, 140, 255, 0.8), 0 0 14px rgba(30, 110, 220, 0.6);
+  }
+  50% {
+    text-shadow: 0 0 14px rgba(45, 140, 255, 1), 0 0 26px rgba(30, 110, 220, 0.9);
+  }
+}
