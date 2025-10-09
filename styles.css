@@ -517,7 +517,8 @@ input:focus {
 }
 #topIcon {
   filter: brightness(2.2) drop-shadow(0 0 6px rgba(45,140,255,0.9));
-}/* ===================== TOPICON LIGHT SWEEP ===================== */
+}
+/* ===================== TOPICON LIGHT SWEEP ===================== */
 #topIcon {
   position: relative;
   overflow: hidden;
