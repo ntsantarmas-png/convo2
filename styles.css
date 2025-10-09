@@ -425,3 +425,60 @@ button:hover,
 input:focus {
   transition: 0.25s ease-in-out;
 }
+/* ===================== CONVO MODAL (v1.8.2) ===================== */
+#convoModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(14,17,23,0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+}
+
+.convo-modal-box {
+  background: #0e1117;
+  border: 1px solid rgba(45,140,255,0.6);
+  box-shadow: var(--glow-strength) var(--glow-color),
+              var(--glow-spread) rgba(45,140,255,var(--glow-opacity));
+  border-radius: 10px;
+  padding: 20px 25px;
+  text-align: center;
+  width: 320px;
+  color: #fff;
+  animation: convoModalPop 0.25s ease;
+}
+
+@keyframes convoModalPop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.convo-modal-box h3 {
+  color: var(--glow-color);
+  margin-bottom: 10px;
+}
+
+#convoModalInput {
+  width: 90%;
+  margin-top: 10px;
+  padding: 8px;
+  background: #161b22;
+  border: 1px solid rgba(45,140,255,0.4);
+  border-radius: 6px;
+  color: #fff;
+  outline: none;
+  transition: 0.3s;
+}
+#convoModalInput:focus {
+  box-shadow: 0 0 10px rgba(45,140,255,0.7);
+  border-color: var(--glow-color);
+}
+
+.convo-modal-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
