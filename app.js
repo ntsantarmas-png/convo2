@@ -6,8 +6,9 @@ const GIPHY_KEY = "bCn5Jvx2ZOepneH6fMteNoX31hVfqX25";
 
 
 import {
-  ref, onValue, push, set, update, serverTimestamp
+  ref, onValue, push, set, update, serverTimestamp, onDisconnect
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
 // === DOM Elements ===
