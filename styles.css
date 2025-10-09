@@ -666,52 +666,91 @@ input:focus {
   50% { filter: brightness(2.4) drop-shadow(0 0 18px rgba(45,140,255,1)); }
 }
 
-/* ===================== AUTH GRID LAYOUT (v2.0) ===================== */
+/* ===================== AUTH LAYOUT (2x2 GRID v2.0) ===================== */
 .auth-grid {
   display: flex;
-  flex-direction: column;
-  gap: 20px;
-  align-items: center;
-  background: rgba(14, 17, 23, 0.7);
-  border: 1px solid rgba(45,140,255,0.4);
-  border-radius: 16px;
-  padding: 25px;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 0 25px rgba(45,140,255,0.25);
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  background: rgba(10, 10, 10, 0.6);
+  padding: 30px 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(45, 140, 255, 0.25);
+  width: fit-content;
+  margin: 0 auto;
+  animation: fadeInAuthBox 1s ease forwards;
+}
+
+@keyframes fadeInAuthBox {
+  from { opacity: 0; transform: scale(0.97); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .auth-section {
-  width: 100%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 260px;
 }
 
 .auth-section h3 {
-  color: var(--glow-color);
+  color: #2d8cff;
   margin-bottom: 10px;
-  font-weight: 600;
 }
 
 .grid-2x2 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 10px;
-}
-
-.grid-2x2 input {
   width: 100%;
 }
 
-.grid-2x2 button {
+.auth-section input {
   width: 100%;
+  padding: 10px 12px;
+  background: #111;
+  border: 1px solid #222;
+  border-radius: 6px;
+  color: #fff;
+  transition: 0.3s;
 }
 
-/* make forgot password smaller */
-#forgotBtn {
-  font-size: 0.9em;
-  opacity: 0.8;
+.auth-section input:focus {
+  border-color: #2d8cff;
+  box-shadow: 0 0 8px #2d8cff55;
 }
 
-#forgotBtn:hover {
-  opacity: 1;
-  box-shadow: 0 0 10px rgba(45,140,255,0.6);
+.btn {
+  background: #2d8cff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #1a6cd8;
+}
+
+.btn.secondary {
+  background: #333;
+}
+
+.btn.secondary:hover {
+  background: #444;
+}
+
+#guestLoginBtn {
+  margin-top: 10px;
+  width: 220px;
+}
+
+/* --- Small screen adaptation --- */
+@media (max-width: 640px) {
+  .auth-grid {
+    flex-direction: column;
+    gap: 20px;
+  }
 }
