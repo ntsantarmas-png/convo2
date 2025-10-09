@@ -19,8 +19,15 @@ window.addEventListener("load", () => {
   const splash = document.getElementById("splashScreen");
   const authContainer = document.getElementById("authContainer");
   const appContainer = document.getElementById("appContainer");
+// === Get all buttons safely ===
+const registerBtn = document.getElementById("registerBtn");
+const loginBtn = document.getElementById("loginBtn");
+const guestLoginBtn = document.getElementById("guestLoginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
 
   onAuthStateChanged(window.auth, (user) => {
+console.log("Auth check triggered:", user);
+
     if (user) {
       // === LOGGED IN ===
       if (splash) splash.style.display = "none";
