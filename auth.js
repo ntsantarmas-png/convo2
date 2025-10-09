@@ -22,7 +22,7 @@ window.addEventListener("load", () => {
   if (authContainer) authContainer.style.opacity = "0";
   if (appContainer) appContainer.style.display = "none";
 
-  // ⏳ Μετά από 3.5 δευτ. (όσο κρατά το animation):
+  // ⏳ Μετά από 3.5 δευτ. (όσο κρατά το animation)
   setTimeout(() => {
     // Κρύψε το splash
     if (splash) splash.style.display = "none";
@@ -39,12 +39,34 @@ window.addEventListener("load", () => {
 });
 
 
+// ===================== CHECK IF USER ALREADY LOGGED IN =====================
+onAuthStateChanged(window.auth, (user) => {
+  const splash = document.getElementById("splashScreen");
+  const authContainer = document.getElementById("authContainer");
+  const appContainer = document.getElementById("appContainer");
+
+  if (user) {
+    // 👇 Αν υπάρχει ήδη user, προσπέρασε splash/login
+    if (splash) splash.style.display = "none";
+    if (authContainer) authContainer.style.display = "none";
+
+    if (appContainer) {
+      appContainer.style.display = "block";
+      appContainer.style.opacity = "1";
+    }
+
+    console.log("⚡ User already logged in:", user.displayName || "Guest");
+  }
+});
+
+
 // === DOM references ===
 const authContainer = document.getElementById("authContainer");
 const registerBtn     = document.getElementById("registerBtn");
 const loginBtn        = document.getElementById("loginBtn");
 const guestLoginBtn   = document.getElementById("guestLoginBtn");
 const logoutBtn       = document.getElementById("logoutBtn");
+
 
 // ============================================================================
 //  REGISTER (username + email + password)
