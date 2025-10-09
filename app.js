@@ -155,7 +155,8 @@ function renderUserList() {
 // ============================================================================
 if (giphyBtn) {
   giphyBtn.addEventListener("click", async () => {
-    const query = await showConvoPrompt("🔍 Αναζήτησε GIF", "Πληκτρολόγησε λέξη...");
+const query = await convoPrompt("🔍 Αναζήτησε GIF", "Πληκτρολόγησε λέξη...");
+
     if (!query) return;
 
 
