@@ -55,6 +55,7 @@ console.log("Auth check triggered:", user);
         // Ήδη παίχτηκε: δείξε αμέσως το login
         if (splash) splash.style.display = "none";
         if (authContainer) {
+          authContainer.classList.remove("hidden");
           authContainer.style.display = "block";
           authContainer.style.opacity = "1";
         }
