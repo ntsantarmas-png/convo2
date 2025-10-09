@@ -1,6 +1,9 @@
 // ===================== APP.JS (Convo Reignite Base v1.8.0) =====================
 // Core Chat Logic: Rooms, Messages, Presence, Giphy Integration
 // ================================================================================
+// ===================== GIPHY CONFIG =====================
+const GIPHY_KEY = "bCn5Jvx2ZOepneH6fMteNoX31hVfqX25";
+
 
 import {
   ref, onValue, push, set, update, serverTimestamp
