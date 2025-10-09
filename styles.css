@@ -666,3 +666,53 @@ input:focus {
   0%,100% { filter: brightness(1.8) drop-shadow(0 0 8px rgba(45,140,255,0.8)); }
   50% { filter: brightness(2.4) drop-shadow(0 0 18px rgba(45,140,255,1)); }
 }
+
+/* ===================== AUTH GRID LAYOUT (v2.0) ===================== */
+.auth-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  background: rgba(14, 17, 23, 0.7);
+  border: 1px solid rgba(45,140,255,0.4);
+  border-radius: 16px;
+  padding: 25px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 25px rgba(45,140,255,0.25);
+}
+
+.auth-section {
+  width: 100%;
+  text-align: center;
+}
+
+.auth-section h3 {
+  color: var(--glow-color);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.grid-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.grid-2x2 input {
+  width: 100%;
+}
+
+.grid-2x2 button {
+  width: 100%;
+}
+
+/* make forgot password smaller */
+#forgotBtn {
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+#forgotBtn:hover {
+  opacity: 1;
+  box-shadow: 0 0 10px rgba(45,140,255,0.6);
+}
