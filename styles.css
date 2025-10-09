@@ -515,6 +515,10 @@ input:focus {
   box-shadow: 0 0 18px rgba(45, 140, 255, 1), 0 0 30px rgba(30, 110, 220, 0.9);
   transition: 0.25s ease;
 }
+#topIcon {
+  filter: brightness(2.2) drop-shadow(0 0 6px rgba(45,140,255,0.9));
+}
+
 
 /* ===================== CONVO LOGO (Outline Glow Text) ===================== */
 #topbar .brand {
