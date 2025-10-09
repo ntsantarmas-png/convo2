@@ -12,6 +12,27 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 import { ref, set, update } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 
+// ===================== SPLASH SCREEN CONTROL =====================
+window.addEventListener("load", () => {
+  const splash = document.getElementById("splashScreen");
+  const authContainer = document.getElementById("authContainer");
+
+  // Κρύψε προσωρινά το login/register panel
+  if (authContainer) {
+    authContainer.style.opacity = "0";
+  }
+
+  // Μετά από 3.5s → κρύψε splash & δείξε το auth panel
+  setTimeout(() => {
+    if (splash) splash.style.display = "none";
+
+    if (authContainer) {
+      authContainer.style.transition = "opacity 0.8s ease-in-out";
+      authContainer.style.opacity = "1";
+    }
+  }, 3500);
+});
+
 // === DOM references ===
 const authContainer = document.getElementById("authContainer");
 const registerBtn     = document.getElementById("registerBtn");
