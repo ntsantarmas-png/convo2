@@ -576,3 +576,64 @@ input:focus {
   50%  { left: 120%; opacity: 0.2; }
   100% { left: 120%; opacity: 0; }
 }
+/* ===================== SPLASH SCREEN (CINEMATIC INTRO) ===================== */
+#splashScreen {
+  position: fixed;
+  inset: 0;
+  background: #0e1117;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: splashFade 3.5s cubic-bezier(0.55, 0.05, 0.19, 0.97) forwards;
+}
+
+/* Logo container */
+.splash-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  transform: scale(0.9);
+  animation: splashLogo 3.5s cubic-bezier(0.55, 0.05, 0.19, 0.97) forwards;
+}
+
+/* Image (⚡) */
+#splashIcon {
+  width: 80px;
+  height: 80px;
+  filter: brightness(2.2) drop-shadow(0 0 8px rgba(45,140,255,0.9));
+  animation: splashGlow 3.5s ease-in-out infinite;
+}
+
+/* Text (convo) */
+.splash-text {
+  font-size: 3em;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(45,140,255,0.9);
+  text-shadow: 0 0 12px rgba(45,140,255,0.7), 0 0 24px rgba(30,110,220,0.6);
+}
+
+/* Fade for screen */
+@keyframes splashFade {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+
+/* Zoom-in + clarity for logo */
+@keyframes splashLogo {
+  0% { opacity: 0; transform: scale(0.9) blur(6px); }
+  20% { opacity: 1; transform: scale(1.02) blur(0); }
+  60% { transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.95) blur(4px); }
+}
+
+/* Soft breathing glow for ⚡ */
+@keyframes splashGlow {
+  0%,100% { filter: brightness(1.8) drop-shadow(0 0 8px rgba(45,140,255,0.8)); }
+  50% { filter: brightness(2.4) drop-shadow(0 0 18px rgba(45,140,255,1)); }
+}
