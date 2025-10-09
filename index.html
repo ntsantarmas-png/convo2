@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convo Reignite Base v1.8.0</title>
+
+  <!-- ========== STYLES ========== -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- ========== FIREBASE ========== -->
+  <script type="module">
+    // SECTION: Firebase Configuration (Convo2)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+    import { getDatabase } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSy...YOUR_KEY...",      // ✅ θα αντικατασταθεί με το δικό σου
+      authDomain: "convo2.firebaseapp.com",
+      databaseURL: "https://convo2-default-rtdb.firebaseio.com",
+      projectId: "convo2",
+      storageBucket: "convo2.appspot.com",
+      messagingSenderId: "000000000000",
+      appId: "1:000000000000:web:xxxxxxxxxxxxxx"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.auth = getAuth(app);
+    window.db = getDatabase(app);
+  </script>
+</head>
+
+<body>
+  <!-- ===================== SECTION 1: TOPBAR ===================== -->
+  <header id="topbar">
+    <div class="brand">convo</div>
+    <div id="userInfo">
+      <span id="currentUserName">Guest</span>
+      <button id="logoutBtn" class="btn">Logout</button>
+    </div>
+  </header>
+
+  <!-- ===================== SECTION 2: MAIN WRAPPER ===================== -->
+  <div id="main">
+    <!-- ==== ROOMS PANEL ==== -->
+    <aside id="roomsPanel">
+      <h2>Rooms</h2>
+      <ul id="roomsList"></ul>
+      <button id="addRoomBtn" class="btn">+ Room</button>
+    </aside>
+
+    <!-- ==== CHAT AREA ==== -->
+    <section id="chatArea">
+      <div id="messages"></div>
+
+      <form id="messageForm">
+        <input type="text" id="messageInput" placeholder="Type a message..." autocomplete="off" />
+        <button id="giphyBtn" type="button" class="btn">GIF</button>
+        <button id="sendBtn" type="submit" class="btn">Send</button>
+      </form>
+    </section>
+
+    <!-- ==== USERS PANEL ==== -->
+    <aside id="usersPanel">
+      <h2>Users</h2>
+      <ul id="usersList"></ul>
+    </aside>
+  </div>
+
+  <!-- ===================== SECTION 3: AUTH MODAL ===================== -->
+  <div id="authContainer" class="hidden">
+    <h2>Welcome to Convo</h2>
+
+    <input type="text" id="registerUsername" placeholder="Username" />
+    <input type="email" id="registerEmail" placeholder="Email" />
+    <input type="password" id="registerPassword" placeholder="Password" />
+    <button id="registerBtn" class="btn">Register</button>
+
+    <hr />
+
+    <input type="email" id="loginEmail" placeholder="Email" />
+    <input type="password" id="loginPassword" placeholder="Password" />
+    <button id="loginBtn" class="btn">Login</button>
+
+    <p>or</p>
+    <button id="guestLoginBtn" class="btn secondary">Login as Guest</button>
+  </div>
+
+  <!-- ===================== SECTION 4: SCRIPTS ===================== -->
+  <script type="module" src="auth.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
