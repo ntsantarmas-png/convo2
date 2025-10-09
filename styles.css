@@ -1,6 +1,23 @@
 /* ===================== STYLES.CSS (Convo Reignite Base v1.8.0) ===================== */
 /*  Dark theme + Blue gradient accents + Clean layout */
 /* ================================================================================ */
+/* ===================== CONVO GLOW CONFIG ===================== */
+/*  Εδώ ελέγχεις τη "διάθεση" του φωτός σε όλο το Convo UI 💫  */
+
+:root {
+  /* Βασικό χρώμα φωτισμού */
+  --glow-color: #2d8cff;
+
+  /* Πόσο απλώνεται η λάμψη (όσο μεγαλύτερο, τόσο πιο έντονη) */
+  --glow-strength: 0 0 12px;
+
+  /* Εξωτερική απαλότητα — η δεύτερη λάμψη γύρω από το βασικό */
+  --glow-spread: 0 0 24px;
+
+  /* Διαφάνεια του δεύτερου layer (0.0 – 1.0) */
+  --glow-opacity: 0.6;
+}
+
 
 /* ==== RESET ==== */
 * {
@@ -256,14 +273,26 @@ body {
   border-radius: 6px;
 }
 
-/* ===================== PATCH v1.8.1 — NEON FOCUS GLOW ===================== */
-/*  Blue focus/hover glow effect across Convo UI elements 💫  */
+/* ============================================================================ */
+/* ===================== CONVO UNIFIED GLOW THEME ============================= */
+/*  Εφαρμόζει το glow σε όλα τα στοιχεία του UI                                */
+/* ============================================================================ */
 
-:root {
-  --glow-color: #2d8cff;
+/* ==== GLOBAL ELEMENTS ==== */
+input,
+button,
+.btn,
+#addRoomBtn,
+#logoutBtn {
+  background: #0e1117;
+  border: 1px solid rgba(45,140,255,0.7);
+  color: #fff;
+  border-radius: 6px;
+  padding: 7px 14px;
+  transition: 0.25s ease;
 }
 
-/* ==== General hover/focus glow ==== */
+/* ==== FOCUS & HOVER EFFECTS ==== */
 input:focus,
 button:focus,
 .btn:focus,
@@ -275,122 +304,102 @@ button:focus,
 #usersList li:hover {
   outline: none;
   border-color: var(--glow-color);
-  box-shadow: 0 0 10px var(--glow-color), 0 0 20px rgba(45, 140, 255, 0.6);
+  box-shadow: var(--glow-strength) var(--glow-color),
+              var(--glow-spread) rgba(45, 140, 255, var(--glow-opacity));
   transition: box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-/* ==== Topbar subtle glow (hover only) ==== */
-#topbar:hover {
-  box-shadow: 0 0 10px rgba(45, 140, 255, 0.6);
-  transition: 0.3s ease;
-}
-
-/* ==== Room/User list item on hover ==== */
-#roomsList li:hover,
-#usersList li:hover {
-  background: rgba(45, 140, 255, 0.1);
-  box-shadow: 0 0 10px rgba(45, 140, 255, 0.3);
-  transform: translateX(2px);
-  transition: 0.25s ease;
-}
-
-/* ==== Buttons ==== */
-.btn:hover,
-button:hover {
-  box-shadow: 0 0 15px var(--glow-color), 0 0 25px rgba(45, 140, 255, 0.6);
-  transform: translateY(-1px);
-  transition: 0.25s ease;
-}
-
-/* ==== Inputs focus smooth ==== */
+/* ==== INPUT ==== */
 input:focus {
   background: #111a25;
-  border-color: var(--glow-color);
 }
-/* ===================== PATCH v1.8.1b — Glow-Only Look ===================== */
-/*  Αφαιρεί το έντονο μπλε φόντο για να φαίνεται το glow  */
 
-/* ---- TOPBAR ---- */
+/* ==== BUTTONS ==== */
+.btn:hover,
+button:hover {
+  box-shadow: var(--glow-strength) var(--glow-color),
+              var(--glow-spread) rgba(45, 140, 255, var(--glow-opacity));
+  transform: translateY(-1px);
+}
+.btn:focus,
+button:focus {
+  outline: none;
+  box-shadow: var(--glow-strength) var(--glow-color),
+              var(--glow-spread) rgba(45, 140, 255, 0.9);
+}
+
+/* ---- + ROOM BUTTON ---- */
+#addRoomBtn {
+  width: 100%;
+  margin-top: 10px;
+}
+#addRoomBtn:hover {
+  box-shadow: var(--glow-strength) var(--glow-color),
+              var(--glow-spread) rgba(45, 140, 255, var(--glow-opacity));
+  transform: translateY(-1px);
+}
+
+/* ---- LOGOUT BUTTON ---- */
+#logoutBtn {
+  background: #0e1117;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+}
+#logoutBtn:hover,
+#logoutBtn:focus {
+  background: #0e1117;
+  box-shadow: var(--glow-strength) var(--glow-color),
+              var(--glow-spread) rgba(45, 140, 255, var(--glow-opacity));
+  transform: translateY(-1px);
+}
+
+/* ==== TOPBAR ==== */
 #topbar {
-  background: #0e1117; /* σκοτεινό φόντο */
+  background: #0e1117;
   border-bottom: 1px solid rgba(45,140,255,0.3);
+  transition: 0.3s ease;
 }
 #topbar:hover {
-  box-shadow: 0 0 15px rgba(45,140,255,0.5);
+  box-shadow: var(--glow-strength) var(--glow-color),
+              0 0 15px rgba(45,140,255,0.5);
 }
 
-/* ---- ROOMS ---- */
+/* ==== ROOMS ==== */
+#roomsList li {
+  background: transparent;
+  border: 1px solid transparent;
+  transition: 0.25s ease;
+  border-radius: 6px;
+  padding: 6px 8px;
+}
 #roomsList li.active {
   background: #161b22;
   color: #fff;
   border: 1px solid rgba(45,140,255,0.7);
-  box-shadow: 0 0 12px rgba(45,140,255,0.8);
+  box-shadow: var(--glow-strength) var(--glow-color),
+              0 0 12px rgba(45,140,255,0.8);
 }
-#addRoomBtn {
-  background: #161b22;
-  border: 1px solid rgba(45,140,255,0.7);
-  color: #fff;
-}
-#addRoomBtn:hover {
-  box-shadow: 0 0 10px rgba(45,140,255,0.8);
-  transform: translateY(-1px);
-}
-/* ===================== PATCH v1.8.1c — Uniform Glow Buttons ===================== */
-/* Κάνει όλα τα κουμπιά να ταιριάζουν με το neon glow στυλ */
-
-.btn,
-button {
-  background: #0e1117;
-  border: 1px solid rgba(45,140,255,0.7);
-  color: #fff;
-  border-radius: 6px;
-  padding: 7px 14px;
-  transition: 0.25s ease;
+#roomsList li:hover {
+  background: rgba(45,140,255,0.1);
+  box-shadow: var(--glow-strength) var(--glow-color),
+              0 0 10px rgba(45,140,255,0.3);
+  transform: translateX(2px);
 }
 
+/* ==== USERS ==== */
+#usersList li:hover {
+  background: rgba(45,140,255,0.1);
+  box-shadow: var(--glow-strength) var(--glow-color),
+              0 0 10px rgba(45,140,255,0.3);
+  transform: translateX(2px);
+}
+
+/* ==== GENERAL SMOOTH GLOW ==== */
+#topbar:hover,
+#addRoomBtn:hover,
 .btn:hover,
-button:hover {
-  box-shadow: 0 0 10px rgba(45,140,255,0.8);
-  transform: translateY(-1px);
-}
-
-.btn:focus,
-button:focus {
-  outline: none;
-  box-shadow: 0 0 12px rgba(45,140,255,0.9);
-}
-
-/* Ειδικά για το Logout */
-#logoutBtn {
-  background: transparent;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-}
-
-/* Ειδικά για το + Room */
-#addRoomBtn {
-  width: 100%;
-  margin-top: 10px;
-  background: #0e1117;
-}
-/* ===================== PATCH v1.8.1d — Logout Button Fix ===================== */
-/* Ενιαίο στυλ για το Logout όπως το Send button */
-
-#logoutBtn {
-  background: #0e1117; /* σκοτεινό φόντο */
-  border: 1px solid rgba(45,140,255,0.7);
-  color: #fff;
-  border-radius: 6px;
-  padding: 7px 14px;
-  cursor: pointer;
-  transition: 0.25s ease;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-}
-
-#logoutBtn:hover,
-#logoutBtn:focus {
-  background: #0e1117;
-  box-shadow: 0 0 12px rgba(45,140,255,0.8);
-  transform: translateY(-1px);
+button:hover,
+input:focus {
+  transition: 0.25s ease-in-out;
 }
