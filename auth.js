@@ -56,14 +56,14 @@ window.addEventListener("load", () => {
         if (authContainer) authContainer.style.opacity = "0";
         if (appContainer) appContainer.style.display = "none";
         setTimeout(() => {
-          if (splash) splash.style.display = "none";
-          if (authContainer) {
-            authContainer.style.transition = "opacity 0.8s ease-in-out";
-            authContainer.style.opacity = "1";
-            authContainer.style.display = "block";
-          }
-          sessionStorage.setItem("splashPlayed", "true");
-        }, 3500);
+  if (splash) splash.style.display = "none";
+  if (authContainer) {
+    authContainer.classList.add("show"); // 👈 ενεργοποιεί το fade-in cinematic
+    authContainer.style.display = "block";
+    authContainer.style.opacity = "1";
+  }
+  sessionStorage.setItem("splashPlayed", "true");
+}, 3500);
       }
 
       console.log("👋 User logged out or no session");
