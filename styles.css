@@ -779,3 +779,65 @@ input:focus {
   flex-direction: column;
   gap: 10px; /* κενό ανάμεσα σε όλα τα στοιχεία: inputs & κουμπιά */
 }
+/* ===================== MESSAGE BUBBLES (v1.0 Convo Glow) ===================== */
+.message {
+  position: relative;
+  max-width: 70%;
+  padding: 8px 12px 22px;
+  border-radius: 12px;
+  margin: 4px 0;
+  line-height: 1.4;
+  word-wrap: break-word;
+  animation: msgPop 0.25s ease;
+}
+
+/* ✨ Self (MysteryMan) */
+.message.self {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #2d8cff, #1e6edc);
+  color: #fff;
+  border: 1px solid rgba(45,140,255,0.7);
+  box-shadow: 0 0 12px rgba(45,140,255,0.4);
+  border-bottom-right-radius: 2px;
+}
+
+/* 💬 Others */
+.message.other {
+  align-self: flex-start;
+  background: #161b22;
+  color: #ddd;
+  border: 1px solid rgba(45,140,255,0.25);
+  border-bottom-left-radius: 2px;
+  box-shadow: 0 0 6px rgba(45,140,255,0.15);
+}
+
+/* 👤 Username */
+.msgUser {
+  display: block;
+  font-weight: 600;
+  font-size: 0.9em;
+  color: var(--glow-color);
+  margin-bottom: 3px;
+}
+
+/* 💬 Text */
+.msgText {
+  font-size: 0.95em;
+  white-space: pre-wrap;
+}
+
+/* 🕓 Timestamp */
+.msgTime {
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  font-size: 0.75em;
+  opacity: 0.6;
+  font-style: italic;
+}
+
+/* Small entrance pop */
+@keyframes msgPop {
+  from { transform: scale(0.95); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
