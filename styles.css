@@ -1006,10 +1006,7 @@ input:focus {
 }
 
 /* ==== MAIN CHAT SCROLL FIX (v1.8.1) ==== */
-#chatArea {
-  overflow: hidden;      /* δεν ξεφεύγουν τα panels */
-  position: relative;
-}
+
 
 #messages {
   overflow-y: auto;      /* επιτρέπει scroll κάθετα */
