@@ -63,7 +63,7 @@ function switchRoom(room) {
 }
 
 // ============================================================================
-//  4️⃣ RENDER MESSAGES (Final Stable v1.2 - No Duplicates, Works with serverTimestamp)
+//  4️⃣ RENDER MESSAGES (Final FIX – No Duplicates, Smooth Append)
 // ============================================================================
 function renderMessages(room) {
   // 💡 Καθάρισε προηγούμενο listener
@@ -72,10 +72,12 @@ function renderMessages(room) {
   const msgsRef = ref(window.db, "v3/messages/" + room);
   activeMsgRef = msgsRef;
 
+  // Καθάρισε μόνο μία φορά στην αρχή
   messagesDiv.innerHTML = "";
+
   const user = window.auth.currentUser;
 
-  // ✅ Append μόνο νέα μηνύματα
+  // 🔹 Άκου μόνο νέα μηνύματα (append)
   onChildAdded(msgsRef, (snap) => {
     const msg = snap.val();
     if (!msg) return;
@@ -94,7 +96,7 @@ function renderMessages(room) {
     textSpan.className = "msgText";
     textSpan.textContent = msg.text || "";
 
-    // === GIF ===
+    // === GIF / Image ===
     if (msg.imageUrl) {
       const imgEl = document.createElement("img");
       imgEl.src = msg.imageUrl;
@@ -108,7 +110,7 @@ function renderMessages(room) {
       div.appendChild(imgEl);
     }
 
-    // === Timestamp (time + date) ===
+    // === Timestamp ===
     const timeSpan = document.createElement("span");
     timeSpan.className = "msgTime";
 
@@ -123,7 +125,7 @@ function renderMessages(room) {
     div.append(userSpan, textSpan, timeSpan);
     messagesDiv.appendChild(div);
 
-    // Scroll πάντα στο τέλος
+    // Scroll προς τα κάτω
     messagesDiv.scrollTo({
       top: messagesDiv.scrollHeight,
       behavior: "smooth"
