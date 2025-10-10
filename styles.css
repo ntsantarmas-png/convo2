@@ -884,3 +884,61 @@ input:focus {
 #messageInput {
   padding-left: 50px;
 }
+
+/* ==== EMOJI PANEL (Step 2 UI Skeleton) ==== */
+#emojiPanel {
+  position: absolute;
+  bottom: 70px;          /* ύψος πάνω από το input */
+  left: 10px;
+  width: 420px;
+  height: 300px;
+  background: #0e1117;
+  border: 1px solid rgba(45,140,255,0.4);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(45,140,255,0.3);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: fadeInPanel 0.25s ease;
+}
+
+/* κλείσιμο (μέσω .hidden) */
+.hidden {
+  display: none !important;
+}
+
+/* Tabs επάνω */
+.panel-tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(45,140,255,0.25);
+  background: rgba(22,27,34,0.95);
+}
+.panel-tabs .tab {
+  flex: 1;
+  padding: 8px 0;
+  background: transparent;
+  border: none;
+  color: #aaa;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.panel-tabs .tab.active,
+.panel-tabs .tab:hover {
+  color: #2d8cff;
+  box-shadow: inset 0 -2px #2d8cff;
+}
+
+/* Κεντρικός χώρος */
+.panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+/* Fade effect */
+@keyframes fadeInPanel {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
