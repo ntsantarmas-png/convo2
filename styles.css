@@ -709,7 +709,7 @@ input:focus {
 .auth-section {
   display: flex;
   flex-direction: column;
-  gap: 14px; /* ίδιο κενό ανάμεσα σε όλα */
+  gap: 20px; /* ίδιο κενό ανάμεσα σε όλα */
 }
 
 .auth-section h3 {
