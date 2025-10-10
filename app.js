@@ -473,3 +473,4 @@ if (gifInput && gifGrid) {
     }
   });
 }
+
