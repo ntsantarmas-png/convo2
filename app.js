@@ -541,7 +541,7 @@ if (stickerInput && stickerGrid) {
       const data = await res.json();
 
       if (!data.data.length) {
-        stickerGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">😕 Δεν υπάρχουν stickers</p>`;
+        stickerGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">😕 Δεν υπάρχουν Stickers</p>`;
         return;
       }
 
@@ -558,7 +558,10 @@ if (stickerInput && stickerGrid) {
     }
   }
 
-  // 🔹 Όταν ανοίγεις το tab "Stickers", φόρτωσε trending αν είναι άδειο
+  // 👇 Κάλεσέ την εδώ (μετά τον ορισμό)
+  loadTrendingStickers();
+
+  // 🔹 Όταν ανοίγεις το tab "Stickers", φόρτωσε ξανά αν είναι άδειο
   const stickerTabButton = Array.from(
     document.querySelectorAll(".panel-tabs .tab")
   ).find((t) => t.textContent === "Stickers");
@@ -577,7 +580,7 @@ if (stickerInput && stickerGrid) {
     clearTimeout(stickerSearchTimeout);
     const query = stickerInput.value.trim();
     if (!query) {
-      stickerGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">(Δεν υπάρχουν Stickers ακόμη)</p>`;
+      stickerGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">(Δεν υπάρχουν Stickers)</p>`;
       return;
     }
 
