@@ -668,7 +668,7 @@ input:focus {
 }
 
 
-/* ===================== AUTH LAYOUT (FINAL v2.5) ===================== */
+/* ===================== AUTH LAYOUT (FINAL v2.6) ===================== */
 #authContainer {
   position: fixed;
   top: 50%;
@@ -709,7 +709,7 @@ input:focus {
 .auth-section {
   display: flex;
   flex-direction: column;
-  gap: 14px; /* κενό ανάμεσα σε inputs & κουμπιά */
+  gap: 14px; /* ίδιο κενό ανάμεσα σε όλα */
 }
 
 .auth-section h3 {
@@ -737,11 +737,6 @@ input:focus {
   box-shadow: 0 0 6px rgba(45, 140, 255, 0.6);
 }
 
-/* Extra spacing μόνο ανάμεσα στα inputs */
-.auth-section input:not(:last-of-type) {
-  margin-bottom: 10px;
-}
-
 /* Buttons unified */
 #registerBtn,
 #loginBtn,
@@ -749,7 +744,6 @@ input:focus {
 #guestLoginBtn {
   width: 250px;
   height: 33px;
-  margin: 0 auto;
   background: transparent;
   border: 1px solid #2d8cff;
   color: #fff;
@@ -760,6 +754,7 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
 }
 
 #registerBtn:hover,
