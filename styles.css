@@ -782,3 +782,8 @@ input:focus {
 .auth-section button + button {
   margin-top: 10px; /* κενό ανάμεσα σε κουμπιά */
 }
+.grid-2x2 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* κενό ανάμεσα σε όλα τα στοιχεία: inputs & κουμπιά */
+}
