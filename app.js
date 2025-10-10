@@ -63,76 +63,75 @@ function switchRoom(room) {
 }
 
 // ============================================================================
-//  4️⃣ RENDER MESSAGES (Convo Glow Bubble Layout v1.1)
+//  4️⃣ RENDER MESSAGES (Fixed - Smooth Append, No Message Explosion)
 // ============================================================================
 function renderMessages(room) {
-   // 💡 Καθαρισμός προηγούμενου listener πριν ανοίξει νέος
+  // 💡 Καθαρισμός προηγούμενου listener
   if (activeMsgRef) off(activeMsgRef);
+
   const msgsRef = ref(window.db, "v3/messages/" + room);
-    activeMsgRef = msgsRef; // αποθήκευση του νέου ενεργού listener
+  activeMsgRef = msgsRef;
 
-  onValue(msgsRef, (snap) => {
-    messagesDiv.innerHTML = "";
+  // 🧹 Καθάρισε το container ΜΙΑ φορά στην αρχή (όχι κάθε νέα προσθήκη)
+  messagesDiv.innerHTML = "";
 
-    const user = window.auth.currentUser;
+  const user = window.auth.currentUser;
 
-    snap.forEach((child) => {
-      const msg = child.val();
+  // ✅ Άκου μόνο για ΝΕΑ μηνύματα (append, όχι rebuild)
+  onChildAdded(msgsRef, (snap) => {
+    const msg = snap.val();
 
-      // === Main bubble ===
-      const div = document.createElement("div");
-      const isSelf = user && msg.uid === user.uid;
-      div.className = "message " + (isSelf ? "self" : "other");
+    // === Main bubble ===
+    const div = document.createElement("div");
+    const isSelf = user && msg.uid === user.uid;
+    div.className = "message " + (isSelf ? "self" : "other");
 
-      // === Username ===
-      const userSpan = document.createElement("span");
-      userSpan.className = "msgUser";
-      userSpan.textContent = msg.username || "User";
+    // === Username ===
+    const userSpan = document.createElement("span");
+    userSpan.className = "msgUser";
+    userSpan.textContent = msg.username || "User";
 
-      // === Text ===
-      const textSpan = document.createElement("span");
-      textSpan.className = "msgText";
-      textSpan.textContent = msg.text || "";
-      // === GIF ή εικόνα ===
-if (msg.imageUrl) {
-  const imgEl = document.createElement("img");
-  imgEl.src = msg.imageUrl;
-  imgEl.className = "msgImage";
-  imgEl.alt = "GIF";
-  imgEl.loading = "lazy";
-  imgEl.style.borderRadius = "8px";
-  imgEl.style.maxWidth = "220px";
-  imgEl.style.marginTop = "6px";
-  imgEl.style.display = "block";
-  div.appendChild(imgEl);
-}
+    // === Text ===
+    const textSpan = document.createElement("span");
+    textSpan.className = "msgText";
+    textSpan.textContent = msg.text || "";
 
+    // === GIF ή εικόνα ===
+    if (msg.imageUrl) {
+      const imgEl = document.createElement("img");
+      imgEl.src = msg.imageUrl;
+      imgEl.className = "msgImage";
+      imgEl.alt = "GIF";
+      imgEl.loading = "lazy";
+      imgEl.style.borderRadius = "8px";
+      imgEl.style.maxWidth = "220px";
+      imgEl.style.marginTop = "6px";
+      imgEl.style.display = "block";
+      div.appendChild(imgEl);
+    }
 
-      // === Timestamp (time + date) ===
-      const timeSpan = document.createElement("span");
-      timeSpan.className = "msgTime";
+    // === Timestamp (time + date) ===
+    const timeSpan = document.createElement("span");
+    timeSpan.className = "msgTime";
 
-      if (msg.createdAt) {
-        const d = new Date(msg.createdAt);
-        const timeStr = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-        const dateStr = d.toLocaleDateString([], { day: "2-digit", month: "2-digit", year: "2-digit" });
-        timeSpan.textContent = `${timeStr} · ${dateStr}`;
-      }
+    if (msg.createdAt) {
+      const d = new Date(msg.createdAt);
+      const timeStr = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      const dateStr = d.toLocaleDateString([], { day: "2-digit", month: "2-digit", year: "2-digit" });
+      timeSpan.textContent = `${timeStr} · ${dateStr}`;
+    }
 
-      // === Append all ===
-      div.append(userSpan, textSpan, timeSpan);
-      messagesDiv.appendChild(div);
+    // === Append all ===
+    div.append(userSpan, textSpan, timeSpan);
+    messagesDiv.appendChild(div);
+
+    // 🔽 Smooth scroll στο τέλος
+    messagesDiv.scrollTo({
+      top: messagesDiv.scrollHeight,
+      behavior: "smooth"
     });
-
-// Smooth auto-scroll
-messagesDiv.scrollTo({
-  top: messagesDiv.scrollHeight,
-  behavior: "smooth"
-});
-
   });
 }
-
 // ============================================================================
 //  5️⃣ SEND MESSAGE (anti-duplicate)
 // ============================================================================
