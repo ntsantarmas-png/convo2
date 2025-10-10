@@ -942,3 +942,56 @@ input:focus {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ==== EMOJI TAB LAYOUT (Step 3 – Part 2) ==== */
+#emojiTabLayout {
+  display: flex;
+  height: 100%;
+}
+
+/* ===== Sidebar (αριστερά κατηγορίες) ===== */
+.emoji-sidebar {
+  width: 60px;
+  background: rgba(20, 25, 30, 0.95);
+  border-right: 1px solid rgba(45, 140, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 0;
+  overflow-y: auto;
+}
+
+.emoji-sidebar button {
+  background: transparent;
+  border: none;
+  color: #ccc;
+  font-size: 20px;
+  margin: 4px 0;
+  cursor: pointer;
+  transition: 0.25s ease;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emoji-sidebar button:hover {
+  background: rgba(45,140,255,0.15);
+  box-shadow: 0 0 8px rgba(45,140,255,0.6);
+}
+
+.emoji-sidebar button.active {
+  background: rgba(45,140,255,0.25);
+  box-shadow: 0 0 10px rgba(45,140,255,0.8);
+  color: #2d8cff;
+}
+
+/* ===== Main περιοχή ===== */
+.emoji-main {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+}
+
