@@ -379,7 +379,7 @@ document.addEventListener("click", (e) => {
     const emoji = e.target.textContent;
     messageInput.value += emoji; // προσθήκη στο τέλος
     messageInput.focus(); // επαναφορά focus στο input
-    emojiPanel.classList.add("hidden");
+    
 
   }
 });
