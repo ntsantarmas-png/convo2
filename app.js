@@ -63,25 +63,23 @@ function switchRoom(room) {
 }
 
 // ============================================================================
-//  4️⃣ RENDER MESSAGES (Fixed - Smooth Append, No Message Explosion)
+//  4️⃣ RENDER MESSAGES (Final Stable v1.2 - No Duplicates, Works with serverTimestamp)
 // ============================================================================
 function renderMessages(room) {
-  // 💡 Καθαρισμός προηγούμενου listener
+  // 💡 Καθάρισε προηγούμενο listener
   if (activeMsgRef) off(activeMsgRef);
 
   const msgsRef = ref(window.db, "v3/messages/" + room);
   activeMsgRef = msgsRef;
 
-  // 🧹 Καθάρισε το container ΜΙΑ φορά στην αρχή (όχι κάθε νέα προσθήκη)
   messagesDiv.innerHTML = "";
-
   const user = window.auth.currentUser;
 
-  // ✅ Άκου μόνο για ΝΕΑ μηνύματα (append, όχι rebuild)
+  // ✅ Append μόνο νέα μηνύματα
   onChildAdded(msgsRef, (snap) => {
     const msg = snap.val();
+    if (!msg) return;
 
-    // === Main bubble ===
     const div = document.createElement("div");
     const isSelf = user && msg.uid === user.uid;
     div.className = "message " + (isSelf ? "self" : "other");
@@ -96,7 +94,7 @@ function renderMessages(room) {
     textSpan.className = "msgText";
     textSpan.textContent = msg.text || "";
 
-    // === GIF ή εικόνα ===
+    // === GIF ===
     if (msg.imageUrl) {
       const imgEl = document.createElement("img");
       imgEl.src = msg.imageUrl;
@@ -114,24 +112,25 @@ function renderMessages(room) {
     const timeSpan = document.createElement("span");
     timeSpan.className = "msgTime";
 
-    if (msg.createdAt) {
-      const d = new Date(msg.createdAt);
+    const ts = msg.createdAt || msg.timestamp;
+    if (ts) {
+      const d = new Date(ts);
       const timeStr = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
       const dateStr = d.toLocaleDateString([], { day: "2-digit", month: "2-digit", year: "2-digit" });
       timeSpan.textContent = `${timeStr} · ${dateStr}`;
     }
 
-    // === Append all ===
     div.append(userSpan, textSpan, timeSpan);
     messagesDiv.appendChild(div);
 
-    // 🔽 Smooth scroll στο τέλος
+    // Scroll πάντα στο τέλος
     messagesDiv.scrollTo({
       top: messagesDiv.scrollHeight,
       behavior: "smooth"
     });
   });
 }
+
 // ============================================================================
 //  5️⃣ SEND MESSAGE (anti-duplicate)
 // ============================================================================
@@ -147,22 +146,22 @@ if (messageForm) {
       uid: user.uid,
       username: user.displayName || "Guest",
       text,
-      createdAt: serverTimestamp()
+      createdAt: Date.now() // ✅ άλλαξε serverTimestamp() σε Date.now() για άμεση εμφάνιση
     };
 
-    // Guard against accidental double submit
     if (text === lastMessageId) return;
     lastMessageId = text;
 
     await push(msgRef, newMsg);
     msgInput.value = "";
     msgInput.focus();
-    msgInput.style.height = "40px"; // επαναφορά ύψους μετά την αποστολή
-    
-// 👇 Κλείσιμο emoji panel μετά την αποστολή
-emojiPanel.classList.add("hidden");
+    msgInput.style.height = "40px";
+
+    // 👇 Κλείσιμο emoji panel
+    emojiPanel.classList.add("hidden");
   });
 }
+
 // ============================================================================
 //  AUTO-GROW INPUT + ENTER TO SEND (Convo UX v1.0)
 // ============================================================================
