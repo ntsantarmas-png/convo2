@@ -1005,10 +1005,4 @@ input:focus {
   box-shadow: 0 0 8px rgba(45,140,255,0.4);
 }
 
-/* ==== MAIN CHAT SCROLL FIX (v1.8.1) ==== */
 
-
-#messages {
-  overflow-y: auto;      /* επιτρέπει scroll κάθετα */
-  scroll-behavior: smooth;
-}
