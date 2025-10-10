@@ -389,3 +389,68 @@ tabButtons.forEach((tab) => {
     if (tab.textContent === "GIFs") gifTabLayout.classList.remove("hidden");
   });
 });
+// ==== GIPHY SEARCH + SEND (Step 4 – Part 3) ====
+const gifInput = document.getElementById("gifSearchInput");
+const gifGrid = document.querySelector(".gif-grid");
+
+if (gifInput && gifGrid) {
+  let searchTimeout;
+
+  gifInput.addEventListener("input", () => {
+    clearTimeout(searchTimeout);
+    const query = gifInput.value.trim();
+    if (!query) {
+      gifGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">(Δεν υπάρχουν GIFs ακόμη)</p>`;
+      return;
+    }
+
+    searchTimeout = setTimeout(async () => {
+      gifGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">⏳ Αναζήτηση...</p>`;
+      try {
+        const res = await fetch(
+          `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_KEY}&q=${encodeURIComponent(
+            query
+          )}&limit=24&rating=g`
+        );
+        const data = await res.json();
+        if (!data.data.length) {
+          gifGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">😕 Δεν βρέθηκαν GIFs</p>`;
+          return;
+        }
+
+        gifGrid.innerHTML = data.data
+          .map(
+            (gif) =>
+              `<img src="${gif.images.fixed_width.url}" 
+                    data-url="${gif.images.original.url}" 
+                    alt="gif" />`
+          )
+          .join("");
+      } catch (err) {
+        gifGrid.innerHTML = `<p style="color:#f55;text-align:center;">⚠️ Σφάλμα σύνδεσης</p>`;
+      }
+    }, 500); // μικρή καθυστέρηση για πιο smooth typing
+  });
+
+  // ==== SEND GIF TO MAIN CHAT ====
+  gifGrid.addEventListener("click", async (e) => {
+    if (e.target.tagName === "IMG") {
+      const gifUrl = e.target.dataset.url;
+      const user = auth.currentUser;
+      if (!user) return;
+
+      // στέλνουμε στο Firebase σαν εικόνα (όχι link)
+      const roomPath = currentRoom || "general";
+      await push(ref(db, "v3/messages/" + roomPath), {
+        uid: user.uid,
+        text: "",
+        imageUrl: gifUrl,
+        timestamp: Date.now(),
+      });
+
+      // feedback
+      e.target.style.opacity = "0.5";
+      setTimeout(() => (e.target.style.opacity = "1"), 400);
+    }
+  });
+}
