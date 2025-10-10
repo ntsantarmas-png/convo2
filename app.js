@@ -139,6 +139,7 @@ if (messageForm) {
     await push(msgRef, newMsg);
     msgInput.value = "";
     msgInput.focus();
+    msgInput.style.height = "40px"; // επαναφορά ύψους μετά την αποστολή
   });
 }
 // ============================================================================
