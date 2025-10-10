@@ -828,12 +828,13 @@ input:focus {
 
 /* 🕓 Timestamp */
 .msgTime {
-  position: absolute;
-  bottom: 4px;
-  right: 8px;
+  display: block;
+  margin-top: 6px;
+  text-align: right;
   font-size: 0.75em;
-  opacity: 0.55;
+  opacity: 0.6;
   font-style: italic;
+  color: #ccc;
   letter-spacing: 0.3px;
 }
 
