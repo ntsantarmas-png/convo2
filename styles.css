@@ -156,31 +156,32 @@ body {
   color: #ddd;
 }
 
-/* ==== MESSAGE INPUT ==== */
+/* ==== MESSAGE INPUT (Minimal Bar v1.1) ==== */
 #messageForm {
-  display: flex;
-  gap: 6px;
-  padding: 10px;
+  padding: 12px 14px;
   border-top: 1px solid #222;
 }
+
 #messageInput {
-  flex: 1;
+  width: 100%;
   background: #161b22;
   border: 1px solid #333;
-  border-radius: 6px;
+  border-radius: 8px;
   color: #fff;
-  padding: 8px 10px;
+  padding: 10px 12px;
   outline: none;
   resize: none;
-}
-#messageInput {
-  transition: height 0.15s ease;
+  transition: height 0.15s ease, border-color 0.2s ease;
   min-height: 40px;
+  max-height: 150px;
+  font-size: 0.95em;
+  line-height: 1.4;
 }
 
+/* focus glow */
 #messageInput:focus {
   border-color: #2d8cff;
-  box-shadow: 0 0 6px #2d8cff;
+  box-shadow: 0 0 10px rgba(45,140,255,0.4);
 }
 
 /* ==== BUTTONS ==== */
