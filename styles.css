@@ -666,7 +666,9 @@ input:focus {
   0%,100% { filter: brightness(1.8) drop-shadow(0 0 8px rgba(45,140,255,0.8)); }
   50% { filter: brightness(2.4) drop-shadow(0 0 18px rgba(45,140,255,1)); }
 }
-/* ===================== AUTH LAYOUT (2x2 GRID v2.2) ===================== */
+
+
+/* ===================== AUTH LAYOUT (2x2 GRID v2.3 Unified Glow) ===================== */
 #authContainer {
   position: fixed;
   top: 50%;
@@ -675,38 +677,54 @@ input:focus {
   width: 640px;
   max-width: 95%;
   text-align: center;
-  background: rgba(0, 0, 0, 0.85);  /* Μαύρο πάνελ */
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+  z-index: 100;
   opacity: 0;
   animation: authFadeIn 1.5s ease forwards;
-  animation-delay: 3.3s; /* λίγο πριν τελειώσει το splash */
-  z-index: 100;
+  animation-delay: 3.3s;
 }
 
 @keyframes authFadeIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -40%) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+  from { opacity: 0; transform: translate(-50%, -40%) scale(0.95); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 }
 
 .auth-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px; /* κενό ανάμεσα στις δύο στήλες */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  background: rgba(10, 10, 10, 0.85); /* μαύρο πάνελ */
+  padding: 30px 40px;
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(45,140,255,0.35);
+  width: fit-content;
+  margin: 0 auto;
+  animation: fadeInAuthBox 1s ease forwards;
+}
+
+@keyframes fadeInAuthBox {
+  from { opacity: 0; transform: scale(0.97); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 .auth-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px; /* κοινό κενό ανάμεσα σε inputs & κουμπιά */
+  min-width: 260px;
+  gap: 10px; /* απόσταση ανάμεσα σε inputs & κουμπιά */
+}
+
+.auth-section h3 {
+  color: #2d8cff;
+  margin-bottom: 10px;
+}
+
+.grid-2x2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  width: 100%;
 }
 
 /* === AUTH INPUTS === */
@@ -714,19 +732,17 @@ input:focus {
   width: 250px;
   height: 33px;
   padding: 0 10px;
+  background: #111;
   border: 1px solid #222;
   border-radius: 6px;
-  background: #111;
   color: #fff;
   font-size: 14px;
-  outline: none;
-  box-sizing: border-box;
   transition: 0.3s;
 }
 
 .auth-section input:focus {
   border-color: #2d8cff;
-  box-shadow: 0 0 6px rgba(45, 140, 255, 0.6);
+  box-shadow: 0 0 8px #2d8cff;
 }
 
 /* === AUTH BUTTONS === */
@@ -736,5 +752,25 @@ input:focus {
 #guestLoginBtn {
   width: 250px;
   height: 33px;
-  margin-top: 4px;
+  background: #0e1117;
+  border: 1px solid rgba(45,140,255,0.7);
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#registerBtn:hover,
+#loginBtn:hover,
+#forgotBtn:hover,
+#guestLoginBtn:hover {
+  border-color: var(--glow-color);
+  box-shadow: var(--glow-strength) var(--glow-color),
+              var(--glow-spread) rgba(45,140,255,var(--glow-opacity));
+  transform: translateY(-1px);
 }
