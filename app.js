@@ -522,3 +522,112 @@ if (gifTabButton) {
   });
 }
 
+// ============================================================================
+//  🧩 GIPHY STICKERS (Trending + Search + Send)
+// ============================================================================
+const stickerInput = document.getElementById("stickerSearchInput");
+const stickerGrid = document.querySelector(".sticker-grid");
+
+if (stickerInput && stickerGrid) {
+  const STICKER_KEY = GIPHY_KEY; // ίδιο key με GIFs
+
+  // === AUTO LOAD TRENDING STICKERS ===
+  async function loadTrendingStickers() {
+    stickerGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">🔥 Φόρτωση δημοφιλών...</p>`;
+    try {
+      const res = await fetch(
+        `https://api.giphy.com/v1/stickers/trending?api_key=${STICKER_KEY}&limit=25&rating=g`
+      );
+      const data = await res.json();
+
+      if (!data.data.length) {
+        stickerGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">😕 Δεν υπάρχουν stickers</p>`;
+        return;
+      }
+
+      stickerGrid.innerHTML = data.data
+        .map(
+          (st) =>
+            `<img src="${st.images.fixed_height.url}" 
+                  data-url="${st.images.original.url}" 
+                  alt="sticker" />`
+        )
+        .join("");
+    } catch (err) {
+      stickerGrid.innerHTML = `<p style="color:#f55;text-align:center;">⚠️ Σφάλμα φόρτωσης</p>`;
+    }
+  }
+
+  // 🔹 Όταν ανοίγεις το tab "Stickers", φόρτωσε trending αν είναι άδειο
+  const stickerTabButton = Array.from(
+    document.querySelectorAll(".panel-tabs .tab")
+  ).find((t) => t.textContent === "Stickers");
+
+  if (stickerTabButton) {
+    stickerTabButton.addEventListener("click", () => {
+      if (stickerGrid.innerHTML.includes("Δεν υπάρχουν Stickers")) {
+        loadTrendingStickers();
+      }
+    });
+  }
+
+  // === SEARCH FUNCTIONALITY ===
+  let stickerSearchTimeout;
+  stickerInput.addEventListener("input", () => {
+    clearTimeout(stickerSearchTimeout);
+    const query = stickerInput.value.trim();
+    if (!query) {
+      stickerGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">(Δεν υπάρχουν Stickers ακόμη)</p>`;
+      return;
+    }
+
+    stickerSearchTimeout = setTimeout(async () => {
+      stickerGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">⏳ Αναζήτηση...</p>`;
+      try {
+        const res = await fetch(
+          `https://api.giphy.com/v1/stickers/search?api_key=${STICKER_KEY}&q=${encodeURIComponent(
+            query
+          )}&limit=25&rating=g`
+        );
+        const data = await res.json();
+
+        if (!data.data.length) {
+          stickerGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">😕 Δεν βρέθηκαν Stickers</p>`;
+          return;
+        }
+
+        stickerGrid.innerHTML = data.data
+          .map(
+            (st) =>
+              `<img src="${st.images.fixed_height.url}" 
+                    data-url="${st.images.original.url}" 
+                    alt="sticker" />`
+          )
+          .join("");
+      } catch (err) {
+        stickerGrid.innerHTML = `<p style="color:#f55;text-align:center;">⚠️ Σφάλμα σύνδεσης</p>`;
+      }
+    }, 500);
+  });
+
+  // === SEND STICKER TO MAIN CHAT ===
+  stickerGrid.addEventListener("click", async (e) => {
+    if (e.target.tagName === "IMG") {
+      const stickerUrl = e.target.dataset.url;
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const roomPath = currentRoom || "general";
+      await push(ref(db, "v3/messages/" + roomPath), {
+        uid: user.uid,
+        text: "",
+        imageUrl: stickerUrl,
+        timestamp: Date.now(),
+      });
+
+      e.target.style.opacity = "0.5";
+      setTimeout(() => (e.target.style.opacity = "1"), 400);
+      emojiPanel.classList.add("hidden");
+    }
+  });
+}
