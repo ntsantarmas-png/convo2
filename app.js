@@ -105,8 +105,12 @@ function renderMessages(room) {
       messagesDiv.appendChild(div);
     });
 
-    // Auto-scroll to latest
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+// Smooth auto-scroll
+messagesDiv.scrollTo({
+  top: messagesDiv.scrollHeight,
+  behavior: "smooth"
+});
+
   });
 }
 
@@ -137,6 +141,31 @@ if (messageForm) {
     msgInput.focus();
   });
 }
+// ============================================================================
+//  AUTO-GROW INPUT + ENTER TO SEND (Convo UX v1.0)
+// ============================================================================
+if (msgInput) {
+  const baseHeight = 40;  // ύψος 1 γραμμής
+  const maxHeight = 90;   // μέγιστο ύψος ( ~3 γραμμές )
+
+  msgInput.style.height = baseHeight + "px";
+  msgInput.style.overflowY = "hidden";
+
+  msgInput.addEventListener("input", () => {
+    msgInput.style.height = baseHeight + "px"; // reset
+    const newHeight = Math.min(msgInput.scrollHeight, maxHeight);
+    msgInput.style.height = newHeight + "px";
+  });
+
+  // === ENTER → Send, SHIFT+ENTER → Newline ===
+  msgInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      messageForm.requestSubmit(); // Στέλνει το μήνυμα
+    }
+  });
+}
+
 
 // ============================================================================
 //  6️⃣ PRESENCE (online indicator)
