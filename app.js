@@ -356,3 +356,14 @@ emojiSidebarButtons.forEach((btn) => {
       .join("");
   });
 });
+// ==== INSERT EMOJI INTO INPUT (Step 3 – Part 5) ====
+const messageInput = document.getElementById("messageInput");
+
+// Παρακολούθησε click σε οποιοδήποτε emoji-item
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("emoji-item")) {
+    const emoji = e.target.textContent;
+    messageInput.value += emoji; // προσθήκη στο τέλος
+    messageInput.focus(); // επαναφορά focus στο input
+  }
+});
