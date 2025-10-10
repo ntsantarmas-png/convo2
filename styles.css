@@ -721,27 +721,6 @@ input:focus {
   box-shadow: 0 0 8px #2d8cff55;
 }
 
-.btn {
-  background: #2d8cff;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  padding: 10px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  background: #1a6cd8;
-}
-
-.btn.secondary {
-  background: #333;
-}
-
-.btn.secondary:hover {
-  background: #444;
-}
 
 #guestLoginBtn {
   margin-top: 10px;
