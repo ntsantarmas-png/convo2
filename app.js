@@ -22,6 +22,7 @@ const giphyBtn = document.getElementById("giphyBtn");
 
 let currentRoom = "general"; // default room
 let lastMessageId = null;    // anti-duplicate guard
+let activeMsgRef = null; // αποθήκευση ενεργού listener για τα μηνύματα
 
 // ============================================================================
 //  1️⃣ ON AUTH STATE
@@ -65,7 +66,11 @@ function switchRoom(room) {
 //  4️⃣ RENDER MESSAGES (Convo Glow Bubble Layout v1.1)
 // ============================================================================
 function renderMessages(room) {
+   // 💡 Καθαρισμός προηγούμενου listener πριν ανοίξει νέος
+  if (activeMsgRef) off(activeMsgRef);
   const msgsRef = ref(window.db, "v3/messages/" + room);
+    activeMsgRef = msgsRef; // αποθήκευση του νέου ενεργού listener
+
   onValue(msgsRef, (snap) => {
     messagesDiv.innerHTML = "";
 
