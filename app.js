@@ -289,6 +289,7 @@ window.prompt = (msg, placeholder = "") => convoPrompt(msg, placeholder);
 // ==== EMOJI PANEL TOGGLE (Step 2) ====
 const emojiBtn = document.getElementById("emojiBtn");
 const emojiPanel = document.getElementById("emojiPanel");
+const emojiSidebarButtons = document.querySelectorAll(".emoji-sidebar button");
 
 if (emojiBtn && emojiPanel) {
   // toggle open/close
@@ -304,7 +305,6 @@ if (emojiBtn && emojiPanel) {
     }
   });
   // ==== EMOJI SIDEBAR ACTIVE STATE (Step 3 – Part 3) ====
-const emojiSidebarButtons = document.querySelectorAll(".emoji-sidebar button");
 
 emojiSidebarButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
