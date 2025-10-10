@@ -31,7 +31,7 @@ onAuthStateChanged(window.auth, (user) => {
   if (!user) return;
   renderRooms();
   renderUserList();
-  renderMessages(currentRoom);
+  
   setupPresence(user);
 });
 
