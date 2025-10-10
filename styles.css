@@ -734,3 +734,11 @@ input:focus {
     gap: 20px;
   }
 }
+
+/* ===================== AUTH BUTTONS WIDTH (UNIFIED) ===================== */
+#registerBtn,
+#loginBtn,
+#forgotBtn,
+#guestLoginBtn {
+  width: 250px;
+}
