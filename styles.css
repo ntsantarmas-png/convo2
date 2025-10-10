@@ -668,7 +668,7 @@ input:focus {
 }
 
 
-/* ===================== AUTH LAYOUT (2x2 GRID v2.3 Unified Glow) ===================== */
+/* ===================== AUTH LAYOUT (2x2 GRID v2.4 Unified Glow) ===================== */
 #authContainer {
   position: fixed;
   top: 50%;
@@ -677,75 +677,57 @@ input:focus {
   width: 640px;
   max-width: 95%;
   text-align: center;
-  z-index: 100;
-  opacity: 0;
-  animation: authFadeIn 1.5s ease forwards;
-  animation-delay: 3.3s;
-}
-
-@keyframes authFadeIn {
-  from { opacity: 0; transform: translate(-50%, -40%) scale(0.95); }
-  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-}
-
-.auth-grid {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 40px;
-  background: rgba(10, 10, 10, 0.85); /* μαύρο πάνελ */
+  background: rgba(10, 10, 10, 0.92);
   padding: 30px 40px;
   border-radius: 20px;
-  box-shadow: 0 0 30px rgba(45,140,255,0.35);
-  width: fit-content;
-  margin: 0 auto;
-  animation: fadeInAuthBox 1s ease forwards;
+  box-shadow: 0 0 40px rgba(45, 140, 255, 0.35);
+  opacity: 0;
+  display: none;
+  transition: opacity 0.8s ease-in-out, transform 0.6s ease-in-out;
+  z-index: 100;
 }
 
-@keyframes fadeInAuthBox {
-  from { opacity: 0; transform: scale(0.97); }
-  to   { opacity: 1; transform: scale(1); }
+#authContainer.show {
+  display: block;
+  opacity: 1;
+}
+
+/* === Grid layout for Register & Login sections === */
+.auth-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px; /* απόσταση ανάμεσα στις δύο στήλες */
+  justify-content: center;
+  align-items: start;
 }
 
 .auth-section {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  min-width: 260px;
-  gap: 10px; /* απόσταση ανάμεσα σε inputs & κουμπιά */
+  gap: 10px; /* απόσταση ανάμεσα σε input & κουμπιά */
 }
 
-.auth-section h3 {
-  color: #2d8cff;
-  margin-bottom: 10px;
-}
-
-.grid-2x2 {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  width: 100%;
-}
-
-/* === AUTH INPUTS === */
+/* === Inputs === */
 .auth-section input {
   width: 250px;
   height: 33px;
-  padding: 0 10px;
   background: #111;
   border: 1px solid #222;
   border-radius: 6px;
   color: #fff;
+  padding: 0 10px;
   font-size: 14px;
   transition: 0.3s;
+  box-sizing: border-box;
 }
 
 .auth-section input:focus {
   border-color: #2d8cff;
-  box-shadow: 0 0 8px #2d8cff;
+  box-shadow: 0 0 6px rgba(45, 140, 255, 0.6);
+  outline: none;
 }
 
-/* === AUTH BUTTONS === */
+/* === Buttons (Register / Login / Forgot / Guest) === */
 #registerBtn,
 #loginBtn,
 #forgotBtn,
@@ -753,7 +735,7 @@ input:focus {
   width: 250px;
   height: 33px;
   background: #0e1117;
-  border: 1px solid rgba(45,140,255,0.7);
+  border: 1px solid rgba(45, 140, 255, 0.7);
   color: #fff;
   border-radius: 6px;
   cursor: pointer;
@@ -763,14 +745,21 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 5px auto 0;
 }
 
 #registerBtn:hover,
 #loginBtn:hover,
 #forgotBtn:hover,
 #guestLoginBtn:hover {
-  border-color: var(--glow-color);
-  box-shadow: var(--glow-strength) var(--glow-color),
-              var(--glow-spread) rgba(45,140,255,var(--glow-opacity));
+  border-color: #2d8cff;
+  box-shadow: 0 0 12px rgba(45, 140, 255, 0.6);
   transform: translateY(-1px);
+}
+
+/* === Responsive === */
+@media (max-width: 640px) {
+  .auth-grid {
+    grid-template-columns: 1fr;
+  }
 }
