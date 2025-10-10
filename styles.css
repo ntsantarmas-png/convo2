@@ -141,6 +141,13 @@ body {
   flex-direction: column;
   gap: 6px;
 }
+/* ==== MAIN CHAT SCROLL FIX (stable) ==== */
+#messages {
+  max-height: calc(100vh - 150px); /* περιορίζει στο ύψος της οθόνης */
+  overflow-y: auto;                /* ενεργοποιεί scroll */
+  scroll-behavior: smooth;         /* ομαλή κύλιση */
+}
+
 .message {
   padding: 6px 10px;
   background: #1b1f27;
@@ -853,7 +860,8 @@ input:focus {
 #emojiBtn {
   position: absolute;
   left: 240px;
-  bottom: 18px;
+  bottom: 14px;
+  z-index: 5;
   background: transparent;
   border: none;
   cursor: pointer;
