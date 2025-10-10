@@ -709,7 +709,7 @@ input:focus {
 .auth-section {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* ίδιο κενό ανάμεσα σε όλα */
+  gap: 14px; /* ίδιο κενό ανάμεσα σε όλα */
 }
 
 .auth-section h3 {
@@ -772,4 +772,7 @@ input:focus {
     grid-template-columns: 1fr;
     gap: 25px;
   }
+}
+.auth-section input:not(:last-of-type) {
+  margin-bottom: 10px; /* 10px κενό ανάμεσα στα inputs */
 }
