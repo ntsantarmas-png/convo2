@@ -862,8 +862,8 @@ input:focus {
 
 #emojiBtn {
   position: absolute;
-  left: 100px;              /* σταθερό σημείο όπως πριν */
-  bottom: 14px;             /* λίγο χαμηλότερα για ευθυγράμμιση */
+  left: 65px;              /* σταθερό σημείο όπως πριν */
+  bottom: 18px;             /* λίγο χαμηλότερα για ευθυγράμμιση */
   z-index: 5;
   background: transparent;
   border: none;
