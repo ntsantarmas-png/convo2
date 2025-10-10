@@ -776,3 +776,6 @@ input:focus {
 .auth-section input:not(:last-of-type) {
   margin-bottom: 10px; /* 10px κενό ανάμεσα στα inputs */
 }
+.auth-section input:last-of-type {
+  margin-bottom: 10px; /* κενό ανάμεσα στο τελευταίο input και το κουμπί */
+}
