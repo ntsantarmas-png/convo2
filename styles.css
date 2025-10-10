@@ -173,6 +173,11 @@ body {
   outline: none;
   resize: none;
 }
+#messageInput {
+  transition: height 0.15s ease;
+  min-height: 40px;
+}
+
 #messageInput:focus {
   border-color: #2d8cff;
   box-shadow: 0 0 6px #2d8cff;
