@@ -135,12 +135,15 @@ body {
 }
 #messages {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: auto;               /* ενεργό scroll */
   padding: 15px;
   display: flex;
   flex-direction: column;
   gap: 6px;
+  height: calc(100vh - 180px);    /* κρατά σταθερό ύψος */
+  scroll-behavior: smooth;
 }
+
 /* ==== MAIN CHAT SCROLL FIX (stable) ==== */
 #messages {
   max-height: calc(100vh - 150px); /* περιορίζει στο ύψος της οθόνης */
@@ -852,15 +855,15 @@ input:focus {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ==== EMOJI BUTTON INSIDE INPUT (Perfect Fit v1.4) ==== */
+/* ==== EMOJI BUTTON INSIDE INPUT (Final Stable) ==== */
 #messageForm {
   position: relative;
 }
 
 #emojiBtn {
   position: absolute;
-  left: 240px;
-  bottom: 14px;
+  left: 240px;              /* σταθερό σημείο όπως πριν */
+  bottom: 14px;             /* λίγο χαμηλότερα για ευθυγράμμιση */
   z-index: 5;
   background: transparent;
   border: none;
@@ -883,10 +886,11 @@ input:focus {
   display: block;
 }
 
-/* σωστό κενό για το input */
+/* σωστό κενό για το input ώστε να μην το καλύπτει το emoji */
 #messageInput {
   padding-left: 50px;
 }
+
 
 /* ==== EMOJI PANEL (Step 2 UI Skeleton) ==== */
 #emojiPanel {
