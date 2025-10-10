@@ -62,32 +62,50 @@ function switchRoom(room) {
 }
 
 // ============================================================================
-//  4️⃣ RENDER MESSAGES
+//  4️⃣ RENDER MESSAGES (Convo Glow Bubble Layout v1.1)
 // ============================================================================
 function renderMessages(room) {
   const msgsRef = ref(window.db, "v3/messages/" + room);
   onValue(msgsRef, (snap) => {
     messagesDiv.innerHTML = "";
+
+    const user = window.auth.currentUser;
+
     snap.forEach((child) => {
       const msg = child.val();
+
+      // === Main bubble ===
       const div = document.createElement("div");
-      div.className = "message";
+      const isSelf = user && msg.uid === user.uid;
+      div.className = "message " + (isSelf ? "self" : "other");
 
       // === Username ===
       const userSpan = document.createElement("span");
       userSpan.className = "msgUser";
-      userSpan.textContent = msg.username + ": ";
+      userSpan.textContent = msg.username || "User";
 
       // === Text ===
       const textSpan = document.createElement("span");
       textSpan.className = "msgText";
-      textSpan.textContent = msg.text;
+      textSpan.textContent = msg.text || "";
 
-      div.appendChild(userSpan);
-      div.appendChild(textSpan);
+      // === Timestamp (time + date) ===
+      const timeSpan = document.createElement("span");
+      timeSpan.className = "msgTime";
+
+      if (msg.createdAt) {
+        const d = new Date(msg.createdAt);
+        const timeStr = d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        const dateStr = d.toLocaleDateString([], { day: "2-digit", month: "2-digit", year: "2-digit" });
+        timeSpan.textContent = `${timeStr} · ${dateStr}`;
+      }
+
+      // === Append all ===
+      div.append(userSpan, textSpan, timeSpan);
       messagesDiv.appendChild(div);
     });
 
+    // Auto-scroll to latest
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   });
 }
