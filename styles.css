@@ -783,7 +783,7 @@ input:focus {
 .message {
   position: relative;
   max-width: 70%;
-  padding: 8px 12px 22px;
+  padding: 8px 12px 10px;
   border-radius: 12px;
   margin: 4px 0;
   line-height: 1.4;
