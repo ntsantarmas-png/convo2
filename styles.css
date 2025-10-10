@@ -995,3 +995,17 @@ input:focus {
   overflow-y: auto;
 }
 
+/* ==== Emoji Grid ==== */
+.emoji-item {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  margin: 6px;
+  cursor: pointer;
+  transition: 0.25s;
+  border-radius: 6px;
+}
+.emoji-item:hover {
+  background: rgba(45,140,255,0.15);
+  box-shadow: 0 0 8px rgba(45,140,255,0.4);
+}
