@@ -420,6 +420,44 @@ const gifInput = document.getElementById("gifSearchInput");
 const gifGrid = document.querySelector(".gif-grid");
 
 if (gifInput && gifGrid) {
+  // === AUTO LOAD TRENDING GIFs ===
+async function loadTrendingGifs() {
+  gifGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">🔥 Φόρτωση trending...</p>`;
+  try {
+    const res = await fetch(
+      `https://api.giphy.com/v1/gifs/trending?api_key=${GIPHY_KEY}&limit=25&rating=g`
+    );
+    const data = await res.json();
+    if (!data.data.length) {
+      gifGrid.innerHTML = `<p style="opacity:0.6; text-align:center;">😕 Δεν υπάρχουν GIFs</p>`;
+      return;
+    }
+
+    gifGrid.innerHTML = data.data
+      .map(
+        (gif) =>
+          `<img src="${gif.images.fixed_width.url}" 
+                data-url="${gif.images.original.url}" 
+                alt="gif" />`
+      )
+      .join("");
+  } catch (err) {
+    gifGrid.innerHTML = `<p style="color:#f55;text-align:center;">⚠️ Σφάλμα φόρτωσης</p>`;
+  }
+}
+
+// 🔹 Όταν ανοίγεις το tab "GIFs", να φορτώνει αυτόματα τα trending
+const gifTabButton = Array.from(document.querySelectorAll(".panel-tabs .tab"))
+  .find((t) => t.textContent === "GIFs");
+
+if (gifTabButton) {
+  gifTabButton.addEventListener("click", () => {
+    if (gifGrid.innerHTML.includes("Δεν υπάρχουν GIFs")) {
+      loadTrendingGifs();
+    }
+  });
+}
+
   let searchTimeout;
 
   gifInput.addEventListener("input", () => {
