@@ -88,6 +88,20 @@ function renderMessages(room) {
       const textSpan = document.createElement("span");
       textSpan.className = "msgText";
       textSpan.textContent = msg.text || "";
+      // === GIF ή εικόνα ===
+if (msg.imageUrl) {
+  const imgEl = document.createElement("img");
+  imgEl.src = msg.imageUrl;
+  imgEl.className = "msgImage";
+  imgEl.alt = "GIF";
+  imgEl.loading = "lazy";
+  imgEl.style.borderRadius = "8px";
+  imgEl.style.maxWidth = "220px";
+  imgEl.style.marginTop = "6px";
+  imgEl.style.display = "block";
+  div.appendChild(imgEl);
+}
+
 
       // === Timestamp (time + date) ===
       const timeSpan = document.createElement("span");
@@ -365,6 +379,8 @@ document.addEventListener("click", (e) => {
     const emoji = e.target.textContent;
     messageInput.value += emoji; // προσθήκη στο τέλος
     messageInput.focus(); // επαναφορά focus στο input
+    emojiPanel.classList.add("hidden");
+
   }
 });
 
@@ -446,11 +462,14 @@ if (gifInput && gifGrid) {
         text: "",
         imageUrl: gifUrl,
         timestamp: Date.now(),
-      });
+         });
 
       // feedback
       e.target.style.opacity = "0.5";
       setTimeout(() => (e.target.style.opacity = "1"), 400);
+
+          // 👇 Κλείσε το emoji panel μετά την αποστολή
+    emojiPanel.classList.add("hidden");
     }
   });
 }
