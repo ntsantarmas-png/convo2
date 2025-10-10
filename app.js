@@ -199,36 +199,6 @@ function renderUserList() {
   });
 }
 
-// ============================================================================
-//  8️⃣ GIPHY SEARCH + SEND
-// ============================================================================
-if (giphyBtn) {
-  giphyBtn.addEventListener("click", async () => {
-const query = await convoPrompt("🔍 Αναζήτησε GIF", "Πληκτρολόγησε λέξη...");
-
-    if (!query) return;
-
-
-    const apiKey = GIPHY_KEY; // ✅ το δικό σου key εδώ
-    const res = await fetch(
-      `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${encodeURIComponent(query)}&limit=1`
-    );
-    const data = await res.json();
-    const gifUrl = data.data[0]?.images?.downsized_medium?.url;
-    if (!gifUrl) return alert("❌ Δεν βρέθηκε GIF!");
-
-    const user = window.auth.currentUser;
-    if (!user) return;
-
-    await push(ref(window.db, "v3/messages/" + currentRoom), {
-      uid: user.uid,
-      username: user.displayName || "Guest",
-      text: gifUrl,
-      isGif: true,
-      createdAt: serverTimestamp()
-    });
-  });
-}
 // ===================== CONVO MODAL SYSTEM (v1.8.3) =====================
 // replaces default alert(), confirm(), prompt() with custom Convo UI modals
 
