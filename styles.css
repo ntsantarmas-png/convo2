@@ -850,7 +850,7 @@ input:focus {
   to   { transform: scale(1); opacity: 1; }
 }
 
-/* ==== EMOJI BUTTON INSIDE INPUT (Final Clean v1.3) ==== */
+/* ==== EMOJI BUTTON INSIDE INPUT (Perfect Fit v1.4) ==== */
 #messageForm {
   position: relative;
 }
@@ -858,31 +858,29 @@ input:focus {
 #emojiBtn {
   position: absolute;
   left: 10px;
-  bottom: 10px;
-  background: rgba(45, 140, 255, 0.08);
-  border: 1px solid rgba(45, 140, 255, 0.25);
-  border-radius: 8px;
+  bottom: 8px;
+  background: transparent;
+  border: none;
   cursor: pointer;
-  padding: 4px;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.3s ease;
+  transition: 0.25s ease;
 }
 
 #emojiBtn:hover {
-  background: rgba(45, 140, 255, 0.15);
-  box-shadow: 0 0 10px rgba(45, 140, 255, 0.6);
+  filter: drop-shadow(0 0 8px rgba(45,140,255,0.7));
 }
 
 #emojiBtn img {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: block;
 }
 
-/* για να μην ακουμπάει το κείμενο στο κουμπί */
+/* σωστό κενό για το input */
 #messageInput {
-  padding-left: 56px;
+  padding-left: 52px;
 }
