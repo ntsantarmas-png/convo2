@@ -832,8 +832,9 @@ input:focus {
   bottom: 4px;
   right: 8px;
   font-size: 0.75em;
-  opacity: 0.6;
+  opacity: 0.55;
   font-style: italic;
+  letter-spacing: 0.3px;
 }
 
 /* Small entrance pop */
