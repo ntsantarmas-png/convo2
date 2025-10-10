@@ -704,7 +704,7 @@ input:focus {
 .auth-section {
   display: flex;
   flex-direction: column;
-  gap: 10px; /* απόσταση ανάμεσα σε input & κουμπιά */
+  gap: 14px; /* απόσταση ανάμεσα σε input & κουμπιά */
 }
 
 /* === Inputs === */
