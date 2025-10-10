@@ -666,8 +666,7 @@ input:focus {
   0%,100% { filter: brightness(1.8) drop-shadow(0 0 8px rgba(45,140,255,0.8)); }
   50% { filter: brightness(2.4) drop-shadow(0 0 18px rgba(45,140,255,1)); }
 }
-
-/* ===================== AUTH LAYOUT (2x2 GRID v2.1) ===================== */
+/* ===================== AUTH LAYOUT (2x2 GRID v2.2) ===================== */
 #authContainer {
   position: fixed;
   top: 50%;
@@ -676,6 +675,10 @@ input:focus {
   width: 640px;
   max-width: 95%;
   text-align: center;
+  background: rgba(0, 0, 0, 0.85);  /* Μαύρο πάνελ */
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
   opacity: 0;
   animation: authFadeIn 1.5s ease forwards;
   animation-delay: 3.3s; /* λίγο πριν τελειώσει το splash */
@@ -696,7 +699,7 @@ input:focus {
 .auth-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px; /* κενό ανάμεσα σε αριστερή και δεξιά στήλη */
+  gap: 20px; /* κενό ανάμεσα στις δύο στήλες */
 }
 
 .auth-section {
