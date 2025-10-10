@@ -684,7 +684,7 @@ input:focus {
 
 @keyframes fadeInAuthBox {
   from { opacity: 0; transform: scale(0.97); }
-  to { opacity: 1; transform: scale(1); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 .auth-section {
@@ -706,14 +706,18 @@ input:focus {
   width: 100%;
 }
 
+/* === AUTH INPUTS (fixed size) === */
 .auth-section input {
-  width: 100%;
-  padding: 10px 12px;
+  width: 250px;
+  height: 33px;
   background: #111;
   border: 1px solid #222;
   border-radius: 6px;
   color: #fff;
+  padding: 0 10px;      /* μόνο οριζόντιο padding */
+  font-size: 14px;
   transition: 0.3s;
+  box-sizing: border-box;
 }
 
 .auth-section input:focus {
@@ -721,10 +725,14 @@ input:focus {
   box-shadow: 0 0 8px #2d8cff55;
 }
 
-
+/* === AUTH BUTTONS (fixed size) === */
+#registerBtn,
+#loginBtn,
+#forgotBtn,
 #guestLoginBtn {
-  margin-top: 10px;
-  width: 220px;
+  width: 250px;
+  height: 33px;
+  margin-top: 8px;
 }
 
 /* --- Small screen adaptation --- */
@@ -733,12 +741,4 @@ input:focus {
     flex-direction: column;
     gap: 20px;
   }
-}
-
-/* ===================== AUTH BUTTONS WIDTH (UNIFIED) ===================== */
-#registerBtn,
-#loginBtn,
-#forgotBtn,
-#guestLoginBtn {
-  width: 250px;
 }
