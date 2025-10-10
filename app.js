@@ -367,3 +367,25 @@ document.addEventListener("click", (e) => {
     messageInput.focus(); // επαναφορά focus στο input
   }
 });
+
+// ==== PANEL TABS SWITCH (Step 4 – Part 2) ====
+const tabButtons = document.querySelectorAll(".panel-tabs .tab");
+const emojiTabLayout = document.getElementById("emojiTabLayout");
+const gifTabLayout = document.getElementById("gifTabLayout");
+// (θα προστεθεί και stickerTabLayout αργότερα)
+
+tabButtons.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    // Αφαίρεσε active από όλα
+    tabButtons.forEach((t) => t.classList.remove("active"));
+    tab.classList.add("active");
+
+    // Κρύψε όλα τα layouts
+    emojiTabLayout.classList.add("hidden");
+    gifTabLayout.classList.add("hidden");
+
+    // Εμφάνισε το σωστό ανάλογα με το text
+    if (tab.textContent === "Emoji") emojiTabLayout.classList.remove("hidden");
+    if (tab.textContent === "GIFs") gifTabLayout.classList.remove("hidden");
+  });
+});
