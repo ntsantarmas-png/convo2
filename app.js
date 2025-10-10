@@ -285,3 +285,27 @@ function convoPrompt(title = "Εισαγωγή", placeholder = "") {
 window.alert = (msg) => convoAlert(msg);
 window.confirm = (msg) => convoConfirm(msg);
 window.prompt = (msg, placeholder = "") => convoPrompt(msg, placeholder);
+
+// ==== EMOJI PANEL TOGGLE (Step 2) ====
+const emojiBtn = document.getElementById("emojiBtn");
+const emojiPanel = document.getElementById("emojiPanel");
+
+if (emojiBtn && emojiPanel) {
+  // toggle open/close
+  emojiBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    emojiPanel.classList.toggle("hidden");
+  });
+
+  // close when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!emojiPanel.contains(e.target) && e.target !== emojiBtn) {
+      emojiPanel.classList.add("hidden");
+    }
+  });
+
+  // close with ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") emojiPanel.classList.add("hidden");
+  });
+}
