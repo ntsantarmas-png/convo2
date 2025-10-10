@@ -225,18 +225,19 @@ body {
 }
 /* ===================== SECTION 3: AUTH CONTAINER (Unified & Cinematic) ===================== */
 #authContainer {
-  position: absolute;
+  position: fixed;   /* absolute → fixed για σταθερότητα */
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%);
   width: 400px;
   max-width: 90%;
   text-align: center;
-  opacity: 0; /* αρχικά κρυφό */
-  display: none; /* θα το χειρίζεται η auth.js */
+  opacity: 0;
+  display: none;
   transition: opacity 0.8s ease-in-out, transform 0.6s ease-in-out;
   z-index: 100;
 }
+
 
 /* 👇 Όταν το auth ενεργοποιηθεί μέσω JS (fade-in cinematic) */
 #authContainer.show {
