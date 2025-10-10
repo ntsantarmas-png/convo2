@@ -31,7 +31,8 @@ onAuthStateChanged(window.auth, (user) => {
   if (!user) return;
   renderRooms();
   renderUserList();
-  
+    renderMessages(currentRoom); // ✅ αρχική φόρτωση του main room
+
   setupPresence(user);
 });
 
