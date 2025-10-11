@@ -898,7 +898,7 @@ input:focus {
   bottom: 70px;          /* ύψος πάνω από το input */
   left: 225px;
   width: 420px;
-  height: 300px;
+  height: 400px;         /* ✅ αυξημένο ύψος */
   background: #0e1117;
   border: 1px solid rgba(45,140,255,0.4);
   border-radius: 12px;
@@ -908,9 +908,7 @@ input:focus {
   flex-direction: column;
   overflow: hidden;
   animation: fadeInPanel 0.25s ease;
-  padding-bottom: 5px;    /* μικρό buffer κάτω */
-  max-height: 360px;      /* ✅ αύξησε το από ~300 σε 340px */
-
+  padding-bottom: 5px;   /* μικρό buffer κάτω */
 }
 
 /* κλείσιμο (μέσω .hidden) */
