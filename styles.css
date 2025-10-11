@@ -1001,6 +1001,45 @@ input:focus {
   padding: 10px;
   overflow-y: auto;
 }
+/* ==== EMOJI SCROLL GLOW + FADE (Convo Style) ==== */
+.emoji-main {
+  position: relative;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #2d8cff transparent;
+}
+
+/* Scrollbar εμφάνιση */
+.emoji-main::-webkit-scrollbar {
+  width: 6px;
+}
+.emoji-main::-webkit-scrollbar-thumb {
+  background: #2d8cff;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(45,140,255,0.6);
+}
+
+/* ✨ Fade επάνω–κάτω (ίδιο με GIFs) */
+.emoji-main::before,
+.emoji-main::after {
+  content: "";
+  position: sticky;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.emoji-main::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(10,15,25,0.9), transparent);
+}
+.emoji-main::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(10,15,25,0.9), transparent);
+}
+
 
 /* ==== Emoji Grid ==== */
 .emoji-item {
