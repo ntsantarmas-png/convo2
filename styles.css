@@ -979,6 +979,10 @@ input:focus {
   scrollbar-color: #2d8cff transparent;
   padding-left: 0;
   margin-left: 0;
+  position: absolute;
+left: 0;
+top: 0;
+height: 100%;
 }
 
 .emoji-sidebar button {
@@ -1112,7 +1116,3 @@ input:focus {
   transform: scale(1.05);
   box-shadow: 0 0 12px rgba(45, 140, 255, 0.4);
 }
-position: absolute;
-left: 0;
-top: 0;
-height: 100%;
