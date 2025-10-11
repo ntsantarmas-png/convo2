@@ -1,1147 +1,164 @@
-/* ===================== STYLES.CSS (Convo Reignite Base v1.8.0) ===================== */
-/*  Dark theme + Blue gradient accents + Clean layout */
-/* ================================================================================ */
-/* ===================== CONVO GLOW CONFIG ===================== */
-/*  Εδώ ελέγχεις τη "διάθεση" του φωτός σε όλο το Convo UI 💫  */
-
-:root {
-  /* Βασικό χρώμα φωτισμού */
-  --glow-color: #2d8cff;
-
-  /* Πόσο απλώνεται η λάμψη (όσο μεγαλύτερο, τόσο πιο έντονη) */
-  --glow-strength: 0 0 12px;
-
-  /* Εξωτερική απαλότητα — η δεύτερη λάμψη γύρω από το βασικό */
-  --glow-spread: 0 0 24px;
-
-  /* Διαφάνεια του δεύτερου layer (0.0 – 1.0) */
-  --glow-opacity: 0.6;
-}
-
-
-/* ==== RESET ==== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Inter", sans-serif;
-}
-
+* { box-sizing: border-box; }
 body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
   background: #0e1117;
-  color: #e6e6e6;
+  color: #fff;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
 }
 
-/* ===================== SECTION 1: TOPBAR ===================== */
-#topbar {
-  height: 55px;
-  background: linear-gradient(90deg, #1e6edc, #2d8cff);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  color: #fff;
-  font-weight: 600;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.4);
-}
-
-#topbar .brand {
-  font-size: 1.3em;
-  letter-spacing: 1px;
-  text-shadow: 0 0 10px #2d8cff;
-}
-
-#userInfo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-#logoutBtn {
-  background: transparent;
-  border: 1px solid #2d8cff;
-  color: #fff;
-  padding: 6px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-#logoutBtn:hover {
-  background: #2d8cff;
-  box-shadow: 0 0 8px #2d8cff;
-}
-
-/* ===================== SECTION 2: MAIN LAYOUT ===================== */
-#main {
-  display: grid;
-  grid-template-columns: 220px 1fr 220px;
-  height: calc(100vh - 55px);
-}
-
-/* ==== ROOMS PANEL ==== */
-#roomsPanel {
-  background: #161b22;
-  border-right: 1px solid #222;
-  padding: 10px;
-  overflow-y: auto;
-}
-#roomsPanel h2 {
-  color: #2d8cff;
-  font-size: 1.1em;
-  margin-bottom: 10px;
-}
-#roomsList li {
-  list-style: none;
-  padding: 6px 8px;
-  border-radius: 6px;
-  margin-bottom: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-#roomsList li:hover {
-  background: rgba(45,140,255,0.1);
-}
-#roomsList li.active {
-  background: linear-gradient(90deg, #1e6edc, #2d8cff);
-  color: #fff;
-  box-shadow: 0 0 10px #2d8cff;
-}
-#addRoomBtn {
-  width: 100%;
-  padding: 8px;
-  background: linear-gradient(90deg, #2d8cff, #1e6edc);
-  border: none;
-  border-radius: 6px;
-  color: #fff;
-  font-weight: 500;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: 0.3s;
-}
-#addRoomBtn:hover {
-  opacity: 0.8;
-}
-
-/* ==== CHAT AREA ==== */
-#chatArea {
-  background: #0f131a;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-#messages {
-  flex: 1;
-  overflow-y: auto;               /* ενεργό scroll */
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  height: calc(100vh - 180px);    /* κρατά σταθερό ύψος */
-  scroll-behavior: smooth;
-}
-
-/* ==== MAIN CHAT SCROLL FIX (stable) ==== */
-#messages {
-  max-height: calc(100vh - 150px); /* περιορίζει στο ύψος της οθόνης */
-  overflow-y: auto;                /* ενεργοποιεί scroll */
-  scroll-behavior: smooth;         /* ομαλή κύλιση */
-}
-
-.message {
-  padding: 6px 10px;
-  background: #1b1f27;
-  border-radius: 8px;
-  max-width: 80%;
-  word-wrap: break-word;
-}
-.msgUser {
-  color: #2d8cff;
-  font-weight: 600;
-}
-.msgText {
-  color: #ddd;
-}
-
-/* ==== MESSAGE INPUT (Minimal Bar v1.1) ==== */
-#messageForm {
-  padding: 12px 14px;
-  border-top: 1px solid #222;
-}
-
-#messageInput {
-  width: 100%;
-  background: #161b22;
-  border: 1px solid #333;
-  border-radius: 8px;
-  color: #fff;
-  padding: 10px 12px;
-  outline: none;
-  resize: none;
-  transition: height 0.15s ease, border-color 0.2s ease;
-  min-height: 40px;
-  max-height: 150px;
-  font-size: 0.95em;
-  line-height: 1.4;
-}
-
-/* focus glow */
-#messageInput:focus {
-  border-color: #2d8cff;
-  box-shadow: 0 0 10px rgba(45,140,255,0.4);
-}
-
-/* ==== BUTTONS ==== */
-.btn {
-  background: linear-gradient(90deg, #2d8cff, #1e6edc);
-  border: none;
-  color: #fff;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: 0.3s;
-}
-.btn:hover {
-  opacity: 0.85;
-  box-shadow: 0 0 10px #2d8cff;
-}
-.btn.secondary {
-  background: #444;
-}
-.btn.secondary:hover {
-  background: #555;
-}
-
-/* ==== USERS PANEL ==== */
-#usersPanel {
-  background: #161b22;
-  border-left: 1px solid #222;
-  padding: 10px;
-  overflow-y: auto;
-}
-#usersPanel h2 {
-  color: #2d8cff;
-  font-size: 1.1em;
-  margin-bottom: 10px;
-}
-#usersList li {
-  list-style: none;
-  margin-bottom: 8px;
-  padding: 6px 8px;
-  border-radius: 6px;
-  background: #1b1f27;
-  transition: 0.3s;
-}
-#usersList li.online {
-  border-left: 4px solid #2d8cff;
-}
-/* ===================== SECTION 3: AUTH CONTAINER (Unified & Cinematic) ===================== */
+/* ---------- AUTH ---------- */
 #authContainer {
-  position: fixed;   /* absolute → fixed για σταθερότητα */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 640px;
-  max-width: 95%;
+  width: 360px;
+  max-width: 90%;
+  margin: auto;
   text-align: center;
-  opacity: 0;
-  display: none;
-  transition: opacity 0.8s ease-in-out, transform 0.6s ease-in-out;
-  z-index: 100;
+  padding-top: 80px;
 }
-
-
-/* 👇 Όταν το auth ενεργοποιηθεί μέσω JS (fade-in cinematic) */
-#authContainer.show {
-  display: block;
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-  animation: authFadeIn 1.5s ease forwards;
-}
-
-
-/* ✨ Κινηματογραφικό fade-in effect */
-@keyframes authFadeIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -40%) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-/* === Titles === */
-#authContainer h2 {
-  font-size: 1.5em;
-  color: #2d8cff;
-  margin-bottom: 10px;
-}
-
-/* === Inputs === */
 #authContainer input {
-  width: 250px;
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #333;
-  background: #111;
-  color: #fff;
-  outline: none;
-}
-
-#authContainer input:focus {
-  border-color: #2d8cff;
-  box-shadow: 0 0 8px #2d8cff;
-}
-
-/* === Separator line === */
-#authContainer hr {
-  width: 60%;
-  margin: 8px 0;
-  border: 0.5px solid #222;
-}
-
-/* ===================== UTILITIES ===================== */
-.hidden {
-  display: none !important;
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-thumb {
-  background: #2d8cff;
-  border-radius: 6px;
-}
-
-/* ============================================================================ */
-/* ===================== CONVO UNIFIED GLOW THEME ============================= */
-/*  Εφαρμόζει το glow σε όλα τα στοιχεία του UI                                */
-/* ============================================================================ */
-
-/* ==== GLOBAL ELEMENTS ==== */
-input,
-button,
-.btn,
-#addRoomBtn,
-#logoutBtn {
-  background: #0e1117;
-  border: 1px solid rgba(45,140,255,0.7);
-  color: #fff;
-  border-radius: 6px;
-  padding: 7px 14px;
-  transition: 0.25s ease;
-}
-
-/* ==== FOCUS & HOVER EFFECTS ==== */
-input:focus,
-button:focus,
-.btn:focus,
-#messageInput:focus,
-#addRoomBtn:hover,
-#sendBtn:hover,
-#logoutBtn:hover,
-#roomsList li:hover,
-#usersList li:hover {
-  outline: none;
-  border-color: var(--glow-color);
-  box-shadow: var(--glow-strength) var(--glow-color),
-              var(--glow-spread) rgba(45, 140, 255, var(--glow-opacity));
-  transition: box-shadow 0.25s ease, border-color 0.25s ease;
-}
-
-/* ==== INPUT ==== */
-input:focus {
-  background: #111a25;
-}
-
-/* ==== BUTTONS ==== */
-.btn:hover,
-button:hover {
-  box-shadow: var(--glow-strength) var(--glow-color),
-              var(--glow-spread) rgba(45, 140, 255, var(--glow-opacity));
-  transform: translateY(-1px);
-}
-.btn:focus,
-button:focus {
-  outline: none;
-  box-shadow: var(--glow-strength) var(--glow-color),
-              var(--glow-spread) rgba(45, 140, 255, 0.9);
-}
-
-/* ---- + ROOM BUTTON ---- */
-#addRoomBtn {
+  display: block;
   width: 100%;
-  margin-top: 10px;
-}
-#addRoomBtn:hover {
-  box-shadow: var(--glow-strength) var(--glow-color),
-              var(--glow-spread) rgba(45, 140, 255, var(--glow-opacity));
-  transform: translateY(-1px);
-}
-
-/* ---- LOGOUT BUTTON ---- */
-#logoutBtn {
-  background: #0e1117;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-  cursor: pointer;
-}
-#logoutBtn:hover,
-#logoutBtn:focus {
-  background: #0e1117;
-  box-shadow: var(--glow-strength) var(--glow-color),
-              var(--glow-spread) rgba(45, 140, 255, var(--glow-opacity));
-  transform: translateY(-1px);
-}
-
-/*  Ενοποιεί το "Login as Guest" με το νέο Glow Theme 💙  */
-
-#guestLoginBtn {
-  background: #0e1117;
-  border: 1px solid rgba(45,140,255,0.7);
-  color: #fff;
-  border-radius: 6px;
-  padding: 8px 16px;
-  cursor: pointer;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-  transition: 0.25s ease;
-}
-
-#guestLoginBtn:hover,
-#guestLoginBtn:focus {
-  background: #0e1117;
-  border-color: var(--glow-color);
-  box-shadow: var(--glow-strength) var(--glow-color),
-              var(--glow-spread) rgba(45, 140, 255, var(--glow-opacity));
-  transform: translateY(-1px);
-}
-/* ==== TOPBAR ==== */
-#topbar {
-  background: #0e1117;
-  border-bottom: 1px solid rgba(45,140,255,0.3);
-  transition: 0.3s ease;
-}
-#topbar:hover {
-  box-shadow: var(--glow-strength) var(--glow-color),
-              0 0 15px rgba(45,140,255,0.5);
-}
-
-/* ==== ROOMS ==== */
-#roomsList li {
-  background: transparent;
-  border: 1px solid transparent;
-  transition: 0.25s ease;
-  border-radius: 6px;
-  padding: 6px 8px;
-}
-#roomsList li.active {
-  background: #161b22;
-  color: #fff;
-  border: 1px solid rgba(45,140,255,0.7);
-  box-shadow: var(--glow-strength) var(--glow-color),
-              0 0 12px rgba(45,140,255,0.8);
-}
-#roomsList li:hover {
-  background: rgba(45,140,255,0.1);
-  box-shadow: var(--glow-strength) var(--glow-color),
-              0 0 10px rgba(45,140,255,0.3);
-  transform: translateX(2px);
-}
-
-/* ==== USERS ==== */
-#usersList li:hover {
-  background: rgba(45,140,255,0.1);
-  box-shadow: var(--glow-strength) var(--glow-color),
-              0 0 10px rgba(45,140,255,0.3);
-  transform: translateX(2px);
-}
-
-/* ==== GENERAL SMOOTH GLOW ==== */
-#topbar:hover,
-#addRoomBtn:hover,
-.btn:hover,
-button:hover,
-input:focus {
-  transition: 0.25s ease-in-out;
-}
-/* ===================== CONVO MODAL THEME (v1.8.3) ===================== */
-#convoModal {
-  position: fixed;
-  inset: 0;
-  background: rgba(14,17,23,0.8);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
-
-.convo-modal-box {
-  background: #0e1117;
-  border: 1px solid rgba(45,140,255,0.6);
-  border-radius: 10px;
-  padding: 25px;
-  width: 320px;
-  text-align: center;
-  color: #fff;
-  box-shadow: var(--glow-strength) var(--glow-color),
-              var(--glow-spread) rgba(45,140,255,var(--glow-opacity));
-  animation: convoModalPop 0.25s ease;
-}
-
-@keyframes convoModalPop {
-  from { transform: scale(0.9); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
-
-.convo-modal-box h3 {
-  color: var(--glow-color);
-  margin-bottom: 10px;
-}
-
-#convoModalInput {
-  width: 90%;
-  margin-top: 10px;
-  padding: 8px;
-  background: #161b22;
-  border: 1px solid rgba(45,140,255,0.4);
-  border-radius: 6px;
-  color: #fff;
-  outline: none;
-  transition: 0.3s;
-}
-#convoModalInput:focus {
-  box-shadow: 0 0 10px rgba(45,140,255,0.7);
-  border-color: var(--glow-color);
-}
-
-.convo-modal-actions {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-/* =========================================================
-   CONVO LOGO EFFECTS v1.9.1 FINAL SYNC
-   ⚡ Icon + 💬 Logo + Soft Light Sweep (Synced Pulse)
-   ========================================================= */
-
-/* ---------- ⚡ TOPBAR ICON ---------- */
-#topIcon {
-  width: 42px;             /* από 28px → πιο μεγάλο */
-  height: 42px;
-  margin-right: 12px;
-  border-radius: 10px;
-  background: #0e1117;
-  position: relative;
-  overflow: hidden;
-  vertical-align: middle;
-  padding: 3px;
-  object-fit: contain;     /* ✅ κρατάει τον κεραυνό αναλογικά */
-  filter: brightness(2.2) drop-shadow(0 0 6px rgba(45,140,255,0.9));
-  box-shadow: 0 0 10px rgba(45,140,255,0.8), 0 0 20px rgba(30,110,220,0.6);
-  transition: 0.3s ease;
-  animation: convoPulse 4s ease-in-out infinite;
-}
-
-#topIcon:hover {
-  transform: none;
-  box-shadow: 0 0 14px rgba(45,140,255,1), 0 0 24px rgba(30,110,220,0.9);
-}
-
-#topIcon {
-  scale: 1.25; /* ✨ Μεγαλώνει ολόκληρη την εικόνα χωρίς να φουσκώνει το πλαίσιο */
-}
-
-
-/* ---------- 💬 CONVO LOGO ---------- */
-#topbar .brand {
-  display: flex;
-  align-items: center;
-  font-size: 1.6em;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(45,140,255,0.8);
-  text-shadow:
-    0 0 6px rgba(45,140,255,0.7),
-    0 0 14px rgba(30,110,220,0.6);
-  position: relative;
-  overflow: hidden;
-  animation: convoPulse 4s ease-in-out infinite; /* synced */
-}
-
-/* synced breathing glow for both icon & text */
-@keyframes convoPulse {
-  0%,100% {
-    filter: brightness(1);
-    -webkit-text-stroke: 1px rgba(45,140,255,0.8);
-    text-shadow:
-      0 0 6px rgba(45,140,255,0.7),
-      0 0 14px rgba(30,110,220,0.6);
-  }
-  50% {
-    filter: brightness(1.3);
-    -webkit-text-stroke: 1.2px rgba(45,140,255,1);
-    text-shadow:
-      0 0 10px rgba(45,140,255,1),
-      0 0 20px rgba(30,110,220,0.9);
-  }
-}
-
-/* soft light reflection over both */
-#topIcon::after,
-#topbar .brand::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -80%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    115deg,
-    transparent 0%,
-    rgba(255,255,255,0.08) 50%, /* softer reflection */
-    transparent 100%
-  );
-  transform: skewX(-20deg);
-  animation: convoShine 9s ease-in-out infinite;
-}
-
-@keyframes convoShine {
-  0%   { left: -80%; opacity: 0; }
-  40%  { opacity: 0.3; }
-  50%  { left: 120%; opacity: 0.2; }
-  100% { left: 120%; opacity: 0; }
-}
-/* ===================== SPLASH SCREEN (CINEMATIC INTRO) ===================== */
-#splashScreen {
-  position: fixed;
-  inset: 0;
-  background: #0e1117;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: splashFade 3.5s cubic-bezier(0.55, 0.05, 0.19, 0.97) forwards;
-}
-
-/* Logo container */
-.splash-logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  opacity: 0;
-  transform: scale(0.9);
-  animation: splashLogo 3.5s cubic-bezier(0.55, 0.05, 0.19, 0.97) forwards;
-}
-
-/* Image (⚡) */
-#splashIcon {
-  width: 80px;
-  height: 80px;
-  filter: brightness(2.2) drop-shadow(0 0 8px rgba(45,140,255,0.9));
-  animation: splashGlow 3.5s ease-in-out infinite;
-}
-
-/* Text (convo) */
-.splash-text {
-  font-size: 3em;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: transparent;
-  -webkit-text-stroke: 1.5px rgba(45,140,255,0.9);
-  text-shadow: 0 0 12px rgba(45,140,255,0.7), 0 0 24px rgba(30,110,220,0.6);
-}
-
-/* Fade for screen */
-@keyframes splashFade {
-  0% { opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { opacity: 0; visibility: hidden; }
-}
-
-/* Zoom-in + clarity for logo */
-@keyframes splashLogo {
-  0% { opacity: 0; transform: scale(0.9) blur(6px); }
-  20% { opacity: 1; transform: scale(1.02) blur(0); }
-  60% { transform: scale(1); }
-  100% { opacity: 0; transform: scale(0.95) blur(4px); }
-}
-
-/* Soft breathing glow for ⚡ */
-@keyframes splashGlow {
-  0%,100% { filter: brightness(1.8) drop-shadow(0 0 8px rgba(45,140,255,0.8)); }
-  50% { filter: brightness(2.4) drop-shadow(0 0 18px rgba(45,140,255,1)); }
-}
-
-
-/* ===================== AUTH LAYOUT (FINAL v2.6) ===================== */
-#authContainer {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 640px;
-  max-width: 95%;
-  padding: 30px;
-  background: rgba(0, 0, 0, 0.9);
-  border-radius: 16px;
-  text-align: center;
-  box-shadow: 0 0 30px rgba(0, 128, 255, 0.6);
-  opacity: 0;
-  animation: authFadeIn 1.5s ease forwards;
-  animation-delay: 1.2s;
-  z-index: 100;
-}
-
-@keyframes authFadeIn {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -40%) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-/* Grid για τα 2 sections (Register / Login) */
-.auth-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.auth-section {
-  display: flex;
-  flex-direction: column;
-  gap: 14px; /* ίδιο κενό ανάμεσα σε όλα */
-}
-
-.auth-section h3 {
-  margin-bottom: 10px;
-  color: #2d8cff;
-}
-
-/* Inputs styling */
-.auth-section input {
-  width: 250px;
-  height: 33px;
-  background: #111;
-  border: 1px solid #222;
-  border-radius: 6px;
-  color: #fff;
-  padding: 0 10px;
-  font-size: 14px;
-  transition: 0.3s;
-  box-sizing: border-box;
-  margin: 0 auto;
-}
-
-.auth-section input:focus {
-  border-color: #2d8cff;
-  box-shadow: 0 0 6px rgba(45, 140, 255, 0.6);
-}
-
-/* Buttons unified */
-#registerBtn,
-#loginBtn,
-#forgotBtn,
-#guestLoginBtn {
-  width: 250px;
-  height: 33px;
-  background: transparent;
-  border: 1px solid #2d8cff;
-  color: #fff;
-  font-weight: 500;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-}
-
-#registerBtn:hover,
-#loginBtn:hover,
-#forgotBtn:hover,
-#guestLoginBtn:hover {
-  box-shadow: 0 0 10px #2d8cff;
-  background: rgba(45, 140, 255, 0.15);
-  transform: translateY(-1px);
-}
-
-/* Responsive */
-@media (max-width: 640px) {
-  .auth-grid {
-    grid-template-columns: 1fr;
-    gap: 25px;
-  }
-}
-
-.grid-2x2 {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* κενό ανάμεσα σε όλα τα στοιχεία: inputs & κουμπιά */
-}
-/* ===================== CHAT BUBBLES (Classic Convo Layout v1.1) ===================== */
-.message {
-  background: #1b1f27;
-  border: 1px solid #222;
-  border-radius: 10px;
-  padding: 8px 12px;
   margin: 8px 0;
-  max-width: 70%;
-  word-wrap: break-word;
-  animation: fadeInBubble 0.2s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-/* === Self messages (δεξιά) === */
-.message.self {
-  background: #0e1117;
-  border: 1px solid rgba(45,140,255,0.3);
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  background: #1a1f27;
   color: #fff;
-  align-self: flex-end;
 }
-
-/* === Other messages (αριστερά) === */
-.message.other {
-  background: #1b1f27;
-  border: 1px solid #222;
-  color: #ddd;
-  align-self: flex-start;
-}
-
-/* === Username === */
-.msgUser {
-  color: #2d8cff;
-  font-weight: 600;
-  margin-bottom: 4px;
-  font-size: 14px;
-}
-
-/* === Message text === */
-.msgText {
-  color: #e6e6e6;
-  font-size: 15px;
-  line-height: 1.3;
-}
-
-/* === Time & date === */
-.msgTime {
-  font-size: 12px;
-  color: #888;
-  font-style: italic;
-  text-align: right;
+#authContainer button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #2d8cff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
   margin-top: 6px;
 }
+.small { font-size: 0.8em; opacity: 0.6; }
 
-/* === Fade animation === */
-@keyframes fadeInBubble {
-  from { opacity: 0; transform: translateY(4px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* ---------- CHAT LAYOUT ---------- */
+.hidden { display: none; }
+
+#chatContainer {
+  display: flex;
+  width: 100%;
+  height: 100vh;
 }
 
-/* ==== EMOJI BUTTON INSIDE INPUT (Final Stable) ==== */
-#messageForm {
-  position: relative;
+aside {
+  width: 220px;
+  background: #1a1f27;
+  display: flex;
+  flex-direction: column;
 }
 
-#emojiBtn {
-  position: absolute;
-  left: 17px;              /* σταθερό σημείο όπως πριν */
-  bottom: 18px;             /* λίγο χαμηλότερα για ευθυγράμμιση */
-  z-index: 5;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+.panelHeader {
+  padding: 12px;
+  background: #11151d;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+#roomList, #userList {
+  list-style: none;
   padding: 0;
+  margin: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+#roomList li, #userList li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+#roomList li:hover, #userList li:hover {
+  background: rgba(45,140,255,0.2);
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #12151c;
+}
+
+/* ---------- MESSAGES ---------- */
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+.message {
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  background: #1a1f27;
+  border-radius: 6px;
+}
+.message.admin { border-left: 3px solid #f5c542; }
+
+/* ---------- INPUT ---------- */
+#messageForm {
+  background: #1a1f27;
+  padding: 10px;
+}
+.inputBar {
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: 0.25s ease;
+  gap: 8px;
 }
-
-#emojiBtn:hover {
-  filter: drop-shadow(0 0 8px rgba(45,140,255,0.7));
-}
-
-#emojiBtn img {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-  display: block;
-}
-
-/* σωστό κενό για το input ώστε να μην το καλύπτει το emoji */
 #messageInput {
-  padding-left: 50px;
-}
-
-
-
-/* Fade effect */
-@keyframes fadeInPanel {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-
-
-
-/* ==== MAIN CHAT SCROLL GLOW ==== */
-#messages {
-  scrollbar-width: thin;
-  scrollbar-color: #2d8cff transparent;
-}
-
-#messages::-webkit-scrollbar {
-  width: 8px;
-}
-#messages::-webkit-scrollbar-thumb {
-  background: #2d8cff;
+  flex: 1;
+  background: #10141b;
+  color: #fff;
+  border: none;
   border-radius: 6px;
-  box-shadow: 0 0 10px rgba(45,140,255,0.7);
+  padding: 8px;
+  resize: none;
+  height: 40px;
+}
+#emojiBtn, #sendBtn {
+  background: #2d8cff;
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-/* ✨ Fade overlay top-bottom για το main chat */
-#messages::before,
-#messages::after {
-  content: "";
-  position: sticky;
-  left: 0;
-  width: 100%;
-  height: 25px;
-  pointer-events: none;
-  z-index: 3;
-}
-#messages::before {
-  top: 0;
-  background: linear-gradient(to bottom, rgba(10,15,25,0.9), transparent);
-}
-#messages::after {
-  bottom: 0;
-  background: linear-gradient(to top, rgba(10,15,25,0.9), transparent);
-}
-/* ============================================================
-   🌀 CONVO GLOW v2 — EMOJI + GIF + STICKER PANELS
-   Unified Section for all media pickers (emoji / gifs / stickers)
-   Includes: layout, glow, scroll + fade effects
-   ============================================================ */
-/* ==== PANEL CONTAINER (FINAL SIDEBAR LEFT FIX) ==== */
+/* ---------- EMOJI PANEL ---------- */
 #emojiPanel {
-  display: grid;
-  grid-template-columns: 60px 1fr; /* sidebar + main */
-  grid-template-rows: auto 1fr;    /* tabs πάνω + περιεχόμενο κάτω */
-  grid-template-areas:
-    "tabs tabs"
-    "sidebar main";
   position: absolute;
-  bottom: 80px;
-  left: 200px;
-  width: 480px;
-  min-height: 320px;
-  max-height: 420px;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 380px;
   background: #0e1117;
   border: 1px solid rgba(45,140,255,0.4);
   border-radius: 12px;
-  box-shadow: 0 0 25px rgba(45,140,255,0.35);
-  z-index: 100;
-  overflow: hidden;
-  animation: fadeInPanel 0.25s ease;
-}
-
-
-
-/* ==== SIDEBAR (κατηγορίες emoji) ==== */
-.emoji-sidebar {
-  grid-area: sidebar;
-  width: 60px;
-  background: rgba(20, 25, 30, 0.98);
-  border-right: 1px solid rgba(45,140,255,0.25);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #2d8cff transparent;
-  padding-top: 6px;
-}
-
-.emoji-sidebar button {
-  background: transparent;
-  border: none;
-  color: #ccc;
-  font-size: 20px;
-  margin: 3px 0;          /* λίγο πιο σφιχτό κάθετο κενό */
-  padding-left: 6px;      /* ✅ μικρό κενό από το αριστερό άκρο */
-  cursor: pointer;
-  transition: 0.25s ease;
-  border-radius: 8px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* ✅ emoji ξεκινούν από τα αριστερά */
-}
-
-.emoji-sidebar button:hover {
-  background: rgba(45,140,255,0.15);
-  box-shadow: 0 0 8px rgba(45,140,255,0.6);
-}
-.emoji-sidebar button.active {
-  background: rgba(45,140,255,0.25);
-  box-shadow: 0 0 10px rgba(45,140,255,0.8);
-  color: #2d8cff;
-}
-
-/* ==== EMOJI MAIN AREA (scroll μόνο εδώ) ==== */
-.emoji-main {
-  grid-area: main;
-  padding: 10px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-content: flex-start;
-  height: 100%;
-}
-
-
-/* ==== SCROLLBAR (Convo Glow) ==== */
-.emoji-main::-webkit-scrollbar,
-.emoji-sidebar::-webkit-scrollbar,
-.gif-grid::-webkit-scrollbar,
-.sticker-grid::-webkit-scrollbar {
-  width: 6px;
-}
-.emoji-main::-webkit-scrollbar-thumb,
-.emoji-sidebar::-webkit-scrollbar-thumb,
-.gif-grid::-webkit-scrollbar-thumb,
-.sticker-grid::-webkit-scrollbar-thumb {
-  background: #2d8cff;
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(45,140,255,0.6);
-}
-
-/* ✨ Fade πάνω–κάτω για όλα τα panels */
-.emoji-main::before,
-.emoji-main::after,
-.gif-grid::before,
-.gif-grid::after,
-.sticker-grid::before,
-.sticker-grid::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  pointer-events: none;
-  z-index: 5;
-}
-.emoji-main::before,
-.gif-grid::before,
-.sticker-grid::before {
-  top: 0;
-  background: linear-gradient(to bottom, rgba(10,15,25,0.9), transparent);
-}
-.emoji-main::after,
-.gif-grid::after,
-.sticker-grid::after {
-  bottom: 0;
-  background: linear-gradient(to top, rgba(10,15,25,0.9), transparent);
-}
-
-/* ==== EMOJI GRID ITEMS ==== */
-.emoji-item {
-  background: transparent;
-  display: inline-block;
-  font-size: 22px;
-  padding: 6px;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: 0.2s;
-}
-.emoji-item:hover {
-  background: rgba(45,140,255,0.15);
-  box-shadow: 0 0 8px rgba(45,140,255,0.5);
-  transform: scale(1.15);
-}
-
-/* ==== GIFs & Stickers ==== */
-.gif-grid,
-.sticker-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-  gap: 8px;
-  padding: 10px;
-  max-height: 230px;
-  overflow-y: auto;
-  scroll-behavior: smooth;
-  position: relative;
-}
-
-/* uniform sizes */
-.gif-grid img,
-.sticker-grid img {
-  width: 100%;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 10px;
-  transition: 0.25s;
-  cursor: pointer;
-}
-.gif-grid img:hover,
-.sticker-grid img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 12px rgba(45, 140, 255, 0.4);
-}
-/* ==== PANEL TABS (Emoji | GIFs | Stickers) ==== */
-.panel-tabs {
-  grid-area: tabs;
-  position: sticky;
-  top: 0;
-  background: rgba(14,17,23,0.95);
-  border-bottom: 1px solid rgba(45,140,255,0.3);
-  display: flex;
-  justify-content: space-around;
-  padding: 6px 0;
+  box-shadow: 0 0 20px rgba(45,140,255,0.3);
   z-index: 10;
+  padding: 10px;
+  max-height: 250px;
+  overflow-y: auto;
 }
-
-.panel-tabs .tab {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: #ccc;
-  font-weight: 500;
+.emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 32px);
+  gap: 6px;
+  justify-content: center;
+}
+.emoji-grid span {
   cursor: pointer;
-  transition: 0.25s ease;
-  font-size: 15px;
-  text-align: center;
+  font-size: 22px;
+}
+.emoji-grid span:hover {
+  transform: scale(1.3);
 }
 
-.panel-tabs .tab:hover {
-  color: #2d8cff;
-  text-shadow: 0 0 8px rgba(45,140,255,0.7);
-}
-
-.panel-tabs .tab.active {
-  color: #2d8cff;
-  border-bottom: 2px solid #2d8cff;
+/* ---------- SCROLL ---------- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb {
+  background: rgba(45,140,255,0.5);
+  border-radius: 4px;
 }
