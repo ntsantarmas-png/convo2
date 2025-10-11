@@ -1055,6 +1055,42 @@ input:focus {
   transform: scale(1.05);
   box-shadow: 0 0 12px rgba(45,140,255,0.4);
 }
+
+/* ==== FADE EFFECT + SMOOTH SCROLL (for GIFs & Stickers) ==== */
+.gif-grid,
+.sticker-grid {
+  position: relative;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #2d8cff transparent;
+}
+
+/* ✨ Fade overlay (top & bottom) */
+.gif-grid::before,
+.gif-grid::after,
+.sticker-grid::before,
+.sticker-grid::after {
+  content: "";
+  position: sticky;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.gif-grid::before,
+.sticker-grid::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(10,15,25,0.9), transparent);
+}
+
+.gif-grid::after,
+.sticker-grid::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(10,15,25,0.9), transparent);
+}
+
 /* ==== UNIFORM SIZE FOR GIFS & STICKERS ==== */
 .gif-grid img,
 .sticker-grid img {
