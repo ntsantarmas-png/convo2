@@ -954,14 +954,13 @@ input:focus {
   box-shadow: 0 0 20px rgba(45,140,255,0.3);
   z-index: 100;
   display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
+  flex-direction: row; /* 🔹 sidebar + main δίπλα δίπλα */
   animation: fadeInPanel 0.25s ease;
-  padding-bottom: 5px;
-  min-height: 180px;  /* μικρό ύψος όταν έχει λίγα emoji */
-  max-height: 300px; /* ενεργοποιεί scroll όταν γεμίσει */
+  min-height: 180px;
+  max-height: 300px;
+  overflow: hidden; /* ❌ μην κάνει scroll όλο το panel */
 }
+
 
 /* ==== SIDEBAR (κατηγορίες emoji) ==== */
 .emoji-sidebar {
