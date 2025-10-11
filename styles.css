@@ -1116,37 +1116,38 @@ height: 100%;
   transform: scale(1.05);
   box-shadow: 0 0 12px rgba(45, 140, 255, 0.4);
 }
-/* ==== TOP TAB BUTTONS (Emoji / GIFs / Stickers) ==== */
-#emojiTabs {
-  position: absolute;
-  top: 6px;
-  left: 70px; /* λίγο δεξιά απ’ τη sidebar */
+/* ==== PANEL TABS (Emoji | GIFs | Stickers) ==== */
+.panel-tabs {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
-  gap: 6px;
-  z-index: 200;
+  justify-content: space-around;
+  background: rgba(14,17,23,0.95);
+  border-bottom: 1px solid rgba(45,140,255,0.3);
+  z-index: 10;
+  padding: 6px 0;
 }
 
-#emojiTabs button {
+.panel-tabs .tab {
+  flex: 1;
   background: transparent;
-  border: 1px solid rgba(45,140,255,0.5);
-  color: #bcd3ff;
-  font-size: 13px;
-  padding: 4px 10px;
-  border-radius: 6px;
+  border: none;
+  color: #ccc;
+  font-weight: 500;
   cursor: pointer;
   transition: 0.25s ease;
-  backdrop-filter: blur(4px);
+  font-size: 15px;
+  text-align: center;
 }
 
-#emojiTabs button:hover {
-  background: rgba(45,140,255,0.15);
-  box-shadow: 0 0 8px rgba(45,140,255,0.4);
-  color: #fff;
+.panel-tabs .tab:hover {
+  color: #2d8cff;
+  text-shadow: 0 0 8px rgba(45,140,255,0.7);
 }
 
-#emojiTabs button.active {
-  background: rgba(45,140,255,0.25);
-  color: #fff;
-  border-color: rgba(45,140,255,0.8);
-  box-shadow: 0 0 10px rgba(45,140,255,0.5);
+.panel-tabs .tab.active {
+  color: #2d8cff;
+  border-bottom: 2px solid #2d8cff;
 }
