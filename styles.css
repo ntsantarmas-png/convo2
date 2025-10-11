@@ -908,6 +908,9 @@ input:focus {
   flex-direction: column;
   overflow: hidden;
   animation: fadeInPanel 0.25s ease;
+  padding-bottom: 5px;    /* μικρό buffer κάτω */
+  max-height: 340px;      /* ✅ αύξησε το από ~300 σε 340px */
+
 }
 
 /* κλείσιμο (μέσω .hidden) */
