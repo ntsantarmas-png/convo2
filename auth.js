@@ -26,13 +26,13 @@ import {
 // 1️⃣  CONFIGURATION (βάλε τα δικά σου στοιχεία)
 // ============================================
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBEiZEcY54mFT7OnrfCv0t3sPo33DthcZ4",
+  authDomain: "convo2-4a075.firebaseapp.com",
+  databaseURL: "https://convo2-4a075-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "convo2-4a075",
+  storageBucket: "convo2-4a075.firebasestorage.app",
+  messagingSenderId: "543901633763",
+  appId: "1:543901633763:web:2f91926e4c0c6ce11789d6"
 };
 
 // ============================================
