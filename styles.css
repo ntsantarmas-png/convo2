@@ -941,7 +941,7 @@ input:focus {
    Unified Section for all media pickers (emoji / gifs / stickers)
    Includes: layout, glow, scroll + fade effects
    ============================================================ */
-/* ==== PANEL CONTAINER (FIXED LAYOUT) ==== */
+/* ==== PANEL CONTAINER (FINAL SIDEBAR LEFT FIX) ==== */
 #emojiPanel {
   position: absolute;
   bottom: 70px;
@@ -953,29 +953,32 @@ input:focus {
   box-shadow: 0 0 20px rgba(45,140,255,0.3);
   z-index: 100;
   display: flex;
-  flex-direction: row; /* sidebar + main δίπλα */
-  align-items: flex-start; /* ✅ emoji ξεκινούν από πάνω */
-  overflow: hidden; /* σταματά scroll όλου του panel */
+  flex-direction: row; /* sidebar αριστερά + main δεξιά */
+  justify-content: flex-start; /* ✅ sidebar κολλάει αριστερά */
+  align-items: flex-start;     /* emoji ξεκινούν πάνω */
+  overflow: hidden;
   animation: fadeInPanel 0.25s ease;
   min-height: 220px;
   max-height: 320px;
   padding: 0;
 }
 
-
 /* ==== SIDEBAR (κατηγορίες emoji) ==== */
 .emoji-sidebar {
+  order: 0; /* ✅ πάντα πρώτο στοιχείο (αριστερά) */
   width: 60px;
-  background: rgba(20, 25, 30, 0.95);
+  background: rgba(20, 25, 30, 0.98);
   border-right: 1px solid rgba(45,140,255,0.25);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start; /* ✅ κουμπιά από πάνω */
   padding: 6px 0;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #2d8cff transparent;
 }
+
 .emoji-sidebar button {
   background: transparent;
   border: none;
