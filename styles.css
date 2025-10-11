@@ -944,24 +944,25 @@ input:focus {
 /* ==== PANEL CONTAINER (FINAL SIDEBAR LEFT FIX) ==== */
 #emojiPanel {
   position: absolute;
-  bottom: 70px;
-  left: 225px;
-  width: 380px;
+  bottom: 80px;
+  left: 200px;
+  width: 480px; /* από 380px → πιο φαρδύ */
   background: #0e1117;
   border: 1px solid rgba(45,140,255,0.4);
   border-radius: 12px;
-  box-shadow: 0 0 20px rgba(45,140,255,0.3);
+  box-shadow: 0 0 25px rgba(45,140,255,0.35);
   z-index: 100;
   display: flex;
-  flex-direction: row; /* sidebar αριστερά + main δεξιά */
-  justify-content: flex-start; /* ✅ sidebar κολλάει αριστερά */
-  align-items: flex-start;     /* emoji ξεκινούν πάνω */
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
   overflow: hidden;
   animation: fadeInPanel 0.25s ease;
-  min-height: 220px;
-  max-height: 320px;
+  min-height: 320px;  /* από 220px → πιο ψηλό */
+  max-height: 420px;
   padding: 0;
 }
+
 
 /* ==== SIDEBAR (κατηγορίες emoji) ==== */
 .emoji-sidebar {
