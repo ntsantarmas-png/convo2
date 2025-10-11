@@ -966,7 +966,7 @@ input:focus {
 /* ==== SIDEBAR (κατηγορίες emoji) ==== */
 .emoji-sidebar {
   order: 0; /* ✅ πάντα πρώτο στοιχείο (αριστερά) */
-  width: 60px;
+  width: 17px;
   background: rgba(20, 25, 30, 0.98);
   border-right: 1px solid rgba(45,140,255,0.25);
   display: flex;
