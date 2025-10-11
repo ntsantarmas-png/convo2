@@ -1107,3 +1107,75 @@ input:focus {
   transform: scale(1.06);
   box-shadow: 0 0 12px rgba(45, 140, 255, 0.4);
 }
+/* ==== EMOJI SCROLL (Convo Glow Style) ==== */
+.emoji-main,
+.emoji-sidebar {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #2d8cff transparent;
+}
+
+.emoji-main::-webkit-scrollbar,
+.emoji-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+.emoji-main::-webkit-scrollbar-thumb,
+.emoji-sidebar::-webkit-scrollbar-thumb {
+  background: #2d8cff;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(45,140,255,0.6);
+}
+
+/* ✨ Fade top-bottom effect όπως στα GIFs */
+.emoji-main::before,
+.emoji-main::after {
+  content: "";
+  position: sticky;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  pointer-events: none;
+  z-index: 5;
+}
+.emoji-main::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(10,15,25,0.9), transparent);
+}
+.emoji-main::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(10,15,25,0.9), transparent);
+}
+/* ==== MAIN CHAT SCROLL GLOW ==== */
+#messages {
+  scrollbar-width: thin;
+  scrollbar-color: #2d8cff transparent;
+}
+
+#messages::-webkit-scrollbar {
+  width: 8px;
+}
+#messages::-webkit-scrollbar-thumb {
+  background: #2d8cff;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(45,140,255,0.7);
+}
+
+/* ✨ Fade overlay top-bottom για το main chat */
+#messages::before,
+#messages::after {
+  content: "";
+  position: sticky;
+  left: 0;
+  width: 100%;
+  height: 25px;
+  pointer-events: none;
+  z-index: 3;
+}
+#messages::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(10,15,25,0.9), transparent);
+}
+#messages::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(10,15,25,0.9), transparent);
+}
