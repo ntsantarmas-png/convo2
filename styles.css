@@ -897,7 +897,7 @@ input:focus {
   position: absolute;
   bottom: 70px;          /* ύψος πάνω από το input */
   left: 225px;
-  width: 420px;
+  width: 440px;
   height: 300px;
   background: #0e1117;
   border: 1px solid rgba(45,140,255,0.4);
