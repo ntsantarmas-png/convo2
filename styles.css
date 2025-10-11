@@ -1006,7 +1006,7 @@ input:focus {
   flex: 1;
   padding: 10px;
   position: relative;
-  overflow-y: auto;
+  overflow: hidden; /* 🚫 βγάζει το scroll από το main area */
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: #2d8cff transparent;
