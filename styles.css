@@ -1116,3 +1116,37 @@ height: 100%;
   transform: scale(1.05);
   box-shadow: 0 0 12px rgba(45, 140, 255, 0.4);
 }
+/* ==== TOP TAB BUTTONS (Emoji / GIFs / Stickers) ==== */
+#emojiTabs {
+  position: absolute;
+  top: 6px;
+  left: 70px; /* λίγο δεξιά απ’ τη sidebar */
+  display: flex;
+  gap: 6px;
+  z-index: 200;
+}
+
+#emojiTabs button {
+  background: transparent;
+  border: 1px solid rgba(45,140,255,0.5);
+  color: #bcd3ff;
+  font-size: 13px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.25s ease;
+  backdrop-filter: blur(4px);
+}
+
+#emojiTabs button:hover {
+  background: rgba(45,140,255,0.15);
+  box-shadow: 0 0 8px rgba(45,140,255,0.4);
+  color: #fff;
+}
+
+#emojiTabs button.active {
+  background: rgba(45,140,255,0.25);
+  color: #fff;
+  border-color: rgba(45,140,255,0.8);
+  box-shadow: 0 0 10px rgba(45,140,255,0.5);
+}
