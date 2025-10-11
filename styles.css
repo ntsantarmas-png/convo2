@@ -997,195 +997,6 @@ input:focus {
   color: #2d8cff;
 }
 
-/* ===== EMOJI MAIN AREA (Final – Convo Glow Style) ===== */
-.emoji-main {
-  flex: 1;
-  padding: 10px;
-  position: relative;
-  overflow-y: auto;
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: #2d8cff transparent;
-  max-height: inherit;    /* ✅ ακολουθεί το ύψος του panel */
-  min-height: inherit;    /* ✅ διατηρεί το ελάχιστο ύψος */
-}
-
-/* Scrollbar εμφάνιση */
-.emoji-main::-webkit-scrollbar {
-  width: 6px;
-}
-.emoji-main::-webkit-scrollbar-thumb {
-  background: #2d8cff;
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(45,140,255,0.6);
-}
-
-/* ✨ Fade επάνω–κάτω (ίδιο με GIFs) */
-.emoji-main::before,
-.emoji-main::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  pointer-events: none;
-  z-index: 5;
-}
-.emoji-main::before {
-  top: 0;
-  background: linear-gradient(to bottom, rgba(10,15,25,0.9), transparent);
-}
-.emoji-main::after {
-  bottom: 0;
-  background: linear-gradient(to top, rgba(10,15,25,0.9), transparent);
-}
-
-
-
-/* ==== Emoji Grid ==== */
-.emoji-item {
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  margin: 6px;
-  cursor: pointer;
-  transition: 0.25s;
-  border-radius: 6px;
-}
-.emoji-item:hover {
-  background: rgba(45,140,255,0.15);
-  box-shadow: 0 0 8px rgba(45,140,255,0.4);
-}
-
-
-/* ==== SCROLL FOR GIFS & STICKERS (Convo Glow Style) ==== */
-.gif-grid,
-.sticker-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-  gap: 8px;
-  padding: 10px;
-  max-height: 230px;             /* ✨ σταθερό ύψος περιοχής */
-  overflow-y: auto;              /* ✨ ενεργοποιεί scroll */
-  scroll-behavior: smooth;       /* ομαλή κύλιση */
-}
-
-/* ✅ Scrollbar styling (ίδιο με main chat) */
-.gif-grid::-webkit-scrollbar,
-.sticker-grid::-webkit-scrollbar {
-  width: 6px;
-}
-.gif-grid::-webkit-scrollbar-thumb,
-.sticker-grid::-webkit-scrollbar-thumb {
-  background: #2d8cff;
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(45,140,255,0.6);
-}
-
-/* Hover animation στα GIFs & Stickers */
-.gif-grid img,
-.sticker-grid img {
-  width: 100%;
-  border-radius: 8px;
-  transition: 0.25s;
-  cursor: pointer;
-}
-.gif-grid img:hover,
-.sticker-grid img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 12px rgba(45,140,255,0.4);
-}
-
-/* ==== FADE EFFECT + SMOOTH SCROLL (for GIFs & Stickers) ==== */
-.gif-grid,
-.sticker-grid {
-  position: relative;
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: #2d8cff transparent;
-}
-
-/* ✨ Fade overlay (top & bottom) */
-.gif-grid::before,
-.gif-grid::after,
-.sticker-grid::before,
-.sticker-grid::after {
-  content: "";
-  position: sticky;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.gif-grid::before,
-.sticker-grid::before {
-  top: 0;
-  background: linear-gradient(to bottom, rgba(10,15,25,0.9), transparent);
-}
-
-.gif-grid::after,
-.sticker-grid::after {
-  bottom: 0;
-  background: linear-gradient(to top, rgba(10,15,25,0.9), transparent);
-}
-
-/* ==== UNIFORM SIZE FOR GIFS & STICKERS ==== */
-.gif-grid img,
-.sticker-grid img {
-  width: 100%;
-  height: 100px;              /* ✨ ίδιο ύψος παντού */
-  object-fit: cover;          /* καλύπτει το frame χωρίς παραμόρφωση */
-  border-radius: 10px;
-  transition: transform 0.25s, box-shadow 0.25s;
-  cursor: pointer;
-}
-
-.gif-grid img:hover,
-.sticker-grid img:hover {
-  transform: scale(1.06);
-  box-shadow: 0 0 12px rgba(45, 140, 255, 0.4);
-}
-/* ==== EMOJI SCROLL (Convo Glow Style) ==== */
-.emoji-main,
-.emoji-sidebar {
-  scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: #2d8cff transparent;
-}
-
-.emoji-main::-webkit-scrollbar,
-.emoji-sidebar::-webkit-scrollbar {
-  width: 6px;
-}
-.emoji-main::-webkit-scrollbar-thumb,
-.emoji-sidebar::-webkit-scrollbar-thumb {
-  background: #2d8cff;
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(45,140,255,0.6);
-}
-
-.emoji-main::before,
-.emoji-main::after {
-  content: "";
-  position: absolute;  /* ✅ από sticky → absolute για σωστή στοίχιση */
-  left: 0;
-  width: 100%;
-  height: 20px;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.emoji-main::before {
-  top: 0;
-  background: linear-gradient(to bottom, rgba(10,15,25,0.9), transparent);
-}
-
-.emoji-main::after {
-  bottom: 0;
-  background: linear-gradient(to top, rgba(10,15,25,0.9), transparent);
-}
 
 /* ==== MAIN CHAT SCROLL GLOW ==== */
 #messages {
@@ -1220,4 +1031,169 @@ input:focus {
 #messages::after {
   bottom: 0;
   background: linear-gradient(to top, rgba(10,15,25,0.9), transparent);
+}
+/* ============================================================
+   🌀 CONVO GLOW v2 — EMOJI + GIF + STICKER PANELS
+   Unified Section for all media pickers (emoji / gifs / stickers)
+   Includes: layout, glow, scroll + fade effects
+   ============================================================ */
+
+/* ==== PANEL CONTAINER ==== */
+#emojiPanel {
+  position: absolute;
+  bottom: 70px;
+  left: 225px;
+  width: 420px;
+  background: #0e1117;
+  border: 1px solid rgba(45,140,255,0.4);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(45,140,255,0.3);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: fadeInPanel 0.25s ease;
+  padding-bottom: 5px;
+  min-height: 220px;  /* μικρό ύψος όταν έχει λίγα emoji */
+  max-height: 360px;  /* ενεργοποιεί scroll όταν γεμίσει */
+}
+
+/* ==== SIDEBAR (κατηγορίες emoji) ==== */
+.emoji-sidebar {
+  width: 60px;
+  background: rgba(20, 25, 30, 0.95);
+  border-right: 1px solid rgba(45,140,255,0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #2d8cff transparent;
+}
+.emoji-sidebar button {
+  background: transparent;
+  border: none;
+  color: #ccc;
+  font-size: 20px;
+  margin: 4px 0;
+  cursor: pointer;
+  transition: 0.25s ease;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.emoji-sidebar button:hover {
+  background: rgba(45,140,255,0.15);
+  box-shadow: 0 0 8px rgba(45,140,255,0.6);
+}
+.emoji-sidebar button.active {
+  background: rgba(45,140,255,0.25);
+  box-shadow: 0 0 10px rgba(45,140,255,0.8);
+  color: #2d8cff;
+}
+
+/* ==== EMOJI MAIN AREA ==== */
+.emoji-main {
+  flex: 1;
+  padding: 10px;
+  position: relative;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #2d8cff transparent;
+  max-height: inherit;
+  min-height: inherit;
+}
+
+/* ==== SCROLLBAR (Convo Glow) ==== */
+.emoji-main::-webkit-scrollbar,
+.emoji-sidebar::-webkit-scrollbar,
+.gif-grid::-webkit-scrollbar,
+.sticker-grid::-webkit-scrollbar {
+  width: 6px;
+}
+.emoji-main::-webkit-scrollbar-thumb,
+.emoji-sidebar::-webkit-scrollbar-thumb,
+.gif-grid::-webkit-scrollbar-thumb,
+.sticker-grid::-webkit-scrollbar-thumb {
+  background: #2d8cff;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(45,140,255,0.6);
+}
+
+/* ✨ Fade πάνω–κάτω για όλα τα panels */
+.emoji-main::before,
+.emoji-main::after,
+.gif-grid::before,
+.gif-grid::after,
+.sticker-grid::before,
+.sticker-grid::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  pointer-events: none;
+  z-index: 5;
+}
+.emoji-main::before,
+.gif-grid::before,
+.sticker-grid::before {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(10,15,25,0.9), transparent);
+}
+.emoji-main::after,
+.gif-grid::after,
+.sticker-grid::after {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(10,15,25,0.9), transparent);
+}
+
+/* ==== EMOJI GRID ITEMS ==== */
+.emoji-item {
+  background: transparent;
+  display: inline-block;
+  font-size: 22px;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+.emoji-item:hover {
+  background: rgba(45,140,255,0.15);
+  box-shadow: 0 0 8px rgba(45,140,255,0.5);
+  transform: scale(1.15);
+}
+
+/* ==== GIFs & Stickers ==== */
+.gif-grid,
+.sticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 8px;
+  padding: 10px;
+  max-height: 230px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  position: relative;
+}
+
+/* uniform sizes */
+.gif-grid img,
+.sticker-grid img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+.gif-grid img:hover,
+.sticker-grid img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(45, 140, 255, 0.4);
 }
