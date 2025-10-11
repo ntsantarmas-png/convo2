@@ -1,197 +1,57 @@
 <!DOCTYPE html>
-<!-- rebuild -->
 <html lang="el">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Convo Reignite Base v1.8.0</title>
-<link rel="icon" type="image/png" href="favicon.png">
-
-  <!-- ========== STYLES ========== -->
+  <title>Convo Chatroom</title>
   <link rel="stylesheet" href="styles.css" />
-
-    <!-- ========== FIREBASE ========== -->
-  <script type="module">
-    // SECTION: Firebase Configuration (Convo2)
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-    import { getAuth } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
-    import { getDatabase } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBEiZEcY54mFT7OnrfCv0t3sPo33DthcZ4",
-  authDomain: "convo2-4a075.firebaseapp.com",
-  databaseURL: "https://convo2-4a075-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "convo2-4a075",
-  storageBucket: "convo2-4a075.firebasestorage.app",
-  messagingSenderId: "543901633763",
-  appId: "1:543901633763:web:2f91926e4c0c6ce11789d6"
-};
-
-
-    const app = initializeApp(firebaseConfig);
-    window.auth = getAuth(app);
-    window.db = getDatabase(app);
-  </script>
-</head>
-
-<body>
-  <!-- ===================== SPLASH SCREEN ===================== -->
-<div id="splashScreen">
-  <div class="splash-logo">
-    <img src="favicon.png" alt="Convo Logo" id="splashIcon">
-    <span class="splash-text">convo</span>
-  </div>
-</div>
-
-<!-- ===================== SECTION 2: MAIN WRAPPER ===================== -->
-<div id="appContainer" style="display: none;">
-  <!-- ==== TOPBAR ==== -->
-  <header id="topbar">
-    <div class="brand">
-      <img id="topIcon" src="favicon.png" alt="⚡" />
-      convo
-    </div>
-    <div id="userInfo">
-      <span id="currentUserName">Guest</span>
-      <button id="logoutBtn" class="btn">Logout</button>
-    </div>
-  </header>
-
-  <div id="main">
-    <!-- ==== ROOMS PANEL ==== -->
-    <aside id="roomsPanel">
-      <h2>Rooms</h2>
-      <ul id="roomsList"></ul>
-      <button id="addRoomBtn" class="btn">+ Room</button>
-    </aside>
-
-    <!-- ==== CHAT AREA ==== -->
-    <section id="chatArea">
-      <div id="messages"></div>
-
-    <form id="messageForm">
-      <button type="button" id="emojiBtn">
-  <img src="emoji.png" alt="emoji" />
-</button>
-<textarea id="messageInput" placeholder="Type a message..." rows="1"></textarea>
-  </form>
-      <!-- ==== EMOJI / GIF / STICKER PANEL (Step 2 - UI skeleton) ==== -->
-<div id="emojiPanel" class="hidden">
-  <div class="panel-tabs">
-    <button class="tab active">Emoji</button>
-    <button class="tab">GIFs</button>
-    <button class="tab">Stickers</button>
-  </div>
-<!-- ==== EMOJI TAB LAYOUT (Step 3 – Part 1) ==== -->
-<div id="emojiTabLayout">
-  <div class="emoji-sidebar">
-    <button>🕒</button>
-    <button>😄</button>
-    <button>🐻</button>
-    <button>🍕</button>
-    <button>⚽</button>
-    <button>✈️</button>
-    <button>💡</button>
-    <button>❤️</button>
-    <button>🇬🇷</button>
-    <button>🎮</button>
-    <button>🧙‍♂️</button>
-    <button>👋</button>
-    <button>👨‍💻</button>
-    <button>💎</button>
-    <button>⭐</button>
-  </div>
-
-  <div class="emoji-main">
-    <p style="opacity:0.6;">(εδώ θα εμφανίζονται τα emoji)</p>
-  </div>
-</div>
-  <!-- ==== GIF TAB LAYOUT (Step 4 – Part 1) ==== -->
-<div id="gifTabLayout" class="hidden">
-  <div class="gif-search">
-    <input type="text" id="gifSearchInput" placeholder="🔍 Ψάξε GIF..." />
-  </div>
-  <div class="gif-grid">
-    <p style="opacity:0.6; text-align:center;">(Δεν υπάρχουν GIFs ακόμη)</p>
-  </div>
-</div>
-<!-- ==== STICKER TAB LAYOUT (Step 5 – Part 1) ==== -->
-<div id="stickerTabLayout" class="hidden">
-  <div class="sticker-search">
-    <input type="text" id="stickerSearchInput" placeholder="🔍 Ψάξε Sticker..." />
-  </div>
-  <div class="sticker-grid">
-<p style="opacity:0.6; text-align:center;">(Δεν υπάρχουν Stickers)</p>
-  </div>
-</div>
-
-</div>
-
-
-    </section>
-
-    <!-- ==== USERS PANEL ==== -->
-    <aside id="usersPanel">
-      <h2>Users</h2>
-      <ul id="usersList"></ul>
-    </aside>
-  </div>
-</div>
-
-
-  <!-- ===================== AUTH CONTAINER (2x2 Layout v2.0) ===================== -->
-  <div id="authContainer" class="hidden">
-    <h2>Welcome to Convo</h2>
-
-    <div class="auth-grid">
-      <!-- ==== REGISTER ==== -->
-      <div class="auth-section">
-        <h3>Create Account</h3>
-        <div class="grid-2x2">
-          <input type="text" id="registerUsername" placeholder="Username" />
-          <input type="email" id="registerEmail" placeholder="Email" />
-          <input type="password" id="registerPassword" placeholder="Password" />
-          <button id="registerBtn" class="btn">Register</button>
-        </div>
-      </div>
-
-      <!-- ==== LOGIN ==== -->
-      <div class="auth-section">
-        <h3>Login</h3>
-        <div class="grid-2x2">
-          <input type="email" id="loginEmail" placeholder="Email" />
-          <input type="password" id="loginPassword" placeholder="Password" />
-          <button id="loginBtn" class="btn">Login</button>
-          <button id="forgotBtn" class="btn">Forgot Password</button>
-        </div>
-      </div>
-    </div>
-
-    <p style="margin: 12px 0;">or</p>
-    <button id="guestLoginBtn" class="btn secondary">Login as Guest</button>
-  </div>
-  
-<!-- ===================== CONVO MODAL (v1.8.3) ===================== -->
-<div id="convoModal" class="hidden">
-  <div class="convo-modal-box">
-    <h3 id="convoModalTitle">Ειδοποίηση</h3>
-    <p id="convoModalMsg">...</p>
-
-    <div id="convoModalInputBox" class="hidden">
-      <input type="text" id="convoModalInput" placeholder="Πληκτρολόγησε εδώ..." />
-    </div>
-
-    <div class="convo-modal-actions">
-      <button id="convoModalOk" class="btn">OK</button>
-      <button id="convoModalCancel" class="btn secondary">Άκυρο</button>
-    </div>
-  </div>
-</div>
-
-  <!-- ===================== SECTION 4: SCRIPTS ===================== -->
   <script type="module" src="auth.js"></script>
-  <script type="module" src="app.js"></script>
+  <script type="module" src="app.js" defer></script>
+</head>
+<body>
+  <!-- ========== AUTH PANEL ========== -->
+  <div id="authContainer">
+    <h2>Welcome to Convo Chatroom</h2>
+    <input id="loginEmail" type="email" placeholder="Email" />
+    <input id="loginPassword" type="password" placeholder="Password" />
+    <button id="loginBtn">Login</button>
+    <button id="guestBtn">Continue as Guest</button>
+    <p class="small">or create an account below</p>
+    <input id="registerEmail" type="email" placeholder="New Email" />
+    <input id="registerPassword" type="password" placeholder="New Password" />
+    <button id="registerBtn">Register</button>
+  </div>
+
+  <!-- ========== MAIN CHAT APP ========== -->
+  <div id="chatContainer" class="hidden">
+    <!-- Rooms -->
+    <aside id="roomsPanel">
+      <div class="panelHeader">Rooms</div>
+      <ul id="roomList"></ul>
+      <button id="newRoomBtn">+ New Room</button>
+    </aside>
+
+    <!-- Main Chat -->
+    <main id="chatMain">
+      <div id="messages"></div>
+      <form id="messageForm">
+        <div class="inputBar">
+          <button type="button" id="emojiBtn">😊</button>
+          <textarea id="messageInput" placeholder="Write a message..."></textarea>
+          <button type="submit" id="sendBtn">Send</button>
+        </div>
+      </form>
+      <div id="emojiPanel" class="hidden">
+        <div class="emoji-grid"></div>
+      </div>
+    </main>
+
+    <!-- Users -->
+    <aside id="usersPanel">
+      <div class="panelHeader">Users</div>
+      <ul id="userList"></ul>
+      <button id="logoutBtn">Logout</button>
+    </aside>
+  </div>
 </body>
 </html>
-
-<!-- verified commit -->
