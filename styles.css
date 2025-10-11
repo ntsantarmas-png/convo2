@@ -898,7 +898,8 @@ input:focus {
   bottom: 70px;          /* ύψος πάνω από το input */
   left: 225px;
   width: 420px;
-  height: 400px;         /* ✅ αυξημένο ύψος */
+  min-height: 220px;    /* ελάχιστο ύψος για 2-3 σειρές emoji */
+  max-height: 360px;    /* μέγιστο ύψος πριν ενεργοποιηθεί scroll */
   background: #0e1117;
   border: 1px solid rgba(45,140,255,0.4);
   border-radius: 12px;
