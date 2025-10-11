@@ -986,7 +986,8 @@ input:focus {
   border: none;
   color: #ccc;
   font-size: 20px;
-  margin: 4px 0;
+  margin: 3px 0;          /* λίγο πιο σφιχτό κάθετο κενό */
+  padding-left: 6px;      /* ✅ μικρό κενό από το αριστερό άκρο */
   cursor: pointer;
   transition: 0.25s ease;
   border-radius: 8px;
@@ -994,8 +995,9 @@ input:focus {
   height: 40px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* ✅ emoji ξεκινούν από τα αριστερά */
 }
+
 .emoji-sidebar button:hover {
   background: rgba(45,140,255,0.15);
   box-shadow: 0 0 8px rgba(45,140,255,0.6);
