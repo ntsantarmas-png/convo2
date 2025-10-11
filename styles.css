@@ -1018,3 +1018,40 @@ input:focus {
 }
 
 
+/* ==== SCROLL FOR GIFS & STICKERS (Convo Glow Style) ==== */
+.gif-grid,
+.sticker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 8px;
+  padding: 10px;
+  max-height: 230px;             /* ✨ σταθερό ύψος περιοχής */
+  overflow-y: auto;              /* ✨ ενεργοποιεί scroll */
+  scroll-behavior: smooth;       /* ομαλή κύλιση */
+}
+
+/* ✅ Scrollbar styling (ίδιο με main chat) */
+.gif-grid::-webkit-scrollbar,
+.sticker-grid::-webkit-scrollbar {
+  width: 6px;
+}
+.gif-grid::-webkit-scrollbar-thumb,
+.sticker-grid::-webkit-scrollbar-thumb {
+  background: #2d8cff;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(45,140,255,0.6);
+}
+
+/* Hover animation στα GIFs & Stickers */
+.gif-grid img,
+.sticker-grid img {
+  width: 100%;
+  border-radius: 8px;
+  transition: 0.25s;
+  cursor: pointer;
+}
+.gif-grid img:hover,
+.sticker-grid img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(45,140,255,0.4);
+}
