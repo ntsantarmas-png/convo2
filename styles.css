@@ -959,7 +959,7 @@ input:focus {
   overflow-x: hidden;
   animation: fadeInPanel 0.25s ease;
   padding-bottom: 5px;
-  min-height: 220px;  /* μικρό ύψος όταν έχει λίγα emoji */
+  min-height: 180px;  /* μικρό ύψος όταν έχει λίγα emoji */
   max-height: 360px;  /* ενεργοποιεί scroll όταν γεμίσει */
 }
 
