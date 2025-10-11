@@ -947,7 +947,7 @@ input:focus {
   position: absolute;
   bottom: 70px;
   left: 225px;
-  width: 420px;
+  width: 380px;
   background: #0e1117;
   border: 1px solid rgba(45,140,255,0.4);
   border-radius: 12px;
@@ -960,7 +960,7 @@ input:focus {
   animation: fadeInPanel 0.25s ease;
   padding-bottom: 5px;
   min-height: 180px;  /* μικρό ύψος όταν έχει λίγα emoji */
-  max-height: 360px;  /* ενεργοποιεί scroll όταν γεμίσει */
+  max-height: 300px; /* ενεργοποιεί scroll όταν γεμίσει */
 }
 
 /* ==== SIDEBAR (κατηγορίες emoji) ==== */
