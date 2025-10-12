@@ -309,8 +309,8 @@ main {
 /* ====== YOUTUBE PANEL ====== */
 #youtubePanel {
   position: absolute;
-  top: 60px; 
-  left: 200px;
+  top: 50px; 
+  left: 225px;
   width: 340px;
   height: 220px;
   background: #0e1117;
