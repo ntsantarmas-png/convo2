@@ -309,17 +309,17 @@ main {
 /* ====== YOUTUBE PANEL ====== */
 #youtubePanel {
   position: absolute;
-  top: 80px;           /* απόσταση από το topbar */
-  left: 230px;         /* λίγο δεξιά από τη λίστα rooms */
-  width: 380px;
-  height: 240px;
+  top: 60px; 
+  left: 200px;
+  width: 340px;
+  height: 220px;
   background: #0e1117;
   border: 1px solid rgba(45,140,255,0.4);
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(45,140,255,0.3);
-  z-index: 150;
-  padding: 6px;
+  z-index: 200;
 }
+
 .youtubeHeader {
   display: flex;
   justify-content: space-between;
